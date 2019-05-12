@@ -81,6 +81,8 @@ const getDriveFileBucket = async (): Promise<mongo.GridFSBucket> => {
 	return bucket;
 };
 
+const isMigrateRemoteNote = false; // making this true will try to migrate remote notes (possibly could cause errors)
+
 async function main() {
 	await initDb();
 	const Users = getRepository(User);
@@ -100,10 +102,21 @@ async function main() {
 	const Emojis = getRepository(Emoji);
 	const MessagingMessages = getRepository(MessagingMessage);
 
+	async function validateNoteExistOnMigrated(noteId: string) {
+		if (!isMigrateRemoteNote) {
+			const noteMigrated = await Notes.findOne(noteId);
+
+			if (noteMigrated === undefined) {
+				throw `=> ${chalk.yellow('SKIP')}: referenced note does not exist in migrated notes: ${noteId}`;
+			}
+		}
+	}
+
 	async function migrateUser(user: any) {
 		await Users.save({
 			id: user._id.toHexString(),
 			createdAt: typeof user.createdAt === 'number' ? new Date(user.createdAt) : (user.createdAt || new Date()),
+			updatedAt: typeof user.updatedAt === 'number' ? new Date(user.updatedAt) : (user.updatedAt || null),
 			username: user.username,
 			usernameLower: user.username.toLowerCase(),
 			host: toPuny(user.host),
@@ -119,17 +132,59 @@ async function main() {
 			inbox: user.inbox,
 			sharedInbox: user.sharedInbox,
 			uri: user.uri,
+			emojis: user.emojis || [] as string[],
+			tags: user.tags || [] as string[],
+			isSuspended: user.isSuspended,
+			isSilenced: user.isSilenced,
+			isLocked: user.isLocked || false,
 		});
-		await UserProfiles.save({
+
+		const userProfileToSave: any = {
 			userId: user._id.toHexString(),
 			description: user.description,
 			userHost: toPuny(user.host),
 			autoAcceptFollowed: true,
 			autoWatch: false,
+			alwaysMarkNsfw: user.settings ? user.settings.alwaysMarkNsfw : false,
 			password: user.password,
 			location: user.profile ? user.profile.location : null,
 			birthday: user.profile ? user.profile.birthday : null,
-		});
+			email: user.email,
+			emailVerified: user.emailVerified || false,
+			emailVerifyCode: user.emailVerifyCode,
+			twoFactorSecret: user.twoFactorSecret,
+			twoFactorEnabled: user.twoFactorEnabled,
+			twoFactorTempSecret: user.twoFactorTempSecret,
+			carefulBot: user.carefulBot
+		};
+
+		if (user.twitter) {
+			userProfileToSave.twitter = true;
+			userProfileToSave.twitterAccessToken = user.twitter.accessToken;
+			userProfileToSave.twitterAccessTokenSecret = user.twitter.accessTokenSecret;
+			userProfileToSave.twitterUserId = user.twitter.userId;
+			userProfileToSave.twitterScreenName = user.twitter.screenName;
+		}
+
+		if (user.github) {
+			userProfileToSave.github = true;
+			userProfileToSave.githubAccessToken = user.github.accessToken;
+			userProfileToSave.githubId = Number(user.github.id);
+			userProfileToSave.githubLogin = user.github.login;
+		}
+
+		if (user.discord) {
+			userProfileToSave.discord = true;
+			userProfileToSave.discordAccessToken = user.discord.accessToken;
+			userProfileToSave.discordrefreshToken = user.discord.refreshToken;
+			userProfileToSave.discordExpiresDate = user.discord.expiresDate; // number.
+			userProfileToSave.discordId = user.discord.id;
+			userProfileToSave.discordUsername = user.discord.username;
+			userProfileToSave.discordDiscriminator = user.discord.discriminator;
+		}
+
+		await UserProfiles.save(userProfileToSave);
+
 		if (user.publicKey) {
 			await UserPublickeys.save({
 				userId: user._id.toHexString(),
@@ -196,24 +251,38 @@ async function main() {
 			_id: file.metadata.userId
 		});
 		if (user == null) return;
+
+		const fileToSave: any = {
+			id: file._id.toHexString(),
+			userId: user._id.toHexString(),
+			userHost: toPuny(user.host),
+			createdAt: file.uploadDate || new Date(),
+			md5: file.md5,
+			name: file.filename,
+			type: file.contentType,
+			properties: file.metadata.properties || {},
+			size: file.length,
+			// url: [different],
+			uri: file.metadata.uri,
+			// accessKey: [different],
+			folderId: file.metadata.folderId ? file.metadata.folderId.toHexString() : null,
+			// storedInternal: [different],
+			// isLink: [different],
+			isSensitive: file.metadata.isSensitive === true,
+			comment: file.metadata.comment && (file.metadata.comment.length > 0) && file.metadata.comment || null,
+			thumbnailUrl: file.metadata.thumbnailUrl,
+			thumbnailAccessKey: file.metadata.storageProps && file.metadata.storageProps.thumbnailAccessKey || null,
+			webpublicUrl: file.metadata.webpublicUrl,
+			webpublicAccessKey: file.metadata.storageProps && file.metadata.storageProps.webpublicAccessKey || null,
+		};
+
 		if (file.metadata.storageProps && file.metadata.storageProps.key) { // when object storage
-			await DriveFiles.save({
-				id: file._id.toHexString(),
-				userId: user._id.toHexString(),
-				userHost: toPuny(user.host),
-				createdAt: file.uploadDate || new Date(),
-				md5: file.md5,
-				name: file.filename,
-				type: file.contentType,
-				properties: file.metadata.properties || {},
-				size: file.length,
-				url: file.metadata.url,
-				uri: file.metadata.uri,
-				accessKey: file.metadata.storageProps.key,
-				folderId: file.metadata.folderId ? file.metadata.folderId.toHexString() : null,
-				storedInternal: false,
-				isLink: false
-			});
+			fileToSave.url = file.metadata.url;
+			fileToSave.accessKey = file.metadata.storageProps.key;
+			fileToSave.storedInternal = false;
+			fileToSave.isLink = false;
+
+			await DriveFiles.save(fileToSave);
 		} else if (!file.metadata.isLink) {
 			const [temp, clean] = await createTemp();
 			await new Promise(async (res, rej) => {
@@ -229,47 +298,26 @@ async function main() {
 
 			const key = uuid.v4();
 			const url = InternalStorage.saveFromPath(key, temp);
-			await DriveFiles.save({
-				id: file._id.toHexString(),
-				userId: user._id.toHexString(),
-				userHost: toPuny(user.host),
-				createdAt: file.uploadDate || new Date(),
-				md5: file.md5,
-				name: file.filename,
-				type: file.contentType,
-				properties: file.metadata.properties,
-				size: file.length,
-				url: url,
-				uri: file.metadata.uri,
-				accessKey: key,
-				folderId: file.metadata.folderId ? file.metadata.folderId.toHexString() : null,
-				storedInternal: true,
-				isLink: false
-			});
+
+			fileToSave.url = url;
+			fileToSave.accessKey = key;
+			fileToSave.storedInternal = true;
+			fileToSave.isLink = false;
+
+			await DriveFiles.save(fileToSave);
 			clean();
 		} else {
-			await DriveFiles.save({
-				id: file._id.toHexString(),
-				userId: user._id.toHexString(),
-				userHost: toPuny(user.host),
-				createdAt: file.uploadDate || new Date(),
-				md5: file.md5,
-				name: file.filename,
-				type: file.contentType,
-				properties: file.metadata.properties,
-				size: file.length,
-				url: file.metadata.url,
-				uri: file.metadata.uri,
-				accessKey: null,
-				folderId: file.metadata.folderId ? file.metadata.folderId.toHexString() : null,
-				storedInternal: false,
-				isLink: true
-			});
+			fileToSave.url = file.metadata.url;
+			fileToSave.accessKey = null;
+			fileToSave.storedInternal = false;
+			fileToSave.isLink = true;
+
+			await DriveFiles.save(fileToSave);
 		}
 	}
 
 	async function migrateNote(note: any) {
-		await Notes.save({
+		const noteToSave = {
 			id: note._id.toHexString(),
 			createdAt: note.createdAt || new Date(),
 			text: note.text,
@@ -279,24 +327,74 @@ async function main() {
 			viaMobile: note.viaMobile || false,
 			geo: note.geo,
 			appId: null,
-			visibility: note.visibility || 'public',
+			visibility: note.visibility && (note.visibility === 'private' ? 'specified' : note.visibility) || 'public', // there is no 'private' visibility more.
 			visibleUserIds: note.visibleUserIds ? note.visibleUserIds.map((id: any) => id.toHexString()) : [],
 			replyId: note.replyId ? note.replyId.toHexString() : null,
 			renoteId: note.renoteId ? note.renoteId.toHexString() : null,
 			userHost: null,
 			fileIds: note.fileIds ? note.fileIds.map((id: any) => id.toHexString()) : [],
+			attachedFileTypes: ([] as string[]), // see below
 			localOnly: note.localOnly || false,
-			hasPoll: note.poll != null
-		});
+			hasPoll: note.poll != null,
+			name: note.name && (note.name.length > 0) && note.name || null,
+			emojis: note.emojis || ([] as string[]),
+			renoteCount: note.renoteCount || 0,
+			repliesCount: note.repliesCount || 0,
+			mentions: note.mentions && note.mentions.map((id: any) => id.toHexString()) || [],
+			mentionedRemoteUsers: note.mentionedRemoteUsers && JSON.stringify(note.mentionedRemoteUsers) || '[]',
+			score: note.score || 0,
+			uri: note.uri || null
+		};
+
+		// validate existance of referenced notes (on migrated)
+		if ((!isMigrateRemoteNote) && (noteToSave.replyId !== null || noteToSave.renoteId !== null)) {
+			// skip when reply does not exist on local
+			if (noteToSave.replyId !== null) {
+				const mongoReplyNoteLocal = await _Note.findOne({
+					'_user.host': null,
+					'_id': note.replyId
+				});
+
+				if (mongoReplyNoteLocal === null) {
+					throw `=> ${chalk.yellow('SKIP')}: referenced "local" reply note does not exist: ${note.replyId}`;
+				}
+			}
+
+			// skip when reply does not exist on local
+			if (noteToSave.renoteId !== null) {
+				const mongoRenoteNoteLocal = await _Note.findOne({
+					'_user.host': null,
+					'_id': note.renoteId
+				});
+
+				if (mongoRenoteNoteLocal === null) {
+					throw `=> ${chalk.yellow('SKIP')}: referenced "local" renote note does not exist: ${note.renoteId}`;
+				}
+			}
+		}
+
+		if (noteToSave.fileIds.length !== 0) {
+			const filesMigrated = await DriveFiles.findByIds(noteToSave.fileIds);
+
+			// remove attachments which user removed after creating note
+			if (noteToSave.fileIds.length !== filesMigrated.length) {
+				console.warn(`NOTE ${noteToSave.id} ${chalk.yellow('MODIFIED')}: file count is different: before: ${noteToSave.fileIds.length} => after: ${filesMigrated.length}`);
+				noteToSave.fileIds = filesMigrated.map(file => file.id) || [];
+			}
+
+			noteToSave.attachedFileTypes = filesMigrated.map(file => file.type);
+		}
+
+		await Notes.save(noteToSave);
 
 		if (note.poll) {
 			await Polls.save({
 				noteId: note._id.toHexString(),
 				choices: note.poll.choices.map((x: any) => x.text),
 				expiresAt: note.poll.expiresAt,
-				multiple: note.poll.multiple,
+				multiple: note.poll.multiple || false,
 				votes: note.poll.choices.map((x: any) => x.votes),
-				noteVisibility: note.visibility,
+				noteVisibility: note.visibility && (note.visibility === 'private' ? 'specified' : note.visibility) || 'public', // there is no 'private' visibility more.
 				userId: note.userId.toHexString(),
 				userHost: null
 			});
@@ -304,32 +402,44 @@ async function main() {
 	}
 
 	async function migratePollVote(vote: any) {
-		await PollVotes.save({
+		const voteToSave = {
 			id: vote._id.toHexString(),
 			createdAt: vote.createdAt,
 			noteId: vote.noteId.toHexString(),
 			userId: vote.userId.toHexString(),
 			choice: vote.choice
-		});
+		};
+
+		await validateNoteExistOnMigrated(voteToSave.noteId);
+
+		await PollVotes.save(voteToSave);
 	}
 
 	async function migrateNoteFavorite(favorite: any) {
-		await NoteFavorites.save({
+		const favoriteToSave = {
 			id: favorite._id.toHexString(),
 			createdAt: favorite.createdAt,
 			noteId: favorite.noteId.toHexString(),
 			userId: favorite.userId.toHexString(),
-		});
+		};
+
+		await validateNoteExistOnMigrated(favoriteToSave.noteId);
+
+		await NoteFavorites.save(favoriteToSave);
 	}
 
 	async function migrateNoteReaction(reaction: any) {
-		await NoteReactions.save({
+		const reactionToSave = {
 			id: reaction._id.toHexString(),
 			createdAt: reaction.createdAt,
 			noteId: reaction.noteId.toHexString(),
 			userId: reaction.userId.toHexString(),
 			reaction: reaction.reaction
-		});
+		};
+
+		await validateNoteExistOnMigrated(reactionToSave.noteId);
+
+		await NoteReactions.save(reactionToSave);
 	}
 
 	async function reMigrateUser(user: any) {
@@ -470,16 +580,18 @@ async function main() {
 		}
 	}
 
-	let allNotesCount = await _Note.count({
+	const noteCondition = {
 		'_user.host': null,
 		'metadata.deletedAt': { $exists: false }
-	});
+	};
+	if (isMigrateRemoteNote) {
+		delete noteCondition['_user.host'];
+	}
+
+	let allNotesCount = await _Note.count(noteCondition);
 	if (test && allNotesCount > limit) allNotesCount = limit;
 	for (let i = 0; i < allNotesCount; i++) {
-		const note = await _Note.findOne({
-			'_user.host': null,
-			'metadata.deletedAt': { $exists: false }
-		}, {
+		const note = await _Note.findOne(noteCondition, {
 			skip: i
 		});
 		try {
