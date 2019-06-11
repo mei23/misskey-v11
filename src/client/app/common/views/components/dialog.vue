@@ -1,7 +1,7 @@
 <template>
 <div class="felqjxyj" :class="{ splash }">
 	<div class="bg" ref="bg" @click="onBgClick"></div>
-	<div class="main" ref="main">
+	<div class="main" ref="main" :class="{ round: $store.state.device.roundedCorners }">
 		<template v-if="type == 'signin'">
 			<mk-signin/>
 		</template>
@@ -18,11 +18,19 @@
 				<fa icon="spinner" pulse v-if="type === 'waiting'"/>
 			</div>
 			<header v-if="title" v-html="title"></header>
+			<header v-if="title == null && user">{{ $t('@.enter-username') }}</header>
 			<div class="body" v-if="text" v-html="text"></div>
 			<ui-input v-if="input" v-model="inputValue" autofocus :type="input.type || 'text'" :placeholder="input.placeholder" @keydown="onInputKeydown"></ui-input>
 			<ui-input v-if="user" v-model="userInputValue" autofocus @keydown="onInputKeydown"><template #prefix>@</template></ui-input>
 			<ui-select v-if="select" v-model="selectedValue" autofocus>
-				<option v-for="item in select.items" :value="item.value">{{ item.text }}</option>
+				<template v-if="select.items">
+					<option v-for="item in select.items" :value="item.value">{{ item.text }}</option>
+				</template>
+				<template v-else>
+					<optgroup v-for="groupedItem in select.groupedItems" :label="groupedItem.label">
+						<option v-for="item in groupedItem.items" :value="item.value">{{ item.text }}</option>
+					</optgroup>
+				</template>
 			</ui-select>
 			<ui-horizon-group no-grow class="buttons fit-bottom" v-if="!splash && (showOkButton || showCancelButton)">
 				<ui-button @click="ok" v-if="showOkButton" primary :autofocus="!input && !select && !user">{{ (showCancelButton || input || select || user) ? $t('@.ok') : $t('@.got-it') }}</ui-button>
@@ -90,7 +98,7 @@ export default Vue.extend({
 		return {
 			inputValue: this.input && this.input.default ? this.input.default : null,
 			userInputValue: null,
-			selectedValue: null,
+			selectedValue: this.select ? this.select.items ? this.select.items[0].value : this.select.groupedItems[0].items[0].value : null,
 			faTimesCircle, faQuestionCircle
 		};
 	},
@@ -222,15 +230,17 @@ export default Vue.extend({
 		width calc(100% - 32px)
 		text-align center
 		background var(--face)
-		border-radius 8px
 		color var(--faceText)
 		opacity 0
+
+		&.round
+			border-radius 8px
 
 		> .icon
 			font-size 32px
 
 			&.success
-				color #37ec92
+				color #85da5a
 
 			&.error
 				color #ec4137

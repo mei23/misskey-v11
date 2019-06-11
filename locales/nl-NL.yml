@@ -25,6 +25,10 @@ common:
   favorites: "Deze notitie toevoegen aan favorieten"
   permissions:
     "write:votes": "Stemmen"
+  post-form:
+    submit: "Bericht"
+    reply: "Beantwoorden"
+    add-visible-user: "Gebruiker toevoegen"
   weekday-short:
     sunday: "Z"
     monday: "M"
@@ -104,10 +108,9 @@ common/views/components/messaging.vue:
   search-user: "Gebruiker zoeken"
   you: "Jij"
   no-history: "Geen geschiedenis"
+  user: "Gebruiker"
 common/views/components/messaging-room.vue:
-  empty: "Geen gesprekken"
   no-history: "Er is geen verdere geschiedenis"
-  resize-form: "Versleep om grootte te wijzigen"
   new-message: "Nieuw bericht"
 common/views/components/messaging-room.form.vue:
   input-message-here: "Voer hier je bericht in"
@@ -202,6 +205,9 @@ common/views/components/profile-editor.vue:
   enter-password: "Voer het wachtwoord in"
 common/views/components/user-list-editor.vue:
   users: "Gebruiker"
+  add-user: "Gebruiker toevoegen"
+common/views/components/user-lists.vue:
+  user-lists: "Lijsten"
 common/views/widgets/broadcast.vue:
   fetching: "Bezig met ophalen"
   no-broadcasts: "Geen uitzendingen"
@@ -323,21 +329,12 @@ desktop/views/components/notes.vue:
 desktop/views/components/notifications.vue:
   empty: "Geen meldingen"
 desktop/views/components/post-form.vue:
-  reply-placeholder: "Deze notitie beantwoorden..."
-  quote-placeholder: "Deze notitie citeren..."
-  submit: "Bericht"
-  reply: "Beantwoorden"
   posted: "Geplaatst!"
   replied: "Beantwoord!"
   reposted: "Hergeplaatst!"
   note-failed: "Noteren mislukt"
   reply-failed: "Beantwoorden mislukt"
   renote-failed: "Renote mislukt"
-  posting: "Bezig met plaatsen"
-  attach-media-from-local: "Media bijvoegen van je computer"
-  attach-media-from-drive: "Media bijvoegen uit je Drive"
-  create-poll: "Peiling creëren"
-  text-remain: "{} resterende tekens"
 desktop/views/components/post-form-window.vue:
   note: "Nieuwe notitie"
   reply: "Beantwoorden"
@@ -401,9 +398,6 @@ desktop/views/components/ui.header.post.vue:
   post: "Nieuw bericht opstellen"
 desktop/views/components/ui.header.search.vue:
   placeholder: "Zoeken"
-desktop/views/components/user-lists-window.vue:
-  title: "Lijsten"
-  create-list: "Lijst creëren"
 desktop/views/components/user-preview.vue:
   notes: "Berichten"
   following: "Volgend"
@@ -423,8 +417,6 @@ admin/views/dashboard.vue:
   notes: "Bericht"
 admin/views/abuse.vue:
   remove-report: "Verwijderen"
-admin/views/instance.vue:
-  user-recommendation-config: "Aanbevolen gebruikers"
 admin/views/charts.vue:
   notes: "Bericht"
   users: "Gebruiker"
@@ -541,11 +533,6 @@ mobile/views/components/note-detail.vue:
   location: "Locatie"
 mobile/views/components/notifications.vue:
   empty: "Geen meldingen"
-mobile/views/components/post-form.vue:
-  add-visible-user: "Gebruiker toevoegen"
-  submit: "Plaatsen"
-  reply: "Antwoord"
-  reply-placeholder: "Deze notitie beantwoorden..."
 mobile/views/components/sub-note-content.vue:
   private: "(dit bericht is privé)"
   media-count: "{} media"
@@ -557,8 +544,10 @@ mobile/views/components/ui.nav.vue:
   user-lists: "Lijsten"
   game: "Othello spelen"
   about: "Over Misskey"
-mobile/views/pages/user-lists.vue:
-  title: "Lijsten"
+mobile/views/pages/drive.vue:
+  contextmenu:
+    upload: "Bestand uploaden"
+    create-folder: "Map creëren"
 mobile/views/pages/home.vue:
   home: "Startpagina"
   local: "Lokaal"
@@ -616,13 +605,23 @@ deck/deck.user-column.vue:
 docs:
   edit-this-page-on-github: "Heb je een fout ontdekt of wil je bijdragen aan de documentatie? "
   edit-this-page-on-github-link: "Bewerk deze pagina op GitHub!"
-  api:
-    entities:
-      properties: "Eigenschappen"
-    endpoints:
-      params: "Parameters"
-      res: "Antwoord"
-    props:
-      name: "Naam"
-      type: "Type"
-      description: "Omschrijving"
+pages:
+  like: "Leuk"
+  blocks:
+    image: "Afbeeldingen"
+  script:
+    categories:
+      list: "Lijsten"
+    blocks:
+      _join:
+        arg1: "Lijsten"
+      _randomPick:
+        arg1: "Lijsten"
+      _dailyRandomPick:
+        arg1: "Lijsten"
+      _seedRandomPick:
+        arg2: "Lijsten"
+      _pick:
+        arg1: "Lijsten"
+    types:
+      array: "Lijsten"

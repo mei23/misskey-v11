@@ -31,12 +31,8 @@ const defaultSettings = {
 	wallpaper: null,
 	webSearchEngine: 'https://www.google.com/?#q={{query}}',
 	mutedWords: [],
-	games: {
-		reversi: {
-			showBoardLabels: false,
-			useAvatarStones: true,
-		}
-	}
+	gamesReversiShowBoardLabels: false,
+	gamesReversiUseAvatarStones: true,
 };
 
 const defaultDeviceSettings = {
@@ -126,7 +122,7 @@ export default (os: MiOS) => new Vuex.Store({
 
 		logout(ctx) {
 			ctx.commit('updateI', null);
-			document.cookie = 'i=;';
+			document.cookie = `i=; max-age=0; domain=${document.location.hostname}`;
 			localStorage.removeItem('i');
 		},
 

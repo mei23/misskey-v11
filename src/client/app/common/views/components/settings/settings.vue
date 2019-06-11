@@ -472,13 +472,13 @@ export default Vue.extend({
 		},
 
 		games_reversi_showBoardLabels: {
-			get() { return this.$store.state.settings.games.reversi.showBoardLabels; },
-			set(value) { this.$store.dispatch('settings/set', { key: 'games.reversi.showBoardLabels', value }); }
+			get() { return this.$store.state.settings.gamesReversiShowBoardLabels; },
+			set(value) { this.$store.dispatch('settings/set', { key: 'gamesReversiShowBoardLabels', value }); }
 		},
 
 		games_reversi_useAvatarStones: {
-			get() { return this.$store.state.settings.games.reversi.useAvatarStones; },
-			set(value) { this.$store.dispatch('settings/set', { key: 'games.reversi.useAvatarStones', value }); }
+			get() { return this.$store.state.settings.gamesReversiUseAvatarStones; },
+			set(value) { this.$store.dispatch('settings/set', { key: 'gamesReversiUseAvatarStones', value }); }
 		},
 
 		disableAnimatedMfm: {
@@ -543,8 +543,8 @@ export default Vue.extend({
 					});
 				} else {
 					this.$root.dialog({
-						title: this.$t('update-available'),
-						text: this.$t('update-available-desc')
+						title: this.$t('@._settings.update-available'),
+						text: this.$t('@._settings.update-available-desc')
 					});
 				}
 			});

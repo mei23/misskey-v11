@@ -61,6 +61,7 @@ common:
   month-and-day: "{day}. {month}."
   trash: "Koš"
   drive: "Disk"
+  pages: "Stránky"
   messaging: "Konverzace"
   home: "Domů"
   deck: "Deck"
@@ -71,16 +72,35 @@ common:
   favorites: "Oblíbené"
   permissions:
     "read:account": "Zobrazit informace o účtu"
+    "write:account": "Narábět s účtem"
+    "read:blocks": "Prohlížet blokování"
+    "write:blocks": "Narábět s blokováním"
     "read:drive": "Prohlížet Disk"
     "write:drive": "Pracovat s Diskem"
     "read:favorites": "Prohlížet oblíbené"
+    "write:favorites": "Narábět s oblíbeními"
+    "read:following": "Prohlížet následování"
+    "write:following": "Pracovat s následováním"
     "read:messaging": "Prohlížet konverzaci"
     "write:messaging": "Pracovat s konverzaci"
     "read:mutes": "Prohlížet ztlumené"
+    "write:mutes": "Narábět s utíšeními"
+    "write:notes": "Narábět s poznámkami"
+    "read:notifications": "Prohlížet oznámení"
+    "write:notifications": "Pracovat s oznámeními"
+    "read:reactions": "Prohlížet reakce"
     "write:votes": "Hlasovat"
   empty-timeline-info:
     follow-users-to-make-your-timeline: "Poznámky sledujících se zobrazí ve vaší časové ose"
     explore: "Najít uživatele"
+  post-form:
+    submit: "Odeslat"
+    reply: "Odpovědět"
+    renote: "Renotovat"
+    error: "Chyba"
+    enter-username: "Zadejte své uživatelské jméno"
+    add-visible-user: "Přidat uživatele"
+    username-prompt: "Zadejte své uživatelské jméno"
   weekday-short:
     sunday: "Ne"
     monday: "Po"
@@ -237,9 +257,9 @@ common:
   update-available-title: "Aktualizace k dispozici"
   update-available: "Je k dispozici nová verze Misskey ({newer},vaše verze je {current}). Pro aplikování nové verze znovunačtěte stránku."
   my-token-regenerated: "Váš token byl regenerován, proto budete odhlášen/a."
-  verified-user: "Ověřené účty"
   hide-password: "Skrýt heslo"
   show-password: "Zobrazit heslo"
+  enter-username: "Zadejte své uživatelské jméno"
   do-not-use-in-production: "Tohle je vývojářský build. Nepoužívejte v produkci."
   user-suspended: "Tomuto uživateli byl pozastaven účet."
   is-remote-user: "Informace o tomto uživateli nemusí být kompletní."
@@ -285,6 +305,7 @@ common:
     nav: "Navigace"
     tips: "Tipy"
     hashtags: "Hashtagy"
+    queue: "Ve frontě"
   dev: "Nepodařilo se vytvořit aplikace. Prosím zkuste to znovu."
   ai-chan-kawaii: "Ai-chan kawaii!"
   you: "Vy"
@@ -299,7 +320,6 @@ auth/views/index.vue:
   error: "Taková relace neexistuje."
   sign-in: "Prosím přihlaste se."
 common/views/pages/explore.vue:
-  verified-users: "Ověřené účty"
   popular-users: "Populární uživatelé"
   recently-updated-users: "Nedávno aktívni uživatelé"
   recently-registered-users: "Nedávno registrovaní uživatelé"
@@ -361,8 +381,10 @@ common/views/components/connect-failed.troubleshooter.vue:
   no-internet-desc: "Jste připojen k síti, ale zdá se že stále chybí připojení k Internetu. Prosím zkontrolujte Vaše připojení k Internetu."
   no-server: "Nelze se připojit k serveru Misskey"
 common/views/components/media-banner.vue:
+  sensitive: "Choulostivý obsah"
   click-to-show: "Klikněte pro zobrazení"
 common/views/components/theme.vue:
+  theme: "Vzhled"
   light-theme: "Motiv pro použití ve světlém vzhledu"
   dark-theme: "Motiv pro použití v tmavém vzhledu"
   light-themes: "Světlý vzhled"
@@ -373,6 +395,8 @@ common/views/components/theme.vue:
   installed: "\"{}\" byl nainstalován"
   create-a-theme: "Vytvořit motiv"
   save-created-theme: "Uložit motiv"
+  primary-color: "Základní barva"
+  text-color: "Barva textu"
   base-theme: "Základní vzhled"
   base-theme-light: "Světlý"
   base-theme-dark: "Tmavý"
@@ -402,14 +426,12 @@ common/views/components/messaging.vue:
   search-user: "Najít uživatele"
   you: "Vy"
   no-history: "Žádná historie"
+  user: "Uživatel"
 common/views/components/messaging-room.vue:
-  empty: "Žádné zprávy"
   new-message: "Máte novou zprávu"
-  only-one-file-attached: "Jenom JEDEN soubor může být přiložen ke zprávě."
 common/views/components/messaging-room.form.vue:
   send: "Odeslat"
   attach-from-local: "Přiložit soubory z Vašeho zařízení"
-  only-one-file-attached: "Jenom JEDEN soubor může být přiložen ke zprávě."
 common/views/components/messaging-room.message.vue:
   is-read: "Přečtené"
   deleted: "Tato zpráva byla odstraněna"
@@ -450,6 +472,7 @@ common/views/components/user-menu.vue:
   suspend: "Zmrazit"
 common/views/components/poll.vue:
   vote-count: "{} hlasů"
+  total-votes: "{} hlasů celkem"
   vote: "Hlasovat"
   show-result: "Podívat se na výsledky"
   voted: "Už jste hlasovaly"
@@ -460,10 +483,21 @@ common/views/components/poll.vue:
   remaining-seconds: "zbývá {s} sekund"
 common/views/components/poll-editor.vue:
   no-only-one-choice: "Musíte vybrat alespoň dvě možnosti"
+  choice-n: "Volba {}"
+  remove: "Odstranit tuto možnost"
+  add: "+ Přidat možnost"
   destroy: "Zahodit dotazník"
+  expiration: "Termín"
   infinite: "Nekonečne"
   at: "Výběr data a času"
+  deadline-date: "Termín ukončení"
+  interval: "Trvání"
+  second: "Sekunda"
+  minute: "Minuta"
+  hour: "Hodina"
   day: "Ne"
+common/views/components/reaction-picker.vue:
+  choose-reaction: "Vyberte svoji reakci"
 common/views/components/emoji-picker.vue:
   custom-emoji: "Emoji"
   people: "Lidé"
@@ -593,6 +627,20 @@ common/views/components/user-list-editor.vue:
   remove-user: "Odebrat z tohoto seznamu"
   delete-are-you-sure: "Smazat seznam \"$1\"?"
   deleted: "Smazáno"
+  add-user: "Přidat uživatele"
+common/views/components/user-group-editor.vue:
+  users: "Členové"
+  transfer: "Přesunout skupinu"
+  transferred: "Skupina přesunuta"
+  deleted: "Smazáno"
+  invite: "Pozvat"
+common/views/components/user-lists.vue:
+  user-lists: "Seznamy"
+  list-name: "Název seznamu"
+common/views/components/user-groups.vue:
+  user-groups: "Skupiny"
+  invites: "Pozvat"
+  reject-invite: "Odmítnout"
 common/views/widgets/broadcast.vue:
   fetching: "Načítám"
   next: "Další"
@@ -621,6 +669,12 @@ common/views/widgets/slideshow.vue:
   no-image: "V této složce nebyly nalezeny žádné fotky."
 common/views/pages/not-found.vue:
   page-not-found: "Stránka nenalezena"
+common/views/pages/follow.vue:
+  following: "Sledování"
+  follow: "Sledovat"
+common/views/pages/follow-requests.vue:
+  accept: "Přijmout"
+  reject: "Odmítnout"
 desktop:
   banner: "Baner"
   avatar-crop-title: "Vyberte část, která se zobrazí jako avatar"
@@ -723,27 +777,11 @@ desktop/views/components/notes.vue:
   error: "Načítání selhalo."
   retry: "Opakovat"
 desktop/views/components/post-form.vue:
-  add-visible-user: "+Přidat uživatele"
-  attach-location-information: "Přidat informace o lokaci"
-  hide-contents: "Schovat obsah"
-  reply-placeholder: "Odpovědět na tento příspěvěk"
-  quote-placeholder: "Citovat tento příspěvek"
-  submit: "Příspěvek"
-  reply: "Odpovědět"
-  renote: "Renotovat"
   posted: "Odesláno!"
   replied: "Odpověděno!"
   reposted: "Renotováno!"
   note-failed: "Nepodařilo se přidat příspěvek"
   renote-failed: "Renotování neuspělo"
-  insert-a-kao: "v('ω')v"
-  create-poll: "Vytvořit anketu"
-  text-remain: "{0} znaků zbývá"
-  recent-tags: "Nejnovější"
-  visibility: "Viditelnost"
-  geolocation-alert: "Vaše zařízení nepodporuje lokační službu"
-  error: "Chyba"
-  enter-username: "Zadejte své uživatelské jméno..."
 desktop/views/components/post-form-window.vue:
   note: "Nový příspěvek"
   reply: "Odpovědět"
@@ -818,6 +856,7 @@ desktop/views/components/ui.header.vue:
 desktop/views/components/ui.header.account.vue:
   profile: "Váš profil"
   lists: "Seznamy"
+  groups: "Skupiny"
   admin: "Administrace"
 desktop/views/components/ui.header.nav.vue:
   game: "Hry"
@@ -827,13 +866,6 @@ desktop/views/components/ui.header.post.vue:
   post: "Nový příspěvek"
 desktop/views/components/ui.header.search.vue:
   placeholder: "Vyhledávání"
-desktop/views/components/received-follow-requests-window.vue:
-  accept: "Přijmout"
-  reject: "Odmítnout"
-desktop/views/components/user-lists-window.vue:
-  title: "Seznamy uživatelů"
-  create-list: "Vytvořit seznam"
-  list-name: "Název seznamu"
 desktop/views/components/user-preview.vue:
   notes: "Příspěvky"
 desktop/views/components/users-list.vue:
@@ -849,7 +881,6 @@ admin/views/index.vue:
   users: "Uživatelé"
   federation: "Z fedivesmíru"
   announcements: "Oznámení"
-  hashtags: "Hashtagy"
   queue: "Fronta úloh"
   logs: "Logy"
   back-to-misskey: "Zpět na Misskey"
@@ -860,6 +891,11 @@ admin/views/dashboard.vue:
   instances: "Instance"
   this-instance: "Tato instance"
   federated: "Z fedivesmíru"
+admin/views/logs.vue:
+  logs: "Logy"
+  levels:
+    info: "Informace"
+    error: "Chyba"
 admin/views/abuse.vue:
   details: "Popis"
   remove-report: "Odstranit"
@@ -874,12 +910,12 @@ admin/views/instance.vue:
   maintainer-config: "Informace o administrátorovi"
   maintainer-name: "Jméno administrátora"
   maintainer-email: "Kontakt na administrátora"
+  object-storage-endpoint: "Endpoint"
   mb: "V megabajtech"
   recaptcha-config: "nastavení služby reCAPTCHA"
   recaptcha-info: "reCAPTCHA token je povinný. Můžete jej získat na https://www.google.com/recaptcha/intro/"
   enable-recaptcha: "povolit reCAPTCHA"
-  recaptcha-site-key: "reCAPTCHA klíč stránky (site key)"
-  recaptcha-secret-key: "reCAPTCHA tajný klíč"
+  recaptcha-preview: "Náhled"
   twitter-integration-config: "Nastavení spojení s Twitterem"
   twitter-integration-info: "The callback URL is set on {url}."
   enable-twitter-integration: "Povolit připojení k Twitteru"
@@ -898,7 +934,6 @@ admin/views/instance.vue:
   invite: "Pozvat"
   save: "Uložit"
   saved: "Uloženo"
-  user-recommendation-config: "Doporučení uživatelé"
   email: "Emailová adresa"
   smtp-port: "SMTP Port"
   smtp-auth: "Provést SMTP autentikaci"
@@ -950,12 +985,6 @@ admin/views/users.vue:
   reset-password: "Resetovat heslo"
   reset-password-confirm: "Opravdu chcete resetovat Vaše heslo?"
   password-updated: "Heslo je nyní \"{password}\""
-  verify: "Ověřit účet"
-  verify-confirm: "Chcete aby toto byl ověřený účet?"
-  verified: "Účet se nyní ověřuje"
-  unverify: "Zrušit ověření účtu"
-  unverify-confirm: "Opravdu chcete zrušit designaci \"ověřený účet\"?"
-  unverified: "Ruší se potvrzení účtu"
   update-remote-user: "Aktualizovat informace o vzdáleném účtu"
   users:
     title: "Uživatel"
@@ -963,7 +992,6 @@ admin/views/users.vue:
       all: "Všechny"
       moderator: "Moderátor"
       adminOrModerator: "Admin/Moderátor"
-      verified: "Ověřený účet"
     origin:
       title: "Původ"
       combined: "Lokální + Vzdálené"
@@ -1010,6 +1038,7 @@ admin/views/federation.vue:
   host: "Hostitel"
   notes: "Poznámky"
   users: "Uživatelé"
+  following: "Sledování"
   caught-at: "Vytvořeno"
   status: "Status"
   latest-request-received-at: "Poslední požadavek přijat"
@@ -1028,6 +1057,8 @@ admin/views/federation.vue:
   chart-spans:
     hour: "za hodinu"
     day: "za den"
+  blocked-hosts: "Blokován"
+  save: "Uložit"
 desktop/views/pages/welcome.vue:
   about: "O Misskey"
   timeline: "Časová osa"
@@ -1066,6 +1097,8 @@ desktop/views/pages/user/user.photos.vue:
   no-photos: "Žádné obrázky"
 desktop/views/pages/user/user.header.vue:
   posts: "Poznámky"
+  following: "Sledovaní"
+  followers: "Sledující"
   month: "Po"
   day: "Ne"
 desktop/views/widgets/notifications.vue:
@@ -1078,7 +1111,6 @@ mobile/views/components/drive.vue:
   used: "využito"
   file-count: "Soubor(ů)"
   folder-is-empty: "Tato složka je prázdná"
-  deletion-alert: "Omlouváme se, ale mazání složek ještě nebylo implementováno."
   folder-name: "Název složky"
   url-prompt: "URL adresa souboru, který chcete nahrát"
   uploading: "Byl zahájen upload. Může chvilku trvat než bude dokončen."
@@ -1095,6 +1127,7 @@ mobile/views/components/drive.file-detail.vue:
 mobile/views/components/media-video.vue:
   click-to-show: "Klikněte pro zobrazení"
 common/views/components/follow-button.vue:
+  following: "Sledování"
   follow-processing: "Zpracovávám"
 mobile/views/components/note.vue:
   private: "Tento příspěvek je soukromý"
@@ -1114,15 +1147,6 @@ mobile/views/components/note-sub.vue:
   admin: "admin"
   bot: "bot"
   cat: "kočka"
-mobile/views/components/post-form.vue:
-  add-visible-user: "Přidat uživatele"
-  submit: "Příspěvek"
-  reply: "Odpovědět"
-  renote: "Renotovat"
-  reply-placeholder: "Odpovědět na tento příspěvěk"
-  geolocation-alert: "Vaše zařízení nepodporuje lokační službu"
-  error: "Chyba"
-  username-prompt: "Zadejte uživatelské jméno"
 mobile/views/components/sub-note-content.vue:
   private: "Tento příspěvek je soukromý"
   deleted: "Tento příspěvek byl odstraněn"
@@ -1135,12 +1159,15 @@ mobile/views/components/ui.nav.vue:
   notifications: "Oznámení"
   search: "Vyhledávání"
   user-lists: "Seznamy"
+  user-groups: "Skupiny"
   widgets: "Widgety"
   game: "Hry"
   admin: "Administrace"
   about: "O Misskey"
-mobile/views/pages/user-lists.vue:
-  title: "Seznamy"
+mobile/views/pages/drive.vue:
+  contextmenu:
+    upload: "Nahrát soubor"
+    create-folder: "Vytvořit složku"
 mobile/views/pages/signup.vue:
   lets-start: "Váš účet je připraven! 📦"
 mobile/views/pages/home.vue:
@@ -1157,9 +1184,6 @@ mobile/views/pages/widgets/activity.vue:
   activity: "Aktivita"
 mobile/views/pages/share.vue:
   share-with: "Sdílet na {name}"
-mobile/views/pages/received-follow-requests.vue:
-  accept: "Přijmout"
-  reject: "Odmítnout"
 mobile/views/pages/note.vue:
   prev: "Předchozí příspěvěk"
   next: "Následující příspěvek"
@@ -1191,3 +1215,43 @@ deck/deck.user-column.vue:
   activity: "Aktivita"
 dev/views/new-app.vue:
   app-name-desc: "Jméno vaší aplikace"
+pages:
+  like: "Lajk"
+  title: "Titulek"
+  blocks:
+    post: "Formulář pro psaní"
+    _post:
+      text: "Obsah"
+    _textInput:
+      text: "Titulek"
+    _textareaInput:
+      text: "Titulek"
+    _numberInput:
+      text: "Titulek"
+    _switch:
+      text: "Titulek"
+    _counter:
+      text: "Titulek"
+    _button:
+      text: "Titulek"
+      _action:
+        _dialog:
+          content: "Obsah"
+  script:
+    categories:
+      random: "Náhodně"
+      list: "Seznamy"
+    blocks:
+      _join:
+        arg1: "Seznamy"
+      random: "Náhodně"
+      _randomPick:
+        arg1: "Seznamy"
+      _dailyRandomPick:
+        arg1: "Seznamy"
+      _seedRandomPick:
+        arg2: "Seznamy"
+      _pick:
+        arg1: "Seznamy"
+    types:
+      array: "Seznamy"

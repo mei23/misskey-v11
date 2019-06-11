@@ -23,6 +23,7 @@
 				@focus="focused = true"
 				@blur="focused = false"
 				@keydown="$emit('keydown', $event)"
+				@change="$emit('change', $event)"
 				:list="id"
 			>
 			<input v-else ref="input"
@@ -38,6 +39,7 @@
 				@focus="focused = true"
 				@blur="focused = false"
 				@keydown="$emit('keydown', $event)"
+				@change="$emit('change', $event)"
 				:list="id"
 			>
 			<datalist :id="id" v-if="datalist">
@@ -60,7 +62,7 @@
 		<div class="suffix" ref="suffix"><slot name="suffix"></slot></div>
 	</div>
 	<div class="toggle" v-if="withPasswordToggle">
-		<a @click='togglePassword'>
+		<a @click="togglePassword">
 			<span v-if="type == 'password'"><fa :icon="['fa', 'eye']"/> {{ $t('@.show-password') }}</span>
 			<span v-if="type != 'password'"><fa :icon="['far', 'eye-slash']"/> {{ $t('@.hide-password') }}</span>
 		</a>
@@ -182,7 +184,11 @@ export default Vue.extend({
 			this.v = v;
 		},
 		v(v) {
-			this.$emit('input', v);
+			if (this.type === 'number') {
+				this.$emit('input', parseInt(v, 10));
+			} else {
+				this.$emit('input', v);
+			}
 
 			if (this.withPasswordMeter) {
 				if (v == '') {
@@ -204,17 +210,25 @@ export default Vue.extend({
 		}
 
 		this.$nextTick(() => {
-			if (this.$refs.prefix) {
-				this.$refs.label.style.left = (this.$refs.prefix.offsetLeft + this.$refs.prefix.offsetWidth) + 'px';
-				if (this.$refs.prefix.offsetWidth) {
-					this.$refs.input.style.paddingLeft = this.$refs.prefix.offsetWidth + 'px';
+			// このコンポーネントが作成された時、非表示状態である場合がある
+			// 非表示状態だと要素の幅などは0になってしまうので、定期的に計算する
+			const clock = setInterval(() => {
+				if (this.$refs.prefix) {
+					this.$refs.label.style.left = (this.$refs.prefix.offsetLeft + this.$refs.prefix.offsetWidth) + 'px';
+					if (this.$refs.prefix.offsetWidth) {
+						this.$refs.input.style.paddingLeft = this.$refs.prefix.offsetWidth + 'px';
+					}
 				}
-			}
-			if (this.$refs.suffix) {
-				if (this.$refs.suffix.offsetWidth) {
-					this.$refs.input.style.paddingRight = this.$refs.suffix.offsetWidth + 'px';
+				if (this.$refs.suffix) {
+					if (this.$refs.suffix.offsetWidth) {
+						this.$refs.input.style.paddingRight = this.$refs.suffix.offsetWidth + 'px';
+					}
 				}
-			}
+			}, 100);
+
+			this.$once('hook:beforeDestroy', () => {
+				clearInterval(clock);
+			});
 		});
 
 		this.$on('keydown', (e: KeyboardEvent) => {
@@ -316,7 +330,7 @@ root(fill)
 
 			> .value
 				display block
-				width 0%
+				width 0
 				height 100%
 				background transparent
 				border-radius 6px
