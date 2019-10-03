@@ -25,7 +25,12 @@
 				<a @click="addVisibleUser">+{{ $t('add-visible-user') }}</a>
 			</div>
 			<input v-show="useCw" ref="cw" v-model="cw" :placeholder="$t('annotations')" v-autocomplete="{ model: 'cw' }">
-			<textarea v-if="!renote || quote" v-model="text" ref="text" :disabled="posting" :placeholder="placeholder" v-autocomplete="{ model: 'text' }"></textarea>
+			<div class="textarea">
+				<textarea v-if="!renote || quote" v-model="text" ref="text" :disabled="posting" :placeholder="placeholder" v-autocomplete="{ model: 'text' }"></textarea>
+				<button class="emoji" @click="emoji" ref="emoji">
+					<fa :icon="['far', 'laugh']"/>
+				</button>
+			</div>
 			<x-post-form-attaches class="attaches" :files="files"/>
 			<mk-poll-editor v-if="poll" ref="poll" @destroyed="poll = false" @updated="onPollUpdate()"/>
 			<mk-uploader ref="uploader" @uploaded="attachMedia" @change="onChangeUploadings"/>
@@ -411,6 +416,23 @@ export default Vue.extend({
 			this.$emit('change-attached-files');
 		},
 
+		async emoji() {
+			const Picker = await import('../../../desktop/views/components/emoji-picker-dialog.vue').then(m => m.default);
+			const button = this.$refs.emoji;
+			const rect = button.getBoundingClientRect();
+			const vm = this.$root.new(Picker, {
+				includeRemote: true,
+				x: 0,
+				y: 120
+			});
+			vm.$once('chosen', (emoji: string) => {
+				insertTextAtCursor(this.$refs.text, emoji + (emoji.startsWith(':') ? String.fromCharCode(0x200B) : ''));
+			});
+			this.$once('hook:beforeDestroy', () => {
+				vm.close();
+			});
+		},
+
 		togglePreview() {
 			this.$store.commit('device/set', { key: 'showPostPreview', value: this.$refs.preview.open });
 		},
@@ -584,6 +606,31 @@ export default Vue.extend({
 			max-width 500px
 			margin 0 auto
 
+			>.textarea
+				> textarea
+					display block
+					padding 12px
+					margin 0
+					width 100%
+					font-size 16px
+					color var(--inputText)
+					background var(--mobilePostFormTextareaBg)
+					border none
+					border-radius 0
+					box-shadow 0 1px 0 0 var(--mobilePostFormDivider)
+					max-width 100%
+					min-width 100%
+					min-height 80px
+
+				> .emoji
+					position absolute
+					top 0
+					right 0
+					padding 10px
+					font-size 18px
+					color var(--text)
+					opacity 0.5
+
 			> .preview
 				padding 16px
 
@@ -599,7 +646,6 @@ export default Vue.extend({
 				z-index 1
 
 			> input
-			> textarea
 				display block
 				padding 12px
 				margin 0
