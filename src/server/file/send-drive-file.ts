@@ -152,9 +152,7 @@ export default async function(ctx: Koa.BaseContext) {
 			await sendRaw();
 		}
 	} else {
-		if ('download' in ctx.query) {
-			ctx.set('Content-Disposition', contentDisposition('attachment', `${file.filename}`));
-		}
+		ctx.set('Content-Disposition', contentDisposition('inline', `${file.filename}`));
 
 		await sendRaw();
 	}
