@@ -167,6 +167,9 @@ export default Vue.extend({
 			vm.$once('chosen', emoji => {
 				this.react(emoji);
 			});
+			this.$once('hook:beforeDestroy', () => {
+				vm.close();
+			});
 		},
 
 		onMouseover(e) {
