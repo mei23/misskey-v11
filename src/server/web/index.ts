@@ -24,6 +24,8 @@ import { getAtomFeed } from './feed/atom';
 import { getRSSFeed } from './feed/rss';
 import { getJSONFeed } from './feed/json';
 
+const env = process.env.NODE_ENV;
+
 const client = `${__dirname}/../../client/`;
 
 // Init app
@@ -53,6 +55,10 @@ const router = new Router();
 //#region static assets
 
 router.get('/assets/*', async ctx => {
+	if (env !== 'production') {
+		ctx.set('Cache-Control', 'no-store');
+	}
+
 	await send(ctx as any, ctx.path, {
 		root: client,
 		maxage: ms('7 days'),
