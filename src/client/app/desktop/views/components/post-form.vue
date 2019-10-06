@@ -470,6 +470,9 @@ export default Vue.extend({
 			w.$once('chosen', v => {
 				this.applyVisibility(v);
 			});
+			this.$once('hook:beforeDestroy', () => {
+				w.close();
+			});
 		},
 
 		applyVisibility(v :string) {
@@ -508,6 +511,9 @@ export default Vue.extend({
 			});
 			vm.$once('chosen', (emoji: string) => {
 				insertTextAtCursor(this.$refs.text, emoji + (emoji.startsWith(':') ? String.fromCharCode(0x200B) : ''));
+			});
+			this.$once('hook:beforeDestroy', () => {
+				vm.close();
 			});
 		},
 
