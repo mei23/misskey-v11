@@ -36,11 +36,6 @@ export default Vue.extend({
 			default: false
 		}
 	},
-	data() {
-		return {
-			hide: true
-		};
-	}
 	computed: {
 		style(): any {
 			let url = `url(${
