@@ -3,6 +3,8 @@ import Emoji from '../models/emoji';
 import { toUnicode, toASCII } from 'punycode';
 import config from '../config';
 import { isSelfHost } from './convert-host';
+import getDriveFileUrl from './get-drive-file-url';
+import DriveFile from '../models/drive-file';
 
 type IREmoji = {
 	/**
@@ -84,7 +86,7 @@ export async function packAvatarEmojis(emojis: string[], ownerHost: string, fore
 
 		const profileEmoji = {
 			name: key.emoji,
-			url: (user && user.avatarUrl) ? user.avatarUrl : `${config.driveUrl}/default-avatar.jpg`,
+			url: (user && user.avatarId) ? getDriveFileUrl(await DriveFile.findOne({ _id: user.avatarId }), true, true) : `${config.driveUrl}/default-avatar.jpg`,
 			host: key.host,
 			resolvable: key.resolvable,
 		} as IREmoji;
