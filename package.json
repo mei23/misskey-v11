@@ -24,7 +24,8 @@
 	},
 	"resolutions": {
 		"gulp-cssnano/cssnano/postcss-svgo/svgo/js-yaml": "^3.13.1",
-		"video-thumbnail-generator/lodash": "^4.17.13"
+		"video-thumbnail-generator/lodash": "^4.17.13",
+		"https-proxy-agent": "^3.0.0"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "1.2.22",
