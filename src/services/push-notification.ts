@@ -43,7 +43,9 @@ export default async function(userId: mongo.ObjectID | string, type: string, bod
 
 		push.sendNotification(pushSubscription, JSON.stringify({
 			type, body
-		})).catch((err: any) => {
+		}), {
+			proxy: config.proxy
+		}).catch((err: any) => {
 			//swLogger.info(err.statusCode);
 			//swLogger.info(err.headers);
 			//swLogger.info(err.body);
