@@ -4,6 +4,8 @@ import { pack } from '../../../../models/note';
 import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import Channel from '../channel';
 import fetchMeta from '../../../../misc/fetch-meta';
+import UserList from '../../../../models/user-list';
+import { concat } from '../../../../prelude/array';
 
 export default class extends Channel {
 	public readonly chName = 'hybridTimeline';
@@ -11,6 +13,7 @@ export default class extends Channel {
 	public static requireCredential = true;
 
 	private mutedUserIds: string[] = [];
+	private hideFromUsers: string[] = [];
 
 	@autobind
 	public async init(params: any) {
@@ -23,6 +26,14 @@ export default class extends Channel {
 
 		const mute = await Mute.find({ muterId: this.user._id });
 		this.mutedUserIds = mute.map(m => m.muteeId.toString());
+
+		// Homeから隠すリストユーザー
+		const lists = await UserList.find({
+			userId: this.user._id,
+			hideFromHome: true,
+		});
+
+		this.hideFromUsers = concat(lists.map(list => list.userIds)).map(x => x.toString());
 	}
 
 	@autobind
@@ -41,7 +52,7 @@ export default class extends Channel {
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
-		if (shouldMuteThisNote(note, this.mutedUserIds)) return;
+		if (shouldMuteThisNote(note, this.mutedUserIds, this.hideFromUsers)) return;
 
 		this.send('note', note);
 	}
