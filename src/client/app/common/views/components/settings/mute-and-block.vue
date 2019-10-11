@@ -7,13 +7,12 @@
 		<ui-info v-if="!muteFetching && mute.length == 0">{{ $t('no-muted-users') }}</ui-info>
 		<div class="users" v-if="mute.length != 0">
 			<div class="user" v-for="user in mute" :key="user.id">
-				<router-link class="name" :to="user | userPage" v-user-preview="user.id">
-					<b><mk-user-name :user="user" :nowrap="false"/></b> @{{ user | acct }}
-				</router-link>
+				<x-user :user="user"/>
 				<span @click="unmute(user)">
 					<fa icon="times"/>
 				</span>
 			</div>
+			<span class="more" v-if="this.muteCursor != null" @click="updateMute()">more...</span>
 		</div>
 	</section>
 
@@ -22,13 +21,12 @@
 		<ui-info v-if="!blockFetching && block.length == 0">{{ $t('no-blocked-users') }}</ui-info>
 		<div class="users" v-if="block.length != 0">
 			<div class="user" v-for="user in block" :key="user.id">
-				<router-link class="name" :to="user | userPage" v-user-preview="user.id">
-					<b><mk-user-name :user="user" :nowrap="false"/></b> @{{ user | acct }}
-				</router-link>
+				<x-user :user="user"/>
 				<span @click="unblock(user)">
 					<fa icon="times"/>
 				</span>
 			</div>
+			<span class="more" v-if="this.blockCursor != null" @click="updateBlock()">more...</span>
 		</div>
 	</section>
 
@@ -45,9 +43,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../../i18n';
+import XUser from './mute-and-block.user.vue';
+
+const fetchLimit = 30;
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/mute-and-block.vue'),
+
+	components: {
+		XUser
+	},
 
 	data() {
 		return {
@@ -55,6 +60,8 @@ export default Vue.extend({
 			blockFetching: true,
 			mute: [],
 			block: [],
+			muteCursor: undefined,
+			blockCursor: undefined,
 			mutedWords: ''
 		};
 	},
@@ -77,6 +84,7 @@ export default Vue.extend({
 		save() {
 			this._mutedWords = this.mutedWords.split('\n').map(line => line.split(' ').filter(x => x != ''));
 		},
+
 		unmute(user) {
 			this.$root.dialog({
 				type: 'warning',
@@ -87,10 +95,12 @@ export default Vue.extend({
 				this.$root.api('mute/delete', {
 					userId: user.id
 				}).then(() => {
+					this.muteCursor = undefined;
 					this.updateMute();
 				});
 			});
 		},
+
 		unblock(user) {
 			this.$root.dialog({
 				type: 'warning',
@@ -105,20 +115,46 @@ export default Vue.extend({
 				});
 			});
 		},
+
 		updateMute() {
 			this.muteFetching = true;
-			this.$root.api('mute/list').then(mute => {
-				this.mute = mute.map(x => x.mutee);
+			this.$root.api('mute/list', {
+				limit: fetchLimit + 1,
+				untilId: this.muteCursor,
+			}).then((items: Object[]) => {
+				const past = this.muteCursor ? this.mute : [];
+
+				if (items.length === fetchLimit + 1) {
+					items.pop()
+					this.muteCursor = items[items.length - 1].id;
+				} else {
+					this.muteCursor = undefined;
+				}
+
+				this.mute = past.concat(items.map(x => x.mutee));
 				this.muteFetching = false;
 			});
 		},
+
 		updateBlock() {
 			this.blockFetching = true;
-			this.$root.api('blocking/list').then(blocking => {
-				this.block = blocking.map(x => x.blockee);
+			this.$root.api('blocking/list', {
+				limit: fetchLimit + 1,
+				untilId: this.blockCursor,
+			}).then((items: Object[]) => {
+				const past = this.blockCursor ? this.block : [];
+
+				if (items.length === fetchLimit + 1) {
+					items.pop()
+					this.blockCursor = items[items.length - 1].id;
+				} else {
+					this.blockCursor = undefined;
+				}
+
+				this.block = past.concat(items.map(x => x.blockee));
 				this.blockFetching = false;
 			});
-		}
+		},
 	}
 });
 </script>
@@ -133,14 +169,14 @@ export default Vue.extend({
 			&:hover
 				background-color var(--primary)
 
-			> a
-				color var(--faceText)
-				padding 6px
-				overflow auto
-
 			> span
 				margin-left auto
 				cursor pointer
-				padding 6px
+				padding 16px
+		
+		> .more
+			margin 16px
+			cursor pointer
+			color var(--primary)
 </style>
 
