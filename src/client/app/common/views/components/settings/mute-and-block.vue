@@ -12,7 +12,7 @@
 					<fa icon="times"/>
 				</span>
 			</div>
-			<span class="more" v-if="this.muteCursor != null" @click="updateMute()">more...</span>
+			<ui-button v-if="this.muteCursor != null" @click="updateMute()">{{ $t('@.load-more') }}</ui-button>
 		</div>
 	</section>
 
@@ -26,7 +26,7 @@
 					<fa icon="times"/>
 				</span>
 			</div>
-			<span class="more" v-if="this.blockCursor != null" @click="updateBlock()">more...</span>
+			<ui-button v-if="this.blockCursor != null" @click="updateBlock()">{{ $t('@.load-more') }}</ui-button>
 		</div>
 	</section>
 
@@ -165,6 +165,7 @@ export default Vue.extend({
 			display flex
 			align-items center
 			justify-content flex-end
+			border-radius 6px
 
 			&:hover
 				background-color var(--primary)
@@ -174,9 +175,7 @@ export default Vue.extend({
 				cursor pointer
 				padding 16px
 		
-		> .more
-			margin 16px
-			cursor pointer
-			color var(--primary)
+		> button
+			margin-top 16px
 </style>
 
