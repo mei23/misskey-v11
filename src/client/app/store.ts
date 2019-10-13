@@ -41,7 +41,8 @@ const defaultSettings = {
 			showBoardLabels: false,
 			useAvatarStones: true,
 		}
-	}
+	},
+	reactions: ['👍', '❤', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', 'pudding']
 };
 
 const defaultDeviceSettings = Object.assign({

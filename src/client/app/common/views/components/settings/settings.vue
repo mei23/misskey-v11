@@ -108,6 +108,16 @@
 				<ui-switch v-if="$root.isMobile" v-model="disableViaMobile">{{ $t('@._settings.disable-via-mobile') }}</ui-switch>
 			</section>
 
+			<section>
+				<header>{{ $t('@._settings.reactions') }}</header>
+				<ui-input v-model="reactions" style="font-family: 'Segoe UI Emoji', 'Noto Color Emoji'">
+					{{ $t('@._settings.reactions') }}<template #desc>{{ $t('@._settings.reactions-description') }}</template>
+				</ui-input>
+				<ui-button @click="setDefaultReaction">
+					Default
+				</ui-button>
+			</section>
+
 			<section v-if="isAdvanced">
 				<header>{{ $t('@._settings.timeline') }}</header>
 				<ui-switch v-model="showMyRenotes">{{ $t('@._settings.show-my-renotes') }}</ui-switch>
@@ -445,6 +455,11 @@ export default Vue.extend({
 			set(value) { this.$store.dispatch('settings/set', { key: 'disableViaMobile', value }); }
 		},
 
+		reactions: {
+			get() { return this.$store.state.settings.reactions.join(' '); },
+			set(value: string) { this.$store.dispatch('settings/set', { key: 'reactions', value: value.split(/\s+/) }); }
+		},
+
 		useShadow: {
 			get() { return this.$store.state.device.useShadow; },
 			set(value) { this.$store.commit('device/set', { key: 'useShadow', value }); }
@@ -655,6 +670,9 @@ export default Vue.extend({
 			const sound = new Audio(`${url}/assets/message.mp3`);
 			sound.volume = this.$store.state.device.soundVolume;
 			sound.play();
+		},
+		setDefaultReaction() {
+			this.$store.dispatch('settings/set', { key: 'reactions', value: ['👍', '❤', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', 'pudding'] }); }
 		}
 	}
 });
