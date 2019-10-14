@@ -23,6 +23,10 @@ export const meta = {
 			validator: $.str
 		},
 
+		category: {
+			validator: $.optional.str
+		},
+
 		url: {
 			validator: $.str
 		},
@@ -46,6 +50,7 @@ export default define(meta, async (ps) => {
 		$set: {
 			updatedAt: new Date(),
 			name: ps.name,
+			category: ps.category,
 			aliases: ps.aliases,
 			url: ps.url,
 			type,

@@ -20,6 +20,7 @@ export type IEmoji = {
 	url: string;
 	aliases?: string[];
 	updatedAt?: Date;
+	category?: string;
 	/** AP object id */
 	uri?: string;
 	type?: string;

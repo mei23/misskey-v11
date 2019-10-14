@@ -24,17 +24,20 @@
 			</div>
 		</template>
 		<template v-else>
-			<div class="list">
-				<button v-for="emoji in customEmojis"
-					:title="emoji.name"
-					@click="chosen(`:${emoji.name}:`)"
-					:key="emoji.name"
-				>
-					<img :src="$store.state.device.disableShowingAnimatedImages ? getStaticImageUrl(emoji.url) : emoji.url"/>
-				</button>
+			<div v-for="(categoryEmojis, i) in customEmojis" :key="i">
+				<header class="sub">{{ categoryEmojis[0].category }}</header>
+				<div class="list">
+					<button v-for="emoji in categoryEmojis"
+						:title="emoji.name"
+						@click="chosen(`:${emoji.name}:`)"
+						:key="emoji.name"
+					>
+						<img :src="$store.state.device.disableShowingAnimatedImages ? getStaticImageUrl(emoji.url) : emoji.url"/>
+					</button>
+				</div>
 			</div>
-			
-			<header class="sub" v-if="this.includeRemote">Remote emojis</header>
+
+			<header class="category" v-if="this.includeRemote">Remote emojis</header>
 			<div class="list">
 				<button v-for="emoji in remoteEmojis"
 					:title="emoji.sources ? emoji.sources.map(x => `${x.name}@${x.host}`).join(',\n') : emoji.name"
@@ -56,6 +59,7 @@ import { emojilist } from '../../../../../misc/emojilist';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
 import { faAsterisk, faLeaf, faUtensils, faFutbol, faCity, faDice } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faFlag } from '@fortawesome/free-regular-svg-icons';
+import { groupOn } from '../../../../../prelude/array';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/emoji-picker.vue'),
@@ -123,8 +127,9 @@ export default Vue.extend({
 	},
 
 	created() {
-		const local = (this.$root.getMetaSync() || { emojis: [] }).emojis || [];
-		this.customEmojis = local.sort((a: any, b: any) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0);
+		let local = (this.$root.getMetaSync() || { emojis: [] }).emojis || [];
+		local = groupOn((x: any) => x.category || '', local);
+		this.customEmojis = local;
 
 		if (this.includeRemote) {
 			this.$root.api('emojis/recommendation', {
@@ -187,13 +192,12 @@ export default Vue.extend({
 			color var(--text)
 			font-size 12px
 
-		> header.sub
+		>>> header.sub
 			padding 4px 8px
-			background var(--faceHeader)
 			color var(--text)
 			font-size 12px
 
-		> div.list
+		>>> div.list
 			display grid
 			grid-template-columns 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
 			gap 4px

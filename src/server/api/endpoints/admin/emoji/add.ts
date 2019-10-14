@@ -18,6 +18,10 @@ export const meta = {
 			validator: $.str.min(1)
 		},
 
+		category: {
+			validator: $.optional.str
+		},
+
 		url: {
 			validator: $.str.min(1)
 		},
@@ -35,6 +39,7 @@ export default define(meta, async (ps) => {
 	const emoji = await Emoji.insert({
 		updatedAt: new Date(),
 		name: ps.name,
+		category: ps.category,
 		host: null,
 		aliases: ps.aliases,
 		url: ps.url,

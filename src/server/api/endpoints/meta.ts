@@ -83,6 +83,10 @@ export default define(meta, async (ps, me) => {
 	const emojis = await Emoji.find({ host: null }, {
 		fields: {
 			_id: false
+		},
+		sort: {
+			category: 1,
+			name: 1
 		}
 	});
 
