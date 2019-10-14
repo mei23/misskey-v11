@@ -25,7 +25,7 @@
 		</template>
 		<template v-else>
 			<div v-for="(categoryEmojis, i) in customEmojis" :key="i">
-				<header class="sub">{{ categoryEmojis[0].category }}</header>
+				<header class="sub">{{ categoryEmojis[0].category || $t('no-category') }}</header>
 				<div class="list">
 					<button v-for="emoji in categoryEmojis"
 						:title="emoji.name"
@@ -37,7 +37,7 @@
 				</div>
 			</div>
 
-			<header class="category" v-if="this.includeRemote">Remote emojis</header>
+			<header class="category" v-if="this.includeRemote"><fa :icon="faGlobe" fixed-width/>{{ $t('remote-emoji') }}</header>
 			<div class="list">
 				<button v-for="emoji in remoteEmojis"
 					:title="emoji.sources ? emoji.sources.map(x => `${x.name}@${x.host}`).join(',\n') : emoji.name"
@@ -57,7 +57,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import { emojilist } from '../../../../../misc/emojilist';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
-import { faAsterisk, faLeaf, faUtensils, faFutbol, faCity, faDice } from '@fortawesome/free-solid-svg-icons';
+import { faAsterisk, faLeaf, faUtensils, faFutbol, faCity, faDice, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faFlag } from '@fortawesome/free-regular-svg-icons';
 import { groupOn } from '../../../../../prelude/array';
 
@@ -78,6 +78,7 @@ export default Vue.extend({
 			getStaticImageUrl,
 			customEmojis: [],
 			remoteEmojis: [],
+			faGlobe,
 			categories: [{
 				text: this.$t('custom-emoji'),
 				icon: faAsterisk,

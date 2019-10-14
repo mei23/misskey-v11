@@ -569,6 +569,8 @@ common/views/components/reaction-picker.vue:
   choose-reaction: "Send a reaction"
 common/views/components/emoji-picker.vue:
   custom-emoji: "Custom Emoji"
+  remote-emoji: "Remote Custom Emoji"
+  no-category: "No category"
   people: "People"
   animals-and-nature: "Animals & Nature"
   food-and-drink: "Food & drink"
