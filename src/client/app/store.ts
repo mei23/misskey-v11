@@ -81,6 +81,7 @@ const defaultDeviceSettings = Object.assign({
 	enableMobileQuickNotificationView: false,
 	roomGraphicsQuality: 'medium',
 	roomUseOrthographicCamera: true,
+	activeEmojiCategoryName: undefined,
 }, mods.defaultDeviceSettings || {});
 
 export default (os: MiOS) => new Vuex.Store({

@@ -139,16 +139,32 @@ export default Vue.extend({
 				this.remoteEmojis = emojis;
 			});
 		}
+
+		if (this.$store.state.device.activeEmojiCategoryName) {
+			this.goCategory(this.$store.state.device.activeEmojiCategoryName);
+		}
 	},
 
 	methods: {
-		go(category) {
+		go(category: any) {
+			this.goCategory(category.name);
+		},
+
+		goCategory(name: string) {
+			let matched = false;
 			for (const c of this.categories) {
-				c.isActive = c.name === category.name;
+				c.isActive = c.name === name;
+				if (c.isActive) {
+					matched = true;
+					this.$store.commit('device/set', { key: 'activeEmojiCategoryName', value: c.name });
+				}
+			}
+			if (!matched) {
+				this.categories[0].isActive = true;
 			}
 		},
 
-		chosen(emoji) {
+		chosen(emoji: string) {
 			this.$emit('chosen', emoji);
 		}
 	}
