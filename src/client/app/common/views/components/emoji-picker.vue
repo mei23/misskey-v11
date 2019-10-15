@@ -226,7 +226,7 @@ export default Vue.extend({
 			left 0
 			z-index 1
 			padding 8px
-			background var(--faceHeader)
+			background var(--popupBg)
 			color var(--text)
 			font-size 12px
 
