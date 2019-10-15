@@ -64,7 +64,7 @@ export function maximum(xs: number[]): number {
  * Splits an array based on the equivalence relation.
  * The concatenation of the result is equal to the argument.
  */
-export function groupBy<T>(f: EndoRelation<T>, xs: T[]): T[][] {
+function _groupBy<T>(f: EndoRelation<T>, xs: T[]): T[][] {
 	const groups = [] as T[][];
 	for (const x of xs) {
 		if (groups.length !== 0 && f(groups[groups.length - 1][0], x)) {
@@ -81,7 +81,20 @@ export function groupBy<T>(f: EndoRelation<T>, xs: T[]): T[][] {
  * The concatenation of the result is equal to the argument.
  */
 export function groupOn<T, S>(f: (x: T) => S, xs: T[]): T[][] {
-	return groupBy((a, b) => f(a) === f(b), xs);
+	return _groupBy((a, b) => f(a) === f(b), xs);
+}
+
+export function groupBy<T>(collections: T[], keySerector: (x: T) => string) {
+	return collections.reduce((obj: Record<string, T[]>, item: T) => {
+		const key = keySerector(item);
+		if (!obj.hasOwnProperty(key)) {
+			obj[key] = [];
+		}
+
+		obj[key].push(item);
+
+		return obj;
+	}, {});
 }
 
 /**
