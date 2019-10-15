@@ -61,7 +61,6 @@ export function maximum(xs: number[]): number {
 }
 
 /**
- * たぶんあなたが欲しがってる groupBy は groupOn のことだ
  * Splits an array based on the equivalence relation.
  * The concatenation of the result is equal to the argument.
  */
@@ -81,8 +80,8 @@ export function groupBy<T>(f: EndoRelation<T>, xs: T[]): T[][] {
  * Splits an array based on the equivalence relation induced by the function.
  * The concatenation of the result is equal to the argument.
  */
-export function groupOn<TSource>(keySelector: (x: TSource) => string, src: TSource[]): TSource[][] {
-	return groupBy((a, b) => keySelector(a) === keySelector(b), src);
+export function groupOn<T, S>(f: (x: T) => S, xs: T[]): T[][] {
+	return groupBy((a, b) => f(a) === f(b), xs);
 }
 
 /**
