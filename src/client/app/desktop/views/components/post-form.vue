@@ -321,6 +321,7 @@ export default Vue.extend({
 					this.visibility = init.visibility;
 					this.localOnly = init.localOnly;
 					this.quoteId = init.renote ? init.renote.id : null;
+					if (!this.renote) this.renote = this.initialNote.renote;
 				}
 
 				this.$nextTick(() => this.watch());
