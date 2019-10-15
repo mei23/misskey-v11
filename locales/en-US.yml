@@ -568,6 +568,7 @@ common/views/components/poll-editor.vue:
 common/views/components/reaction-picker.vue:
   choose-reaction: "Send a reaction"
 common/views/components/emoji-picker.vue:
+  recent-emoji: "Recent Emoji"
   custom-emoji: "Custom Emoji"
   remote-emoji: "Remote Custom Emoji"
   no-category: "No category"

@@ -11,12 +11,26 @@
 		</button>
 	</header>
 	<div class="emojis">
+		<template v-if="categories[0].isActive">
+			<header class="category"><fa :icon="faHistory" fixed-width/> {{ $t('recent-emoji') }}</header>
+			<div class="list">
+				<button v-for="(emoji, i) in ($store.state.device.recentEmojis || [])"
+					:title="emoji.sources ? emoji.sources.map(x => `${x.name}@${x.host}`).join(',\n') : emoji.name"
+					@click="chosen(emoji)"
+					:key="i"
+				>
+					<mk-emoji v-if="emoji.char != null" :emoji="emoji.char"/>
+					<img v-else :src="$store.state.device.disableShowingAnimatedImages ? getStaticImageUrl(emoji.url) : emoji.url"/>
+				</button>
+			</div>
+		</template>
+
 		<header class="category"><fa :icon="categories.find(x => x.isActive).icon" fixed-width/> {{ categories.find(x => x.isActive).text }}</header>
 		<template v-if="categories.find(x => x.isActive).name">
 			<div class="list">
 				<button v-for="emoji in emojilist.filter(e => e.category === categories.find(x => x.isActive).name)"
 					:title="emoji.name"
-					@click="chosen(emoji.char)"
+					@click="chosen(emoji)"
 					:key="emoji.name"
 				>
 					<mk-emoji :emoji="emoji.char"/>
@@ -29,7 +43,7 @@
 				<div class="list">
 					<button v-for="emoji in customEmojis[key]"
 						:title="emoji.name"
-						@click="chosen(`:${emoji.name}:`)"
+						@click="chosen(emoji)"
 						:key="emoji.name"
 					>
 						<img :src="$store.state.device.disableShowingAnimatedImages ? getStaticImageUrl(emoji.url) : emoji.url"/>
@@ -37,11 +51,11 @@
 				</div>
 			</div>
 
-			<header class="category" v-if="this.includeRemote"><fa :icon="faGlobe" fixed-width/>{{ $t('remote-emoji') }}</header>
+			<header class="category" v-if="this.includeRemote"><fa :icon="faGlobe" fixed-width/> {{ $t('remote-emoji') }}</header>
 			<div class="list">
 				<button v-for="emoji in remoteEmojis"
 					:title="emoji.sources ? emoji.sources.map(x => `${x.name}@${x.host}`).join(',\n') : emoji.name"
-					@click="chosen(`:${emoji.name}:`)"
+					@click="chosen(emoji)"
 					:key="emoji.name"
 				>
 					<img :src="$store.state.device.disableShowingAnimatedImages ? getStaticImageUrl(emoji.url) : emoji.url"/>
@@ -57,7 +71,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import { emojilist } from '../../../../../misc/emojilist';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
-import { faAsterisk, faLeaf, faUtensils, faFutbol, faCity, faDice, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { faAsterisk, faLeaf, faUtensils, faFutbol, faCity, faDice, faGlobe, faHistory } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faFlag } from '@fortawesome/free-regular-svg-icons';
 import { groupBy } from '../../../../../prelude/array';
 
@@ -78,7 +92,7 @@ export default Vue.extend({
 			getStaticImageUrl,
 			customEmojis: {},
 			remoteEmojis: [],
-			faGlobe,
+			faGlobe, faHistory,
 			categories: [{
 				text: this.$t('custom-emoji'),
 				icon: faAsterisk,
@@ -164,8 +178,15 @@ export default Vue.extend({
 			}
 		},
 
-		chosen(emoji: string) {
-			this.$emit('chosen', emoji);
+		chosen(emoji: any) {
+			const getKey = (emoji: any) => emoji.char || `:${emoji.name}:`;
+
+			let recents = this.$store.state.device.recentEmojis || [];
+			recents = recents.filter((e: any) => getKey(e) !== getKey(emoji));
+			recents.unshift(emoji)
+			this.$store.commit('device/set', { key: 'recentEmojis', value: recents.splice(0, 16) });
+
+			this.$emit('chosen', getKey(emoji));
 		}
 	}
 });
