@@ -24,10 +24,10 @@
 			</div>
 		</template>
 		<template v-else>
-			<div v-for="(categoryEmojis, i) in customEmojis" :key="i">
-				<header class="sub">{{ categoryEmojis[0].category || $t('no-category') }}</header>
+			<div v-for="(key, i) in Object.keys(customEmojis)" :key="i">
+				<header class="sub">{{ key || $t('no-category') }}</header>
 				<div class="list">
-					<button v-for="emoji in categoryEmojis"
+					<button v-for="emoji in customEmojis[key]"
 						:title="emoji.name"
 						@click="chosen(`:${emoji.name}:`)"
 						:key="emoji.name"
@@ -59,7 +59,7 @@ import { emojilist } from '../../../../../misc/emojilist';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
 import { faAsterisk, faLeaf, faUtensils, faFutbol, faCity, faDice, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faFlag } from '@fortawesome/free-regular-svg-icons';
-import { groupOn } from '../../../../../prelude/array';
+import { groupBy } from '../../../../../prelude/array';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/emoji-picker.vue'),
@@ -76,7 +76,7 @@ export default Vue.extend({
 		return {
 			emojilist,
 			getStaticImageUrl,
-			customEmojis: [],
+			customEmojis: {},
 			remoteEmojis: [],
 			faGlobe,
 			categories: [{
@@ -129,7 +129,7 @@ export default Vue.extend({
 
 	created() {
 		let local = (this.$root.getMetaSync() || { emojis: [] }).emojis || [];
-		local = groupOn((x: any) => x.category || '', local);
+		local = groupBy(local, (x: any) => x.category || '');
 		this.customEmojis = local;
 
 		if (this.includeRemote) {
