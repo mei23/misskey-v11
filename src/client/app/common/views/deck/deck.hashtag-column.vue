@@ -30,7 +30,7 @@ export default Vue.extend({
 
 		tagTl(): any {
 			return {
-				query: [[this.tag]]
+				tag: this.tag
 			};
 		}
 	},
