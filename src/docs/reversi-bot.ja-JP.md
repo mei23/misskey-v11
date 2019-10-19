@@ -175,3 +175,5 @@ type: `textbox`
 
 ## 投了する
 投了をするには、<a href="./api/endpoints/games/reversi/games/surrender">このエンドポイント</a>にリクエストします。
+
+<div class="copyright"><small>Copyright (c) 2014-2019 syuilo</small></div>

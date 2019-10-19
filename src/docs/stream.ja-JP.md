@@ -354,3 +354,5 @@ Misskeyは投稿のキャプチャと呼ばれる仕組みを提供していま�
 
 #### `note`
 グローバルタイムラインに新しい投稿が流れてきたときに発生するイベントです。
+
+<div class="copyright"><small>Copyright (c) 2014-2019 syuilo</small></div>

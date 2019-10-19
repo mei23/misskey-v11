@@ -13,3 +13,5 @@ https://docs.google.com/spreadsheets/d/1lxQ2ugKrhz58Bg96HTDK_2F98BUritkMyIiBkOBy
 
 ## グローバル
 全てのローカルユーザーの「ホーム」指定されていない投稿と、サーバーに届いた全てのリモートユーザーの「ホーム」指定されていない投稿
+
+<div class="copyright"><small>Copyright (c) 2014-2019 syuilo</small></div>

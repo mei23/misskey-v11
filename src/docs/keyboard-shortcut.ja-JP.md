@@ -110,3 +110,5 @@
 		<tr><td><kbd class="key">t</kbd><kbd class="key">0</kbd></td><td>タイムラインの最新の投稿に🍮する</td></tr>
 	</tbody>
 </table>
+
+<div class="copyright"><small>Copyright (c) 2014-2019 syuilo</small></div>
