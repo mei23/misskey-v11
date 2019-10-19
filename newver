@@ -13,12 +13,12 @@ close $FH;
 my $newver;
 
 for my $line (@lines) {
-	if ($line =~ /^(\s*"version"\s*:\s*")(\d+[.]\d+[.]\d+)(-\w+)?(.*)$/) {
+	if ($line =~ /^(\s*"version"\s*:\s*")(\d+)[.](\d+)[.](\d+)/) {
 		print "old: $line";
 
 		my $postfix = strftime('m%y%m%d%H%M%S', localtime(time));
-		$newver = "$2-$postfix";
-		$line = "$1$2-$postfix$4\n";
+		$newver = $2 . '.' . $3 . '.' . ($4 + 1);
+		$line = "$1$newver\",\n";
 
 		print "new: $line\n";
 
