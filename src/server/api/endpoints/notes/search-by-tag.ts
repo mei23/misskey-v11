@@ -5,6 +5,8 @@ import { getFriendIds } from '../../common/get-friends';
 import { packMany } from '../../../../models/note';
 import define from '../../define';
 import { getHideUserIds } from '../../common/get-hide-users';
+import User from '../../../../models/user';
+import { toDbHost } from '../../../../misc/convert-host';
 
 export const meta = {
 	desc: {
@@ -126,21 +128,52 @@ export default define(meta, async (ps, me) => {
 		visibleUserIds: { $in: [ me._id ] }
 	}];
 
+	const push = (x: any) => q.$and.push(x);
+
 	const q: any = {
-		$and: [ps.tag ? {
-			tagsLower: ps.tag.toLowerCase()
-		} : {
+		$and: [],
+		deletedAt: { $exists: false },
+		$or: visibleQuery
+	};
+
+	if (ps.tag) {
+		const tokens = ps.tag.trim().split(/\s+/);
+
+		const tag = tokens.shift();
+
+		push({
+			tagsLower: tag.toLowerCase()
+		});
+
+		for (const token of tokens) {
+			// from
+			const matchFrom = token.match(/^from:@?([\w-]+)(?:@([\w.-]+))?$/);
+			if (matchFrom) {
+				const user = await User.findOne({
+					usernameLower: matchFrom[1].toLowerCase(),
+					host: toDbHost(matchFrom[2]),
+				});
+
+				if (!user) {
+					return [];
+				}
+
+				push({
+					userId: user._id
+				});
+
+				continue;
+			}
+		}
+	} else {
+		push({
 			$or: ps.query.map(tags => ({
 				$and: tags.map(t => ({
 					tagsLower: t.toLowerCase()
 				}))
 			}))
-		}],
-		deletedAt: { $exists: false },
-		$or: visibleQuery
-	};
-
-	const push = (x: any) => q.$and.push(x);
+		});
+	}
 
 	if (ps.following != null && me != null) {
 		const ids = await getFriendIds(me._id, false);
