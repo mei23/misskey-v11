@@ -17,7 +17,7 @@ for my $line (@lines) {
 		print "old: $line";
 
 		my $postfix = strftime('m%y%m%d%H%M%S', localtime(time));
-		$newver = $2 . '.' . $3 . '.' . ($4 + 1);
+		$newver = $2 . '.' . $3 . '.' . ($4 + 1) . '-m544';
 		$line = "$1$newver\",\n";
 
 		print "new: $line\n";
