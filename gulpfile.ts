@@ -122,11 +122,22 @@ gulp.task('copy:client', () =>
 			'./src/client/assets/**/*',
 			'./src/client/app/*/assets/**/*'
 		])
-			.pipe(isProduction ? (imagemin as any)() : gutil.noop())
 			.pipe(rename(path => {
 				path.dirname = path.dirname.replace('assets', '.');
 			}))
 			.pipe(gulp.dest('./built/client/assets/'))
+);
+
+gulp.task('imagemin', () =>
+		gulp.src([
+			'./assets/**/*',
+			'./src/client/assets/**/*',
+			'./src/client/app/*/assets/**/*'
+		])
+			.pipe((imagemin as any)({
+				verbose: true
+			}))
+			.pipe(gulp.dest(file => file.base))
 );
 
 gulp.task('doc', () =>
