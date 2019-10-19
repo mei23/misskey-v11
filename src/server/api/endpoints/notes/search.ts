@@ -218,7 +218,7 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 		words.push(token);
 	}
 
-	// 下でsince加工しているので先にソートクエリだけ作っちゃう
+	// 下でsince加工しているので（もうしてない）先にソートクエリだけ作っちゃう
 	const sort = {
 		createdAt: -1
 	};
@@ -230,11 +230,8 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 
 	// フィルタ系が指定されていないワード検索の場合
 	if (!filtered && words.length > 0) {
-		// ESがあればそちらに任せる
-		if (es) return null;
-
-		// なければ期間を縮めてDB検索
-		since = new Date(Date.now() - 1 * 86400 * 1000);
+		// ESに回す
+		return null;
 	}
 
 	let visibleQuery;
