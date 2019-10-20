@@ -5,7 +5,7 @@
 	<main>
 		<sequential-entrance animation="entranceFromTop" delay="25">
 			<template v-for="note in notes">
-				<mk-note-detail class="post" :note="note" :key="note.id"/>
+				<mk-note class="post" :note="note" :key="note.id" :class="{ round: $store.state.device.roundedCorners }"/>
 			</template>
 		</sequential-entrance>
 	</main>
@@ -57,6 +57,11 @@ export default Vue.extend({
 main
 	> * > .post
 		margin-bottom 8px
+		background var(--face)
+		border-bottom 0
+
+		&.round
+			border-radius 6px
 
 	@media (min-width 500px)
 		> * > .post

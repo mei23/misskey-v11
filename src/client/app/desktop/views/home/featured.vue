@@ -2,7 +2,7 @@
 <div class="glowckho" v-if="!fetching">
 	<sequential-entrance animation="entranceFromTop" delay="25">
 		<template v-for="note in notes">
-			<mk-note-detail class="post" :note="note" :key="note.id"/>
+			<mk-note class="post" :note="note" :key="note.id" :class="{ round: $store.state.device.roundedCorners }"/>
 		</template>
 	</sequential-entrance>
 </div>
@@ -51,6 +51,11 @@ export default Vue.extend({
 
 	> * > .post
 		margin-bottom 16px
+		background var(--face)
+		border-bottom 0
+
+		&.round
+			border-radius 6px
 
 	> .more
 		margin 32px 16px 16px 16px
