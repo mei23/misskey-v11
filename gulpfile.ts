@@ -12,7 +12,6 @@ const stylus = require('gulp-stylus');
 import * as uglifyComposer from 'gulp-uglify/composer';
 import * as rimraf from 'rimraf';
 import chalk from 'chalk';
-const imagemin = require('gulp-imagemin');
 import * as rename from 'gulp-rename';
 import * as mocha from 'gulp-mocha';
 import * as replace from 'gulp-replace';
@@ -126,18 +125,6 @@ gulp.task('copy:client', () =>
 				path.dirname = path.dirname.replace('assets', '.');
 			}))
 			.pipe(gulp.dest('./built/client/assets/'))
-);
-
-gulp.task('imagemin', () =>
-		gulp.src([
-			'./assets/**/*',
-			'./src/client/assets/**/*',
-			'./src/client/app/*/assets/**/*'
-		])
-			.pipe((imagemin as any)({
-				verbose: true
-			}))
-			.pipe(gulp.dest(file => file.base))
 );
 
 gulp.task('doc', () =>
