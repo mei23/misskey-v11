@@ -2,18 +2,26 @@ import { parseFragment, DefaultTreeDocumentFragment } from 'parse5';
 import { URL } from 'url';
 import { urlRegex } from './prelude';
 
-export function fromHtml(html: string): string {
+export function fromHtml(html: string) {
+	return fromHtml2(html).text;
+}
+
+export function fromHtml2(html: string) {
 	if (html == null) return null;
 
 	const dom = parseFragment(html) as DefaultTreeDocumentFragment;
 
 	let text = '';
+	const imgs: string[] = [];
 
 	for (const n of dom.childNodes) {
 		analyze(n);
 	}
 
-	return text.trim();
+	return {
+		text: text.trim(),
+		imgs
+	};
 
 	function getText(node: any): string {
 		if (node.nodeName == '#text') return node.value;
@@ -69,6 +77,11 @@ export function fromHtml(html: string): string {
 						analyze(n);
 					}
 				}
+				break;
+
+			case 'img':
+				const src = node.attrs.find((x: any) => x.name == 'src');
+				if (src && src.value) imgs.push(src.value);
 				break;
 
 			default:

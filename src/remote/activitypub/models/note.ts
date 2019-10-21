@@ -9,7 +9,7 @@ import { IApNote, IObject, getApIds, getOneApId, getApId, isNote, isEmoji } from
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser, IUser } from '../../../models/user';
-import { fromHtml } from '../../../mfm/fromHtml';
+import { fromHtml2 } from '../../../mfm/fromHtml';
 import Emoji, { IEmoji } from '../../../models/emoji';
 import { extractHashtags } from './tag';
 import { toUnicode } from 'punycode';
@@ -108,6 +108,10 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 		return null;
 	}
 
+	// テキストのパース
+	const parsed = fromHtml2(note.content);
+	const text = note._misskey_content || parsed.text;
+
 	//#region Visibility
 	const to = getApIds(note.to);
 	const cc = getApIds(note.cc);
@@ -123,7 +127,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 			visibility = 'specified';
 			visibleUsers = await Promise.all(to.map(uri => resolvePerson(uri, null, resolver)));
 		}
-}
+	}
 	//#endergion
 
 	const apMentions = await extractMentionedUsers(actor, to, cc, resolver);
@@ -134,7 +138,12 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	// Noteがsensitiveなら添付もsensitiveにする
 	const limit = promiseLimit(2);
 
-	note.attachment = toArray(note.attachment);
+	const imgs = parsed.imgs.map(x => ({
+		type: 'Document',
+		url: x,
+	} as IObject));
+
+	note.attachment = toArray(note.attachment).concat(imgs);
 	const files = note.attachment
 		.map(attach => attach.sensitive = note.sensitive)
 		? (await Promise.all(note.attachment.map(x => limit(() => resolveImage(actor, x)) as Promise<IDriveFile>)))
@@ -170,9 +179,6 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	}
 
 	const cw = note.summary === '' ? null : note.summary;
-
-	// テキストのパース
-	const text = note._misskey_content || fromHtml(note.content);
 
 	// vote
 	if (reply && reply.poll) {
