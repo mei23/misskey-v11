@@ -19,7 +19,7 @@ export default async (actor: IRemoteUser, activity: ICreate): Promise<void> => {
 		object = await resolver.resolve(activity.object);
 	} catch (e) {
 		logger.error(`Resolution failed: ${e.statusCode || e}`);
-		throw e;
+		throw `Resolution failed: ${e.statusCode || e}`;
 	}
 
 	if (isNote(object)) {

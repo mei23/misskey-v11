@@ -19,7 +19,7 @@ export default async (actor: IRemoteUser, activity: IUpdate): Promise<void> => {
 
 	const object = await resolver.resolve(activity.object).catch(e => {
 		apLogger.error(`Resolution failed: ${e.statusCode || e}`);
-		throw e;
+		throw `Resolution failed: ${e.statusCode || e}`;
 	});
 
 	if (isPerson(object)) {
