@@ -190,15 +190,15 @@ export function validatePassword(password: string): boolean {
 }
 
 export function isValidName(name?: string): boolean {
-	return name === null || (typeof name == 'string' && name.length < 50 && name.trim() != '');
+	return name === null || (typeof name == 'string' && name.length <= 50 && name.trim() != '');
 }
 
 export function isValidDescription(description: string): boolean {
-	return typeof description == 'string' && description.length < 500 && description.trim() != '';
+	return typeof description == 'string' && description.length <= 500 && description.trim() != '';
 }
 
 export function isValidLocation(location: string): boolean {
-	return typeof location == 'string' && location.length < 50 && location.trim() != '';
+	return typeof location == 'string' && location.length <= 50 && location.trim() != '';
 }
 
 export function isValidBirthday(birthday: string): boolean {
