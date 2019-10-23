@@ -18,7 +18,7 @@ export default async (actor: IRemoteUser, activity: IUpdate): Promise<void> => {
 	const resolver = new Resolver();
 
 	const object = await resolver.resolve(activity.object).catch(e => {
-		apLogger.error(`Resolution failed: ${e.statusCode || e}`);
+		apLogger.error(`Resolution failed: ${e}`);
 		throw e;
 	});
 
