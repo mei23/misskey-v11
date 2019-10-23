@@ -55,10 +55,6 @@ function toPerson(x: IObject, uri: string): IApPerson {
 		throw new Error('invalid person: invalid username');
 	}
 
-	if (!isValidName(x.name == '' ? null : x.name)) {
-		throw new Error('invalid person: invalid name');
-	}
-
 	if (typeof x.id !== 'string') {
 		throw new Error('invalid person: id is not a string');
 	}
