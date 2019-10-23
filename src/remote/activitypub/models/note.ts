@@ -149,7 +149,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 				logger.warn(`Ignored inReplyTo ${note.inReplyTo} - ${e.statusCode} `);
 				return null;
 			}
-			throw `Error in inReplyTo ${note.inReplyTo} - ${e.statusCode || e}`;
+			logger.warn(`Error in inReplyTo ${note.inReplyTo} - ${e.statusCode || e}`);
+			throw e;
 		})
 		: null;
 
@@ -163,7 +164,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 				logger.warn(`Ignored quote target ${note.inReplyTo} - ${e.statusCode} `);
 				return null;
 			}
-			throw `Error in quote target ${note.inReplyTo} - ${e.statusCode || e}`;
+			logger.warn(`Error in quote target ${note.inReplyTo} - ${e.statusCode || e}`);
+			throw e;
 		});
 	}
 
