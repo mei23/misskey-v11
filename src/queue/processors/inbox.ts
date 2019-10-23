@@ -90,8 +90,7 @@ export default async (job: Bull.Job): Promise<void> => {
 				logger.warn(`Ignored actor ${activity.actor} - ${e.statusCode}`);
 				return;
 			}
-			logger.error(`Error in actor ${activity.actor} - ${e.statusCode || e}`);
-			throw e;
+			throw `Error in actor ${activity.actor} - ${e.statusCode || e}`;
 		}
 	}
 

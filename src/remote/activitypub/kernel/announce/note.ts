@@ -46,8 +46,7 @@ export default async function(resolver: Resolver, actor: IRemoteUser, activity: 
 				logger.warn(`Ignored announce target: ${uri} => ${targetUri} - ${e.statusCode}`);
 				return;
 			}
-			logger.warn(`Error in announce target: ${uri} => ${targetUri} - ${e.statusCode || e}`);
-			throw e;
+			throw `Error in announce target: ${uri} => ${targetUri} - ${e.statusCode || e}`;
 		}
 
 		// skip unavailable
