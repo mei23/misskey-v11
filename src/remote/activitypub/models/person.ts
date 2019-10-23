@@ -3,7 +3,7 @@ import * as promiseLimit from 'promise-limit';
 import { toUnicode } from 'punycode';
 
 import config from '../../../config';
-import User, { validateUsername, isValidName, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
+import User, { validateUsername, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
 import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isPerson, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds } from '../type';
