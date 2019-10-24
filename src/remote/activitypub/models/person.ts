@@ -139,7 +139,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 	const isBot = object.type == 'Service';
 
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
-	const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);
+	// const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);
+	const alsoKnownAsUserIds: mongo.ObjectID[] = [];
 
 	// Create user
 	let user: IRemoteUser;
