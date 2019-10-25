@@ -88,7 +88,6 @@ export default Vue.extend({
 		this.connection.on('userRemoved', this.onUserRemoved);
 		this.connection.on('hostAdded', this.onHostAdded);
 		this.connection.on('hostRemoved', this.onHostRemoved);
-		this.connection.on('settingChanged', this.onSettingChanged);
 	},
 
 	beforeDestroy() {
@@ -116,10 +115,6 @@ export default Vue.extend({
 		},
 
 		onHostRemoved() {
-			this.$refs.timeline.reload();
-		},
-
-		onSettingChanged() {
 			this.$refs.timeline.reload();
 		},
 
