@@ -62,6 +62,7 @@ export default Vue.extend({
 			this.connection.on('userRemoved', this.onUserRemoved);
 			this.connection.on('hostAdded', this.onHostAdded);
 			this.connection.on('hostRemoved', this.onHostRemoved);
+			this.connection.on('settingChanged', this.onSettingChanged);
 },
 
 		onNote(note) {
@@ -84,6 +85,10 @@ export default Vue.extend({
 		onHostRemoved() {
 			(this.$refs.timeline as any).reload();
 		},
-	}
+
+		onSettingChanged() {
+			(this.$refs.timeline as any).reload();
+		},
+}
 });
 </script>
