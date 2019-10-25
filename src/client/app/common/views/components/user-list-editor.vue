@@ -34,6 +34,25 @@
 			</sequential-entrance>
 		</section>
 	</ui-card>
+
+	<ui-card>
+		<template #title><fa :icon="faUsers"/> {{ $t('hosts') }}</template>
+		<div style="margin: 8px">
+			<a @click="addHost">{{ $t('add-host') }}</a>
+		</div>
+		<section>
+			<sequential-entrance animation="entranceFromTop" delay="25">
+				<div class="hostsfl" v-for="host in list.hosts" :key="host">
+					<div>
+						{{ host }}
+					</div>
+					<div>
+						<a @click="removeHost(host)">{{ $t('remove-host') }}</a>
+					</div>
+				</div>
+			</sequential-entrance>
+		</section>
+	</ui-card>
 </div>
 </template>
 
@@ -138,14 +157,33 @@ export default Vue.extend({
 				listId: this.list.id,
 				userId: user.id
 			}).then(() => {
-				this.$root.api('users/lists/show', {
-					listId: this.list.id
-				}).then((list: any) => {
-					this.list = list;
-					this.fetchUsers();
+				this.fetchList();
+			});
+		},
+
+		addHost() {
+			this.$root.dialog({
+				title: this.$t('add-host'),
+				input: { }
+			}).then(({ canceled, result: host }) => {
+				if (canceled) return;
+				this.$root.api('users/lists/push-host', {
+					listId: this.list.id,
+					host
+				}).then(() => {
+					this.fetchList();
 				});
 			});
-		}
+		},
+
+		removeHost(host: string) {
+			this.$root.api('users/lists/pull-host', {
+				listId: this.list.id,
+				host
+			}).then(() => {
+				this.fetchList();
+			});
+		},
 	}
 });
 </script>
@@ -175,4 +213,6 @@ export default Vue.extend({
 					margin-left 8px
 					opacity 0.7
 
+	.hostsfl
+		margin-bottom 16px
 </style>

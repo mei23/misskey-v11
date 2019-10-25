@@ -784,6 +784,9 @@ common/views/components/user-list-editor.vue:
   delete-are-you-sure: "リスト「$1」を削除しますか？"
   deleted: "削除しました"
   hide-from-home: "これらのユーザーをホームに表示しない"
+  hosts: "ホスト"
+  add-host: "ホストの追加"
+  remove-host: "ホストを削除"
 
 common/views/components/user-lists.vue:
   create-list: "リストを作成"

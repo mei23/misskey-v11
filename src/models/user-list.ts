@@ -12,6 +12,7 @@ export interface IUserList {
 	title: string;
 	userId: mongo.ObjectID;
 	userIds: mongo.ObjectID[];
+	hosts?: string[];
 	hideFromHome?: boolean;
 }
 
@@ -37,6 +38,8 @@ export const pack = (
 	// Rename _id to id
 	_userList.id = _userList._id;
 	delete _userList._id;
+
+	_userList.hosts = _userList.hosts || [];
 
 	resolve(_userList);
 });
