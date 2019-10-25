@@ -22,7 +22,7 @@ export default function(note: any, mutedUserIds: string[], hideFromUsers?: strin
 		return true;
 	}
 
-	if (hideFromHosts && hideFromUsers.includes(note.user.host)) {
+	if (hideFromHosts && hideFromHosts.includes(note.user.host)) {
 		return true;
 	}
 
