@@ -2,7 +2,7 @@
 <mk-window ref="window" width="450px" height="500px" @closed="destroyDom">
 	<template #header><fa icon="list"/> {{ list.title }}</template>
 
-	<x-editor :list="list"/>
+	<x-editor :listId="list.id" @deleted="destroyDom()"/>
 </mk-window>
 </template>
 

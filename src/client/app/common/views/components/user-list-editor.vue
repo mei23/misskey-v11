@@ -6,7 +6,7 @@
 		<section>
 			<ui-button @click="rename"><fa :icon="faICursor"/> {{ $t('rename') }}</ui-button>
 			<ui-button @click="del"><fa :icon="faTrashAlt"/> {{ $t('delete') }}</ui-button>
-			<ui-switch v-model="hideFromHome" @change="update">{{ $t('hide-from-home') }}</ui-switch>
+			<ui-switch v-model="list.hideFromHome" @change="update">{{ $t('hide-from-home') }}</ui-switch>
 		</section>
 	</ui-card>
 
@@ -47,24 +47,33 @@ export default Vue.extend({
 	i18n: i18n('common/views/components/user-list-editor.vue'),
 
 	props: {
-		list: {
+		listId: {
 			required: true
 		}
 	},
 
 	data() {
 		return {
+			list: null,
 			users: [],
-			hideFromHome: !!(this.list as any).hideFromHome,
 			faList, faICursor, faTrashAlt, faUsers
 		};
 	},
 
 	mounted() {
-		this.fetchUsers();
+		this.fetchList();
 	},
 
 	methods: {
+		fetchList() {
+			this.$root.api('users/lists/show', {
+				listId: this.listId
+			}).then((list: any) => {
+				this.list = list;
+				this.fetchUsers();
+			});
+		},
+
 		fetchUsers() {
 			this.$root.api('users/show', {
 				userIds: this.list.userIds
@@ -77,12 +86,11 @@ export default Vue.extend({
 			this.$root.api('users/lists/update', {
 				listId: this.list.id,
 				title: this.list.title,
-				hideFromHome: this.hideFromHome
-			}).then(() => {
-				this.list.hideFromHome = this.hideFromHome;
+				hideFromHome: this.list.hideFromHome
+			}).then((list: any) => {
+				this.list = list;
 			});
 		},
-
 		rename() {
 			this.$root.dialog({
 				title: this.$t('rename'),
@@ -94,6 +102,8 @@ export default Vue.extend({
 				this.$root.api('users/lists/update', {
 					listId: this.list.id,
 					title: title
+				}).then((list: any) => {
+					this.list = list;
 				});
 			});
 		},
@@ -113,6 +123,7 @@ export default Vue.extend({
 						type: 'success',
 						text: this.$t('deleted')
 					});
+					this.$emit('deleted');
 				}).catch(e => {
 					this.$root.dialog({
 						type: 'error',
@@ -129,7 +140,7 @@ export default Vue.extend({
 			}).then(() => {
 				this.$root.api('users/lists/show', {
 					listId: this.list.id
-				}).then(list => {
+				}).then((list: any) => {
 					this.list = list;
 					this.fetchUsers();
 				});

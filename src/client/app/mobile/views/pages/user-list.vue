@@ -3,7 +3,7 @@
 	<template #header v-if="!fetching"><fa icon="list"/>{{ list.title }}</template>
 
 	<main v-if="!fetching">
-		<x-editor :list="list"/>
+		<x-editor :listId="list.id"/>
 	</main>
 </mk-ui>
 </template>
