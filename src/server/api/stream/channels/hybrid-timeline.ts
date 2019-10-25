@@ -14,6 +14,7 @@ export default class extends Channel {
 
 	private mutedUserIds: string[] = [];
 	private hideFromUsers: string[] = [];
+	private hideFromHosts: string[] = [];
 
 	@autobind
 	public async init(params: any) {
@@ -34,6 +35,7 @@ export default class extends Channel {
 		});
 
 		this.hideFromUsers = concat(lists.map(list => list.userIds)).map(x => x.toString());
+		this.hideFromHosts = concat(lists.map(list => list.hosts || []));
 	}
 
 	@autobind
@@ -52,7 +54,7 @@ export default class extends Channel {
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
-		if (shouldMuteThisNote(note, this.mutedUserIds, this.hideFromUsers)) return;
+		if (shouldMuteThisNote(note, this.mutedUserIds, this.hideFromUsers, this.hideFromHosts)) return;
 
 		this.send('note', note);
 	}

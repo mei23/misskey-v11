@@ -165,10 +165,6 @@ export default define(meta, async (ps, user) => {
 		throw new ApiError(meta.errors.noSuchList);
 	}
 
-	if (list.userIds.length == 0) {
-		return [];
-	}
-
 	//#region Construct query
 	const sort = {
 		_id: -1
@@ -193,7 +189,17 @@ export default define(meta, async (ps, user) => {
 			// 自分(フォロワー)が送信したリプライ
 			userId: user._id
 		}]*/
-	}));
+	})) as any;
+
+	if (list.hosts && list.hosts.length > 0) {
+		listQuery.push({
+			'_user.host': { $in: list.hosts }
+		});
+	}
+
+	if (listQuery.length == 0) {
+		return [];
+	}
 
 	const visibleQuery = [{
 		visibility: { $in: ['public', 'home'] }

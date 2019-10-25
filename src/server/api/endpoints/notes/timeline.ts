@@ -146,6 +146,7 @@ export default define(meta, async (ps, user) => {
 	]);
 
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
+	const hideFromHomeHosts = concat(hideFromHomeLists.map(list => list.hosts || []));
 
 	//#region Construct query
 	const sort = {
@@ -206,6 +207,10 @@ export default define(meta, async (ps, user) => {
 			},
 			'_renote.userId': {
 				$nin: hideUserIds
+			},
+
+			'_user.host': {
+				$nin: hideFromHomeHosts
 			},
 		}]
 	} as any;

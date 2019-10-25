@@ -5,7 +5,7 @@ function toString(id: any) {
 	return isObjectId(id) ? (id as mongo.ObjectID).toHexString() : id;
 }
 
-export default function(note: any, mutedUserIds: string[], hideFromUsers?: string[]): boolean {
+export default function(note: any, mutedUserIds: string[], hideFromUsers?: string[], hideFromHosts?: string[]): boolean {
 	if (mutedUserIds.includes(toString(note.userId))) {
 		return true;
 	}
@@ -19,6 +19,10 @@ export default function(note: any, mutedUserIds: string[], hideFromUsers?: strin
 	}
 
 	if (hideFromUsers && hideFromUsers.includes(toString(note.userId))) {
+		return true;
+	}
+
+	if (hideFromHosts && hideFromUsers.includes(note.user.host)) {
 		return true;
 	}
 
