@@ -8,6 +8,7 @@ import activeUsersChart from '../../../../services/chart/active-users';
 import { getHideUserIds } from '../../common/get-hide-users';
 import UserList from '../../../../models/user-list';
 import { concat } from '../../../../prelude/array';
+import { isSelfHost } from '../../../../misc/convert-host';
 
 export const meta = {
 	desc: {
@@ -146,7 +147,7 @@ export default define(meta, async (ps, user) => {
 	]);
 
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
-	const hideFromHomeHosts = concat(hideFromHomeLists.map(list => list.hosts || []));
+	const hideFromHomeHosts = concat(hideFromHomeLists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
 
 	//#region Construct query
 	const sort = {

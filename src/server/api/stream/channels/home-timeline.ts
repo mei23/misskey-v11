@@ -5,6 +5,7 @@ import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import Channel from '../channel';
 import { concat } from '../../../../prelude/array';
 import UserList from '../../../../models/user-list';
+import { isSelfHost } from '../../../../misc/convert-host';
 
 export default class extends Channel {
 	public readonly chName = 'homeTimeline';
@@ -30,7 +31,7 @@ export default class extends Channel {
 		});
 
 		this.hideFromUsers = concat(lists.map(list => list.userIds)).map(x => x.toString());
-		this.hideFromHosts = concat(lists.map(list => list.hosts || []));
+		this.hideFromHosts = concat(lists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
 	}
 
 	@autobind

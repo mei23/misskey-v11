@@ -7,6 +7,7 @@ import define from '../../define';
 import { getFriends } from '../../common/get-friends';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
+import { isSelfHost } from '../../../../misc/convert-host';
 
 export const meta = {
 	desc: {
@@ -193,7 +194,7 @@ export default define(meta, async (ps, user) => {
 
 	if (list.hosts && list.hosts.length > 0) {
 		listQuery.push({
-			'_user.host': { $in: list.hosts }
+			'_user.host': { $in: list.hosts.map(x => isSelfHost(x) ? null : x) }
 		});
 	}
 

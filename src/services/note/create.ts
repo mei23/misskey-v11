@@ -35,6 +35,7 @@ import extractMentions from '../../misc/extract-mentions';
 import extractEmojis from '../../misc/extract-emojis';
 import extractHashtags from '../../misc/extract-hashtags';
 import { genId } from '../../misc/gen-id';
+import { toDbHost } from '../../misc/convert-host';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention' | 'highlight';
 
@@ -630,14 +631,12 @@ async function notifyExtended(text: string, nm: NotificationManager) {
 }
 
 async function publishToUserLists(note: INote, noteObj: any) {
-	const lists = await UserList.find(note._user.host ? {
+	const lists = await UserList.find({
 		$or: [{
 			userIds: note.userId
 		}, {
-			hosts: note._user.host
+			hosts: toDbHost(note._user.host || config.host)
 		}]
-	} : {
-		userIds: note.userId
 	});
 
 	for (const list of lists) {
