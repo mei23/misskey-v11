@@ -630,12 +630,14 @@ async function notifyExtended(text: string, nm: NotificationManager) {
 }
 
 async function publishToUserLists(note: INote, noteObj: any) {
-	const lists = await UserList.find({
+	const lists = await UserList.find(note._user.host ? {
 		$or: [{
 			userIds: note.userId
 		}, {
 			hosts: note._user.host
 		}]
+	} : {
+		userIds: note.userId
 	});
 
 	for (const list of lists) {
