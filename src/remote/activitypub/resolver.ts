@@ -62,7 +62,6 @@ export default class Resolver {
 				name: e.name,
 				statusCode: e.statusCode,
 				message,
-				toString: () => message
 			};
 		});
 
