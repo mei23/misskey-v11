@@ -86,7 +86,7 @@ export default async function renderNote(note: INote, dive = true): Promise<any>
 	const hashtagTags = (note.tags || []).map(tag => renderHashtag(tag));
 	const mentionTags = mentionedUsers.map(u => renderMention(u));
 
-	const files = (await Promise.all(note.fileIds.map(x => DriveFile.findOne(x)))).filter(x => x != null);
+	const files = (await Promise.all((note.fileIds || []).map(x => DriveFile.findOne(x)))).filter(x => x != null);
 
 	let text = note.text;
 
