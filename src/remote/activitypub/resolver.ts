@@ -57,9 +57,12 @@ export default class Resolver {
 			},
 			json: true
 		}).catch(e => {
+			const message = `${e.name}: ${e.message ? e.message.substr(0, 200) : undefined}, url=${value}`;
 			throw {
+				name: e.name,
 				statusCode: e.statusCode,
-				message: e.message ? e.message.substr(0, 200) : undefined
+				message,
+				toString: () => message
 			};
 		});
 
