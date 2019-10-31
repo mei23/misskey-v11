@@ -157,8 +157,8 @@ export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 			const a = doc.createElement('a');
 			const { username, host, acct } = token.node.props;
 			const remoteUserInfo = mentionedRemoteUsers.find(remoteUser => remoteUser.username === username && remoteUser.host === host);
-			a.href = remoteUserInfo ? remoteUserInfo.uri : `${config.url}/${acct}`;
-			a.className = 'mention';
+			a.href = remoteUserInfo ? (remoteUserInfo.url || remoteUserInfo.uri) : `${config.url}/${acct}`;
+			a.className = 'u-url mention';
 			a.textContent = acct;
 			return a;
 		},

@@ -538,6 +538,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 		insert.mentions = mentionedUsers.map(u => u._id);
 		insert.mentionedRemoteUsers = mentionedUsers.filter(u => isRemoteUser(u)).map(u => ({
 			uri: (u as IRemoteUser).uri,
+			url: (u as IRemoteUser).url,
 			username: u.username,
 			host: u.host
 		}));

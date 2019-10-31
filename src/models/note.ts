@@ -60,6 +60,7 @@ export type INote = {
 	mentions: mongo.ObjectID[];
 	mentionedRemoteUsers: {
 		uri: string;
+		url?: string;
 		username: string;
 		host: string;
 	}[];
