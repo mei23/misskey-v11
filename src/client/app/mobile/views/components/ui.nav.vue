@@ -67,7 +67,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { lang } from '../../../config';
 import { faNewspaper, faHashtag, faHome, faColumns, faSync } from '@fortawesome/free-solid-svg-icons';
 import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';
 
@@ -84,7 +83,7 @@ export default Vue.extend({
 		return {
 			hasGameInvitation: false,
 			connection: null,
-			aboutUrl: `/docs/${lang}/about`,
+			aboutUrl: `/docs/ja-JP/about`,
 			announcements: [],
 			searching: false,
 			showNotifications: false,

@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { url, lang } from './config';
+import { url } from './config';
 
 export default Vue.extend({
 	computed: {
@@ -18,7 +18,7 @@ export default Vue.extend({
 
 	methods: {
 		help() {
-			window.open(`${url}/docs/${lang}/keyboard-shortcut`, '_blank');
+			window.open(`${url}/docs/ja-JP/keyboard-shortcut`, '_blank');
 		},
 
 		dark() {
