@@ -26,7 +26,7 @@
 				<option value="300">5 {{ $t('minute') }}</option>
 				<option value="3600">1 {{ $t('hour') }}</option>
 				<option value="86400">1 {{ $t('day') }}</option>
-				<option value="604800">30 {{ $t('day') }}</option>
+				<option value="604800">7 {{ $t('day') }}</option>
 				<option value="31536000">365 {{ $t('day') }}</option>
 				<option value="after">{{ $t('after') }}</option>
 			</ui-select>
