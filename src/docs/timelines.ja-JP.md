@@ -1,17 +1,17 @@
 # タイムラインの比較
 
-https://docs.google.com/spreadsheets/d/1lxQ2ugKrhz58Bg96HTDK_2F98BUritkMyIiBkOByjHA/edit?usp=sharing
+タイムラインには以下の違いがあります
 
 ## ホーム
-自分のフォローしているユーザーの投稿
+自分がフォローしているユーザーの投稿
 
 ## ローカル
-全てのローカルユーザーの「ホーム」指定されていない投稿
+ローカルユーザーが「公開」で投稿した投稿
 
 ## ソーシャル
-自分のフォローしているユーザーの投稿と、全てのローカルユーザーの「ホーム」指定されていない投稿
+ローカル＋ホーム
 
 ## グローバル
-全てのローカルユーザーの「ホーム」指定されていない投稿と、サーバーに届いた全てのリモートユーザーの「ホーム」指定されていない投稿
+ローカル/リモートユーザーが「公開」で投稿した投稿
 
-<div class="copyright"><small>Copyright (c) 2014-2019 syuilo</small></div>
+<div class="copyright"><small>Copyright (c) 2014-2019 syuilo, 2019 mei23</small></div>
