@@ -701,17 +701,18 @@ common/views/components/uploader.vue:
 
 common/views/components/visibility-chooser.vue:
   public: "公開"
+  public-desc: "公開タイムライン (ローカル/グローバル) に表示する"
   home: "ホーム"
-  home-desc: "ホームタイムラインにのみ公開"
+  home-desc: "公開タイムラインには表示しない"
   followers: "フォロワー"
-  followers-desc: "自分のフォロワーにのみ公開"
+  followers-desc: "フォロワーにのみ公開"
   specified: "ダイレクト"
   specified-desc: "指定したユーザーにのみ公開"
   local-public: "公開 (ローカルのみ)"
   local-public-desc: "リモートへは公開しない"
   local-home: "ホーム (ローカルのみ)"
   local-followers: "フォロワー (ローカルのみ)"
-
+ 
 common/views/components/trends.vue:
   count: "{}人が投稿"
   empty: "トレンドなし"

@@ -6,6 +6,7 @@
 			<x-visibility-icon v="public"/>
 			<div>
 				<span>{{ $t('public') }}</span>
+				<span>{{ $t('public-desc') }}</span>
 			</div>
 		</div>
 		<div @click="choose('home')" :class="{ active: v == 'home' }">
