@@ -29,12 +29,7 @@
 					<mk-time :time="appearNote.createdAt"/>
 				</router-link>
 				<div class="visibility-info">
-					<span class="visibility" v-if="appearNote.visibility != 'public'">
-						<fa class="home" v-if="appearNote.visibility == 'home'" :title="$t('@.note-visibility.home')" icon="home"/>
-						<fa class="followers" v-if="appearNote.visibility == 'followers'" :title="$t('@.note-visibility.followers')" icon="lock"/>
-						<fa class="specified" v-if="appearNote.visibility == 'specified'" :title="$t('@.note-visibility.specified')" icon="envelope"/>
-					</span>
-					<span class="localOnly" v-if="appearNote.localOnly == true" :title="$t('@.note-visibility.local-only')"><fa icon="heart"/></span>
+				<x-visibility-icon class="visibility" :v="appearNote.visibility" :localOnly="appearNote.localOnly"/>
 					<span class="remote" title="Remote post" v-if="appearNote.user.host != null"><fa :icon="faGlobeAmericas"/></span>
 				</div>
 			</div>
@@ -103,11 +98,13 @@ import XSub from './note.sub.vue';
 import noteSubscriber from '../../../common/scripts/note-subscriber';
 import noteMixin from '../../../common/scripts/note-mixin';
 import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
+import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/note-detail.vue'),
 
 	components: {
+		XVisibilityIcon,
 		XSub
 	},
 
@@ -262,13 +259,11 @@ export default Vue.extend({
 				> .visibility-info
 					text-align: right
 					color var(--noteHeaderInfo)
+					display inline-block
 
-					> .visibility 
-						color var(--noteActionsReactionHover)
-
-					> .localOnly
-						margin-left 4px
-						color var(--primary)
+					> .visibility
+						margin-left 8px
+						display inline-block
 
 					> .remote
 						margin-left 4px
