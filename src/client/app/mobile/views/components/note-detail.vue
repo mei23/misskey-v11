@@ -46,6 +46,7 @@
 					<mk-note-preview :note="appearNote.renote"/>
 				</div>
 			</div>
+			<span class="app" v-if="appearNote.app && $store.state.settings.showVia">via <b>{{ appearNote.app.name }}</b></span>
 		</div>
 		<router-link class="time" :to="appearNote | notePage">
 			<mk-time :time="appearNote.createdAt" mode="detail"/>
@@ -315,6 +316,10 @@ export default Vue.extend({
 					> img
 						display block
 						max-width 100%
+
+			> .app
+				font-size 12px
+				color #ccc
 
 		> .time
 			font-size 16px

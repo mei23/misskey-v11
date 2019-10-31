@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<footer v-if="appearNote.deletedAt == null && !preview" class="footer">
-				<span class="app" v-if="appearNote.app && narrow && $store.state.settings.showVia">via <b>{{ appearNote.app.name }}</b></span>
+				<span class="app" v-if="appearNote.app && narrow && detail && $store.state.settings.showVia">via <b>{{ appearNote.app.name }}</b></span>
 				<mk-reactions-viewer :note="appearNote" ref="reactionsViewer"/>
 				<button class="replyButton button" @click="reply()" :title="$t('reply')">
 					<template v-if="appearNote.reply"><fa icon="reply-all"/></template>
