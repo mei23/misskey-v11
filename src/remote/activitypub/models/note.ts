@@ -22,6 +22,7 @@ import { deliverQuestionUpdate } from '../../../services/note/polls/update';
 import Instance from '../../../models/instance';
 import { extractDbHost, extractApHost } from '../../../misc/convert-host';
 import { getApLock } from '../../../misc/app-lock';
+import { createMessage } from '../../../services/messages/create';
 
 const logger = apLogger;
 
@@ -215,6 +216,12 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	// ユーザーの情報が古かったらついでに更新しておく
 	if (actor.lastFetchedAt == null || Date.now() - actor.lastFetchedAt.getTime() > 1000 * 60 * 60 * 24) {
 		updatePerson(actor.uri);
+	}
+
+	if (note._misskey_talk && visibility === 'specified') {
+		for (const recipient of visibleUsers) {
+			return await createMessage(actor, recipient, text, (files && files.length > 0) ? files[0] : undefined);
+		}
 	}
 
 	return await post(actor, {
