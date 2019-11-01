@@ -72,6 +72,7 @@ export async function createMessage(user: IUser, recipient: IUser, text: string,
 			text: message.text,
 			userId: message.userId,
 			visibility: 'specified',
+			mentions: [ recipient ].map(u => u._id),
 			mentionedRemoteUsers: [ {
 				uri: recipient.uri,
 				username: recipient.username,
