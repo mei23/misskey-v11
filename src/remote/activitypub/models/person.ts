@@ -497,7 +497,7 @@ export async function updateFeatured(userId: mongo.ObjectID) {
 	const limit = promiseLimit(2);
 	const featuredNotes = await Promise.all(items
 		.filter(item => item.type === 'Note')
-		.slice(0, 5)
+		.slice(0, 20)
 		.map(item => limit(() => resolveNote(item, resolver)) as Promise<INote>));
 
 	await User.update({ _id: user._id }, {
