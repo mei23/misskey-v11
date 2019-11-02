@@ -94,7 +94,7 @@ export default Vue.extend({
 					Progress.done();
 				});
 			} else {
-				this.$root.api('users/show', parseAcct(acct)).then(user => {
+				this.$root.api('users/show', parseAcct(acct)).then((user: any) => {
 					this.user = user;
 				}).catch((e: any) => {
 					this.$root.dialog({
