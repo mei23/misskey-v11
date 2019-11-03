@@ -113,9 +113,10 @@
 				<ui-input v-model="reactions" style="font-family: 'Segoe UI Emoji', 'Noto Color Emoji'">
 					{{ $t('@._settings.reactions') }}<template #desc>{{ $t('@._settings.reactions-description') }}</template>
 				</ui-input>
-				<ui-button @click="setDefaultReaction">
-					Default
-				</ui-button>
+				<ui-horizon-group>
+					<ui-button @click="setDefaultReactions">Default</ui-button>
+					<ui-button @click="setRandomReactions">Random</ui-button>
+				</ui-horizon-group>
 			</section>
 
 			<section v-if="isAdvanced">
@@ -328,6 +329,7 @@ import XProfile from './profile.vue';
 import XApi from './api.vue';
 import XLanguage from './language.vue';
 import XNotification from './notification.vue';
+import { emojilist } from '../../../../../../misc/emojilist';
 
 import { url, version } from '../../../../config';
 import checkForUpdate from '../../../scripts/check-for-update';
@@ -671,8 +673,18 @@ export default Vue.extend({
 			sound.volume = this.$store.state.device.soundVolume;
 			sound.play();
 		},
-		setDefaultReaction() {
-			this.$store.dispatch('settings/set', { key: 'reactions', value: ['👍', '❤', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', 'pudding'] }); }
+		setDefaultReactions() {
+			this.$store.dispatch('settings/set', { key: 'reactions', value: ['👍', '❤', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', 'pudding'] });
+		},
+		setRandomReactions() {
+			const list = emojilist.filter(x => x.category !== 'flags');
+			const a = [];
+			for (let i = 0; i < 15; i++) {
+				const index = Math.floor(Math.random() * list.length);
+				const char = list[index].char;
+				a.push(char);
+			}
+			this.$store.dispatch('settings/set', { key: 'reactions', value: a });
 		}
 	}
 });
