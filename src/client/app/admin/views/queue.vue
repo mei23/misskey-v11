@@ -73,17 +73,16 @@
 					<option value="delayed">{{ $t('states.delayed') }}</option>
 				</ui-select>
 			</ui-horizon-group>
-			<sequential-entrance animation="entranceFromTop" delay="25">
-				<div class="xvvuvgsv" v-for="job in jobs">
-					<b>{{ job.id }}</b>
-					<template v-if="domain === 'deliver'">
-						<span>{{ job.data.to }}</span>
-					</template>
-					<template v-if="domain === 'inbox'">
-						<span>{{ job.activity.id }}</span>
-					</template>
-				</div>
-			</sequential-entrance>
+			<div class="xvvuvgsv" v-for="job in jobs" :key="job.id">
+				<b>{{ job.id }}</b>
+				<span>attempts={{ job.attempts }}, {{ new Date(job.timestamp).toLocaleString() }} </span>
+				<template v-if="domain === 'deliver'">
+					<span>{{ job.data.to }}</span>
+				</template>
+				<template v-if="domain === 'inbox'">
+					<span>{{ job.activity.id }}</span>
+				</template>
+			</div>
 			<ui-info v-if="jobs.length == jobsLimit">{{ $t('result-is-truncated', { n: jobsLimit }) }}</ui-info>
 		</section>
 	</ui-card>
@@ -109,7 +108,7 @@ export default Vue.extend({
 			deliverChart: null,
 			inboxChart: null,
 			jobs: [],
-			jobsLimit: 50,
+			jobsLimit: 1000,
 			domain: 'deliver',
 			state: 'delayed',
 			faTasks, faPaperPlane, faInbox, faStopwatch, faStopCircle, farPlayCircle, fasPlayCircle, faChartBar
