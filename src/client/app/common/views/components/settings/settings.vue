@@ -459,7 +459,7 @@ export default Vue.extend({
 
 		reactions: {
 			get() { return this.$store.state.settings.reactions.join(' '); },
-			set(value: string) { this.$store.dispatch('settings/set', { key: 'reactions', value: value.split(/\s+/) }); }
+			set(value: string) { this.$store.dispatch('settings/set', { key: 'reactions', value: value.trim().split(/\s+/) }); }
 		},
 
 		useShadow: {
