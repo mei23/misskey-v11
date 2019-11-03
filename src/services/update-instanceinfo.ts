@@ -57,7 +57,7 @@ export async function UpdateInstanceinfo(instance: IInstance) {
 	logger.info(JSON.stringify(info, null, 2));
 
 	await Instance.update({ _id: instance._id }, {
-		Sset: {
+		$set: {
 			infoUpdatedAt: new Date(),
 			softwareName: info.softwareName,
 			softwareVersion: info.softwareVersion,
