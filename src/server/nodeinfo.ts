@@ -35,6 +35,9 @@ const nodeinfo2 = async () => {
 		// Note.count({ '_user.host': null, replyId: { $ne: null } })
 	]);
 
+	const nodeName = meta.name || 'Misskey';
+	const nodeDescription = meta.description || '';
+
 	return {
 		software: {
 			name: 'misskey',
@@ -53,8 +56,10 @@ const nodeinfo2 = async () => {
 			// localComments
 		},
 		metadata: {
-			name: meta.name,
-			description: meta.description,
+			nodeName,
+			nodeDescription,
+			name: nodeName,
+			description: nodeDescription,
 			maintainer: meta.maintainer,
 			langs: meta.langs,
 			announcements: meta.announcements,
@@ -75,6 +80,7 @@ const nodeinfo2 = async () => {
 router.get(nodeinfo2_1path, async ctx => {
 	const base = await nodeinfo2();
 
+	ctx.set('Cache-Control', 'public, max-age=180');
 	ctx.body = { version: '2.1', ...base };
 });
 
@@ -83,6 +89,7 @@ router.get(nodeinfo2_0path, async ctx => {
 
 	delete base.software.repository;
 
+	ctx.set('Cache-Control', 'public, max-age=180');
 	ctx.body = { version: '2.0', ...base };
 });
 
