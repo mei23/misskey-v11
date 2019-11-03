@@ -29,8 +29,6 @@
 						<span>{{ $t('users') }}</span>
 						<template #prefix><fa :icon="faUsers"/></template>
 					</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group inputs>
 					<ui-input :value="instance.followingCount | number" type="text" readonly>
 						<span>{{ $t('following') }}</span>
 						<template #prefix><fa :icon="faCaretDown"/></template>
@@ -49,15 +47,41 @@
 						<span>{{ $t('status') }}</span>
 						<template #prefix><fa :icon="faTrafficLight"/></template>
 					</ui-input>
+					<ui-input :value="instance.latestRequestReceivedAt | date" type="text" readonly>
+						<span>{{ $t('latest-request-received-at') }}</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
 				</ui-horizon-group>
-				<ui-input :value="instance.latestRequestReceivedAt | date" type="text" readonly>
-					<span>{{ $t('latest-request-received-at') }}</span>
-					<template #prefix><fa :icon="faInbox"/></template>
-				</ui-input>
-				<ui-input :value="instance.system" type="text" readonly>
-					<span>{{ $t('system') }}</span>
-					<template #prefix><fa :icon="faInbox"/></template>
-				</ui-input>
+				<ui-horizon-group inputs>
+					<ui-input :value="instance.softwareName" type="text" readonly>
+						<span>{{ $t('softwareName') }}</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+					<ui-input :value="instance.softwareVersion" type="text" readonly>
+						<span>{{ $t('softwareVersion') }}</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+				</ui-horizon-group>
+				<ui-horizon-group inputs>
+					<ui-input :value="instance.name" type="text" readonly>
+						<span>{{ $t('name') }}</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+					<ui-input :value="instance.description" type="text" readonly>
+						<span>{{ $t('description') }}</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+				</ui-horizon-group>
+				<ui-horizon-group inputs>
+					<ui-input :value="instance.maintainerName" type="text" readonly>
+						<span>{{ $t('maintainerName') }}</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+					<ui-input :value="instance.maintainerEmail" type="text" readonly>
+						<span>{{ $t('maintainerEmail') }}</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+				</ui-horizon-group>
 				<ui-switch v-model="instance.isBlocked" @change="updateInstance()">{{ $t('block') }}</ui-switch>
 				<ui-switch v-model="instance.isMarkedAsClosed" @change="updateInstance()">{{ $t('marked-as-closed') }}</ui-switch>
 				<details>
@@ -135,8 +159,10 @@
 					<span>{{ $t('status') }}</span>
 				</header>
 				<div v-for="instance in instances" :style="{ opacity: instance.isNotResponding ? 0.5 : 1 }">
-					<a @click.prevent="showInstance(instance.host)" rel="nofollow noopener" target="_blank" :href="`https://${instance.host}`" :style="{ textDecoration: instance.isMarkedAsClosed ? 'line-through' : 'none' }">{{ instance.host }}</a>
-					<span>{{ instance.system }}</span>
+					<a @click.prevent="showInstance(instance.host)" rel="nofollow noopener" target="_blank" :href="`https://${instance.host}`" :style="{ textDecoration: instance.isMarkedAsClosed ? 'line-through' : 'none' }">
+						{{ `${instance.host} ${instance.name ? ` (${instance.name})` : ''}` }}
+					</a>
+					<span>{{ `${instance.softwareName || 'unknown'} ${instance.softwareVersion || ''}` }}</span>
 					<span>{{ instance.notesCount | number }}</span>
 					<span>{{ instance.usersCount | number }}</span>
 					<span>{{ instance.followingCount | number }}</span>
