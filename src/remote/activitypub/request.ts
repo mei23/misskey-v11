@@ -21,7 +21,7 @@ const agent = config.proxy
 		});
 
 export default async (user: ILocalUser, url: string, object: any) => {
-	const timeout = 10 * 1000;
+	const timeout = 20 * 1000;
 
 	const { protocol, host, hostname, port, pathname, search } = new URL(url);
 
