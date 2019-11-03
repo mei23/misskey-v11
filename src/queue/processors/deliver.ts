@@ -4,6 +4,7 @@ import { registerOrFetchInstanceDoc } from '../../services/register-or-fetch-ins
 import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
 import Logger from '../../services/logger';
+import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 
 const logger = new Logger('deliver');
 
@@ -29,6 +30,8 @@ export default async (job: Bull.Job) => {
 					isNotResponding: false
 				}
 			});
+
+			UpdateInstanceinfo(i);
 
 			instanceChart.requestSent(i.host, true);
 		});

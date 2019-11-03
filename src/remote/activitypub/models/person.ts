@@ -25,6 +25,8 @@ import { INote } from '../../../models/note';
 import { updateUsertags } from '../../../services/update-hashtag';
 import FollowRequest from '../../../models/follow-request';
 import { toArray, toSingle } from '../../../prelude/array';
+import { UpdateInstanceinfo } from '../../../services/update-instanceinfo';
+import { extractDbHost } from '../../../misc/convert-host';
 const logger = apLogger;
 
 /**
@@ -195,6 +197,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 				usersCount: 1
 			}
 		});
+
+		UpdateInstanceinfo(i);
 
 		instanceChart.newUser(i.host);
 	});
@@ -401,6 +405,10 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 	await updateFeatured(exist._id).catch(err => logger.error(err));
 
 	fetchOutbox(exist._id).catch(err => logger.warn(err));
+
+	registerOrFetchInstanceDoc(extractDbHost(uri)).then(i => {
+		UpdateInstanceinfo(i);
+	});
 }
 
 /**
