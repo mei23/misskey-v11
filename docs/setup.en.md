@@ -53,9 +53,9 @@ As root:
 
 	`cd misskey`
 
-4. Checkout the mei-love branch
+4. Checkout the mei-m544 branch
 
-	`git checkout mei-love`
+	`git checkout mei-m544`
 
 5. Install misskey dependencies.
 

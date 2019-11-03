@@ -60,9 +60,9 @@ adduser --disabled-password --disabled-login misskey
 
 	`cd misskey`
 
-4. mei-love を checkout
+4. mei-m544 を checkout
 
-	`git checkout mei-love`
+	`git checkout mei-m544`
 
 5. Misskeyの依存パッケージをインストール
 
