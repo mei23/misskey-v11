@@ -41,7 +41,6 @@ export async function UpdateInstanceinfo(instance: IInstance) {
 	if (!_instance) throw 'Instance is not registed';
 
 	const now = Date.now();
-	console.log('old', JSON.stringify(_instance, null, 2));
 	if (_instance.infoUpdatedAt && (now - _instance.infoUpdatedAt.getTime() < 1000 * 60 * 60 * 24)) {
 		return;
 	}
