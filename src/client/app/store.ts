@@ -42,7 +42,7 @@ const defaultSettings = {
 			useAvatarStones: true,
 		}
 	},
-	reactions: ['👍', '❤', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', 'pudding']
+	reactions: ['👍', '❤', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', '🍮']
 };
 
 const defaultDeviceSettings = Object.assign({

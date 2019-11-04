@@ -119,7 +119,7 @@
 				</ui-horizon-group>
 				<ui-horizon-group>
 					<ui-button @click="previewReaction()" ref="reactionsPreviewButton"><fa :icon="faEye"/> {{ $t('@._settings.preview') }}</ui-button>
-					<ui-button @click="save('reactions', reactions.trim().split(/\s+/))" primary><fa :icon="faSave"/> {{ $t('@._settings.save') }}</ui-button>
+					<ui-button @click="save('reactions', splitedReactions)" primary><fa :icon="faSave"/> {{ $t('@._settings.save') }}</ui-button>
 				</ui-horizon-group>
 			</section>
 
@@ -340,6 +340,7 @@ import checkForUpdate from '../../../scripts/check-for-update';
 
 import { faSave, faEye } from '@fortawesome/free-regular-svg-icons';
 import { faUndoAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
+import { emojiRegex } from '../../../../../../misc/emoji-regex';
 
 export default Vue.extend({
 	i18n: i18n(),
@@ -370,7 +371,7 @@ export default Vue.extend({
 		return {
 			meta: null,
 			version,
-			reactions: this.$store.state.settings.reactions.join(' '),
+			reactions: this.$store.state.settings.reactions.join(''),
 			latestVersion: undefined,
 			checkingForUpdate: false,
 			faSave, faEye, faUndoAlt, faRandom
@@ -379,7 +380,13 @@ export default Vue.extend({
 	computed: {
 		isAdvanced(): boolean {
 			return this.$store.state.device.showAdvancedSettings;
-		}
+		},
+
+		splitedReactions(): any {
+			const re = new RegExp(emojiRegex, 'g');
+			const emojis = this.reactions.match(re);
+			return emojis;
+		},
 
 		useOsDefaultEmojis: {
 			get() { return this.$store.state.device.useOsDefaultEmojis; },
@@ -624,6 +631,11 @@ export default Vue.extend({
 		this.$root.getMeta().then(meta => {
 			this.meta = meta;
 		});
+
+		// 以前の擬態プリンが設定されていた場合は絵文字に置き換える
+		try {
+			this.reactions.replace('pudding', this.$store.state.settings.iLikeSushi ? '🍣' : '🍮')
+		} catch { }
 	},
 	methods: {
 		reload() {
@@ -689,7 +701,7 @@ export default Vue.extend({
 			sound.play();
 		},
 		setDefaultReactions() {
-			this.reactions = '👍 ❤ 😆 🤔 😮 🎉 💢 😥 😇 pudding';
+			this.reactions = '👍❤😆🤔😮🎉💢😥😇' + (this.$store.state.settings.iLikeSushi ? '🍣' : '🍮');
 		},
 		setRandomReactions() {
 			const list = emojilist.filter(x => x.category !== 'flags');
@@ -699,12 +711,12 @@ export default Vue.extend({
 				const char = list[index].char;
 				a.push(char);
 			}
-			this.reactions = a.join(' ');
+			this.reactions = a.join('');
 		},
 		previewReaction() {
 			const picker = this.$root.new(MkReactionPicker, {
 				source: this.$refs.reactionsPreviewButton.$el,
-				reactions: this.reactions.trim().split(/\s/),
+				reactions: this.splitedReactions,
 				showFocus: false,
 			});
 			picker.$once('chosen', reaction => {
