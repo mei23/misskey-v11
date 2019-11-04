@@ -23,8 +23,6 @@ export default async (user: ILocalUser, url: string, object: any) => {
 
 	const { protocol, hostname, port, pathname, search } = new URL(url);
 
-	logger.info(`--> ${url}`);
-
 	const data = JSON.stringify(object);
 
 	const sha256 = crypto.createHash('sha256');
