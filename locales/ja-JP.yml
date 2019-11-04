@@ -148,7 +148,7 @@ common:
     appearance: "デザイン"
     behavior: "動作"
     reactions: "リアクション"
-    reactions-description: "リアクションピッカーに表示するリアクションをスペースで区切って設定します。"
+    reactions-description: "リアクションピッカーに表示する絵文字を入力します。"
     fetch-on-scroll: "スクロールで自動読み込み"
     fetch-on-scroll-desc: "ページを下までスクロールしたときに自動で追加のコンテンツを読み込みます。"
     note-visibility: "投稿の公開範囲"
