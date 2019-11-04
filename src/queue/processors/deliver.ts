@@ -18,12 +18,10 @@ export default async (job: Bull.Job) => {
 	// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
 	const instance = await Instance.findOne({ host: toDbHost(host) });
 	if (instance && instance.isBlocked) {
-		logger.info(`skip (blocked) ${job.data.to}`);
-		return null;
+		return 'skip (blocked)';
 	}
 	if (instance && instance.isMarkedAsClosed) {
-		logger.info(`skip (closed) ${job.data.to}`);
-		return null;
+		return 'skip (closed)';
 	}
 
 	try {
