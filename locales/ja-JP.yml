@@ -245,6 +245,9 @@ common:
     sync: "同期"
     save: "保存"
     saved: "保存しました"
+    default: デフォルト
+    random: ランダム
+    preview: "プレビュー"
     home-profile: "ホームのプロファイル"
     deck-profile: "デッキのプロファイル"
     room: "ルーム"

@@ -114,8 +114,12 @@
 					{{ $t('@._settings.reactions') }}<template #desc>{{ $t('@._settings.reactions-description') }}</template>
 				</ui-input>
 				<ui-horizon-group>
-					<ui-button @click="setDefaultReactions">Default</ui-button>
-					<ui-button @click="setRandomReactions">Random</ui-button>
+					<ui-button @click="setDefaultReactions"><fa :icon="faUndoAlt"/> {{ $t('@._settings.default') }}</ui-button>
+					<ui-button @click="setRandomReactions"><fa :icon="faRandom"/> {{ $t('@._settings.random') }}</ui-button>
+				</ui-horizon-group>
+				<ui-horizon-group>
+					<ui-button @click="previewReaction()" ref="reactionsPreviewButton"><fa :icon="faEye"/> {{ $t('@._settings.preview') }}</ui-button>
+					<ui-button @click="save('reactions', reactions.trim().split(/\s+/))" primary><fa :icon="faSave"/> {{ $t('@._settings.save') }}</ui-button>
 				</ui-horizon-group>
 			</section>
 
@@ -329,10 +333,13 @@ import XProfile from './profile.vue';
 import XApi from './api.vue';
 import XLanguage from './language.vue';
 import XNotification from './notification.vue';
+import MkReactionPicker from '../reaction-picker.vue';
 import { emojilist } from '../../../../../../misc/emojilist';
-
 import { url, version } from '../../../../config';
 import checkForUpdate from '../../../scripts/check-for-update';
+
+import { faSave, faEye } from '@fortawesome/free-regular-svg-icons';
+import { faUndoAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n(),
@@ -363,8 +370,10 @@ export default Vue.extend({
 		return {
 			meta: null,
 			version,
+			reactions: this.$store.state.settings.reactions.join(' '),
 			latestVersion: undefined,
-			checkingForUpdate: false
+			checkingForUpdate: false,
+			faSave, faEye, faUndoAlt, faRandom
 		};
 	},
 	computed: {
@@ -455,11 +464,6 @@ export default Vue.extend({
 		disableViaMobile: {
 			get() { return this.$store.state.settings.disableViaMobile; },
 			set(value) { this.$store.dispatch('settings/set', { key: 'disableViaMobile', value }); }
-		},
-
-		reactions: {
-			get() { return this.$store.state.settings.reactions.join(' '); },
-			set(value: string) { this.$store.dispatch('settings/set', { key: 'reactions', value: value.trim().split(/\s+/) }); }
 		},
 
 		useShadow: {
@@ -633,6 +637,17 @@ export default Vue.extend({
 				}
 			});
 		},
+		save(key, value) {
+			this.$store.dispatch('settings/set', {
+				key,
+				value
+			}).then(() => {
+				this.$root.dialog({
+					type: 'success',
+					text: this.$t('@._settings.saved')
+				})
+			});
+		},
 		customizeHome() {
 			location.href = '/?customize';
 		},
@@ -674,7 +689,7 @@ export default Vue.extend({
 			sound.play();
 		},
 		setDefaultReactions() {
-			this.$store.dispatch('settings/set', { key: 'reactions', value: ['👍', '❤', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', 'pudding'] });
+			this.reactions = '👍 ❤ 😆 🤔 😮 🎉 💢 😥 😇 pudding';
 		},
 		setRandomReactions() {
 			const list = emojilist.filter(x => x.category !== 'flags');
@@ -684,7 +699,17 @@ export default Vue.extend({
 				const char = list[index].char;
 				a.push(char);
 			}
-			this.$store.dispatch('settings/set', { key: 'reactions', value: a });
+			this.reactions = a.join(' ');
+		},
+		previewReaction() {
+			const picker = this.$root.new(MkReactionPicker, {
+				source: this.$refs.reactionsPreviewButton.$el,
+				reactions: this.reactions.trim().split(/\s/),
+				showFocus: false,
+			});
+			picker.$once('chosen', reaction => {
+				picker.close();
+			});
 		}
 	}
 });

@@ -3,8 +3,8 @@
 	<div class="backdrop" ref="backdrop" @click="close"></div>
 	<div class="popover" :class="{ isMobile: $root.isMobile }" ref="popover">
 		<p v-if="!$root.isMobile">{{ title }}</p>
-		<div class="buttons" ref="buttons" :class="{ showFocus }">
-			<button v-for="(reaction, i) in $store.state.settings.reactions" :key="reaction" @click="react(reaction)" @mouseover="onMouseover" @mouseout="onMouseout" :tabindex="i + 1" :title="/^[a-z]+$/.test(reaction) ? $t('@.reactions.' + reaction) : reaction" v-particle><mk-reaction-icon :reaction="reaction"/></button>
+		<div class="buttons" ref="buttons">
+			<button v-for="(reaction, i) in rs" :key="reaction" @click="react(reaction)" @mouseover="onMouseover" @mouseout="onMouseout" :tabindex="i + 1" :title="/^[a-z]+$/.test(reaction) ? $t('@.reactions.' + reaction) : reaction" v-particle><mk-reaction-icon :reaction="reaction"/></button>
 		</div>
 		<div v-if="enableEmojiReaction" class="text">
 			<input v-model="text" placeholder="Emoji" @keyup.enter="reactText" @keydown.esc="close" @input="tryReactText" v-autocomplete="{ model: 'text', noZwsp: true }" ref="text">
@@ -30,16 +30,11 @@ import { emojilist } from '../../../../../misc/emojilist';
 export default Vue.extend({
 	i18n: i18n('common/views/components/reaction-picker.vue'),
 	props: {
-		note: {
-			type: Object,
-			required: true
-		},
-
 		source: {
 			required: true
 		},
 
-		cb: {
+		reactions: {
 			required: false
 		},
 
@@ -53,6 +48,7 @@ export default Vue.extend({
 	data() {
 		return {
 			faRandom,
+			rs: this.reactions || this.$store.state.settings.reactions,
 			title: this.$t('choose-reaction'),
 			text: null,
 			enableEmojiReaction: true,
@@ -115,14 +111,7 @@ export default Vue.extend({
 
 	methods: {
 		react(reaction) {
-			this.$root.api('notes/reactions/create', {
-				noteId: this.note.id,
-				reaction: reaction
-			}).then(() => {
-				if (this.cb) this.cb();
-				this.$emit('closed');
-				this.destroyDom();
-			});
+			this.$emit('chosen', reaction);
 		},
 
 		reactText() {
