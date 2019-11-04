@@ -80,7 +80,7 @@
 					<span>{{ job.data.to }}</span>
 				</template>
 				<template v-if="domain === 'inbox'">
-					<span>{{ job.activity.id }}</span>
+					<span>{{ job.data.activity.id }}</span>
 				</template>
 			</div>
 			<ui-info v-if="jobs.length == jobsLimit">{{ $t('result-is-truncated', { n: jobsLimit }) }}</ui-info>
