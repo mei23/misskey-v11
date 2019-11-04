@@ -5,6 +5,7 @@ import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
 import Logger from '../../services/logger';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
+import { toDbHost } from '../../misc/convert-host';
 
 const logger = new Logger('deliver');
 
@@ -12,6 +13,18 @@ let latest: string = null;
 
 export default async (job: Bull.Job) => {
 	const { host } = new URL(job.data.to);
+
+	// ブロック/閉鎖してたら中断
+	// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
+	const instance = await Instance.findOne({ host: toDbHost(host) });
+	if (instance && instance.isBlocked) {
+		logger.info(`skip (blocked) ${job.data.to}`);
+		return null;
+	}
+	if (instance && instance.isMarkedAsClosed) {
+		logger.info(`skip (closed) ${job.data.to}`);
+		return null;
+	}
 
 	try {
 		if (latest !== (latest = JSON.stringify(job.data.content, null, 2))) {

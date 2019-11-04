@@ -8,8 +8,6 @@ import config from '../../config';
 import { ILocalUser } from '../../models/user';
 import { publishApLogStream } from '../../services/stream';
 import { apLogger } from './logger';
-import Instance from '../../models/instance';
-import { toDbHost } from '../../misc/convert-host';
 import * as httpsProxyAgent from 'https-proxy-agent';
 
 export const logger = apLogger.createSubLogger('deliver');
@@ -23,19 +21,7 @@ const agent = config.proxy
 export default async (user: ILocalUser, url: string, object: any) => {
 	const timeout = 20 * 1000;
 
-	const { protocol, host, hostname, port, pathname, search } = new URL(url);
-
-	// ブロック/閉鎖してたら中断
-	// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
-	const instance = await Instance.findOne({ host: toDbHost(host) });
-	if (instance && instance.isBlocked) {
-		logger.info(`skip (blocked) ${url}`);
-		return;
-	}
-	if (instance && instance.isMarkedAsClosed) {
-		logger.info(`skip (closed) ${url}`);
-		return;
-	}
+	const { protocol, hostname, port, pathname, search } = new URL(url);
 
 	logger.info(`--> ${url}`);
 
