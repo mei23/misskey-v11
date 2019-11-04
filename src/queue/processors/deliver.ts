@@ -6,7 +6,6 @@ import instanceChart from '../../services/chart/instance';
 import Logger from '../../services/logger';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { toDbHost } from '../../misc/convert-host';
-import { getJobInfo } from '../get-job-info';
 
 const logger = new Logger('deliver');
 
@@ -26,10 +25,6 @@ export default async (job: Bull.Job) => {
 		logger.info(`skip (closed) ${job.data.to}`);
 		return null;
 	}
-
-	const jobInfo = getJobInfo(job);
-
-	logger.info(`${jobInfo} --> ${job.data.to}`);
 
 	try {
 		if (latest !== (latest = JSON.stringify(job.data.content, null, 2))) {
@@ -70,8 +65,6 @@ export default async (job: Bull.Job) => {
 		});
 
 		if (res != null && res.hasOwnProperty('statusCode')) {
-			logger.warn(`${jobInfo} deliver failed: ${res.statusCode} ${res.statusMessage} to=${job.data.to}`);
-
 			// 4xx
 			if (res.statusCode >= 400 && res.statusCode < 500) {
 				// HTTPステータスコード4xxはクライアントエラーであり、それはつまり
@@ -83,7 +76,6 @@ export default async (job: Bull.Job) => {
 			throw `${res.statusCode} ${res.statusMessage}`;
 		} else {
 			// DNS error, socket error, timeout ...
-			logger.warn(`${jobInfo} deliver failed: ${res} to=${job.data.to}`);
 			throw res;
 		}
 	}
