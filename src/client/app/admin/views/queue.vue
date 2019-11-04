@@ -75,13 +75,13 @@
 			</ui-horizon-group>
 			<div class="xvvuvgsv" v-for="job in jobs" :key="job.id">
 				<b>{{ job.id }}</b>
-				<span>attempts={{ job.attempts }}, {{ new Date(job.timestamp).toLocaleString() }} </span>
 				<template v-if="domain === 'deliver'">
 					<span>{{ job.data.to }}</span>
 				</template>
 				<template v-if="domain === 'inbox'">
 					<span>{{ job.data.activity.id }}</span>
 				</template>
+				<span>{{ `(${job.attempts}/${job.maxAttempts}, ${Math.floor((jobsFetched - job.timestamp) / 1000 / 60)}min)` }}</span>
 			</div>
 			<ui-info v-if="jobs.length == jobsLimit">{{ $t('result-is-truncated', { n: jobsLimit }) }}</ui-info>
 		</section>
@@ -109,6 +109,7 @@ export default Vue.extend({
 			inboxChart: null,
 			jobs: [],
 			jobsLimit: 1000,
+			jobsFetched: Date.now(),
 			domain: 'deliver',
 			state: 'delayed',
 			faTasks, faPaperPlane, faInbox, faStopwatch, faStopCircle, farPlayCircle, fasPlayCircle, faChartBar
@@ -288,6 +289,7 @@ export default Vue.extend({
 				state: this.state,
 				limit: this.jobsLimit
 			}).then(jobs => {
+				this.jobsFetched = Date.now(),
 				this.jobs = jobs;
 			});
 		},
@@ -302,7 +304,8 @@ export default Vue.extend({
 		margin 0 -8px
 
 .xvvuvgsv
-	> b
-		margin-right 16px
+	margin-left -6px
+	> b, span
+		margin 0 6px
 
 </style>

@@ -40,6 +40,7 @@ export default define(meta, async (ps) => {
 			id: job.id,
 			data,
 			attempts: job.attemptsMade,
+			maxAttempts: job.opts ? job.opts.attempts : 0,
 			timestamp: job.timestamp,
 		};
 	});
