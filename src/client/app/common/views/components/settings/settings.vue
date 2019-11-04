@@ -110,7 +110,7 @@
 
 			<section>
 				<header>{{ $t('@._settings.reactions') }}</header>
-				<ui-input v-model="reactions" style="font-family: 'Segoe UI Emoji', 'Noto Color Emoji'">
+				<ui-input v-model="reactions" style="font-family: 'Segoe UI Emoji', 'Noto Color Emoji', Roboto, HelveticaNeue, Arial, sans-serif">
 					{{ $t('@._settings.reactions') }}<template #desc>{{ $t('@._settings.reactions-description') }}</template>
 				</ui-input>
 				<ui-horizon-group>
