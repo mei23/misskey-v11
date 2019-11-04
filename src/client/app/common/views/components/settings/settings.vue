@@ -634,7 +634,7 @@ export default Vue.extend({
 
 		// 以前の擬態プリンが設定されていた場合は絵文字に置き換える
 		try {
-			this.reactions.replace('pudding', this.$store.state.settings.iLikeSushi ? '🍣' : '🍮')
+			this.reactions = this.reactions.replace('pudding', this.$store.state.settings.iLikeSushi ? '🍣' : '🍮')
 		} catch { }
 	},
 	methods: {
