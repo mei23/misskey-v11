@@ -73,20 +73,10 @@ export async function fetchInstanceinfo(host: string) {
 	const info = await fetchNodeinfo(host);
 
 	// additional metadatas
-	let name = info.metadata ? (info.metadata.nodeName || info.metadata.name || null) : null;
-	let description = info.metadata ? (info.metadata.nodeDescription || info.metadata.description || null) : null;
+	const name = info.metadata ? (info.metadata.nodeName || info.metadata.name || null) : null;
+	const description = info.metadata ? (info.metadata.nodeDescription || info.metadata.description || null) : null;
 	const maintainerName = info.metadata ? info.metadata.maintainer ? (info.metadata.maintainer.name || null) : null : null;
-	let maintainerEmail = info.metadata ? info.metadata.maintainer ? (info.metadata.maintainer.email || null) : null : null;
-
-	// fetch Mastodon API
-	if (!name && info.software.name === 'mastodon') {
-		const mastodon = await fetchMastodonInstance(toApHost(host)).catch(() => {});
-		if (mastodon) {
-			name = mastodon.title;
-			description = mastodon.description;
-			maintainerEmail = mastodon.email;
-		}
-	}
+	const maintainerEmail = info.metadata ? info.metadata.maintainer ? (info.metadata.maintainer.email || null) : null : null;
 
 	return {
 		softwareName: info.software.name,
@@ -119,17 +109,6 @@ export async function fetchNodeinfo(host: string) {
 	const nodeinfo = (await fetchJson(link.href)) as Nodeinfo;
 
 	return nodeinfo;
-}
-
-async function fetchMastodonInstance(host: string) {
-	const json = (await fetchJson(`https://${host}/api/v1/instance`)) as {
-		title: string;
-		short_description: string;
-		description: string;
-		email: string;
-	};
-
-	return json;
 }
 
 async function fetchJson(url: string) {
