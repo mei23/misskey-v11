@@ -2,9 +2,8 @@
 <div class="rdfaahpb" v-hotkey.global="keymap">
 	<div class="backdrop" ref="backdrop" @click="close"></div>
 	<div class="popover" :class="{ isMobile: $root.isMobile }" ref="popover">
-		<p v-if="!$root.isMobile">{{ title }}</p>
 		<div class="buttons" ref="buttons">
-			<button v-for="(reaction, i) in rs" :key="reaction" @click="react(reaction)" @mouseover="onMouseover" @mouseout="onMouseout" :tabindex="i + 1" :title="/^[a-z]+$/.test(reaction) ? $t('@.reactions.' + reaction) : reaction" v-particle><mk-reaction-icon :reaction="reaction"/></button>
+			<button v-for="(reaction, i) in rs" :key="reaction" @click="react(reaction)" :tabindex="i + 1" :title="/^[a-z]+$/.test(reaction) ? $t('@.reactions.' + reaction) : reaction" v-particle><mk-reaction-icon :reaction="reaction"/></button>
 		</div>
 		<div v-if="enableEmojiReaction" class="text">
 			<input v-model="text" placeholder="Emoji" @keyup.enter="reactText" @keydown.esc="close" @input="tryReactText" v-autocomplete="{ model: 'text', noZwsp: true }" ref="text">
@@ -49,7 +48,6 @@ export default Vue.extend({
 		return {
 			faRandom,
 			rs: this.reactions || this.$store.state.settings.reactions,
-			title: this.$t('choose-reaction'),
 			text: null,
 			enableEmojiReaction: true,
 			recentReaction: null,
@@ -150,14 +148,6 @@ export default Vue.extend({
 			this.$once('hook:beforeDestroy', () => {
 				vm.close();
 			});
-		},
-
-		onMouseover(e) {
-			this.title = e.target.title;
-		},
-
-		onMouseout(e) {
-			this.title = this.$t('choose-reaction');
 		},
 
 		close() {
