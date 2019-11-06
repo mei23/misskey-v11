@@ -11,8 +11,8 @@
 		<ui-card>
 			<template #title><fa icon="desktop"/> {{ $t('@._settings.appearance') }}</template>
 
+			<ui-switch v-model="showPostFormOnTopOfTl">{{ $t('@._settings.post-form-on-timeline') }}</ui-switch>
 			<section v-if="!$root.isMobile">
-				<ui-switch v-model="showPostFormOnTopOfTl">{{ $t('@._settings.post-form-on-timeline') }}</ui-switch>
 				<ui-button @click="customizeHome">{{ $t('@.customize-home') }}</ui-button>
 			</section>
 			<section v-if="!$root.isMobile">

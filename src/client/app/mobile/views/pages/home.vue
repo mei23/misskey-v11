@@ -46,6 +46,8 @@
 				</div>
 			</div>
 		</div>
+	
+		<mk-post-form class="form" :inside="true" v-if="$store.state.settings.showPostFormOnTopOfTl"/>
 
 		<div class="tl">
 			<x-tl v-if="src == 'home'" ref="tl" key="home" src="home"/>

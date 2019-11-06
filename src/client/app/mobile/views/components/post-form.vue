@@ -1,7 +1,7 @@
 <template>
 <div class="mk-post-form">
 	<div class="form">
-		<header>
+		<header v-if="!inside">
 			<button class="cancel" @click="cancel"><fa icon="times"/></button>
 			<div>
 				<span v-if="!renote || quote" class="text-count" :class="{ over: trimmedLength(text) > maxNoteTextLength }">{{ maxNoteTextLength - trimmedLength(text) }}</span>
@@ -34,23 +34,24 @@
 				<button class="upload" @click="chooseFile"><fa icon="upload"/></button>
 				<button class="drive" @click="chooseFileFromDrive"><fa icon="cloud"/></button>
 				<button class="kao" @click="kao"><fa :icon="['far', 'smile']"/></button>
-				<button class="poll" @click="poll = true"><fa icon="chart-pie"/></button>
+				<button v-if="!inside" class="poll" @click="poll = true"><fa icon="chart-pie"/></button>
 				<button class="poll" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
 				<button class="visibility" @click="setVisibility" ref="visibilityButton">
 					<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
 				</button>
+				<button v-if="inside" class="submit" :disabled="!canPost" @click="post()">{{ submitText }}</button>
 			</footer>
 			<footer v-else>
 				<a class="quote" @click="quote = true">{{ $t('quote') }}</a>
 			</footer>
 			<input ref="file" class="file" type="file" multiple="multiple" @change="onChangeFile"/>
 		</div>
-		<details v-if="preview" class="preview" ref="preview" :open="$store.state.device.showPostPreview" @toggle="togglePreview">
+		<details v-if="!inside && preview" class="preview" ref="preview" :open="$store.state.device.showPostPreview" @toggle="togglePreview">
 			<summary>{{ $t('preview') }}</summary>
 			<mk-note class="note" :note="preview" :key="preview.id" :compact="true" :preview="true" />
 		</details>
 	</div>
-	<div class="hashtags" v-if="recentHashtags.length > 0 && $store.state.settings.suggestRecentHashtags">
+	<div class="hashtags" v-if="!inside && recentHashtags.length > 0 && $store.state.settings.suggestRecentHashtags">
 		<a v-for="tag in recentHashtags.slice(0, 5)" :key="tag" @click="addTag(tag)">#{{ tag }}</a>
 	</div>
 </div>
@@ -79,6 +80,11 @@ export default Vue.extend({
 	},
 
 	props: {
+		inside: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 		reply: {
 			type: Object,
 			required: false
@@ -619,7 +625,7 @@ export default Vue.extend({
 			> textarea
 				max-width 100%
 				min-width 100%
-				min-height 80px
+				min-height 60px
 
 			> .mk-uploader
 				margin 8px 0 0 0
@@ -629,6 +635,8 @@ export default Vue.extend({
 				display none
 
 			> footer
+				display flex
+				align-items center
 				white-space nowrap
 				overflow auto
 				-webkit-overflow-scrolling touch
@@ -661,6 +669,22 @@ export default Vue.extend({
 					margin-right auto
 					margin-left 8px
 					color var(--link)
+
+				> .submit
+					height 36px
+					margin 8px 6px
+					margin-left auto
+					padding 0 16px
+					line-height 34px
+					min-width 80px
+					vertical-align bottom
+					color var(--primaryForeground)
+					background var(--primary)
+					border-radius 4px
+					font-size 14px
+
+					&:disabled
+						opacity 0.7
 
 		> .preview
 			> summary
