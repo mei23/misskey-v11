@@ -494,7 +494,8 @@ export default Vue.extend({
 				}
 
 				this.$emit('posted');
-			}).catch(err => {
+				this.clear();
+			}).finally(() => {
 				this.posting = false;
 			});
 
