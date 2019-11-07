@@ -270,8 +270,6 @@ export default Vue.extend({
 			this.cw = this.reply.cw;
 		}
 
-		this.focus();
-
 		this.$nextTick(() => {
 			if (this.initialNote) {
 				// 削除して編集
@@ -299,7 +297,9 @@ export default Vue.extend({
 				this.quote = true;
 			}
 
-			this.$nextTick(this.focus);
+			if (!this.inside) {
+				this.$nextTick(this.focus);
+			}
 		});
 	},
 
