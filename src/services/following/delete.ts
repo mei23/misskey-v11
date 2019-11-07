@@ -28,6 +28,22 @@ export default async function(follower: IUser, followee: IUser, silent = false) 
 		_id: following._id
 	});
 
+	decrementFollowing(follower, followee);
+
+	// Publish unfollow event
+	if (!silent && isLocalUser(follower)) {
+		packUser(followee, follower, {
+			detail: true
+		}).then(packed => publishMainStream(follower._id, 'unfollow', packed));
+	}
+
+	if (isLocalUser(follower) && isRemoteUser(followee)) {
+		const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
+		deliver(follower, content, followee.inbox);
+	}
+}
+
+export async function decrementFollowing(follower: IUser, followee: IUser) {
 	//#region Decrement following count
 	User.update({ _id: follower._id }, {
 		$inc: {
@@ -69,16 +85,4 @@ export default async function(follower: IUser, followee: IUser, silent = false) 
 	//#endregion
 
 	perUserFollowingChart.update(follower, followee, false);
-
-	// Publish unfollow event
-	if (!silent && isLocalUser(follower)) {
-		packUser(followee, follower, {
-			detail: true
-		}).then(packed => publishMainStream(follower._id, 'unfollow', packed));
-	}
-
-	if (isLocalUser(follower) && isRemoteUser(followee)) {
-		const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
-		deliver(follower, content, followee.inbox);
-	}
 }
