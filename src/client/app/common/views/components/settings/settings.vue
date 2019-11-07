@@ -11,9 +11,12 @@
 		<ui-card>
 			<template #title><fa icon="desktop"/> {{ $t('@._settings.appearance') }}</template>
 
-			<ui-switch v-model="showPostFormOnTopOfTl">{{ $t('@._settings.post-form-on-timeline') }}</ui-switch>
 			<section v-if="!$root.isMobile">
+				<ui-switch v-model="showPostFormOnTopOfTl">{{ $t('@._settings.post-form-on-timeline') }}</ui-switch>
 				<ui-button @click="customizeHome">{{ $t('@.customize-home') }}</ui-button>
+			</section>
+			<section v-else>
+				<ui-switch v-model="showPostFormOnTopOfTlMobile">{{ $t('@._settings.post-form-on-timeline') }}</ui-switch>
 			</section>
 			<section v-if="!$root.isMobile">
 				<header>{{ $t('@._settings.wallpaper') }}</header>
@@ -540,6 +543,11 @@ export default Vue.extend({
 		showPostFormOnTopOfTl: {
 			get() { return this.$store.state.settings.showPostFormOnTopOfTl; },
 			set(value) { this.$store.dispatch('settings/set', { key: 'showPostFormOnTopOfTl', value }); }
+		},
+
+		showPostFormOnTopOfTlMobile: {
+			get() { return this.$store.state.settings.showPostFormOnTopOfTlMobile; },
+			set(value) { this.$store.dispatch('settings/set', { key: 'showPostFormOnTopOfTlMobile', value }); }
 		},
 
 		suggestRecentHashtags: {

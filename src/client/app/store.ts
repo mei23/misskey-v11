@@ -16,6 +16,7 @@ const defaultSettings = {
 	fetchOnScroll: true,
 	remainDeletedNote: false,
 	showPostFormOnTopOfTl: false,
+	showPostFormOnTopOfTlMobile: false,
 	suggestRecentHashtags: true,
 	showClockOnHeader: true,
 	circleIcons: true,
