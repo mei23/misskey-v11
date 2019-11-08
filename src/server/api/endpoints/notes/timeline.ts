@@ -147,7 +147,7 @@ export default define(meta, async (ps, user) => {
 	]);
 
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
-	const hideFromHomeHosts = concat(hideFromHomeLists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
+	const hideFromHomeHosts = concat<string>(hideFromHomeLists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
 
 	//#region Construct query
 	const sort = {
