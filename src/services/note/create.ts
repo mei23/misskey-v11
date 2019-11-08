@@ -663,35 +663,6 @@ async function publishToUserLists(note: INote, noteObj: any) {
 	}
 }
 
-async function publishToFollowers(note: INote, user: IUser, noteActivity: any) {
-	const detailPackedNote = await pack(note, null, {
-		detail: true,
-		skipHide: true
-	});
-
-	const followers = await Following.find({
-		followeeId: note.userId,
-		followerId: { $ne: note.userId }	// バグでフォロワーに自分がいることがあるため
-	});
-
-	for (const following of followers) {
-		const follower = following._follower;
-
-		if (isLocalUser(follower)) {
-			// この投稿が返信ならスキップ
-			if (note.replyId && !note._reply.userId.equals(following.followerId) && !note._reply.userId.equals(note.userId))
-				continue;
-
-			// Publish event to followers stream
-			publishHomeTimelineStream(following.followerId, detailPackedNote);
-
-			if (isRemoteUser(user) || note.visibility != 'public') {
-				publishHybridTimelineStream(following.followerId, detailPackedNote);
-			}
-		}
-	}
-}
-
 async function createMentionedEvents(mentionedUsers: IUser[], note: INote, nm: NotificationManager) {
 	for (const u of mentionedUsers.filter(u => isLocalUser(u))) {
 		const detailPackedNote = await pack(note, u, {
