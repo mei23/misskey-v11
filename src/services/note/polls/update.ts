@@ -3,12 +3,11 @@ import Note, { INote } from '../../../models/note';
 import { updateQuestion } from '../../../remote/activitypub/models/question';
 import ms = require('ms');
 import Logger from '../../logger';
-import User, { isLocalUser, isRemoteUser } from '../../../models/user';
-import Following from '../../../models/following';
+import User, { isLocalUser } from '../../../models/user';
 import renderUpdate from '../../../remote/activitypub/renderer/update';
 import { renderActivity } from '../../../remote/activitypub/renderer';
-import { deliver } from '../../../queue';
 import renderNote from '../../../remote/activitypub/renderer/note';
+import { deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
 
 const logger = new Logger('pollsUpdate');
 
@@ -34,28 +33,8 @@ export async function deliverQuestionUpdate(noteId: mongo.ObjectID) {
 		_id: note.userId
 	});
 
-	const followers = await Following.find({
-		followeeId: user._id
-	});
-
-	const queue: string[] = [];
-
-	// フォロワーがリモートユーザーかつ投稿者がローカルユーザーならUpdateを配信
 	if (isLocalUser(user)) {
-		for (const following of followers) {
-			const follower = following._follower;
-
-			if (isRemoteUser(follower)) {
-				const inbox = follower.sharedInbox || follower.inbox;
-				if (!queue.includes(inbox)) queue.push(inbox);
-			}
-		}
-
-		if (queue.length > 0) {
-			const content = renderActivity(renderUpdate(await renderNote(note, false), user));
-			for (const inbox of queue) {
-				deliver(user, content, inbox);
-			}
-		}
+		const content = renderActivity(renderUpdate(await renderNote(note, false), user));
+		deliverToFollowers(user, content);
 	}
 }

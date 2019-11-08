@@ -1,13 +1,12 @@
 import config from '../../config';
 import * as mongo from 'mongodb';
-import User, { isLocalUser, isRemoteUser, ILocalUser, IUser } from '../../models/user';
+import User, { isLocalUser, IUser } from '../../models/user';
 import Note, { packMany } from '../../models/note';
-import Following from '../../models/following';
 import renderAdd from '../../remote/activitypub/renderer/add';
 import renderRemove from '../../remote/activitypub/renderer/remove';
 import { renderActivity } from '../../remote/activitypub/renderer';
-import { deliver } from '../../queue';
 import { IdentifiableError } from '../../misc/identifiable-error';
+import { deliverToFollowers } from '../../remote/activitypub/deliver-manager';
 
 /**
  * 指定した投稿をピン留めします
@@ -99,38 +98,10 @@ export async function deliverPinnedChange(userId: mongo.ObjectID, noteId: mongo.
 
 	if (!isLocalUser(user)) return;
 
-	const queue = await CreateRemoteInboxes(user);
-
-	if (queue.length < 1) return;
-
 	const target = `${config.url}/users/${user._id}/collections/featured`;
 
 	const item = `${config.url}/notes/${noteId}`;
 	const content = renderActivity(isAddition ? renderAdd(user, target, item) : renderRemove(user, target, item));
-	for (const inbox of queue) {
-		deliver(user, content, inbox);
-	}
-}
 
-/**
- * ローカルユーザーのリモートフォロワーのinboxリストを作成する
- * @param user ローカルユーザー
- */
-async function CreateRemoteInboxes(user: ILocalUser): Promise<string[]> {
-	const followers = await Following.find({
-		followeeId: user._id
-	});
-
-	const queue: string[] = [];
-
-	for (const following of followers) {
-		const follower = following._follower;
-
-		if (isRemoteUser(follower)) {
-			const inbox = follower.sharedInbox || follower.inbox;
-			if (!queue.includes(inbox)) queue.push(inbox);
-		}
-	}
-
-	return queue;
+	deliverToFollowers(user, content);
 }

@@ -4,8 +4,6 @@ import { publishNoteStream } from '../stream';
 import renderDelete from '../../remote/activitypub/renderer/delete';
 import renderUndo from '../../remote/activitypub/renderer/undo';
 import { renderActivity } from '../../remote/activitypub/renderer';
-import { deliver } from '../../queue';
-import Following from '../../models/following';
 import renderTombstone from '../../remote/activitypub/renderer/tombstone';
 import renderAnnounce from '../../remote/activitypub/renderer/announce';
 import notesChart from '../../services/chart/notes';
@@ -18,6 +16,7 @@ import { registerOrFetchInstanceDoc } from '../register-or-fetch-instance-doc';
 import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
 import Favorite from '../../models/favorite';
+import { deliverToFollowers } from '../../remote/activitypub/deliver-manager';
 
 /**
  * 投稿を削除します。
@@ -106,14 +105,7 @@ export default async function(user: IUser, note: INote, quiet = false) {
 				? renderUndo(renderAnnounce(renote.uri || `${config.url}/notes/${renote._id}`, note), user)
 				: renderDelete(renderTombstone(`${config.url}/notes/${note._id}`), user));
 
-			const followings = await Following.find({
-				followeeId: user._id,
-				'_follower.host': { $ne: null }
-			});
-
-			for (const following of followings) {
-				deliver(user, content, following._follower.inbox);
-			}
+			deliverToFollowers(user, content);
 		}
 		//#endregion
 
