@@ -317,8 +317,6 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 	const nm = new NotificationManager(user, note);
 	const nmRelatedPromises = [];
 
-	const noteActivity = await renderNoteOrRenoteActivity(data, note, user);
-
 	// Extended notification
 	if (note.visibility === 'public' || note.visibility === 'home') {
 		nmRelatedPromises.push(notifyExtended(note.text, nm));
@@ -377,7 +375,7 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 	}
 
 	if (!silent) {
-		publish(user, note, noteObj, data.reply, data.renote, data.visibleUsers, noteActivity);
+		publish(user, note, noteObj, data.reply, data.renote, data.visibleUsers);
 	}
 
 	Promise.all(nmRelatedPromises).then(() => {
@@ -386,31 +384,34 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 
 	// AP deliver
 	if (isLocalUser(user)) {
-		const dm = new DeliverManager(user, noteActivity);
+		(async () => {
+			const noteActivity = await renderNoteOrRenoteActivity(data, note, user);
+			const dm = new DeliverManager(user, noteActivity);
 
-		// メンションされたリモートユーザーに配送
-		for (const u of mentionedUsers.filter(u => isRemoteUser(u))) {
-			dm.addDirectQueue(u as IRemoteUser);
-		}
-
-		if (!silent) {
-			// 投稿がリプライかつ投稿者がローカルユーザーかつリプライ先の投稿の投稿者がリモートユーザーなら配送
-			if (data.reply && isRemoteUser(data.reply._user)) {
-				dm.addDirectQueue(data.reply._user);
+			// メンションされたリモートユーザーに配送
+			for (const u of mentionedUsers.filter(u => isRemoteUser(u))) {
+				dm.addDirectRecipe(u as IRemoteUser);
 			}
 
-			// 投稿がRenoteかつ投稿者がローカルユーザーかつRenote元の投稿の投稿者がリモートユーザーなら配送
-			if (data.renote && isRemoteUser(data.renote._user)) {
-				dm.addDirectQueue(data.renote._user);
+			if (!silent) {
+				// 投稿がリプライかつ投稿者がローカルユーザーかつリプライ先の投稿の投稿者がリモートユーザーなら配送
+				if (data.reply && isRemoteUser(data.reply._user)) {
+					dm.addDirectRecipe(data.reply._user);
+				}
+
+				// 投稿がRenoteかつ投稿者がローカルユーザーかつRenote元の投稿の投稿者がリモートユーザーなら配送
+				if (data.renote && isRemoteUser(data.renote._user)) {
+					dm.addDirectRecipe(data.renote._user);
+				}
+
+				// フォロワーへ配送
+				if (['public', 'home', 'followers'].includes(note.visibility)) {
+					dm.addFollowersRecipe();
+				}
 			}
 
-			// フォロワーへ配送
-			if (['public', 'home', 'followers'].includes(note.visibility)) {
-				dm.addFollowersQueue();
-			}
-		}
-
-		dm.execute();
+			dm.execute();
+		})();
 	}
 
 	// Register to search database
@@ -451,7 +452,7 @@ function incRenoteCount(renote: INote) {
 	});
 }
 
-async function publish(user: IUser, note: INote, noteObj: any, reply: INote, renote: INote, visibleUsers: IUser[], noteActivity: any) {
+async function publish(user: IUser, note: INote, noteObj: any, reply: INote, renote: INote, visibleUsers: IUser[]) {
 	if (isLocalUser(user)) {
 		if (['followers', 'specified'].includes(note.visibility)) {
 			const detailPackedNote = await pack(note, user, {
@@ -490,11 +491,6 @@ async function publish(user: IUser, note: INote, noteObj: any, reply: INote, ren
 	// Publish note to global timeline stream
 	if (note.visibility == 'public' && note.replyId == null) {
 		publishGlobalTimelineStream(noteObj);
-	}
-
-	if (['public', 'home', 'followers'].includes(note.visibility)) {
-		// フォロワーに配信
-		publishToFollowers(note, user, noteActivity);
 	}
 
 	// リストに配信
