@@ -52,7 +52,7 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 	.wrap
-		display inline-block
+		display inline-flex
 
 		> .localOnly
 				color var(--primary)
