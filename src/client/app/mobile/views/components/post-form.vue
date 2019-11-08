@@ -683,6 +683,7 @@ export default Vue.extend({
 					background var(--primary)
 					border-radius 4px
 					font-size 14px
+					opacity 1.0
 
 					&:disabled
 						opacity 0.7
