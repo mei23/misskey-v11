@@ -6,6 +6,7 @@ import { pack } from '../../../../models/user';
 import { getFriendIds } from '../../common/get-friends';
 import define from '../../define';
 import { ApiError } from '../../error';
+import { getFollowerIds } from '../../common/get-followers';
 
 export const meta = {
 	desc: {
@@ -49,7 +50,15 @@ export const meta = {
 		iknow: {
 			validator: $.optional.bool,
 			default: false,
-		}
+		},
+
+		diff: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': '相互フォローは除く'
+			}
+		},
 	},
 
 	res: {
@@ -100,6 +109,14 @@ export default define(meta, async (ps, me) => {
 
 		query.followeeId = {
 			$in: myFriends
+		};
+	}
+
+	if (ps.diff) {
+		const followerIds = await getFollowerIds(user._id);
+
+		query.followeeId = {
+			$nin: followerIds
 		};
 	}
 

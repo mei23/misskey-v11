@@ -49,7 +49,15 @@ export const meta = {
 		iknow: {
 			validator: $.optional.bool,
 			default: false,
-		}
+		},
+
+		diff: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': '相互フォローは除く'
+			}
+		},
 	},
 
 	res: {
@@ -102,6 +110,16 @@ export default define(meta, async (ps, me) => {
 			$in: myFriends
 		};
 	}
+
+	if (ps.diff) {
+		const followingIds = await getFriendIds(user._id);
+
+		query.followerId = {
+			$nin: followingIds
+		};
+	}
+
+	// TODO: iknow && diff
 
 	// カーソルが指定されている場合
 	if (ps.cursor) {
