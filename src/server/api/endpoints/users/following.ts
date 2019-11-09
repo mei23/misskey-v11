@@ -112,7 +112,7 @@ export default define(meta, async (ps, me) => {
 		};
 	}
 
-	if (ps.diff) {
+	if (ps.diff && me && me._id.equals(user._id)) {
 		const followerIds = await getFollowerIds(user._id);
 
 		query.followeeId = {

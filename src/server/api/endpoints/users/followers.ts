@@ -111,7 +111,7 @@ export default define(meta, async (ps, me) => {
 		};
 	}
 
-	if (ps.diff) {
+	if (ps.diff && me && me._id.equals(user._id)) {
 		const followingIds = await getFriendIds(user._id);
 
 		query.followerId = {
