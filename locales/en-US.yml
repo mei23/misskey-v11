@@ -72,6 +72,8 @@ common:
   explore: "Explore"
   following: "Following"
   followers: "Followers"
+  only-not-followed: "Only not followed users"
+  only-not-following: "Only not following users"
   favorites: "Favorites"
   empty-timeline-info:
     follow-users-to-make-your-timeline: "Following users will show their posts in your timeline."
