@@ -493,6 +493,11 @@ async function publish(user: IUser, note: INote, noteObj: any, reply: INote, ren
 		publishGlobalTimelineStream(noteObj);
 	}
 
+	if (['public', 'home', 'followers'].includes(note.visibility)) {
+		// フォロワーに配信
+		publishToFollowers(note, user);
+	}
+
 	// リストに配信
 	publishToUserLists(note, noteObj);
 }
@@ -663,7 +668,7 @@ async function publishToUserLists(note: INote, noteObj: any) {
 	}
 }
 
-async function publishToFollowers(note: INote, user: IUser, noteActivity: any) {
+async function publishToFollowers(note: INote, user: IUser) {
 	const detailPackedNote = await pack(note, null, {
 		detail: true,
 		skipHide: true
