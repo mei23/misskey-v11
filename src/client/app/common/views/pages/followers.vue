@@ -47,5 +47,5 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 	.options
-		margin-bottom 16px
+		margin 16px
 </style>
