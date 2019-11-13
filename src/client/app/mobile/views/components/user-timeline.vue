@@ -1,5 +1,8 @@
 <template>
 <div class="mk-user-timeline">
+	<div class="command">
+		<ui-button @click="fetchOutbox()">{{ $t('fetch-posts') }}</ui-button>
+	</div>
 	<mk-notes ref="timeline" :make-promise="makePromise" @inited="() => $emit('loaded')"/>
 </div>
 </template>
@@ -37,6 +40,22 @@ export default Vue.extend({
 				}
 			})
 		};
+	},
+
+	methods: {
+		fetchOutbox() {
+			this.$root.api('ap/fetch-outbox', {
+				userId: this.user.id,
+				sync: true
+			}).then(() => {
+				(this.$refs.timeline as any).reload();
+			});
+		},
 	}
 });
 </script>
+
+<style lang="stylus" scoped>
+.command
+	margin 8px 0
+</style>

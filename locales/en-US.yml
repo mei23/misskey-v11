@@ -1468,6 +1468,7 @@ desktop/views/pages/user/user.timeline.vue:
   with-replies: "Posts and replies"
   with-media: "Media"
   my-posts: "My posts"
+  fetch-posts: Fetch posts
 desktop/views/widgets/notifications.vue:
   title: "Notifications"
 desktop/views/widgets/polls.vue:
@@ -1577,6 +1578,8 @@ mobile/views/components/ui.nav.vue:
   admin: "Admin"
   about: "About Misskey"
   mark-all-as-read: "Mark all as read"
+mobile/views/components/user-timeline.vue:
+  fetch-posts: Fetch posts
 mobile/views/pages/drive.vue:
   contextmenu:
     upload: "Upload a file"

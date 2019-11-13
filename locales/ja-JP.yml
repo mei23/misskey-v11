@@ -1621,6 +1621,7 @@ desktop/views/pages/user/user.timeline.vue:
   with-replies: "投稿と返信"
   with-media: "メディア"
   my-posts: "私の投稿"
+  fetch-posts: 投稿を取得
 
 desktop/views/widgets/notifications.vue:
   title: "通知"
@@ -1751,6 +1752,9 @@ mobile/views/components/ui.nav.vue:
   admin: "管理"
   about: "Misskeyについて"
   mark-all-as-read: "全て既読にする"
+
+mobile/views/components/user-timeline.vue:
+  fetch-posts: 投稿を取得
 
 mobile/views/pages/drive.vue:
   contextmenu:
