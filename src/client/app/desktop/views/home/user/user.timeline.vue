@@ -99,7 +99,7 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 .command
-	margin 8px 0
+	margin 16px 0
 
 .oh5y2r7l5lx8j6jj791ykeiwgihheguk
 	padding 0 8px

@@ -1886,6 +1886,7 @@ deck/deck.user-column.vue:
   activity: "アクティビティ"
   timeline: "タイムライン"
   pinned-notes: "ピン留めされた投稿"
+  fetch-posts: 投稿を取得
 
 docs:
   edit-this-page-on-github: "間違いや改善点を見つけましたか？"

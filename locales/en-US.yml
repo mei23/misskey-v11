@@ -1689,6 +1689,7 @@ deck/deck.user-column.vue:
   activity: "Activity"
   timeline: "Timeline"
   pinned-notes: "Pinned posts"
+  fetch-posts: "Fetch posts"
 docs:
   edit-this-page-on-github: "Found an error, or do you want to contribute to the documentation?"
   edit-this-page-on-github-link: "Edit this page at GitHub!"

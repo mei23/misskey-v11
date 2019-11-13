@@ -30,6 +30,9 @@
 	<ui-container>
 		<template #header><fa :icon="['far', 'comment-alt']"/> {{ $t('timeline') }}</template>
 		<div>
+			<div class="command">
+				<ui-button @click="fetchOutbox()">{{ $t('fetch-posts') }}</ui-button>
+			</div>
 			<x-notes ref="timeline" :make-promise="makePromise" @inited="() => $emit('loaded')"/>
 		</div>
 	</ui-container>
@@ -103,6 +106,15 @@ export default Vue.extend({
 						cursor: null
 					};
 				}
+			});
+		},
+
+		fetchOutbox() {
+			this.$root.api('ap/fetch-outbox', {
+				userId: this.user.id,
+				sync: true
+			}).then(() => {
+				this.fetch();
 			});
 		},
 
@@ -228,4 +240,6 @@ export default Vue.extend({
 		background-clip content-box
 		border-radius 4px
 
+.command
+	margin 8px 16px
 </style>
