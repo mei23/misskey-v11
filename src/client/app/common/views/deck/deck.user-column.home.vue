@@ -114,7 +114,7 @@ export default Vue.extend({
 				userId: this.user.id,
 				sync: true
 			}).then(() => {
-				this.fetch();
+				(this.$refs.timeline as any).reload();
 			});
 		},
 
