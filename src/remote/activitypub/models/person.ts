@@ -6,7 +6,7 @@ import config from '../../../config';
 import User, { validateUsername, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
-import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isPerson, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds } from '../type';
+import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isPerson, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, isOrderedCollectionPage, getApId, isCreate, isNote } from '../type';
 import { IDriveFile } from '../../../models/drive-file';
 import Meta from '../../../models/meta';
 import { fromHtml } from '../../../mfm/fromHtml';
@@ -23,7 +23,6 @@ import Following from '../../../models/following';
 import { apLogger } from '../logger';
 import { INote } from '../../../models/note';
 import { updateUsertags } from '../../../services/update-hashtag';
-import FollowRequest from '../../../models/follow-request';
 import { toArray, toSingle } from '../../../prelude/array';
 import { UpdateInstanceinfo } from '../../../services/update-instanceinfo';
 import { extractDbHost } from '../../../misc/convert-host';
@@ -404,8 +403,6 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 
 	await updateFeatured(exist._id).catch(err => logger.error(err));
 
-	fetchOutbox(exist._id).catch(err => logger.warn(err));
-
 	registerOrFetchInstanceDoc(extractDbHost(uri)).then(i => {
 		UpdateInstanceinfo(i);
 	});
@@ -515,69 +512,54 @@ export async function updateFeatured(userId: mongo.ObjectID) {
 	});
 }
 
-export async function fetchOutbox(userId: mongo.ObjectID, force = false) {
-	const user = await User.findOne({ _id: userId });
+export async function fetchOutbox(user: IUser) {
 	if (!isRemoteUser(user)) return;
 	if (!user.outbox) {
-		logger.debug(`no outbox: ${userId}`);
+		logger.debug(`no outbox for ${user.username}@${user.host}`);
 		return;
-	}
-
-	if (!force) {
-		// フォロワーもリクエストもない場合はfetchしない
-		const followerExists = await Following.findOne({
-			followeeId: userId
-		});
-
-		if (followerExists == null) {
-			const requestExists = await FollowRequest.findOne({
-				followeeId: userId
-			});
-
-			if (requestExists == null) {
-				logger.debug(`no follower/request: ${userId}`);
-				return;
-			}
-		}
 	}
 
 	logger.info(`Updating the outbox: ${user.outbox}`);
 
 	const resolver = new Resolver();
 
-	// Resolve to OrderedCollection Object
-	const collection = await resolver.resolveCollection(user.outbox);
-	if (!isOrderedCollection(collection)) throw new Error(`Object is not OrderedCollection`);
+	// Fetch activities from outbox (first page only)
+	let unresolvedActivities: (IObject | string)[];
 
-	// Get first page items
-	let unresolvedItems;
+	const collection = await resolver.resolveCollection(user.outbox);
+	if (!isOrderedCollection(collection)) throw new Error(`Object is not an OrderedCollection`);
 
 	if (collection.orderedItems) {
-		unresolvedItems = collection.orderedItems;
+		unresolvedActivities = collection.orderedItems;
 	} else if (collection.first) {
-		const page = await resolver.resolveCollection(collection.first) as any;	// TODO: Activityのtypeをなおさないといけないので
-		unresolvedItems = page.orderedItems;
-	} else {
-		throw new Error('');
+		const page = await resolver.resolveCollection(collection.first);
+		if (isOrderedCollectionPage(page)) {
+			unresolvedActivities = page.orderedItems;
+		}
 	}
 
-	// Resolve to Activity arrays
-	const items = await resolver.resolve(unresolvedItems);
-	if (!Array.isArray(items)) throw new Error(`Collection items is not an array`);
+	if (!unresolvedActivities) throw new Error('Can not fetch outbox items');
 
-	for (const activity of items.reverse()) {	// なるべく古い順に登録する
-		if (activity.type === 'Create' && activity.object && activity.object.type === 'Note') {
-			// Note
-			if (activity.object.inReplyTo) {
-				// Note[Replay]
-			} else {
-				// Note[Original]
-				await resolveNote(activity.object, resolver);
+	// Process activities
+	let itemCount = 0;
+	for (const unresolvedActivity of unresolvedActivities) {
+		const activity = await resolver.resolve(unresolvedActivity);
+
+		if (isCreate(activity)) {
+			const object = await resolver.resolve(activity.object);
+			if (isNote(object)) {
+				// Note
+				if (object.inReplyTo) {
+					// skip reply
+				} else if (object._misskey_quote) {
+					// skip quote
+				} else {
+					if (++itemCount > 10) break;
+					await resolveNote(object, resolver);
+				}
 			}
-		} else if (activity.type === 'Announce') {
-			// Renote
-			// Renoteを追うと終わらないので・・・
-			// await resolveNote(activity.object, resolver);
+		} else {
+			// skip Announce etc
 		}
 	}
 }

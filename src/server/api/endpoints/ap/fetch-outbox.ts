@@ -89,5 +89,5 @@ export default define(meta, async (ps, me) => {
 		}
 	}
 
-	ps.sync ? await fetchOutbox(user._id, true) : fetchOutbox(user._id, true);
+	ps.sync ? await fetchOutbox(user) : fetchOutbox(user);
 });

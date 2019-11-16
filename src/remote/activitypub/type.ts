@@ -75,7 +75,7 @@ export interface ICollection extends IObject {
 export interface ICollectionPage extends IObject {
 	type: 'CollectionPage';
 	totalItems: number;
-	items?: ApObject;
+	items?: (IObject | string)[];
 	current?: ICollectionPage;
 	first?: ICollectionPage;
 	last?: ICollectionPage;	partOf: string;
@@ -86,7 +86,7 @@ export interface ICollectionPage extends IObject {
 export interface IOrderedCollection extends IObject {
 	type: 'OrderedCollection';
 	totalItems: number;
-	orderedItems?: ApObject;
+	orderedItems?: (IObject | string)[];
 	current?: IOrderedCollectionPage;
 	first?: IOrderedCollectionPage;
 	last?: IOrderedCollectionPage;
@@ -95,7 +95,7 @@ export interface IOrderedCollection extends IObject {
 export interface IOrderedCollectionPage extends IObject {
 	type: 'OrderedCollectionPage';
 	totalItems: number;
-	orderedItems?: ApObject;
+	orderedItems?: (IObject | string)[];
 	current?: IOrderedCollectionPage;
 	first?: IOrderedCollectionPage;
 	last?: IOrderedCollectionPage;
