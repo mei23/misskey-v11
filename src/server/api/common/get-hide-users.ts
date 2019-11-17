@@ -17,7 +17,8 @@ export async function getHideUserIdsById(meId?: mongo.ObjectID, includeSilenced 
 			}
 		}),
 		includeSilenced ? (User.find({
-			isSilenced: true
+			isSilenced: true,
+			_id: { $nin: meId ? [ meId ] : [] }
 		}, {
 			fields: {
 				_id: true

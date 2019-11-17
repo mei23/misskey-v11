@@ -47,7 +47,7 @@ export default define(meta, async (ps, user) => {
 	}) as any as mongo.ObjectID[];
 
 	// 隠すユーザーを取得
-	const hideUserIds = await getHideUserIds(user);
+	const hideUserIds = await getHideUserIds(user, true);
 
 	const notes = await Note.find({
 		_id: {

@@ -7,6 +7,7 @@ import fetchMeta from '../../../../misc/fetch-meta';
 import UserList from '../../../../models/user-list';
 import { concat } from '../../../../prelude/array';
 import { isSelfHost } from '../../../../misc/convert-host';
+import User from '../../../../models/user';
 
 export default class extends Channel {
 	public readonly chName = 'hybridTimeline';
@@ -28,6 +29,13 @@ export default class extends Channel {
 
 		const mute = await Mute.find({ muterId: this.user._id });
 		this.mutedUserIds = mute.map(m => m.muteeId.toString());
+
+		const silences = await User.find({
+			isSilenced: true,
+			_id: { $nin: this.user ? [ this.user._id ] : [] }
+		});
+
+		this.mutedUserIds = this.mutedUserIds.concat(silences.map(x => x._id.toString()));
 
 		// Homeから隠すリストユーザー
 		const lists = await UserList.find({

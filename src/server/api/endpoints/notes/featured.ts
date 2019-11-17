@@ -42,7 +42,7 @@ export const meta = {
 export default define(meta, async (ps, user) => {
 	const day = 1000 * 60 * 60 * 24 * ps.days;
 
-	const hideUserIds = await getHideUserIds(user);
+	const hideUserIds = await getHideUserIds(user, true);
 
 	const notes = await Note.find({
 		createdAt: {
