@@ -2,6 +2,7 @@ import $ from 'cafy';
 import ID, { transform } from '../../../misc/cafy-id';
 import Note, { packMany } from '../../../models/note';
 import define from '../define';
+import { getHideUserIds } from '../common/get-hide-users';
 
 export const meta = {
 	desc: {
@@ -79,6 +80,9 @@ export const meta = {
 };
 
 export default define(meta, async (ps) => {
+	// 隠すユーザーを取得
+	const hideUserIds = await getHideUserIds(null, true);
+
 	const sort = {
 		_id: -1
 	};
@@ -86,6 +90,7 @@ export default define(meta, async (ps) => {
 		deletedAt: null,
 		visibility: 'public',
 		localOnly: { $ne: true },
+		userId: { $nin: hideUserIds }
 	} as any;
 	if (ps.sinceId) {
 		sort._id = 1;
