@@ -6,7 +6,7 @@ import config from '../../../config';
 import User, { validateUsername, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
-import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isPerson, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, isOrderedCollectionPage, getApId, isCreate, isNote } from '../type';
+import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isPerson, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, isOrderedCollectionPage, isCreate, isNote } from '../type';
 import { IDriveFile } from '../../../models/drive-file';
 import Meta from '../../../models/meta';
 import { fromHtml } from '../../../mfm/fromHtml';
