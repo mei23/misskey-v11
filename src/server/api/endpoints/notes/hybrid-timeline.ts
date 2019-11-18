@@ -166,60 +166,28 @@ export default define(meta, async (ps, user) => {
 		_id: -1
 	};
 
-	const followQuery = followings.map(f => ({
-		userId: f.id,
-
-		/*// リプライは含めない(ただし投稿者自身の投稿へのリプライ、自分の投稿へのリプライ、自分のリプライは含める)
-		$or: [{
-			// リプライでない
-			replyId: null
-		}, { // または
-			// リプライだが返信先が投稿者自身の投稿
-			$expr: {
-				$eq: ['$_reply.userId', '$userId']
-			}
-		}, { // または
-			// リプライだが返信先が自分(フォロワー)の投稿
-			'_reply.userId': user._id
-		}, { // または
-			// 自分(フォロワー)が送信したリプライ
-			userId: user._id
-		}]*/
-	}));
-
-	const visibleQuery = user == null ? [{
-		visibility: { $in: ['public', 'home'] }
-	}] : [{
-		visibility: { $in: ['public', 'home', 'followers'] }
-	}, {
-		// myself (for specified/private)
-		userId: user._id
-	}, {
-		// to me (for specified)
-		visibleUserIds: { $in: [ user._id ] }
-	}];
-
 	const query = {
 		$and: [{
 			deletedAt: null,
 
 			$or: [{
-				$and: [{
-					// フォローしている人の投稿
-					$or: followQuery
-				}, {
-					// visible for me
-					$or: visibleQuery
-				}]
-			}, {
-				// public only
 				visibility: 'public',
-
-				// リプライでない
-				//replyId: null,
-
-				// local
 				'_user.host': null
+			}, {
+				visibility: { $in: [ 'home', 'followers' ] },
+				userId: { $in: followings.map(f => f.id) }
+			}, {
+				// myself (for specified/private)
+				userId: user._id
+			}, {
+				// to me (for specified)
+				visibleUserIds: { $in: [ user._id ] }
+			}, {
+				// 自分の投稿へのリプライ
+				'_reply.userId': user._id
+			}, {
+				// 自分へのメンションが含まれている
+				mentions: { $in: [ user._id ] }
 			}],
 
 			// hide

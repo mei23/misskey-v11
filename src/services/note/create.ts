@@ -470,7 +470,7 @@ async function publish(user: IUser, note: INote, noteObj: any, reply: INote, ren
 			publishHomeTimelineStream(note.userId, noteObj);
 
 			// Publish note to local and hybrid timeline stream
-			if (note.visibility != 'home') {
+			if (note.visibility != 'home' && note.replyId == null) {
 				publishLocalTimelineStream(noteObj);
 			}
 
@@ -699,6 +699,11 @@ async function createMentionedEvents(mentionedUsers: IUser[], note: INote, nm: N
 		});
 
 		publishMainStream(u._id, 'mention', detailPackedNote);
+
+		if (note.visibility != 'specified') {
+			publishHomeTimelineStream(u._id, detailPackedNote);
+			publishHybridTimelineStream(u._id, detailPackedNote);
+		}
 
 		// Create notification
 		nm.push(u._id, 'mention');
