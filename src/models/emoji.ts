@@ -1,7 +1,7 @@
 import * as mongo from 'mongodb';
 import db from '../db/mongodb';
 import config from '../config';
-import * as deepcopy from 'deepcopy';
+const deepcopy = require('deepcopy');
 import isObjectid from '../misc/is-objectid';
 import { toApHost } from '../misc/convert-host';
 
