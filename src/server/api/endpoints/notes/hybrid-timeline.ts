@@ -174,7 +174,7 @@ export default define(meta, async (ps, user) => {
 				visibility: 'public',
 				'_user.host': null
 			}, {
-				visibility: { $in: [ 'home', 'followers' ] },
+				visibility: { $in: [ 'public', 'home', 'followers' ] },
 				userId: { $in: followings.map(f => f.id) }
 			}, {
 				// myself (for specified/private)
