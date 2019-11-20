@@ -21,7 +21,7 @@ export default class extends Channel {
 		}
 
 		// Subscribe events
-		this.subscriber.on('globalTimeline', this.onNote);
+		this.subscriber.on('notesStream', this.onNote);
 
 		const mute = await Mute.find({ muterId: this.user._id });
 		this.mutedUserIds = mute.map(m => m.muteeId.toString());
@@ -36,12 +36,9 @@ export default class extends Channel {
 
 	@autobind
 	private async onNote(note: any) {
-		// リプライなら再pack
-		if (note.replyId != null) {
-			note.reply = await pack(note.replyId, this.user, {
-				detail: true
-			});
-		}
+		if (note.visibility !== 'public') return;
+		if (note.replyId) return;
+
 		// Renoteなら再pack
 		if (note.renoteId != null) {
 			note.renote = await pack(note.renoteId, this.user, {
@@ -58,6 +55,6 @@ export default class extends Channel {
 	@autobind
 	public dispose() {
 		// Unsubscribe events
-		this.subscriber.off('globalTimeline', this.onNote);
+		this.subscriber.off('notesStream', this.onNote);
 	}
 }

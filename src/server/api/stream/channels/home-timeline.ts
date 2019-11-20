@@ -6,6 +6,7 @@ import Channel from '../channel';
 import { concat } from '../../../../prelude/array';
 import UserList from '../../../../models/user-list';
 import { isSelfHost } from '../../../../misc/convert-host';
+import Following from '../../../../models/following';
 
 export default class extends Channel {
 	public readonly chName = 'homeTimeline';
@@ -15,11 +16,18 @@ export default class extends Channel {
 	private mutedUserIds: string[] = [];
 	private hideFromUsers: string[] = [];
 	private hideFromHosts: string[] = [];
+	private followingIds: string[] = [];
 
 	@autobind
 	public async init(params: any) {
 		// Subscribe events
-		this.subscriber.on(`homeTimeline:${this.user._id}`, this.onNote);
+		this.subscriber.on('notesStream', this.onNote);
+
+		const followings = await Following.find({
+			followerId: this.user._id
+		});
+
+		this.followingIds = followings.map(x => `${x.followeeId}`);
 
 		const mute = await Mute.find({ muterId: this.user._id });
 		this.mutedUserIds = mute.map(m => m.muteeId.toString());
@@ -36,6 +44,27 @@ export default class extends Channel {
 
 	@autobind
 	private async onNote(note: any) {
+		// リプライじゃなければリプライ解決するまでもなく除外確定
+		if (!note.replyId) {
+			if (!(
+				`${note.userId}` === `${this.user._id}` ||	// myself
+				this.followingIds.some(x => `${note.userId}` === `${x}`) ||	// followers
+				(note.mentions || []).some((x: any) => `${x}` === `${this.user._id}`) ||
+				(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`)
+			)) return;
+		}
+
+		// フォロワー限定以下なら現在のユーザー情報で再度除外
+		if (['followers', 'specified'].includes(note.visibility)) {
+			note = await pack(note.id, this.user, {
+				detail: true
+			});
+
+			if (note.isHidden) {
+				return;
+			}
+		}
+
 		// リプライなら再pack
 		if (note.replyId != null) {
 			note.reply = await pack(note.replyId, this.user, {
@@ -49,6 +78,17 @@ export default class extends Channel {
 			});
 		}
 
+		// リプライの場合リプライ情報を見て再度除外
+		if (note.replyId) {
+			if (!(
+				`${note.userId}` === `${this.user._id}` ||	// myself
+				this.followingIds.some(x => `${note.userId}` === `${x}`) ||	// followers
+				(note.mentions || []).some((x: any) => `${x}` === `${this.user._id}`) ||
+				(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`)
+				`${this.user._id}` === `${note.reply.userId}`
+			)) return;
+		}
+
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
 		if (shouldMuteThisNote(note, this.mutedUserIds, this.hideFromUsers, this.hideFromHosts)) return;
 
@@ -58,6 +98,6 @@ export default class extends Channel {
 	@autobind
 	public dispose() {
 		// Unsubscribe events
-		this.subscriber.off(`homeTimeline:${this.user._id}`, this.onNote);
+		this.subscriber.off('notesStream', this.onNote);
 	}
 }

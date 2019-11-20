@@ -1,8 +1,7 @@
 import es from '../../db/elasticsearch';
 import Note, { pack, INote, IChoice } from '../../models/note';
 import User, { isLocalUser, IUser, isRemoteUser, IRemoteUser, ILocalUser } from '../../models/user';
-import { publishMainStream, publishHomeTimelineStream, publishLocalTimelineStream, publishHybridTimelineStream, publishGlobalTimelineStream, publishUserListStream, publishHashtagStream, publishNoteStream } from '../stream';
-import Following from '../../models/following';
+import { publishMainStream, publishNotesStream } from '../stream';
 import { createDeleteNoteJob } from '../../queue';
 import renderNote from '../../remote/activitypub/renderer/note';
 import renderCreate from '../../remote/activitypub/renderer/create';
@@ -15,7 +14,6 @@ import watch from './watch';
 import Mute from '../../models/mute';
 import { parse } from '../../mfm/parse';
 import { IApp } from '../../models/app';
-import UserList from '../../models/user-list';
 import resolveUser from '../../remote/resolve-user';
 import Meta from '../../models/meta';
 import config from '../../config';
@@ -35,7 +33,6 @@ import extractMentions from '../../misc/extract-mentions';
 import extractEmojis from '../../misc/extract-emojis';
 import extractHashtags from '../../misc/extract-hashtags';
 import { genId } from '../../misc/gen-id';
-import { toDbHost } from '../../misc/convert-host';
 import DeliverManager from '../../remote/activitypub/deliver-manager';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention' | 'highlight';
@@ -305,9 +302,7 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 		noteObj.isFirstNote = true;
 	}
 
-	if (tags.length > 0) {
-		publishHashtagStream(noteObj);
-	}
+	publishNotesStream(noteObj);
 
 	const nm = new NotificationManager(user, note);
 	const nmRelatedPromises = [];
@@ -358,19 +353,6 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 		if (!user._id.equals(data.renote.userId) && isLocalUser(data.renote._user)) {
 			publishMainStream(data.renote.userId, 'renote', noteObj);
 		}
-
-		// renote対象noteに対してrenotedイベント
-		if (!isQuote(note)) {
-			publishNoteStream(data.renote._id, 'renoted', {
-				renoteeId: user._id,	// renoteした人
-				noteId: note._id,	// renote扱いのNoteId
-				renoteCount: (data.renote.renoteCount || 0) + 1,
-			});
-		}
-	}
-
-	if (!silent) {
-		publish(user, note, noteObj, data.reply, data.renote, data.visibleUsers);
 	}
 
 	Promise.all(nmRelatedPromises).then(() => {
@@ -445,56 +427,6 @@ function incRenoteCount(renote: INote) {
 			score: 1
 		}
 	});
-}
-
-async function publish(user: IUser, note: INote, noteObj: any, reply: INote, renote: INote, visibleUsers: IUser[]) {
-	if (isLocalUser(user)) {
-		if (['followers', 'specified'].includes(note.visibility)) {
-			const detailPackedNote = await pack(note, user, {
-				detail: true
-			});
-			// Publish event to myself's stream
-			publishHomeTimelineStream(note.userId, detailPackedNote);
-			publishHybridTimelineStream(note.userId, detailPackedNote);
-
-			if (note.visibility == 'specified') {
-				for (const u of visibleUsers) {
-					if (!u._id.equals(user._id)) {
-						publishHomeTimelineStream(u._id, detailPackedNote);
-						publishHybridTimelineStream(u._id, detailPackedNote);
-					}
-				}
-			}
-		} else {
-			// Publish event to myself's stream
-			publishHomeTimelineStream(note.userId, noteObj);
-
-			// Publish note to local and hybrid timeline stream
-			if (note.visibility != 'home' && note.replyId == null) {
-				publishLocalTimelineStream(noteObj);
-			}
-
-			if (note.visibility == 'public') {
-				publishHybridTimelineStream(null, noteObj);
-			} else {
-				// Publish event to myself's stream
-				publishHybridTimelineStream(note.userId, noteObj);
-			}
-		}
-	}
-
-	// Publish note to global timeline stream
-	if (note.visibility == 'public' && note.replyId == null) {
-		publishGlobalTimelineStream(noteObj);
-	}
-
-	if (['public', 'home', 'followers'].includes(note.visibility)) {
-		// フォロワーに配信
-		publishToFollowers(note, user);
-	}
-
-	// リストに配信
-	publishToUserLists(note, noteObj);
 }
 
 async function insertNote(user: IUser, data: Option, tags: string[], emojis: string[], mentionedUsers: IUser[]) {
@@ -643,55 +575,6 @@ async function notifyExtended(text: string, nm: NotificationManager) {
 	}
 }
 
-async function publishToUserLists(note: INote, noteObj: any) {
-	const lists = await UserList.find({
-		$or: [{
-			userIds: note.userId
-		}, {
-			hosts: toDbHost(note._user.host || config.host)
-		}]
-	});
-
-	for (const list of lists) {
-		if (note.visibility == 'specified') {
-			if (note.visibleUserIds.some(id => id.equals(list.userId))) {
-				publishUserListStream(list._id, 'note', noteObj);
-			}
-		} else {
-			publishUserListStream(list._id, 'note', noteObj);
-		}
-	}
-}
-
-async function publishToFollowers(note: INote, user: IUser) {
-	const detailPackedNote = await pack(note, null, {
-		detail: true,
-		skipHide: true
-	});
-
-	const followers = await Following.find({
-		followeeId: note.userId,
-		followerId: { $ne: note.userId }	// バグでフォロワーに自分がいることがあるため
-	});
-
-	for (const following of followers) {
-		const follower = following._follower;
-
-		if (isLocalUser(follower)) {
-			// この投稿が返信ならスキップ
-			if (note.replyId && !note._reply.userId.equals(following.followerId) && !note._reply.userId.equals(note.userId))
-				continue;
-
-			// Publish event to followers stream
-			publishHomeTimelineStream(following.followerId, detailPackedNote);
-
-			if (isRemoteUser(user) || note.visibility != 'public') {
-				publishHybridTimelineStream(following.followerId, detailPackedNote);
-			}
-		}
-	}
-}
-
 async function createMentionedEvents(mentionedUsers: IUser[], note: INote, nm: NotificationManager) {
 	for (const u of mentionedUsers.filter(u => isLocalUser(u))) {
 		const detailPackedNote = await pack(note, u, {
@@ -699,11 +582,6 @@ async function createMentionedEvents(mentionedUsers: IUser[], note: INote, nm: N
 		});
 
 		publishMainStream(u._id, 'mention', detailPackedNote);
-
-		if (note.visibility != 'specified') {
-			publishHomeTimelineStream(u._id, detailPackedNote);
-			publishHybridTimelineStream(u._id, detailPackedNote);
-		}
 
 		// Create notification
 		nm.push(u._id, 'mention');
