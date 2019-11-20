@@ -92,15 +92,19 @@ export default class extends Channel {
 		}
 
 		// リプライの場合リプライ情報を見て再度除外
-		if (note.replyId) {
-			if (!(
-				(note.user.host == null && note.visibility === 'public') || // local public
-				`${note.userId}` === `${this.user._id}` ||	// myself
-				this.followingIds.some(x => `${note.userId}` === `${x}`) ||	// followers
-				(note.mentions || []).some((x: any) => `${x}` === `${this.user._id}`) ||
-				(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`)
-				`${this.user._id}` === `${note.reply.userId}`
-			)) return;
+		try {
+			if (note.replyId) {
+				if (!(
+					(note.user.host == null && note.visibility === 'public') || // local public
+					`${note.userId}` === `${this.user._id}` ||	// myself
+					this.followingIds.some(x => `${note.userId}` === `${x}`) ||	// followers
+					(note.mentions || []).some((x: any) => `${x}` === `${this.user._id}`) ||
+					(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`)
+					`${this.user._id}` === `${note.reply.userId}`
+				)) return;
+			}
+		} catch (e) {
+			console.log(JSON.stringify(note, null, 2));
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
