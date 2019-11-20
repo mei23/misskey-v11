@@ -135,18 +135,18 @@ export default define(meta, async (ps, user) => {
 	};
 
 	const query = {
-		$and: [ {} ],
-
-		deletedAt: null,
-
-		// public only
-		visibility: 'public',
+		// local
+		'_user.host': null,
 
 		// リプライでない
 		replyId: null,
 
-		// local
-		'_user.host': null
+		// public only
+		visibility: 'public',
+
+		deletedAt: null,
+
+		$and: [ {} ]
 	} as any;
 
 	if (hideUserIds && hideUserIds.length > 0) {
