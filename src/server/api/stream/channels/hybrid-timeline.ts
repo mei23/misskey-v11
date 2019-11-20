@@ -99,7 +99,7 @@ export default class extends Channel {
 					`${note.userId}` === `${this.user._id}` ||	// myself
 					this.followingIds.some(x => `${note.userId}` === `${x}`) ||	// followers
 					(note.mentions || []).some((x: any) => `${x}` === `${this.user._id}`) ||
-					(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`)
+					(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`) ||
 					`${this.user._id}` === `${note.reply.userId}`
 				)) return;
 			}
