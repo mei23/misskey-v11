@@ -322,7 +322,6 @@ desktop/views/components/notifications.vue:
   empty: "Geen meldingen"
 desktop/views/components/post-form.vue:
   reply-placeholder: "Deze notitie beantwoorden..."
-  quote-placeholder: "Deze notitie citeren..."
   submit: "Bericht"
   reply: "Beantwoorden"
   posted: "Geplaatst!"

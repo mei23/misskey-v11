@@ -715,7 +715,6 @@ desktop/views/components/post-form.vue:
   attach-location-information: "Přidat informace o lokaci"
   hide-contents: "Schovat obsah"
   reply-placeholder: "Odpovědět na tento příspěvěk"
-  quote-placeholder: "Citovat tento příspěvek"
   submit: "Příspěvek"
   reply: "Odpovědět"
   renote: "Renotovat"

@@ -196,7 +196,7 @@ export default Vue.extend({
 		},
 
 		submitText(): string {
-			return this.renote
+			return this.renote && !this.text.length && !this.files.length && !this.poll
 				? this.$t('renote')
 				: this.reply
 					? this.$t('reply')

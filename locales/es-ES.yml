@@ -617,7 +617,6 @@ desktop/views/components/post-form.vue:
   attach-location-information: "Agregar localización"
   hide-contents: "Esconder contenidos"
   reply-placeholder: "Responder a esta nota..."
-  quote-placeholder: "Citar esta nota..."
   submit: "Publicar"
   reply: "Responder"
   renote: "Republicar"

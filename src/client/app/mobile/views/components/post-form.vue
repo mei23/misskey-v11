@@ -100,7 +100,7 @@ export default Vue.extend({
 		quote: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: true
 		},
 		initialText: {
 			type: String,
@@ -182,7 +182,7 @@ export default Vue.extend({
 			];
 			const x = xs[Math.floor(Math.random() * xs.length)];
 
-			return this.renote
+			return this.renote && !this.text.length && !this.files.length && !this.poll
 				? this.$t('quote-placeholder')
 				: this.reply
 					? this.$t('reply-placeholder')
@@ -190,7 +190,7 @@ export default Vue.extend({
 		},
 
 		submitText(): string {
-			return (this.renote && !this.quote)
+			return this.renote && !this.text.length && !this.files.length && !this.poll
 				? this.$t('renote')
 				: this.reply
 					? this.$t('reply')

@@ -677,7 +677,7 @@ desktop/views/components/post-form.vue:
   attach-location-information: "いる場所くっつけるで"
   hide-contents: "内容を隠す"
   reply-placeholder: "この投稿への返信..."
-  quote-placeholder: "この投稿を引用..."
+  quote-placeholder: "ここを空のままにするとRenoteになります"
   submit: "投稿"
   reply: "返信"
   renote: "Renote"
@@ -716,7 +716,7 @@ desktop/views/components/renote-form.vue:
   success: "Renoteしたで！"
   failure: "Renoteでけへん"
 desktop/views/components/renote-form-window.vue:
-  title: "この投稿をRenoteしてもええか？"
+  title: "引用して投稿"
 desktop/views/pages/user-following-or-followers.vue:
   following: "{user}のフォロー"
   followers: "{user}のフォロワー"
@@ -1139,7 +1139,7 @@ mobile/views/components/post-form.vue:
   submit: "投稿"
   reply: "返す"
   renote: "Renote"
-  quote-placeholder: "この投稿を持ってくる(オプション)"
+  quote-placeholder: "ここを空のままにするとRenoteになります"
   reply-placeholder: "この投稿への返信..."
   cw-placeholder: "内容への注釈 (オプション)"
   location-alert: "あんさんのつことる端末は位置情報に対応しとらんみたいやわ、知らんけど。"

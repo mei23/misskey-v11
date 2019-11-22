@@ -463,7 +463,6 @@ desktop/views/components/post-form.vue:
   add-visible-user: "+Nutzer hinzufügen"
   hide-contents: "Inhalt verstecken"
   reply-placeholder: "Antworte auf diese Anmerkung..."
-  quote-placeholder: "Zitiere diese Anmerkung..."
   submit: "Beitragsform"
   reply: "Antworten"
   renote: "Anmerkung"
