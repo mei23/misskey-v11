@@ -16,7 +16,7 @@ import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import i18n from '../../../i18n';
 import * as config from '../../../config';
 
-const fetchLimit = 10;
+const fetchLimit = 20;
 
 export default Vue.extend({
 	i18n: i18n('deck'),
