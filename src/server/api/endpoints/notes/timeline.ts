@@ -160,7 +160,8 @@ export default define(meta, async (ps, user) => {
 
 			$or: [{
 				visibility: { $in: [ 'public', 'home', 'followers' ] },
-				userId: { $in: followings.map(f => f.id) }
+				userId: { $in: followings.map(f => f.id) },
+				'_reply.userId': null
 			}, {
 				// myself (for specified/private)
 				userId: user._id

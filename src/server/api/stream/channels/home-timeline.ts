@@ -87,6 +87,8 @@ export default class extends Channel {
 				(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`) ||
 				`${this.user._id}` === `${note.reply.userId}`
 			)) return;
+
+			if (this.followingIds.some(x => `${note.userId}` === `${x}`) && `${this.user._id}` !== `${note.reply.userId}`) return;
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
