@@ -253,10 +253,6 @@ export default define(meta, async (ps, user) => {
 		query.createdAt = {
 			$lt: new Date(ps.untilDate)
 		};
-	} else {
-		query._id = {
-			$lt: transform('800000000000000000000000')
-		};
 	}
 	//#endregion
 
