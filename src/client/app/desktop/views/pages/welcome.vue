@@ -49,19 +49,6 @@
 				</div>
 			</div>
 
-			<div class="photos block">
-				<header><fa :icon="['far', 'images']"/> {{ $t('photos') }}</header>
-				<div>
-					<div v-for="photo in photos" :style="`background-image: url(${photo.thumbnailUrl})`"></div>
-				</div>
-			</div>
-
-			<div class="tag-cloud block">
-				<div>
-					<mk-tag-cloud/>
-				</div>
-			</div>
-
 			<div class="nav block">
 				<div>
 					<mk-nav class="nav"/>
@@ -150,7 +137,6 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import { host, constants } from '../../../config';
-import { concat } from '../../../../../prelude/array';
 import { toUnicode } from 'punycode';
 
 export default Vue.extend({
@@ -165,7 +151,6 @@ export default Vue.extend({
 			name: 'Misskey',
 			description: '',
 			announcements: [],
-			photos: []
 		};
 	},
 
@@ -180,21 +165,6 @@ export default Vue.extend({
 
 		this.$root.api('stats').then(stats => {
 			this.stats = stats;
-		});
-
-		const image = [
-			'image/jpeg',
-			'image/png',
-			'image/gif'
-		];
-
-		this.$root.api('notes/local-timeline', {
-			fileType: image,
-			excludeNsfw: true,
-			limit: 6
-		}).then((notes: any[]) => {
-			const files = concat(notes.map((n: any): any[] => n.files));
-			this.photos = files.filter(f => image.includes(f.type)).slice(0, 6);
 		});
 	},
 
@@ -364,7 +334,7 @@ export default Vue.extend({
 			grid-template-rows 390px 1fr 256px 64px
 			grid-template-columns 1fr 1fr 350px
 			gap 16px
-			height 1150px
+			height 600px
 
 			> .main
 				grid-row 1
@@ -422,8 +392,8 @@ export default Vue.extend({
 						z-index 1
 
 			> .announcements
-				grid-row 2
-				grid-column 1
+				grid-row 2/4
+				grid-column 1/3
 
 				> div
 					padding 32px
@@ -436,31 +406,6 @@ export default Vue.extend({
 						> h1
 							margin 0
 							font-size 1.25em
-
-			> .photos
-				grid-row 2
-				grid-column 2
-
-				> div
-					display grid
-					grid-template-rows 1fr 1fr 1fr
-					grid-template-columns 1fr 1fr
-					gap 8px
-					height 100%
-					padding 16px
-
-					> div
-						//border-radius 4px
-						background-position center center
-						background-size cover
-
-			> .tag-cloud
-				grid-row 3
-				grid-column 1 / 3
-
-				> div
-					height 256px
-					padding 32px
 
 			> .nav
 				display flex

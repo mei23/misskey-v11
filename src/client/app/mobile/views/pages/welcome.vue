@@ -16,12 +16,6 @@
 		<div class="tl">
 			<mk-welcome-timeline/>
 		</div>
-		<div class="hashtags">
-			<mk-tag-cloud/>
-		</div>
-		<div class="photos">
-			<div v-for="photo in photos" :style="`background-image: url(${photo.thumbnailUrl})`"></div>
-		</div>
 		<div class="stats" v-if="stats">
 			<span><fa icon="user"/> {{ stats.originalUsersCount | number }}</span>
 			<span><fa icon="pencil-alt"/> {{ stats.originalNotesCount | number }}</span>
@@ -75,7 +69,6 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import { constants, host } from '../../../config';
-import { concat } from '../../../../../prelude/array';
 import { toUnicode } from 'punycode';
 
 export default Vue.extend({
@@ -89,7 +82,6 @@ export default Vue.extend({
 			host: toUnicode(host),
 			name: 'Misskey',
 			description: '',
-			photos: [],
 			announcements: []
 		};
 	},
@@ -106,20 +98,6 @@ export default Vue.extend({
 			this.stats = stats;
 		});
 
-		const image = [
-			'image/jpeg',
-			'image/png',
-			'image/gif'
-		];
-
-		this.$root.api('notes/local-timeline', {
-			fileType: image,
-			excludeNsfw: true,
-			limit: 6
-		}).then((notes: any[]) => {
-			const files = concat(notes.map((n: any): any[] => n.files));
-			this.photos = files.filter(f => image.includes(f.type)).slice(0, 6);
-		});
 	},
 	methods: {
 		signin() {
@@ -203,23 +181,6 @@ export default Vue.extend({
 				border-radius 6px
 				overflow auto
 				-webkit-overflow-scrolling touch
-
-		> .hashtags
-			padding 0 8px
-			height 200px
-
-		> .photos
-			display grid
-			grid-template-rows 1fr 1fr 1fr
-			grid-template-columns 1fr 1fr
-			gap 8px
-			height 300px
-			margin-top 16px
-
-			> div
-				border-radius 4px
-				background-position center center
-				background-size cover
 
 		> .stats
 			margin 16px 0
