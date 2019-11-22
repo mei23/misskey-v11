@@ -735,6 +735,8 @@ common/views/components/user-list-editor.vue:
   delete-are-you-sure: "Delete list \"$1\"?"
   deleted: "Deleted successfully"
   hide-from-home: "Hide these users from home"
+  add-user: "Add a user"
+  enter-username: "Please enter username"
 common/views/components/user-lists.vue:
   create-list: "Create a list"
   list-name: "List name"

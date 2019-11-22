@@ -12,7 +12,9 @@
 
 	<ui-card>
 		<template #title><fa :icon="faUsers"/> {{ $t('users') }}</template>
-
+		<div style="margin: 8px">
+			<a @click="addUser">{{ $t('add-user') }}</a>
+		</div>
 		<section>
 			<sequential-entrance animation="entranceFromTop" delay="25">
 				<div class="phcqulfl" v-for="user in users" :key="user.id">
@@ -158,6 +160,21 @@ export default Vue.extend({
 				userId: user.id
 			}).then(() => {
 				this.fetchList();
+			});
+		},
+
+		addUser() {
+			this.$root.dialog({
+				title: this.$t('enter-username'),
+				user: true
+			}).then(({ canceled, result: user }) => {
+				if (canceled) return;
+				this.$root.api('users/lists/push', {
+					listId: this.list.id,
+					userId: user.id
+				}).then(() => {
+					this.fetchList();
+				});
 			});
 		},
 

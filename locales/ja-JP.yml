@@ -796,6 +796,8 @@ common/views/components/user-list-editor.vue:
   hosts: "ホスト"
   add-host: "ホストの追加"
   remove-host: "ホストを削除"
+  add-user: "ユーザーを追加"
+  enter-username: "ユーザー名を入力してください"
 
 common/views/components/user-lists.vue:
   create-list: "リストを作成"
