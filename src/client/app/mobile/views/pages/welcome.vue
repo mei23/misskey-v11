@@ -21,7 +21,7 @@
 			<span><fa icon="pencil-alt"/> {{ stats.originalNotesCount | number }}</span>
 		</div>
 		<div class="announcements" v-if="announcements && announcements.length > 0">
-			<article v-for="announcement in announcements">
+			<article v-for="(announcement, i) in announcements" :key="i">
 				<span class="title" v-html="announcement.title"></span>
 				<div v-html="announcement.text"></div>
 			</article>
@@ -86,7 +86,7 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.$root.getMeta().then(meta => {
+		this.$root.getMeta().then((meta: any) => {
 			this.meta = meta;
 			this.name = meta.name;
 			this.description = meta.description;
@@ -94,7 +94,7 @@ export default Vue.extend({
 			this.banner = meta.bannerUrl;
 		});
 
-		this.$root.api('stats').then(stats => {
+		this.$root.api('stats').then((stats: any) => {
 			this.stats = stats;
 		});
 

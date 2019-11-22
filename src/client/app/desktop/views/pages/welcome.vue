@@ -42,7 +42,7 @@
 			<div class="announcements block">
 				<header><fa icon="broadcast-tower"/> {{ $t('announcements') }}</header>
 				<div v-if="announcements && announcements.length > 0">
-					<div v-for="announcement in announcements">
+					<div v-for="(announcement, i) in announcements" :key="i">
 						<h1 v-html="announcement.title"></h1>
 						<div v-html="announcement.text"></div>
 					</div>
@@ -155,7 +155,7 @@ export default Vue.extend({
 	},
 
 	created() {
-		this.$root.getMeta().then(meta => {
+		this.$root.getMeta().then((meta: any) => {
 			this.meta = meta;
 			this.name = meta.name;
 			this.description = meta.description;
@@ -163,7 +163,7 @@ export default Vue.extend({
 			this.banner = meta.bannerUrl;
 		});
 
-		this.$root.api('stats').then(stats => {
+		this.$root.api('stats').then((stats: any) => {
 			this.stats = stats;
 		});
 	},
