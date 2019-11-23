@@ -330,7 +330,7 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 	}
 
 	// mention
-	createMentionedEvents(mentionedUsers, note, nm);
+	await createMentionedEvents(mentionedUsers, note, nm);
 
 	// If it is renote
 	if (data.renote) {
