@@ -59,6 +59,7 @@ export default Vue.extend({
 			this.$root.api('notes/featured', {
 				limit: this.max,
 				days: 0.5,
+				excludeNsfw: true,
 			}).then((notes: any[]) => {
 				notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 				this.notes = notes;

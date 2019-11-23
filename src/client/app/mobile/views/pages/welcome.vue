@@ -112,11 +112,13 @@ export default Vue.extend({
 			'image/gif'
 		];
 
-		this.$root.api('notes/local-timeline', {
+		this.$root.api('notes/featured', {
 			fileType: image,
+			limit: 6,
+			days: 2,
 			excludeNsfw: true,
-			limit: 6
 		}).then((notes: any[]) => {
+			notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 			const files = concat(notes.map((n: any): any[] => n.files));
 			this.photos = files.filter(f => image.includes(f.type)).slice(0, 6);
 		});

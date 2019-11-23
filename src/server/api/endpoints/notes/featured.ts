@@ -28,7 +28,20 @@ export const meta = {
 			desc: {
 				'ja-JP': '最大数'
 			}
-		}
+		},
+		fileType: {
+			validator: $.optional.arr($.str),
+			desc: {
+				'ja-JP': '指定された種類のファイルが添付された投稿のみを取得します'
+			}
+		},
+		excludeNsfw: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': 'true にするとNSFWを除外します'
+			}
+		},
 	},
 
 	res: {
@@ -44,7 +57,7 @@ export default define(meta, async (ps, user) => {
 
 	const hideUserIds = await getHideUserIds(user, true);
 
-	const notes = await Note.find({
+	const query = {
 		createdAt: {
 			$gt: new Date(Date.now() - day)
 		},
@@ -52,7 +65,24 @@ export default define(meta, async (ps, user) => {
 		visibility: 'public',
 		'_user.host': null,
 		...(hideUserIds && hideUserIds.length > 0 ? { userId: { $nin: hideUserIds } } : {})
-	}, {
+	} as any;
+
+	if (ps.excludeNsfw) {
+		query['_files.metadata.isSensitive'] = {
+			$ne: true
+		};
+		query['cw'] = null;
+	}
+
+	if (ps.fileType) {
+		query.fileIds = { $exists: true, $ne: [] };
+
+		query['_files.contentType'] = {
+			$in: ps.fileType
+		};
+	}
+
+	const notes = await Note.find(query, {
 		limit: ps.limit,
 		sort: {
 			score: -1
