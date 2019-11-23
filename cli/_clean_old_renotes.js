@@ -58,7 +58,10 @@ async function main() {
                 },
                 {
                     renoteId: { $ne: null },
-                },
+								},
+								{
+									text: null,
+								}
             ],
         });
         for (const note of notes) {
