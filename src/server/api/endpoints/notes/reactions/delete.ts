@@ -1,7 +1,6 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../../misc/cafy-id';
 import define from '../../../define';
-import * as ms from 'ms';
 import deleteReaction from '../../../../../services/note/reaction/delete';
 import { getNote } from '../../../common/getters';
 import { ApiError } from '../../../error';
@@ -19,9 +18,7 @@ export const meta = {
 	kind: 'reaction-write',
 
 	limit: {
-		duration: ms('1hour'),
-		max: 1000,
-		minInterval: ms('1sec')
+		minInterval: 500
 	},
 
 	params: {
