@@ -29,40 +29,48 @@ export async function importUserLists(job: Bull.Job, done: any): Promise<void> {
 
 	const csv = await downloadTextFile(url);
 
+	let linenum = 0;
+
 	for (const line of csv.trim().split('\n')) {
-		const listName = line.split(',')[0].trim();
-		const { username, host } = parseAcct(line.split(',')[1].trim());
+		linenum++;
 
-		let list = await UserList.findOne({
-			userId: user._id,
-			title: listName
-		});
+		try {
+			const listName = line.split(',')[0].trim();
+			const { username, host } = parseAcct(line.split(',')[1].trim());
 
-		if (list == null) {
-			list = await UserList.insert({
-				createdAt: new Date(),
+			let list = await UserList.findOne({
 				userId: user._id,
-				title: listName,
-				userIds: []
+				title: listName
 			});
+
+			if (list == null) {
+				list = await UserList.insert({
+					createdAt: new Date(),
+					userId: user._id,
+					title: listName,
+					userIds: []
+				});
+			}
+
+			let target = isSelfHost(host) ? await User.findOne({
+				host: null,
+				usernameLower: username.toLowerCase()
+			}) : await User.findOne({
+				host: toDbHost(host),
+				usernameLower: username.toLowerCase()
+			});
+
+			if (host == null && target == null) continue;
+			if (list.userIds.some(id => id.equals(target._id))) continue;
+
+			if (target == null) {
+				target = await resolveUser(username, host);
+			}
+
+			pushUserToUserList(target, list);
+		} catch (e) {
+			logger.warn(`Error in line:${linenum} ${e}`);
 		}
-
-		let target = isSelfHost(host) ? await User.findOne({
-			host: null,
-			usernameLower: username.toLowerCase()
-		}) : await User.findOne({
-			host: toDbHost(host),
-			usernameLower: username.toLowerCase()
-		});
-
-		if (host == null && target == null) continue;
-		if (list.userIds.some(id => id.equals(target._id))) continue;
-
-		if (target == null) {
-			target = await resolveUser(username, host);
-		}
-
-		pushUserToUserList(target, list);
 	}
 
 	logger.succ('Imported');
