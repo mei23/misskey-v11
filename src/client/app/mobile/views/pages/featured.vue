@@ -18,6 +18,7 @@
 			<div>
 				<ui-switch v-model="includeGlobal">{{ $t('include-global') }}</ui-switch>
 				<ui-switch v-model="mediaOnly">{{ $t('media-only') }}</ui-switch>
+				<ui-switch v-model="nsfwOnly">{{ $t('nsfw-only') }}</ui-switch>
 			</div>
 		</details>
 		<sequential-entrance animation="entranceFromTop" delay="25">
@@ -41,6 +42,7 @@ export default Vue.extend({
 		return {
 			includeGlobal: false,
 			mediaOnly: false,
+			nsfwOnly: false,
 			days: 2,
 			fetching: true,
 			notes: [],
@@ -52,6 +54,9 @@ export default Vue.extend({
 			this.fetch();
 		},
 		mediaOnly() {
+			this.fetch();
+		},
+		nsfwOnly() {
 			this.fetch();
 		},
 		days() {
@@ -70,10 +75,11 @@ export default Vue.extend({
 			this.fetching = true;
 
 			this.$root.api('notes/featured', {
-				limit: 20,
+				limit: 30,
 				days: Number(this.days),
 				includeGlobal: this.includeGlobal,
 				fileType: this.mediaOnly ? ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'] : undefined,
+				excludeSfw: this.nsfwOnly,
 			}).then((notes: any) => {
 				notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 				this.notes = notes;
