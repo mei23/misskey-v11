@@ -16,7 +16,7 @@ export const meta = {
 
 	params: {
 		days: {
-			validator: $.optional.num.range(1, 1000),
+			validator: $.optional.num.range(0, 1000),
 			default: 2,
 			desc: {
 				'ja-JP': '最大数'

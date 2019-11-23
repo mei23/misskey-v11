@@ -57,7 +57,7 @@
 
 			<div class="side">
 				<div class="tl block">
-					<header><fa :icon="['far', 'comment-alt']"/> {{ $t('timeline') }}</header>
+					<header><fa :icon="['far', 'comment-alt']"/> {{ $t('@.featured-notes') }}</header>
 					<div>
 						<mk-welcome-timeline class="tl" :max="20"/>
 					</div>
