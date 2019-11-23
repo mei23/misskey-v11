@@ -1111,6 +1111,13 @@ desktop/views/components/users-list-item.vue:
 desktop/views/components/window.vue:
   popout: "Pop-out"
   close: "Close"
+desktop/views/home/featured.vue:
+  options: "Options"
+  include-global: "Include global"
+  media-only: "Media posts only"
+  days: "Duration"
+  hour: "hours"
+  day: "days"
 admin/views/index.vue:
   dashboard: "Dashboard"
   instance: "Instance"
@@ -1594,6 +1601,13 @@ mobile/views/pages/user-lists.vue:
   title: "Lists"
 mobile/views/pages/signup.vue:
   lets-start: "Your account is now ready! 📦"
+mobile/views/pages/featured.vue:
+  options: "Options"
+  include-global: "Include global"
+  media-only: "Media posts only"
+  days: "Duration"
+  hour: "hours"
+  day: "days"
 mobile/views/pages/followers.vue:
   followers-of: "{name}'s followers"
 mobile/views/pages/following.vue:

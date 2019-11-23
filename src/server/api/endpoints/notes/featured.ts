@@ -19,7 +19,7 @@ export const meta = {
 			validator: $.optional.num.range(0, 1000),
 			default: 2,
 			desc: {
-				'ja-JP': '最大数'
+				'ja-JP': '集計期間 (日)'
 			}
 		},
 		limit: {
@@ -40,6 +40,13 @@ export const meta = {
 			default: false,
 			desc: {
 				'ja-JP': 'true にするとNSFWを除外します'
+			}
+		},
+		includeGlobal: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': 'true にすると連合を含めます'
 			}
 		},
 	},
@@ -63,9 +70,12 @@ export default define(meta, async (ps, user) => {
 		},
 		deletedAt: null,
 		visibility: 'public',
-		'_user.host': null,
 		...(hideUserIds && hideUserIds.length > 0 ? { userId: { $nin: hideUserIds } } : {})
 	} as any;
+
+	if (!ps.includeGlobal) {
+		query['_user.host'] = null;
+	}
 
 	if (ps.excludeNsfw) {
 		query['_files.metadata.isSensitive'] = {

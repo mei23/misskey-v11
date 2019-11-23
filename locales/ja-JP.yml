@@ -1236,6 +1236,14 @@ desktop/views/components/window.vue:
   popout: "ポップアウト"
   close: "閉じる"
 
+desktop/views/home/featured.vue:
+  options: "オプション"
+  include-global: "連合を含める"
+  media-only: "メディア投稿のみ"
+  days: "集計期間"
+  hour: "時間"
+  day: "日間"
+
 admin/views/index.vue:
   dashboard: "ダッシュボード"
   instance: "インスタンス"
@@ -1772,6 +1780,14 @@ mobile/views/pages/user-lists.vue:
 
 mobile/views/pages/signup.vue:
   lets-start: "📦 始めましょう"
+
+mobile/views/pages/featured.vue:
+  options: "オプション"
+  include-global: "連合を含める"
+  media-only: "メディア投稿のみ"
+  days: "集計期間"
+  hour: "時間"
+  day: "日間"
 
 mobile/views/pages/followers.vue:
   followers-of: "{name}のフォロワー"
