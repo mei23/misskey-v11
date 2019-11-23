@@ -56,6 +56,12 @@
 			</div>
 
 			<div class="side">
+				<div class="trends block">
+					<div>
+						<mk-trends/>
+					</div>
+				</div>
+
 				<div class="tl block">
 					<header><fa :icon="['far', 'comment-alt']"/> {{ $t('@.featured-notes') }}</header>
 					<div>
@@ -418,9 +424,14 @@ export default Vue.extend({
 				gap 16px
 
 				> .tl
-					grid-row 1/3
+					grid-row 1
 					grid-column 1
 					overflow auto
+
+				> .trends
+					grid-row 2
+					grid-column 1
+					padding 8px
 
 				> .info
 					grid-row 3
