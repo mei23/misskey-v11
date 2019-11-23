@@ -172,7 +172,7 @@ export default Vue.extend({
 			saving: false,
 			avatarUploading: false,
 			bannerUploading: false,
-			exportTarget: 'notes',
+			exportTarget: 'following',
 			faDownload, faUpload, faSave, faEnvelope, faUnlockAlt, faBoxes, faCogs
 		};
 	},
