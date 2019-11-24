@@ -2,7 +2,7 @@
 <div class="glowckho">
 	<details>
 		<summary>{{ $t('options') }}</summary>
-		<ui-select v-model="days">
+		<ui-select v-model="days" :disabled="fetching">
 			<template #label>{{ $t('days') }}</template>
 			<option value="0.125">3 {{ $t('hour') }}</option>
 			<option value="0.25">6 {{ $t('hour') }}</option>
@@ -13,16 +13,16 @@
 			<option value="30">30 {{ $t('day') }}</option>
 		</ui-select>
 		<div>
-			<ui-switch v-model="includeGlobal">{{ $t('include-global') }}</ui-switch>
-			<ui-switch v-model="mediaOnly">{{ $t('media-only') }}</ui-switch>
-			<ui-switch v-model="nsfwOnly">{{ $t('nsfw-only') }}</ui-switch>
+			<ui-switch v-model="includeGlobal" :disabled="fetching">{{ $t('include-global') }}</ui-switch>
+			<ui-switch v-model="mediaOnly" :disabled="fetching">{{ $t('media-only') }}</ui-switch>
+			<ui-switch v-model="nsfwOnly" :disabled="fetching">{{ $t('nsfw-only') }}</ui-switch>
 		</div>
 	</details>
-	<sequential-entrance v-if="!fetching" animation="entranceFromTop" delay="25">
+	<div v-if="!fetching">
 		<template v-for="note in notes">
 			<mk-note class="post" :note="note" :key="note.id" :class="{ round: $store.state.device.roundedCorners }"/>
 		</template>
-	</sequential-entrance>
+	</div>
 </div>
 </template>
 
