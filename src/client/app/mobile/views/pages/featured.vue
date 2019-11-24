@@ -18,6 +18,7 @@
 			<div>
 				<ui-switch v-model="includeGlobal" :disabled="fetching">{{ $t('include-global') }}</ui-switch>
 				<ui-switch v-model="mediaOnly" :disabled="fetching">{{ $t('media-only') }}</ui-switch>
+				<ui-switch v-model="sfwOnly" :disabled="fetching">{{ $t('sfw-only') }}</ui-switch>
 				<ui-switch v-model="nsfwOnly" :disabled="fetching">{{ $t('nsfw-only') }}</ui-switch>
 			</div>
 		</details>
@@ -42,6 +43,7 @@ export default Vue.extend({
 		return {
 			includeGlobal: false,
 			mediaOnly: false,
+			sfwOnly: false,
 			nsfwOnly: false,
 			days: 2,
 			fetching: true,
@@ -54,6 +56,9 @@ export default Vue.extend({
 			this.fetch();
 		},
 		mediaOnly() {
+			this.fetch();
+		},
+		sfwOnly() {
 			this.fetch();
 		},
 		nsfwOnly() {
@@ -79,6 +84,7 @@ export default Vue.extend({
 				days: Number(this.days),
 				includeGlobal: this.includeGlobal,
 				fileType: this.mediaOnly ? ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'] : undefined,
+				excludeNsfw: this.sfwOnly,
 				excludeSfw: this.nsfwOnly,
 			}).then((notes: any) => {
 				notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
