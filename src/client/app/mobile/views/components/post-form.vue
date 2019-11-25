@@ -12,12 +12,6 @@
 				<button v-if="secondaryNoteVisibility != null && secondaryNoteVisibility != 'none'" class="secondary" :disabled="!canPost" @click="post(secondaryNoteVisibility)">
 					<x-visibility-icon :v="secondaryNoteVisibility"/>
 				</button>
-				<button class="submit" :disabled="!canPost" @click="post()">
-					<div style="display: inline-flex; gap: 4px">
-						<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
-						<div>{{ submitText }}</div>
-					</div>
-				</button>
 			</div>
 		</header>
 		<div class="form">
@@ -44,12 +38,12 @@
 				<button class="visibility" @click="setVisibility" ref="visibilityButton">
 					<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
 				</button>
-				<button v-if="inside" class="submit" :disabled="!canPost" @click="post()">
+				<ui-button class="submit" :disabled="!canPost" @click="post()">
 					<div style="display: inline-flex; gap: 4px">
 						<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
 						<div>{{ submitText }}</div>
 					</div>
-				</button>
+				</ui-button>
 			</footer>
 			<footer v-else>
 				<a class="quote" @click="quote = true">{{ $t('quote') }}</a>
@@ -586,19 +580,6 @@ export default Vue.extend({
 					&:disabled
 						opacity 0.7
 
-				> .submit
-					margin 8px 6px
-					padding 0 16px
-					line-height 34px
-					min-width 80px
-					vertical-align bottom
-					color var(--primaryForeground)
-					background var(--primary)
-					border-radius 4px
-
-					&:disabled
-						opacity 0.7
-
 		> .form
 			max-width 500px
 			margin 0 auto
@@ -684,8 +665,8 @@ export default Vue.extend({
 				> .submit
 					height 36px
 					margin 8px 6px
+					padding 0 8px
 					margin-left auto
-					padding 0 16px
 					line-height 34px
 					min-width 80px
 					vertical-align bottom
