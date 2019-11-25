@@ -31,15 +31,10 @@ export default Vue.extend({
 		return {
 			tags: [],
 			fetching: true,
-			clock: null
 		};
 	},
 	mounted() {
 		this.fetch();
-		this.clock = setInterval(this.fetch, 1000 * 900);
-	},
-	beforeDestroy() {
-		clearInterval(this.clock);
 	},
 	methods: {
 		fetch() {
