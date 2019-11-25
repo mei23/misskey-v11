@@ -12,7 +12,12 @@
 				<button v-if="secondaryNoteVisibility != null && secondaryNoteVisibility != 'none'" class="secondary" :disabled="!canPost" @click="post(secondaryNoteVisibility)">
 					<x-visibility-icon :v="secondaryNoteVisibility"/>
 				</button>
-				<button class="submit" :disabled="!canPost" @click="post()">{{ submitText }}</button>
+				<button class="submit" :disabled="!canPost" @click="post()">
+					<div style="display: inline-flex; gap: 4px">
+						<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
+						<div>{{ submitText }}</div>
+					</div>
+				</button>
 			</div>
 		</header>
 		<div class="form">
@@ -39,7 +44,12 @@
 				<button class="visibility" @click="setVisibility" ref="visibilityButton">
 					<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
 				</button>
-				<button v-if="inside" class="submit" :disabled="!canPost" @click="post()">{{ submitText }}</button>
+				<button v-if="inside" class="submit" :disabled="!canPost" @click="post()">
+					<div style="display: inline-flex; gap: 4px">
+						<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
+						<div>{{ submitText }}</div>
+					</div>
+				</button>
 			</footer>
 			<footer v-else>
 				<a class="quote" @click="quote = true">{{ $t('quote') }}</a>

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="display: inline-flex; align-items: center;">
 		<div class="wrap" v-if="visibility == 'public'">
 			<fa icon="globe"/>
 		</div>
@@ -52,8 +52,6 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 	.wrap
-		display inline-flex
-
 		> .localOnly
 				color var(--primary)
 				position absolute

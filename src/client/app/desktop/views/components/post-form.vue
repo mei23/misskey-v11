@@ -52,7 +52,10 @@
 				<x-visibility-icon v-else :v="secondaryNoteVisibility"/>
 			</ui-button>
 			<ui-button inline primary :wait="posting" class="submit" :disabled="!canPost" @click="post" title="Post (Ctrl+Enter)">
-				{{ posting ? $t('posting') : submitText }}<mk-ellipsis v-if="posting"/>
+				<div style="display: inline-flex; gap: 4px">
+					<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
+					<div>{{ posting ? $t('posting') : submitText }}<mk-ellipsis v-if="posting"/></div>
+				</div>
 			</ui-button>
 		</footer>
 
@@ -858,6 +861,7 @@ export default Vue.extend({
 		> .submit
 			display block
 			margin 4px
+			max-width 100px
 
 		> .secondary, .tertiary
 			display block
