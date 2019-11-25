@@ -214,5 +214,8 @@ export default Vue.extend({
 
 	> .content
 		z-index 1
+		overflow hidden
+		white-space nowrap
+		text-overflow ellipsis
 
 </style>
