@@ -7,6 +7,7 @@ import { concat } from '../../../../prelude/array';
 import UserList from '../../../../models/user-list';
 import { isSelfHost } from '../../../../misc/convert-host';
 import Following from '../../../../models/following';
+import { oidEquals, oidIncludes } from '../../../../prelude/oid';
 
 export default class extends Channel {
 	public readonly chName = 'homeTimeline';
@@ -47,10 +48,10 @@ export default class extends Channel {
 		// リプライじゃなければリプライ解決するまでもなく除外確定
 		if (!note.replyId) {
 			if (!(
-				`${note.userId}` === `${this.user._id}` ||	// myself
-				this.followingIds.some(x => `${note.userId}` === `${x}`) ||	// followers
-				(note.mentions || []).some((x: any) => `${x}` === `${this.user._id}`) ||
-				(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`)
+				oidEquals(note.userId, this.user._id) ||	// myself
+				oidIncludes(this.followingIds, note.userId) ||	// from followers
+				oidIncludes(note.mentions, this.user._id) ||	// mention to me
+				oidIncludes(note.visibleUserIds, this.user._id)	// direct to me
 			)) return;
 		}
 
@@ -81,14 +82,14 @@ export default class extends Channel {
 		// リプライの場合リプライ情報を見て再度除外
 		if (note.replyId) {
 			if (!(
-				`${note.userId}` === `${this.user._id}` ||	// myself
-				this.followingIds.some(x => `${note.userId}` === `${x}`) ||	// followers
-				(note.mentions || []).some((x: any) => `${x}` === `${this.user._id}`) ||
-				(note.visibleUserIds || []).some((x: any) => `${x}` === `${this.user._id}`) ||
-				`${this.user._id}` === `${note.reply.userId}`
+				oidEquals(note.userId, this.user._id) ||	// myself
+				oidIncludes(this.followingIds, note.userId) ||	// from followers
+				oidIncludes(note.mentions, this.user._id) ||	// mention to me
+				oidIncludes(note.visibleUserIds, this.user._id) ||	// direct to me
+				oidEquals(note.reply.userId, this.user._id)	// reply to me
 			)) return;
 
-			if (this.followingIds.some(x => `${note.userId}` === `${x}`) && `${this.user._id}` !== `${note.reply.userId}`) return;
+			if (oidIncludes(this.followingIds, note.userId) && !oidEquals(note.reply.userId, this.user._id)) return;
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
