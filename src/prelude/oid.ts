@@ -5,5 +5,5 @@ export function oidEquals(x: any, y: any): boolean {
 }
 
 export function oidIncludes(array: any[], target: any): boolean {
-	return array.some(x => oidEquals(x, target));
+	return (array || []).some(x => oidEquals(x, target));
 }
