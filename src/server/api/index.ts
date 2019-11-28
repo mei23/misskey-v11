@@ -76,6 +76,7 @@ router.get('/v1/instance/peers', async ctx => {
 	const punyCodes = unique(instances.map(instance => toApHost(instance.host)));
 
 	ctx.body = punyCodes;
+	ctx.set('Cache-Control', 'public, max-age=300');
 });
 
 // Return 404 for unknown API
