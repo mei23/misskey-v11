@@ -16,7 +16,7 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 
-const fetchLimit = 20;
+const fetchLimit = 10;
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/timeline.core.vue'),
