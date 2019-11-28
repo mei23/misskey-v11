@@ -1,8 +1,8 @@
 import * as Router from 'koa-router';
 import config from '../config';
 import fetchMeta from '../misc/fetch-meta';
-// import User from '../models/user';
-// import Note from '../models/note';
+import User from '../models/user';
+import Note from '../models/note';
 import { repositoryUrl } from '../const.json';
 
 const router = new Router();
@@ -21,18 +21,18 @@ export const links = [/* (awaiting release) {
 const nodeinfo2 = async () => {
 	const [
 		meta,
-		// total,
-		// activeHalfyear,
-		// activeMonth,
-		// localPosts,
-		// localComments
+		total,
+		activeHalfyear,
+		activeMonth,
+		localPosts,
+		localComments
 	] = await Promise.all([
 		fetchMeta(),
-		// User.count({ host: null }),
-		// User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 15552000000) } }),
-		// User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 2592000000) } }),
-		// Note.count({ '_user.host': null, replyId: null }),
-		// Note.count({ '_user.host': null, replyId: { $ne: null } })
+		User.count({ host: null }),
+		User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 15552000000) } }),
+		User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 2592000000) } }),
+		Note.count({ '_user.host': null, replyId: null }),
+		Note.count({ '_user.host': null, replyId: { $ne: null } })
 	]);
 
 	const nodeName = meta.name || 'Misskey';
@@ -51,9 +51,9 @@ const nodeinfo2 = async () => {
 		},
 		openRegistrations: !meta.disableRegistration,
 		usage: {
-			users: {} // { total, activeHalfyear, activeMonth },
-			// localPosts,
-			// localComments
+			users: { total, activeHalfyear, activeMonth },
+			localPosts,
+			localComments
 		},
 		metadata: {
 			nodeName,
