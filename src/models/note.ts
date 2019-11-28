@@ -29,6 +29,8 @@ Note.createIndex('_files._id');
 Note.createIndex('_files.contentType');
 Note.createIndex({ createdAt: -1 });
 Note.createIndex({ score: -1 }, { sparse: true });
+Note.createIndex({ '_user.host': 1, replyId: 1, _id: -1 } );
+
 export default Note;
 
 export function isValidCw(text: string): boolean {
