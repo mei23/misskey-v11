@@ -75,19 +75,14 @@ export default Vue.extend({
 			padding 32px 32px 20px 32px
 			font-size 24px
 			font-weight normal
-			color #777
 
 			i
-				color #77aeca
 
 				&:before
 					content '「'
 
 				&:after
 					content '」'
-
-			b
-				color #666
 
 		> img
 			display block
@@ -101,8 +96,6 @@ export default Vue.extend({
 
 	> .app
 		padding 44px 16px 0 16px
-		color #555
-		background #eee
 		box-shadow 0 2px 2px rgba(#000, 0.1) inset
 
 		&:after
@@ -119,7 +112,6 @@ export default Vue.extend({
 			> h2
 				margin 0
 				font-size 16px
-				color #777
 
 	> .action
 		padding 16px
