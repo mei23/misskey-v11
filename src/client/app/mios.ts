@@ -484,8 +484,10 @@ export default class MiOS extends EventEmitter {
 				return;
 			}
 
+			const expire = 1000 * 60 * 1;
+
 			// forceが有効, meta情報を保持していない or 期限切れ
-			if (force || this.meta == null) {
+			if (force || this.meta == null || Date.now() - this.meta.chachedAt.getTime() > expire) {
 				this.isMetaFetching = true;
 				const meta = await this.api('meta', {
 					detail: false
