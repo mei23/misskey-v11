@@ -57,6 +57,12 @@ for (const endpoint of endpoints) {
 			router.post(`/${endpoint.name.replace(/\-/g, '_')}`, handler.bind(null, endpoint));
 		}
 		router.post(`/${endpoint.name}`, handler.bind(null, endpoint));
+
+		if (endpoint.meta.allowGet) {
+			router.get(`/${endpoint.name}`, handler.bind(null, endpoint));
+		} else {
+			router.get(`/${endpoint.name}`, async ctx => { ctx.status = 405; });
+		}
 	}
 }
 

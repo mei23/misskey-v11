@@ -86,6 +86,16 @@ export interface IEndpointMeta {
 	requireFile?: boolean;
 
 	/**
+	 * GETでのリクエストを許容するか否か
+	 */
+	allowGet?: boolean;
+
+	/**
+	 * 正常応答をキャッシュ (Cache-Control: public) する秒数
+	 */
+	cacheSec?: number;
+
+	/**
 	 * サードパーティアプリからはリクエストすることができないか否か
 	 * 省略した場合は false として解釈されます。
 	 */
