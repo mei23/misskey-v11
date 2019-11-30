@@ -178,7 +178,7 @@ export default Vue.extend({
 			this.banner = meta.bannerUrl;
 		});
 
-		this.$root.api('stats').then((stats: any) => {
+		this.$root.api('stats', {}, false, true).then((stats: any) => {
 			this.stats = stats;
 		});
 

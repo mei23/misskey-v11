@@ -6,6 +6,9 @@ import fetchMeta from '../../../misc/fetch-meta';
 export const meta = {
 	requireCredential: false,
 
+	allowGet: true,
+	cacheSec: 1800,
+
 	desc: {
 		'en-US': 'Get the instance\'s statistics'
 	},

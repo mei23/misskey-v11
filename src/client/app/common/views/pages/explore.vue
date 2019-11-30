@@ -152,7 +152,7 @@ export default Vue.extend({
 		}).then(tags => {
 			this.tagsRemote = tags;
 		});
-		this.$root.api('stats').then(stats => {
+		this.$root.api('stats', {}, false, true).then(stats => {
 			this.stats = stats;
 		});
 		this.$root.getMeta().then(meta => {
