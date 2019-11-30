@@ -15,7 +15,7 @@ export const meta = {
 	requireCredential: false,
 
 	allowGet: true,
-	cacheSec: 300,
+	cacheSec: 600,
 
 	params: {
 		days: {
