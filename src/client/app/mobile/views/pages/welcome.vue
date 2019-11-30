@@ -3,10 +3,9 @@
 	<div class="banner" :style="{ backgroundImage: banner ? `url(${banner})` : null }"></div>
 
 	<div>
-		<img svg-inline src="../../../../assets/title.svg" :alt="name">
-		<p class="host">{{ host }}</p>
 		<div class="about">
 			<h2>{{ name }}</h2>
+			<small>{{ host }}</small>
 			<p v-html="description || this.$t('@.about')"></p>
 			<router-link class="signup" to="/signup">{{ $t('@.signup') }}</router-link>
 		</div>
@@ -162,22 +161,6 @@ export default Vue.extend({
 		margin 0 auto
 		max-width 500px
 
-		> svg
-			display block
-			width 200px
-			height 50px
-			margin 0 auto
-
-		> .host
-			display block
-			text-align center
-			padding 6px 12px
-			line-height 32px
-			font-weight bold
-			color #333
-			background rgba(#000, 0.035)
-			border-radius 6px
-
 		> .about
 			margin-top 16px
 			padding 16px
@@ -187,6 +170,9 @@ export default Vue.extend({
 
 			> h2
 				margin 0
+
+			> small
+				opacity 0.7
 
 			> p
 				margin 8px
