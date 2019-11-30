@@ -47,7 +47,7 @@ export default Vue.extend({
 	},
 
 	mounted() {
-		this.$root.getMeta().then(meta => {
+		this.$root.api('admin/meta').then((meta: any) => {
 			this.meta = meta;
 		});
 

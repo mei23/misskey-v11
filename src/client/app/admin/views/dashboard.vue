@@ -112,7 +112,7 @@ export default Vue.extend({
 		this.updateStats();
 		setIntervalPromise(this.updateStats, 60 * 1000, true, () => this.alive);
 
-		this.$root.getMeta().then(meta => {
+		this.$root.api('admin/meta').then((meta: any) => {
 			this.meta = meta;
 		});
 	},

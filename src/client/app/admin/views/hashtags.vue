@@ -22,7 +22,7 @@ export default Vue.extend({
 		};
 	},
 	created() {
-		this.$root.getMeta().then(meta => {
+		this.$root.api('admin/meta').then((meta: any) => {
 			this.hidedTags = meta.hidedTags.join('\n');
 		});
 	},
