@@ -91,7 +91,7 @@ export default define(meta, async (ps, me) => {
 
 			user = await User.findOne(q, cursorOption);
 
-			if (isRemoteUser(user)) {
+			if (user && isRemoteUser(user)) {
 				resolveRemoteUser(user.username, user.host);
 			}
 		}
