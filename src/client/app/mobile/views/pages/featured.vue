@@ -86,7 +86,7 @@ export default Vue.extend({
 				fileType: this.mediaOnly ? ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'] : undefined,
 				excludeNsfw: this.sfwOnly,
 				excludeSfw: this.nsfwOnly,
-			}).then((notes: any) => {
+			}, false, true).then((notes: any) => {
 				notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 				this.notes = notes;
 				this.fetching = false;

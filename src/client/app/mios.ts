@@ -9,6 +9,7 @@ import Progress from './common/scripts/loading';
 
 import Err from './common/views/components/connect-failed.vue';
 import Stream from './common/scripts/stream';
+import { query, appendQuery } from '../../prelude/url';
 
 //#region api requests
 let spinner = null;
@@ -428,10 +429,17 @@ export default class MiOS extends EventEmitter {
 				this.requests.push(req);
 			}
 
-			const fetchPromise = anonGet ? fetch(endpoint.indexOf('://') > -1 ? endpoint : `${apiUrl}/${endpoint}`, {
+			let url = endpoint.indexOf('://') > -1 ? endpoint : `${apiUrl}/${endpoint}`;
+
+			if (anonGet && data) {
+				delete data.i;
+				url = appendQuery(url, query(data));
+			}
+
+			const fetchPromise = anonGet ? fetch(url, {
 				method: 'GET',
 				credentials: 'omit'
-			}) : fetch(endpoint.indexOf('://') > -1 ? endpoint : `${apiUrl}/${endpoint}`, {
+			}) : fetch(url, {
 				method: 'POST',
 				body: JSON.stringify(data),
 				credentials: endpoint === 'signin' ? 'include' : 'omit',
