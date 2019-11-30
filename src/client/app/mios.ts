@@ -392,9 +392,11 @@ export default class MiOS extends EventEmitter {
 	 * Misskey APIにリクエストします
 	 * @param endpoint エンドポイント名
 	 * @param data パラメータ
+	 * @param silent spinnerを表示しないか
+	 * @param anonGet 匿名GETしてキャッシュ対象にするか
 	 */
 	@autobind
-	public api(endpoint: string, data: { [x: string]: any } = {}, silent = false): Promise<{ [x: string]: any }> {
+	public api(endpoint: string, data: { [x: string]: any } = {}, silent = false, anonGet = false): Promise<{ [x: string]: any }> {
 		if (!silent) {
 			if (++pending === 1) {
 				spinner = document.createElement('div');
@@ -426,13 +428,18 @@ export default class MiOS extends EventEmitter {
 				this.requests.push(req);
 			}
 
-			// Send request
-			fetch(endpoint.indexOf('://') > -1 ? endpoint : `${apiUrl}/${endpoint}`, {
+			const fetchPromise = anonGet ? fetch(endpoint.indexOf('://') > -1 ? endpoint : `${apiUrl}/${endpoint}`, {
+				method: 'GET',
+				credentials: 'omit'
+			}) : fetch(endpoint.indexOf('://') > -1 ? endpoint : `${apiUrl}/${endpoint}`, {
 				method: 'POST',
 				body: JSON.stringify(data),
 				credentials: endpoint === 'signin' ? 'include' : 'omit',
 				cache: 'no-cache'
-			}).then(async (res) => {
+			});
+
+			// Send request
+			fetchPromise.then(async (res) => {
 				const body = res.status === 204 ? null : await res.json();
 
 				if (this.debug) {
@@ -477,14 +484,12 @@ export default class MiOS extends EventEmitter {
 				return;
 			}
 
-			const expire = 1000 * 60 * 1;
-
 			// forceが有効, meta情報を保持していない or 期限切れ
-			if (force || this.meta == null || Date.now() - this.meta.chachedAt.getTime() > expire) {
+			if (force || this.meta == null) {
 				this.isMetaFetching = true;
 				const meta = await this.api('meta', {
 					detail: false
-				});
+				}, false, !force);	// forceでない限りは匿名GET
 				this.meta = {
 					data: meta,
 					chachedAt: new Date()

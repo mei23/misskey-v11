@@ -17,6 +17,9 @@ export const meta = {
 
 	requireCredential: false,
 
+	allowGet: true,
+	cacheSec: 60,
+
 	params: {
 		detail: {
 			validator: $.optional.bool,
