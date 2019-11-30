@@ -38,7 +38,7 @@ export default Vue.extend({
 	},
 	methods: {
 		fetch() {
-			this.$root.api('aggregation/hashtags').then(tags => {
+			this.$root.api('aggregation/hashtags', {}, false, true).then(tags => {
 				this.tags = tags;
 				this.fetching = false;
 			});
