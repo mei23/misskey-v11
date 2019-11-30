@@ -81,9 +81,6 @@ export default define(meta, async (ps, me) => {
 	const instance = await fetchMeta();
 
 	const emojis = await Emoji.find({ host: null }, {
-		fields: {
-			_id: false
-		},
 		sort: {
 			category: 1,
 			name: 1
@@ -126,7 +123,13 @@ export default define(meta, async (ps, me) => {
 		errorImageUrl: instance.errorImageUrl,
 		iconUrl: instance.iconUrl,
 		maxNoteTextLength: instance.maxNoteTextLength,
-		emojis: emojis,
+		emojis: emojis.map(e => ({
+			aliases: e.aliases,
+			name: e.name,
+			category: e.category,
+			url: e.url,
+		})),
+
 		enableEmail: instance.enableEmail,
 
 		enableTwitterIntegration: instance.enableTwitterIntegration,
