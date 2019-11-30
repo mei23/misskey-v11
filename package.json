@@ -134,6 +134,7 @@
 		"gulp-util": "3.0.8",
 		"hard-source-webpack-plugin": "0.13.1",
 		"html-minifier": "4.0.0",
+		"htmlescape": "1.1.1",
 		"http-signature": "1.2.0",
 		"https-proxy-agent": "3.0.0",
 		"insert-text-at-cursor": "0.3.0",

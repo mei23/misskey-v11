@@ -35,6 +35,9 @@ html
 		script
 			include ./../../../../built/client/assets/safe.js
 
+		script(type='application/json' id='initial-meta').
+			!{initialMeta}
+
 	body
 		noscript: p
 			| JavaScriptを有効にしてください

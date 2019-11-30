@@ -120,6 +120,13 @@ export default class MiOS extends EventEmitter {
 	 */
 	@autobind
 	public async init(callback) {
+		try {
+			this.meta = {
+				data: JSON.parse(document.querySelector('#initial-meta').textContent),
+				chachedAt: new Date()
+			};
+		} catch { }
+
 		this.store = initStore(this);
 
 		// ユーザーをフェッチしてコールバックする

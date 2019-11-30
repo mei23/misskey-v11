@@ -23,6 +23,8 @@ import { genOpenapiSpec } from '../api/openapi/gen-spec';
 import { getAtomFeed } from './feed/atom';
 import { getRSSFeed } from './feed/rss';
 import { getJSONFeed } from './feed/json';
+import { buildMeta } from '../../misc/build-meta';
+const htmlescape = require('htmlescape');
 
 const env = process.env.NODE_ENV;
 
@@ -154,6 +156,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 
 	if (user != null) {
 		const meta = await fetchMeta();
+		const builded = await buildMeta(meta);
 
 		const me = user.fields
 			? user.fields
@@ -162,6 +165,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 			: [];
 
 		await ctx.render('user', {
+			initialMeta: htmlescape(builded),
 			user,
 			me,
 			sub: ctx.params.sub,
@@ -207,6 +211,7 @@ router.get('/notes/:note', async ctx => {
 		if (note) {
 			const _note = await packNote(note);
 			const meta = await fetchMeta();
+			const builded = await buildMeta(meta);
 
 			let imageUrl;
 			// use attached
@@ -222,6 +227,7 @@ router.get('/notes/:note', async ctx => {
 			}
 
 			await ctx.render('note', {
+				initialMeta: htmlescape(builded),
 				note: _note,
 				summary: getNoteSummary(_note),
 				imageUrl,
@@ -273,7 +279,9 @@ router.get('/reversi', async ctx => ctx.redirect(override(ctx.URL.pathname, 'gam
 // Render base html for all requests
 router.get('*', async ctx => {
 	const meta = await fetchMeta();
+	const builded = await buildMeta(meta);
 	await ctx.render('base', {
+		initialMeta: htmlescape(builded),
 		img: meta.bannerUrl,
 		title: meta.name || 'Misskey',
 		instanceName: meta.name || 'Misskey',
