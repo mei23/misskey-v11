@@ -9,7 +9,7 @@ import Progress from './common/scripts/loading';
 
 import Err from './common/views/components/connect-failed.vue';
 import Stream from './common/scripts/stream';
-import { query, appendQuery } from '../../prelude/url';
+import { query } from '../../prelude/url';
 
 //#region api requests
 let spinner = null;
@@ -433,7 +433,8 @@ export default class MiOS extends EventEmitter {
 
 			if (anonGet && data) {
 				delete data.i;
-				url = appendQuery(url, query(data));
+				const q = query(data);
+				url = `${url}${ q ? '?' + q : q }`;
 			}
 
 			const fetchPromise = anonGet ? fetch(url, {
