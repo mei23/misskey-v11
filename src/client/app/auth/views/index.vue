@@ -91,19 +91,19 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 .index
+	background var(--bg)
+	color var(--text)
 
 	> main
 		width 100%
 		max-width 500px
 		margin 0 auto
 		text-align center
-		background #fff
 		box-shadow 0px 4px 16px rgba(#000, 0.2)
 
 		> .fetching
 			margin 0
 			padding 32px
-			color #555
 
 		> div:not(.form)
 			padding 64px
@@ -116,7 +116,6 @@ export default Vue.extend({
 
 			> p
 				margin 0
-				color #555
 
 			&.denied > h1
 				color #e65050
@@ -132,7 +131,6 @@ export default Vue.extend({
 				padding 0
 				font-size 20px
 				font-weight normal
-				color #555
 
 		@media (max-width 600px)
 			max-width none
