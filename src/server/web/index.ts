@@ -156,7 +156,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 
 	if (user != null) {
 		const meta = await fetchMeta();
-		const builded = await buildMeta(meta);
+		const builded = await buildMeta(meta, false);
 
 		const me = user.fields
 			? user.fields
@@ -211,7 +211,7 @@ router.get('/notes/:note', async ctx => {
 		if (note) {
 			const _note = await packNote(note);
 			const meta = await fetchMeta();
-			const builded = await buildMeta(meta);
+			const builded = await buildMeta(meta, false);
 
 			let imageUrl;
 			// use attached
@@ -279,7 +279,7 @@ router.get('/reversi', async ctx => ctx.redirect(override(ctx.URL.pathname, 'gam
 // Render base html for all requests
 router.get('*', async ctx => {
 	const meta = await fetchMeta();
-	const builded = await buildMeta(meta);
+	const builded = await buildMeta(meta, false);
 	await ctx.render('base', {
 		initialMeta: htmlescape(builded),
 		img: meta.bannerUrl,
