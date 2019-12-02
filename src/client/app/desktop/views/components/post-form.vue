@@ -27,6 +27,9 @@
 				<button class="emoji" @click="emoji" ref="emoji">
 					<fa :icon="['far', 'laugh']"/>
 				</button>
+				<button class="addUrl" @click="addUrl" ref="addUrl">
+					<fa :icon="faInternetExplorer"/>
+				</button>
 				<x-post-form-attaches class="files" :files="files" :detachMediaFn="detachMedia"/>
 				<mk-poll-editor v-if="poll" ref="poll" @destroyed="poll = false" @updated="onPollUpdate()"/>
 			</div>
@@ -85,6 +88,7 @@ import XPostFormAttaches from '../../../common/views/components/post-form-attach
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 import { nyaize } from '../../../../../misc/nyaize';
 import * as config from '../../../config';
+import { faInternetExplorer } from '@fortawesome/free-brands-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/post-form.vue'),
@@ -161,7 +165,8 @@ export default Vue.extend({
 			autocomplete: null,
 			draghover: false,
 			recentHashtags: JSON.parse(localStorage.getItem('hashtags') || '[]'),
-			maxNoteTextLength: 1000
+			maxNoteTextLength: 1000,
+			faInternetExplorer
 		};
 	},
 
@@ -521,6 +526,33 @@ export default Vue.extend({
 			});
 		},
 
+		addUrl() {
+			this.$root.dialog({
+				title: this.$t('enter-link'),
+				input: true
+			}).then(({ canceled, result: input }) => {
+				if (canceled) return;
+
+				if (input.match(/^(RJ\d{6})$/)) {
+					input = `[${RegExp.$1}](https://www.dlsite.com/home/work/=/product_id/${RegExp.$1}.html)`;
+				} else if (input.match(/^https?:\/\/www\.dlsite\.com\/\w+\/\w+\/\=\/product_id\/(RJ\d{6})\.html/)) {
+					input = `[${RegExp.$1}](${input})`;
+				} else if (input.match(/^((?:sm|lv|im)\d{1,10})$/)) {
+					input = `[${RegExp.$1}](https://nico.ms/${RegExp.$1})`;
+				} else if (input.match(/^https?:\/\/(?:www|live)\.nicovideo\.jp\/watch\/((?:sm|lv|im)\d{1,10})/)) {
+					input = `[${RegExp.$1}](${input})`;
+				} else if (input.match(/^https?:\/\/twitter\.com\/([^?]+)/)) {
+					input = `:twitter:**[${RegExp.$1}](${input})**`;
+				} else if (input.match(/^https?:\/\/youtube\.com\/watch\?v=([\w-]+)/)) {
+					input = `:youtube:**[${RegExp.$1}](${input})**`;
+				} else if (input.match(/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)/)) {
+					input = `:youtube:**[${RegExp.$1}](${input})**`;
+				}
+
+				insertTextAtCursor(this.$refs.text, input);
+			});
+		},
+
 		togglePreview() {
 			this.$store.commit('device/set', { key: 'showPostPreview', value: this.$refs.preview.open });
 		},
@@ -714,6 +746,23 @@ export default Vue.extend({
 			> .emoji
 				position absolute
 				top 0
+				right 0
+				padding 10px
+				font-size 18px
+				color var(--text)
+				opacity 0.5
+
+				&:hover
+					color var(--textHighlighted)
+					opacity 1
+
+				&:active
+					color var(--primary)
+					opacity 1
+
+			> .addUrl
+				position absolute
+				top 28px
 				right 0
 				padding 10px
 				font-size 18px
