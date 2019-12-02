@@ -138,9 +138,6 @@ export default define(meta, async (ps, user) => {
 		// local
 		'_user.host': null,
 
-		// リプライでない
-		replyId: null,
-
 		// public only
 		visibility: 'public',
 
@@ -148,6 +145,10 @@ export default define(meta, async (ps, user) => {
 
 		$and: [ {} ]
 	} as any;
+
+	if (!m.showReplayInPublicTimeline) {
+		query.replyId = null;
+	}
 
 	if (hideUserIds && hideUserIds.length > 0) {
 		query.userId = {

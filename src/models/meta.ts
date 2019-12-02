@@ -194,6 +194,7 @@ export type IMeta = {
 	disableRegistration?: boolean;
 	disableLocalTimeline?: boolean;
 	disableGlobalTimeline?: boolean;
+	showReplayInPublicTimeline?: boolean;
 	enableEmojiReaction?: boolean;
 	useStarForReactionFallback?: boolean;
 	hidedTags?: string[];

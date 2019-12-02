@@ -114,9 +114,11 @@ export default define(meta, async (ps, user) => {
 
 		// public only
 		visibility: 'public',
-
-		replyId: null
 	} as any;
+
+	if (!m.showReplayInPublicTimeline) {
+		query.replyId = null;
+	}
 
 	if (hideUserIds && hideUserIds.length > 0) {
 		query.userId = {

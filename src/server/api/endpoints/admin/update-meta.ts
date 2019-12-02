@@ -41,6 +41,13 @@ export const meta = {
 			}
 		},
 
+		showReplayInPublicTimeline: {
+			validator: $.optional.nullable.bool,
+			desc: {
+				'ja-JP': 'showReplayInPublicTimeline'
+			}
+		},
+
 		enableEmojiReaction: {
 			validator: $.optional.nullable.bool,
 			desc: {
@@ -363,6 +370,10 @@ export default define(meta, async (ps) => {
 
 	if (typeof ps.disableGlobalTimeline === 'boolean') {
 		set.disableGlobalTimeline = ps.disableGlobalTimeline;
+	}
+
+	if (typeof ps.showReplayInPublicTimeline === 'boolean') {
+		set.showReplayInPublicTimeline = ps.showReplayInPublicTimeline;
 	}
 
 	if (typeof ps.enableEmojiReaction === 'boolean') {

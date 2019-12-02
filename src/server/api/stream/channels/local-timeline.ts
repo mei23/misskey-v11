@@ -11,6 +11,7 @@ export default class extends Channel {
 	public static shouldShare = true;
 	public static requireCredential = false;
 
+	private showReplayInPublicTimeline = false;
 	private mutedUserIds: string[] = [];
 
 	@autobind
@@ -19,6 +20,7 @@ export default class extends Channel {
 		if (meta.disableLocalTimeline) {
 			if (this.user == null || (!this.user.isAdmin && !this.user.isModerator)) return;
 		}
+		this.showReplayInPublicTimeline = meta.showReplayInPublicTimeline;
 
 		// Subscribe events
 		this.subscriber.on('notesStream', this.onNote);
@@ -38,7 +40,7 @@ export default class extends Channel {
 	private async onNote(note: any) {
 		if (note.visibility !== 'public') return;
 		if (note.user.host != null) return;
-		if (note.replyId) return;
+		if (!this.showReplayInPublicTimeline && note.replyId) return;
 
 		// Renoteなら再pack
 		if (note.renoteId != null) {
