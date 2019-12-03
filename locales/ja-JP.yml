@@ -80,6 +80,27 @@ common:
 
   favorites: "お気に入り"
 
+  permissions:
+    "account-read": "アカウントの情報を見る"
+    "account-write": "アカウントの情報を変更する"
+    "drive-read": "ドライブを見る"
+    "drive-write": "ドライブを操作する"
+    "favorite-read": "お気に入りを見る"
+    "favorite-write": "お気に入りを操作する"
+    "following-read": "フォローの情報を見る"
+    "following-write": "フォロー・フォロー解除する"
+    "messaging-read": "トークを見る"
+    "messaging-write": "トークを操作する"
+    "note-write": "投稿を作成・削除する"
+    "notification-read": "通知を見る"
+    "notification-write": "通知を操作する"
+    "reaction-read": "リアクションを見る"
+    "reaction-write": "リアクションを操作する"
+    "vote-write": "投票する"
+    "favorites-read": "お気に入りを見る2"
+    "account/read": "アカウントの情報を見る2"
+    "account/write": "アカウントの情報を変更する2"
+
   empty-timeline-info:
     follow-users-to-make-your-timeline: "ユーザーをフォローすると投稿がタイムラインに表示されます。"
     explore: "ユーザーを探索する"
