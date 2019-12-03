@@ -35,7 +35,7 @@
 						<i><fa icon="angle-right"/></i>
 					</p>
 				</li>
-				<li @click="followRequests" v-if="($store.state.i.isLocked || $store.state.i.carefulBot)">
+				<li @click="followRequests" v-if="($store.state.i.isLocked || $store.state.i.carefulBot || $store.state.i.carefulRemote)">
 					<p>
 						<i><fa :icon="['far', 'envelope']"/></i>
 						<span>{{ $t('follow-requests') }}<i v-if="$store.state.i.pendingReceivedFollowRequestsCount">{{ $store.state.i.pendingReceivedFollowRequestsCount }}</i></span>
