@@ -100,6 +100,12 @@ common:
     "favorites-read": "お気に入りを見る2"
     "account/read": "アカウントの情報を見る2"
     "account/write": "アカウントの情報を変更する2"
+    "read:blocks": "read:blocks (未使用)"
+    "write:blocks": "write:blocks (未使用)"
+    "read:mutes": "read:mutes (未使用)"
+    "write:mutes": "write:mutes (未使用)"
+    "note-read": "note-read (未使用)"
+    "vote-read": "vote-read (未使用)"
 
   empty-timeline-info:
     follow-users-to-make-your-timeline: "ユーザーをフォローすると投稿がタイムラインに表示されます。"

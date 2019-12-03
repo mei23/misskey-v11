@@ -5,10 +5,10 @@
 		<img :src="app.iconUrl"/>
 	</header>
 	<div class="app">
-		<section>
+		<section style="text-align: center">
 			<h2>{{ app.name }}</h2>
-			<p class="id">{{ app.id }}</p>
-			<p class="description">{{ app.description }}</p>
+			<div class="id">{{ app.id }}</div>
+			<div class="description">{{ app.description }}</div>
 		</section>
 		<section>
 			<h2>{{ $t('permission-ask') }}</h2>
@@ -90,14 +90,7 @@ export default Vue.extend({
 		padding 44px 16px 0 16px
 		box-shadow 0 2px 2px rgba(#000, 0.1) inset
 
-		&:after
-			content ''
-			display block
-			clear both
-
 		> section
-			float left
-			width 50%
 			padding 8px
 			text-align left
 
@@ -109,8 +102,10 @@ export default Vue.extend({
 		padding 16px
 
 		> button
-			margin 0 8px
+			margin 0 16px
 			padding 0
+			color var(--primary)
+			font-weight bold
 
 	@media (max-width 600px)
 		> header
