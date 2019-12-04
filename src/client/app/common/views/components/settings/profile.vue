@@ -3,8 +3,8 @@
 	<template #title><fa icon="user"/> {{ $t('title') }}</template>
 
 	<section class="esokaraujimuwfttfzgocmutcihewscl">
-		<div class="header" :style="bannerStyle">
-			<mk-avatar class="avatar" :user="$store.state.i" :disable-preview="true" :disable-link="true"/>
+		<div class="header" :style="bannerStyle" @click.stop="updateBanner()" title="Update banner" style="cursor:pointer">
+			<mk-avatar class="avatar" :user="$store.state.i" :disable-preview="true" :disable-link="true" @click.stop="updateAvatar()" title="Update avatar" style="cursor:pointer"/>
 		</div>
 
 		<ui-form :disabled="saving">
@@ -139,6 +139,8 @@ import { toUnicode } from 'punycode';
 import { unique } from '../../../../../../prelude/array';
 import { faDownload, faUpload, faUnlockAlt, faBoxes, faCogs } from '@fortawesome/free-solid-svg-icons';
 import { faSave, faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import updateAvatar from '../../../../desktop/api/update-avatar';
+import updateBanner from '../../../../desktop/api/update-banner';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/profile-editor.vue'),
@@ -230,6 +232,16 @@ export default Vue.extend({
 	},
 
 	methods: {
+		updateAvatar() {
+			if (this.$root.isMobile) return;
+			updateAvatar(this.$root)();
+		},
+
+		updateBanner() {
+			if (this.$root.isMobile) return;
+			updateBanner(this.$root)();
+		},
+
 		onAvatarChange([file]) {
 			this.avatarUploading = true;
 
