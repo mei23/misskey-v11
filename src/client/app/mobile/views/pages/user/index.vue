@@ -11,7 +11,7 @@
 			<div class="banner" :style="style"></div>
 			<div class="body">
 				<div class="top">
-					<a class="avatar">
+					<a class="avatar" :href="user.avatarUrl">
 						<img :src="avator" alt="avatar"/>
 					</a>
 					<button class="menu" ref="menu" @click="menu"><fa icon="ellipsis-h"/></button>

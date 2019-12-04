@@ -19,7 +19,7 @@
 			<mk-follow-button v-if="$store.state.i.id != user.id" :user="user" :inline="true" :transparent="false" class="follow"/>
 		</div>
 	</div>
-	<mk-avatar class="avatar" :user="user" :disable-preview="true"/>
+	<mk-avatar class="avatar" :user="user" :disable-preview="true" :disable-link="true" @click="onAvatarClick()" style="cursor: pointer"/>
 	<div class="body">
 		<div class="description">
 			<mfm v-if="user.description" :text="user.description" :is-note="false" :author="user" :i="$store.state.i" :custom-emojis="user.emojis"/>
@@ -55,6 +55,7 @@ import i18n from '../../../../i18n';
 import * as age from 's-age';
 import XUserMenu from '../../../../common/views/components/user-menu.vue';
 import XIntegrations from '../../../../common/views/components/integrations.vue';
+import ImageViewer from '../../../../common/views/components/image-viewer.vue';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/pages/user/user.header.vue'),
@@ -90,6 +91,18 @@ export default Vue.extend({
 		}
 	},
 	methods: {
+		onAvatarClick() {
+			if (!this.user.avatarUrl) return;
+			const viewer = this.$root.new(ImageViewer, {
+				image: {
+					url: this.user.avatarUrl
+				}
+			});
+			this.$once('hook:beforeDestroy', () => {
+				viewer.close();
+			});
+		},
+
 		mention() {
 			this.$post({ mention: this.user });
 		},

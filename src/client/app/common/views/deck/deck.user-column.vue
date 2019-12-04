@@ -15,7 +15,7 @@
 			<div>
 				<button class="menu" @click="menu" ref="menu"><fa icon="ellipsis-h"/></button>
 				<mk-follow-button v-if="$store.getters.isSignedIn && user.id != $store.state.i.id" :user="user" :key="user.id" class="follow" mini/>
-				<mk-avatar class="avatar" :user="user" :disable-preview="true" :key="user.id"/>
+				<mk-avatar class="avatar" :user="user" :disable-preview="true" :disable-link="true" :key="user.id" @click="onAvatarClick()" style="cursor: pointer"/>
 				<router-link class="name" :to="user | userPage()">
 					<mk-user-name :user="user" :key="user.id" :nowrap="false"/>
 				</router-link>
@@ -70,6 +70,7 @@ import i18n from '../../../i18n';
 import parseAcct from '../../../../../misc/acct/parse';
 import XColumn from './deck.column.vue';
 import XUserMenu from '../../../common/views/components/user-menu.vue';
+import ImageViewer from '../../../common/views/components/image-viewer.vue';
 
 export default Vue.extend({
 	i18n: i18n('deck/deck.user-column.vue'),
@@ -109,6 +110,18 @@ export default Vue.extend({
 			this.$root.api('users/show', parseAcct(this.$route.params.user)).then(user => {
 				this.user = user;
 				this.fetching = false;
+			});
+		},
+
+		onAvatarClick() {
+			if (!this.user.avatarUrl) return;
+			const viewer = this.$root.new(ImageViewer, {
+				image: {
+					url: this.user.avatarUrl
+				}
+			});
+			this.$once('hook:beforeDestroy', () => {
+				viewer.close();
 			});
 		},
 
