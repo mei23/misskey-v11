@@ -14,6 +14,7 @@ import * as rename from 'gulp-rename';
 import * as mocha from 'gulp-mocha';
 import * as replace from 'gulp-replace';
 const terser = require('gulp-terser');
+const cleanCSS = require('gulp-clean-css');
 
 const locales = require('./locales');
 
@@ -105,6 +106,7 @@ gulp.task('build:client:script', () => {
 
 gulp.task('build:client:styles', () =>
 	gulp.src('./src/client/app/init.css')
+		.pipe(cleanCSS())
 		.pipe(gulp.dest('./built/client/assets/'))
 );
 
@@ -123,6 +125,7 @@ gulp.task('copy:client', () =>
 gulp.task('doc', () =>
 	gulp.src('./src/docs/**/*.styl')
 		.pipe(stylus())
+		.pipe(cleanCSS())
 		.pipe(gulp.dest('./built/docs/assets/'))
 );
 
