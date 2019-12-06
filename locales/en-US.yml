@@ -984,7 +984,6 @@ desktop/views/components/post-form.vue:
   geolocation-alert: "Your device does not provide location services."
   error: "Error"
   enter-username: "Please enter a username..."
-  enter-link: "Please enter a link..."
   annotations: "Annotations for the post (optional)"
 desktop/views/components/post-form-window.vue:
   note: "New Post"
