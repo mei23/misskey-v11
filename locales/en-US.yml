@@ -74,6 +74,8 @@ common:
   followers: "Followers"
   only-not-followed: "Only not followed users"
   only-not-following: "Only not following users"
+  desktop-mode: 'Desktop mode'
+  mobile-mode: 'Mobile mode'
   favorites: "Favorites"
   permissions:
     "account-read": "View account information"

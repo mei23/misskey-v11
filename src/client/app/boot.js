@@ -85,7 +85,16 @@
 
 	// Detect the user agent
 	const ua = navigator.userAgent.toLowerCase();
-	const isMobile = /mobile|iphone|ipad|android/.test(ua);
+	let isMobile = /mobile|iphone|ipad|android/.test(ua);
+	try {
+		if (settings && settings.device.appType) {
+			if (settings.device.appType === 'mobile') {
+				isMobile = true;
+			} else if (settings.device.appType === 'desktop') {
+				isMobile = false;
+			}
+		}
+	} catch { }
 
 	// Get the <head> element
 	const head = document.getElementsByTagName('head')[0];

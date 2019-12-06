@@ -77,6 +77,8 @@ common:
   followers: "フォロワー"
   only-not-followed: "フォローされてないユーザーのみ"
   only-not-following: "フォローしてないユーザーのみ"
+  desktop-mode: 'デスクトップ版'
+  mobile-mode: 'モバイル版'
 
   favorites: "お気に入り"
 

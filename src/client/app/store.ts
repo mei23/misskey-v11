@@ -85,6 +85,7 @@ const defaultDeviceSettings = Object.assign({
 	roomUseOrthographicCamera: true,
 	activeEmojiCategoryName: undefined,
 	recentEmojis: [],
+	appType: 'auto',
 }, mods.defaultDeviceSettings || {});
 
 export default (os: MiOS) => new Vuex.Store({
