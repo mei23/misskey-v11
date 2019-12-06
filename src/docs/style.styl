@@ -2,13 +2,16 @@
 @import "./ui"
 
 html
-	--primary #fb4e4e
-	--link #fb4e4e
+	--bg #660000
+	--fg #f0f0f0
+	--primary rgb(24, 192, 24)
+	--link rgb(24, 192, 24)
 	--linkTapHighlight #fb4e4eb3
 
 body
 	margin 0
-	color #34495e
+	background-color: var(--bg)
+	color var(--fg)
 	word-break break-word
 
 main
@@ -21,13 +24,13 @@ main
 		margin 0 0 24px 0
 		padding 16px 0
 		font-size 1.5em
-		border-bottom solid 2px #eee
+		border-bottom solid 2px #fcc
 
 	h2
 		margin 1em 0 24px 0
 		padding 0 0 16px 0
 		font-size 1.4em
-		border-bottom solid 1px #eee
+		border-bottom solid 1px #fcc
 
 	h3
 		margin 1em 0 0 0
@@ -43,19 +46,19 @@ main
 
 	hr
 		border none
-		border-bottom solid 2px #eee
+		border-bottom solid 2px #fcc
 
 	> aside
 		margin-top 32px
 		padding-top 32px
-		border-top solid 2px #eee
+		border-top solid 2px #fcc
 
 	.copyright
 		margin 32px 0 0 0
-		border-top solid 2px #eee
+		border-top solid 2px #fcc
 		display block
 		margin 16px 0 0 0
-		color #aaa
+		color #fcc
 
 nav
 	display block
@@ -67,8 +70,8 @@ nav
 	height 100%
 	overflow auto
 	padding 32px
-	background #fff
-	border-right solid 2px #eee
+	background var(--bg)
+	border-right solid 2px #800
 
 	ul
 		padding 0
@@ -83,7 +86,7 @@ nav
 		position relative
 		width 100%
 		max-height 128px
-		background #f9f9f9
+		background var(--bg)
 		border-right none
 
 @media (max-width 768px)
@@ -103,7 +106,7 @@ table
 
 	thead
 		font-weight bold
-		border-bottom solid 2px #eee
+		border-bottom solid 2px #fcc
 
 		tr
 			th
@@ -112,7 +115,7 @@ table
 	tbody
 		tr
 			&:nth-child(odd)
-				background #fbfbfb
+				background var(--bg)
 
 	th, td
 		padding 8px 16px
@@ -122,7 +125,7 @@ code
 	padding 4px 8px
 	font-family Consolas, 'Courier New', Courier, Monaco, monospace
 	//color #295c92
-	background #f2f2f2
+	background #23241f
 	border-radius 4px
 
 pre
@@ -135,16 +138,16 @@ pre
 kbd.group
 	display inline-block
 	padding 4px
-	background #fbfbfb
-	border 1px solid #d6d6d6
+	background var(--bg)
+	border 1px solid #fcc
 	border-radius 4px
 	box-shadow 0 1px 1px rgba(0, 0, 0, 0.1)
 
 kbd.key
 	display inline-block
 	padding 6px 8px
-	background #fff
-	border solid 1px #cecece
+	background var(--bg)
+	border solid 1px #fcc
 	border-radius 4px
 	box-shadow 0 1px 1px rgba(0, 0, 0, 0.1)
 
