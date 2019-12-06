@@ -3,6 +3,7 @@
  */
 
 import * as gulp from 'gulp';
+import * as gutil from 'gulp-util';
 import * as ts from 'gulp-typescript';
 const sourcemaps = require('gulp-sourcemaps');
 import tslint from 'gulp-tslint';
@@ -12,6 +13,7 @@ import chalk from 'chalk';
 import * as rename from 'gulp-rename';
 import * as mocha from 'gulp-mocha';
 import * as replace from 'gulp-replace';
+const terser = require('gulp-terser');
 
 const locales = require('./locales');
 
@@ -95,6 +97,9 @@ gulp.task('build:client:script', () => {
 		.pipe(replace('VERSION', JSON.stringify(client.version)))
 		.pipe(replace('ENV', JSON.stringify(env)))
 		.pipe(replace('LANGS', JSON.stringify(Object.keys(locales))))
+		.pipe(isProduction ? terser({
+			toplevel: true
+		}) : gutil.noop())
 		.pipe(gulp.dest('./built/client/assets/'));
 });
 
