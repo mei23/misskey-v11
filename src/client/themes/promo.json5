@@ -17,7 +17,7 @@
 	props: {
 		announcementsTitle: '#e3e5e8',
 		renoteGradient: '#b72ddc',
-		noteText: 'rgb(240, 208, 208)',
+		noteText: '#ffe0e0',
 		noteHeaderName: '#ffe0e0',
 	},
 }
