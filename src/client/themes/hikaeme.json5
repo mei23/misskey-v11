@@ -1,0 +1,23 @@
+{
+	id: 'hikaeme',
+	revision: 1,
+
+	name: '控えめなお嬢様',
+	author: 'めいめい',
+	desc: '控えめなお嬢様のためのテーマなのだわ',
+
+	base: 'dark',
+
+	vars: {
+		primary: 'rgb(24, 192, 24)',
+		secondary: 'rgb(102, 0, 0)',
+		text: 'rgb(255, 251, 185)',
+	},
+
+	props: {
+		announcementsTitle: '#e3e5e8',
+		renoteGradient: '#b72ddc',
+		noteText: '#f0d0d0',
+		noteHeaderName: '#ffe0e0',
+	},
+}
