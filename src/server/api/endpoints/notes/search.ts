@@ -211,7 +211,7 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 				host = toDbHost(matchHost[1]);
 			}
 
-			filtered = true;
+			// filteredにしない
 			continue;
 		}
 
