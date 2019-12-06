@@ -542,11 +542,11 @@ export default Vue.extend({
 				} else if (input.match(/^https?:\/\/(?:www|live)\.nicovideo\.jp\/watch\/((?:sm|lv|im)\d{1,10})/)) {
 					input = `[${RegExp.$1}](${input})`;
 				} else if (input.match(/^https?:\/\/twitter\.com\/([^?]+)/)) {
-					input = `:twitter: [${RegExp.$1}](${input})`;
-				} else if (input.match(/^https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([\w-]+)/)) {
-					input = `:youtube: [${RegExp.$1}](${input})`;
+					input = `:twitter:**[${RegExp.$1}](${input})**`;
+				} else if (input.match(/^https?:\/\/youtube\.com\/watch\?v=([\w-]+)/)) {
+					input = `:youtube:**[${RegExp.$1}](${input})**`;
 				} else if (input.match(/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)/)) {
-					input = `:youtube: [${RegExp.$1}](${input})`;
+					input = `:youtube:**[${RegExp.$1}](${input})**`;
 				}
 
 				insertTextAtCursor(this.$refs.text, input);
