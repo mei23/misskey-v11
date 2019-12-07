@@ -721,6 +721,7 @@ common/views/components/profile-editor.vue:
   is-bot: "This account is a Bot"
   is-locked: "Follower requests require approval"
   careful-bot: "Follower requests from bots require approval"
+  careful-remote: "Follower requests from remote require approval"
   auto-accept-followed: "Automatically approve follows from the people you follow"
   no-federation: "Disable federation"
   advanced: "Other"
