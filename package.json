@@ -24,7 +24,6 @@
 	},
 	"resolutions": {
 		"webpack/terser-webpack-plugin": "^1.4.2",
-		"video-thumbnail-generator/lodash": "^4.17.13",
 		"https-proxy-agent": "^3.0.0"
 	},
 	"dependencies": {
