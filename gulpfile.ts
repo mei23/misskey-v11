@@ -3,7 +3,6 @@
  */
 
 import * as gulp from 'gulp';
-import * as gutil from 'gulp-util';
 import * as ts from 'gulp-typescript';
 const sourcemaps = require('gulp-sourcemaps');
 import tslint from 'gulp-tslint';
@@ -98,9 +97,9 @@ gulp.task('build:client:script', () => {
 		.pipe(replace('VERSION', JSON.stringify(client.version)))
 		.pipe(replace('ENV', JSON.stringify(env)))
 		.pipe(replace('LANGS', JSON.stringify(Object.keys(locales))))
-		.pipe(isProduction ? terser({
+		.pipe(terser({
 			toplevel: true
-		}) : gutil.noop())
+		}))
 		.pipe(gulp.dest('./built/client/assets/'));
 });
 
