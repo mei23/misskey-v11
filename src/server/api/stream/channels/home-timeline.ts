@@ -89,7 +89,8 @@ export default class extends Channel {
 				oidEquals(note.reply.userId, this.user._id)	// reply to me
 			)) return;
 
-			if (oidIncludes(this.followingIds, note.userId) && !oidEquals(note.reply.userId, this.user._id)) return;
+			const followingOrMeIds = concat([[`${this.user._id}`], this.followingIds]);
+			if (oidIncludes(this.followingIds, note.userId) && !oidIncludes(followingOrMeIds, note.reply.userId)) return;
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する

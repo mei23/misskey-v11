@@ -169,8 +169,8 @@ export default define(meta, async (ps, user) => {
 				// to me (for specified)
 				visibleUserIds: { $in: [ user._id ] }
 			}, {
-				// 自分の投稿へのリプライ
-				'_reply.userId': user._id
+				// 自分またはフォローユーザーの投稿へのリプライ
+				'_reply.userId': { $in: concat([[user._id], followings.map(f => f.id)])}
 			}, {
 				// 自分へのメンションが含まれている
 				mentions: { $in: [ user._id ] }
