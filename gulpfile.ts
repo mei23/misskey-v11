@@ -8,7 +8,7 @@ const sourcemaps = require('gulp-sourcemaps');
 import tslint from 'gulp-tslint';
 const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import * as rename from 'gulp-rename';
 import * as mocha from 'gulp-mocha';
 import * as replace from 'gulp-replace';

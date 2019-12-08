@@ -5,7 +5,7 @@ import config from '../config';
 import { createPerson, updatePerson } from './activitypub/models/person';
 import { URL } from 'url';
 import { remoteLogger } from './logger';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 
 const logger = remoteLogger.createSubLogger('resolve-user');
 

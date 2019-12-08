@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as URL from 'url';
 import * as request from 'request';
 import config from '../config';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import Logger from '../services/logger';
 
 export async function downloadUrl(url: string, path: string) {

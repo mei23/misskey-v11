@@ -8,7 +8,7 @@ require('events').EventEmitter.defaultMaxListeners = 128;
 
 import * as os from 'os';
 import * as cluster from 'cluster';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import Xev from 'xev';
 
 import Logger from './services/logger';
