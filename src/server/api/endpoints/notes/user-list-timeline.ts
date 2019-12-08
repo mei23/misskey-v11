@@ -206,8 +206,6 @@ export default define(meta, async (ps, user) => {
 		return [];
 	}
 
-	console.log(listQuery);
-
 	const visibleQuery = [{
 		visibility: { $in: ['public', 'home'] }
 	}, {
