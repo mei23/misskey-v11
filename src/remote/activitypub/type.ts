@@ -115,6 +115,15 @@ export interface IApNote extends IObject {
 export const isNote = (object: IObject): object is IApNote =>
 	['Note', 'Question', 'Article', 'Audio', 'Document', 'Image', 'Page', 'Video'].includes(object.type);
 
+export interface ITombstone extends IObject {
+	type: 'Tombstone';
+	formerType?: string;
+	deleted?: Date;
+}
+
+export const isTombstone = (object: IObject): object is ITombstone =>
+	object.type === 'Tombstone';
+
 export interface IQuestion extends IObject {
 	type: 'Note' | 'Question';
 	_misskey_content: string;
