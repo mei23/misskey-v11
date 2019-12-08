@@ -7,7 +7,7 @@ import { publishMainStream } from '../../../services/stream';
 import signin from '../common/signin';
 import config from '../../../config';
 
-export default async (ctx: Koa.BaseContext) => {
+export default async (ctx: Koa.Context) => {
 	ctx.set('Access-Control-Allow-Origin', config.url);
 	ctx.set('Access-Control-Allow-Credentials', 'true');
 

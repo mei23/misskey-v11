@@ -17,12 +17,12 @@ import { downloadUrl } from '../../misc/donwload-url';
 
 const assets = `${__dirname}/../../server/file/assets/`;
 
-const commonReadableHandlerGenerator = (ctx: Koa.BaseContext) => (e: Error): void => {
+const commonReadableHandlerGenerator = (ctx: Koa.Context) => (e: Error): void => {
 	serverLogger.error(e);
 	ctx.status = 500;
 };
 
-export default async function(ctx: Koa.BaseContext) {
+export default async function(ctx: Koa.Context) {
 	// Validate id
 	if (!mongodb.ObjectID.isValid(ctx.params.id)) {
 		ctx.throw(400, 'incorrect id');

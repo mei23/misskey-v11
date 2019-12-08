@@ -3,7 +3,7 @@ import * as manifest from '../../client/assets/manifest.json';
 const deepcopy = require('deepcopy');
 import fetchMeta from '../../misc/fetch-meta';
 
-module.exports = async (ctx: Koa.BaseContext) => {
+module.exports = async (ctx: Koa.Context) => {
 	const json = deepcopy(manifest);
 
 	const instance = await fetchMeta();

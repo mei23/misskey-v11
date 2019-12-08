@@ -10,7 +10,7 @@ import usersChart from '../../../services/chart/users';
 import fetchMeta from '../../../misc/fetch-meta';
 import * as recaptcha from 'recaptcha-promise';
 
-export default async (ctx: Koa.BaseContext) => {
+export default async (ctx: Koa.Context) => {
 	const body = ctx.request.body as any;
 
 	const instance = await fetchMeta();
