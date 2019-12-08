@@ -27,7 +27,7 @@ export default async (actor: IRemoteUser, activity: IDelete): Promise<void> => {
 	const uri = getApId(activity.object);
 
 	if (formarType === 'Note' || formarType == null) {
-		deleteNote(actor, uri);
+		await deleteNote(actor, uri);
 	} else {
 		apLogger.warn(`Unsupported target object type in Delete activity: ${formarType}`);
 	}

@@ -12,10 +12,12 @@ export default async function(actor: IRemoteUser, uri: string): Promise<void> {
 
 	if (note == null) {
 		logger.warn(`note not found:  ${uri}`);
+		return;
 	}
 
 	if (!note.userId.equals(actor._id)) {
 		logger.warn(`投稿を削除しようとしているユーザーは投稿の作成者ではありません:  ${uri}`);
+		return;
 	}
 
 	await deleteNode(actor, note);
