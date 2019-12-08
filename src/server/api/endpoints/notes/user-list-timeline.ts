@@ -171,7 +171,7 @@ export default define(meta, async (ps, user) => {
 		_id: -1
 	};
 
-	const listQuery = list.userIds.map(u => ({
+	let listQuery = list.userIds.map(u => ({
 		userId: u,
 
 		/*// リプライは含めない(ただし投稿者自身の投稿へのリプライ、自分の投稿へのリプライ、自分のリプライは含める)
@@ -190,17 +190,23 @@ export default define(meta, async (ps, user) => {
 			// 自分(フォロワー)が送信したリプライ
 			userId: user._id
 		}]*/
-	})) as any;
+	})) as {}[];
 
 	if (list.hosts && list.hosts.length > 0) {
-		listQuery.push({
-			'_user.host': { $in: list.hosts.map(x => isSelfHost(x) ? null : x) }
-		});
+		if (list.hosts.some(x => x === '*')) {
+			listQuery = [ {} ];
+		} else {
+			listQuery.push({
+				'_user.host': { $in: list.hosts.map(x => isSelfHost(x) ? null : x) }
+			});
+		}
 	}
 
 	if (listQuery.length == 0) {
 		return [];
 	}
+
+	console.log(listQuery);
 
 	const visibleQuery = [{
 		visibility: { $in: ['public', 'home'] }

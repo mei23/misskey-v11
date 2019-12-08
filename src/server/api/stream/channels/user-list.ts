@@ -32,6 +32,7 @@ export default class extends Channel {
 	@autobind
 	private async onNote(note: any) {
 		if (!(
+			this.lists.some(list => list.hosts && list.hosts.includes('*')) ||
 			this.lists.some(list => list.userIds.some(userId => `${note.userId}` === `${userId}`)) ||
 			this.lists.some(list => list.hosts && list.hosts.includes(note.user.host))
 		)) return;
