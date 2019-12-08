@@ -175,9 +175,14 @@ export default define(meta, async (ps, user) => {
 				'_user.host': null,
 				'_reply.userId': null
 			}, {
+				// フォローユーザーのリプライ以外かフォロワーへのリプライ
 				visibility: { $in: [ 'public', 'home', 'followers' ] },
 				userId: { $in: followings.map(f => f.id) },
-				'_reply.userId': null
+				$or: [{
+					'_reply.userId': null
+				}, {
+					'_reply.userId': { $in : followings.map(f => f.id) }
+				}]
 			}, {
 				// myself (for specified/private)
 				userId: user._id
@@ -185,8 +190,8 @@ export default define(meta, async (ps, user) => {
 				// to me (for specified)
 				visibleUserIds: { $in: [ user._id ] }
 			}, {
-				// 自分またはフォローユーザーの投稿へのリプライ
-				'_reply.userId': { $in: concat([[ user._id], followings.map(f => f.id)])}
+				// 自分の投稿へのリプライ
+				'_reply.userId': user._id
 			}, {
 				// 自分へのメンションが含まれている
 				mentions: { $in: [ user._id ] }

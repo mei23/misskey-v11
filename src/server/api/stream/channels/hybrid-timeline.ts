@@ -95,7 +95,6 @@ export default class extends Channel {
 		// リプライの場合リプライ情報を見て再度除外
 		if (note.replyId) {
 			if (!(
-				(note.user.host == null && note.visibility === 'public') || // local public
 				oidEquals(note.userId, this.user._id) ||	// myself
 				oidIncludes(this.followingIds, note.userId) ||	// from followers
 				oidIncludes(note.mentions, this.user._id) ||	// mention to me
