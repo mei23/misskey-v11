@@ -18,7 +18,7 @@ import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 const logger = new Logger('inbox');
 
 // ユーザーのinboxにアクティビティが届いた時の処理
-export default async (job: Bull.Job): Promise<void> => {
+export default async (job: Bull.Job): Promise<string> => {
 	const signature = job.data.signature as httpSignature.IParsedSignature;
 	const activity = job.data.activity as IActivity;
 
@@ -35,24 +35,21 @@ export default async (job: Bull.Job): Promise<void> => {
 	if (keyIdLower.startsWith('acct:')) {
 		const { username, host } = parseAcct(keyIdLower.slice('acct:'.length));
 		if (host === null) {
-			logger.warn(`request was made by local user: @${username}`);
-			return;
+			return `skip: request was made by local user: @${username}`;
 		}
 
 		// アクティビティ内のホストの検証
 		try {
 			ValidateActivity(activity, host);
 		} catch (e) {
-			logger.warn(e.message);
-			return;
+			return `skip: host validation failed ${e.message}`;
 		}
 
 		// ブロックしてたら中断
 		// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
 		const instance = await Instance.findOne({ host: toDbHost(host) });
 		if (instance && instance.isBlocked) {
-			logger.info(`Blocked request: ${host}`);
-			return;
+			return `skip: Blocked instance: ${host}`;
 		}
 
 		user = await User.findOne({ usernameLower: username, host: host.toLowerCase() }) as IRemoteUser;
@@ -62,16 +59,14 @@ export default async (job: Bull.Job): Promise<void> => {
 		try {
 			ValidateActivity(activity, host);
 		} catch (e) {
-			logger.warn(e.message);
-			return;
+			return `skip: host validation failed ${e.message}`;
 		}
 
 		// ブロックしてたら中断
 		// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
 		const instance = await Instance.findOne({ host: toDbHost(host) });
 		if (instance && instance.isBlocked) {
-			logger.warn(`Blocked request: ${host}`);
-			return;
+			return `skip: Blocked instance: ${host}`;
 		}
 
 		user = await User.findOne({
@@ -87,8 +82,7 @@ export default async (job: Bull.Job): Promise<void> => {
 		} catch (e) {
 			// 対象が4xxならスキップ
 			if (e.statusCode >= 400 && e.statusCode < 500) {
-				logger.warn(`Ignored actor ${activity.actor} - ${e.statusCode}`);
-				return;
+				return `skip: Ignored actor ${activity.actor} - ${e.statusCode}`;
 			}
 			logger.error(`Error in actor ${activity.actor} - ${e.statusCode || e}`);
 			throw e;
@@ -100,8 +94,7 @@ export default async (job: Bull.Job): Promise<void> => {
 	}
 
 	if (!httpSignature.verifySignature(signature, user.publicKey.publicKeyPem)) {
-		logger.error('signature verification failed');
-		return;
+		return `skip: signature verification failed`;
 	}
 
 	//#region Log
@@ -131,7 +124,7 @@ export default async (job: Bull.Job): Promise<void> => {
 	});
 
 	// アクティビティを処理
-	await perform(user, activity);
+	return (await perform(user, activity)) || 'ok';
 };
 
 /**

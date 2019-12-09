@@ -24,38 +24,38 @@ export async function performActivity(actor: IRemoteUser, activity: IObject) {
 			await performOneActivity(actor, act);
 		}
 	} else {
-		await performOneActivity(actor, activity);
+		return await performOneActivity(actor, activity);
 	}
 }
 
-export async function performOneActivity(actor: IRemoteUser, activity: IObject): Promise<void> {
-	if (actor.isSuspended) return;
+export async function performOneActivity(actor: IRemoteUser, activity: IObject) {
+	if (actor.isSuspended) return 'skip: actor is suspended';
 
 	if (isCreate(activity)) {
-		await create(actor, activity);
+		return await create(actor, activity);
 	} else if (isDelete(activity)) {
-		await performDeleteActivity(actor, activity);
+		return await performDeleteActivity(actor, activity);
 	} else if (isUpdate(activity)) {
-		await performUpdateActivity(actor, activity);
+		return await performUpdateActivity(actor, activity);
 	} else if (isFollow(activity)) {
-		await follow(actor, activity);
+		return await follow(actor, activity);
 	} else if (isAccept(activity)) {
-		await accept(actor, activity);
+		return await accept(actor, activity);
 	} else if (isReject(activity)) {
-		await reject(actor, activity);
+		return await reject(actor, activity);
 	} else if (isAdd(activity)) {
-		await add(actor, activity).catch(err => apLogger.error(err));
+		return await add(actor, activity).catch(err => apLogger.error(err));
 	} else if (isRemove(activity)) {
-		await remove(actor, activity).catch(err => apLogger.error(err));
+		return await remove(actor, activity).catch(err => apLogger.error(err));
 	} else if (isAnnounce(activity)) {
-		await announce(actor, activity);
+		return await announce(actor, activity);
 	} else if (isLike(activity)) {
-		await like(actor, activity);
+		return await like(actor, activity);
 	} else if (isUndo(activity)) {
-		await undo(actor, activity);
+		return await undo(actor, activity);
 	} else if (isBlock(activity)) {
-		await block(actor, activity);
+		return await block(actor, activity);
 	} else {
-		apLogger.warn(`unknown activity type: ${(activity as any).type}`);
+		return `skip: unknown activity type: ${(activity as any).type}`;
 	}
 }

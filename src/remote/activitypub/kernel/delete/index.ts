@@ -1,12 +1,11 @@
 import deleteNote from './note';
 import { IRemoteUser } from '../../../../models/user';
 import { IDelete, getApId, isTombstone } from '../../type';
-import { apLogger } from '../../logger';
 
 /**
  * 削除アクティビティを捌きます
  */
-export default async (actor: IRemoteUser, activity: IDelete): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IDelete): Promise<string> => {
 	if ('actor' in activity && actor.uri !== activity.actor) {
 		throw new Error('invalid actor');
 	}
@@ -26,17 +25,17 @@ export default async (actor: IRemoteUser, activity: IDelete): Promise<void> => {
 	const uri = getApId(activity.object);
 
 	if (['Note', 'Question', 'Article', 'Audio', 'Document', 'Image', 'Page', 'Video'].includes(formarType)) {
-		await deleteNote(actor, uri);
+		return await deleteNote(actor, uri);
 	} else if (['Person', 'Service'].includes(formarType)) {
-		apLogger.warn(`Delete Actor is not implanted 1`);
+		return `Delete Actor is not implanted 1`;
 	} else if (formarType == null && uri === actor.uri) {
 		// formarTypeが不明でも対象がactorと同じならばそれはActorに違いない
-		apLogger.warn(`Delete Actor is not implanted 2`);
+		return `Delete Actor is not implanted 2`;
 	} else if (formarType == null) {
 		// それでもformarTypeが不明だったらおそらくNote
-		await deleteNote(actor, uri);
+		return await deleteNote(actor, uri);
 	} else {
 		// 明示的に見知らぬformarTypeだった場合
-		apLogger.warn(`Unsupported target object type in Delete activity: ${formarType}`);
+		return `Unsupported target object type in Delete activity: ${formarType}`;
 	}
 };

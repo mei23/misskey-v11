@@ -6,7 +6,7 @@ import { apLogger } from '../../logger';
 
 const logger = apLogger;
 
-export default async (actor: IRemoteUser, activity: ICreate): Promise<void> => {
+export default async (actor: IRemoteUser, activity: ICreate): Promise<string> => {
 	const uri = getApId(activity);
 
 	logger.info(`Create: ${uri}`);
@@ -23,8 +23,8 @@ export default async (actor: IRemoteUser, activity: ICreate): Promise<void> => {
 	}
 
 	if (isNote(object)) {
-		createNote(resolver, actor, object);
+		return await createNote(resolver, actor, object);
 	} else {
-		logger.warn(`Unknown type: ${object.type}`);
+		return `Unknown type: ${object.type}`;
 	}
 };
