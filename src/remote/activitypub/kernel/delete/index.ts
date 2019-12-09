@@ -26,9 +26,16 @@ export default async (actor: IRemoteUser, activity: IDelete): Promise<void> => {
 
 	const uri = getApId(activity.object);
 
-	if (formarType === 'Note' || formarType == null) {
+	if (['Note', 'Question', 'Article', 'Audio', 'Document', 'Image', 'Page', 'Video'].includes(formarType)) {
+		await deleteNote(actor, uri);
+	} else if (['Person', 'Service'].includes(formarType)) {
+		apLogger.warn(`Delete Actor is not implanted 1`);
+	} else if (formarType == null && uri === actor.uri) {
+		apLogger.warn(`Delete Actor is not implanted 2`);
+	} else if (formarType == null) {
 		await deleteNote(actor, uri);
 	} else {
 		apLogger.warn(`Unsupported target object type in Delete activity: ${formarType}`);
 	}
+	//  || formarType == null
 };
