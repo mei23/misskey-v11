@@ -149,6 +149,21 @@ export default define(meta, async (ps, user) => {
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
 	const hideFromHomeHosts = concat<string>(hideFromHomeLists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
 
+	//#region 新規ユーザーの無駄クエリ抑制
+	// クエリに影響するフォローユーザー
+	const efectiveFollowings = followings.map(x => x.id)
+		.filter(x => x != user._id)
+		.filter(x => !hideUserIds.includes(x))
+		.filter(x => !hideFromHomeUsers.includes(x));
+
+	if (efectiveFollowings.length === 0) {
+		// フォローが0ならば絶対に自分の投稿数以上の投稿はかからないのでlimitを絞る
+		ps.limit = user.notesCount;
+		// さらに未投稿ならクエリしない
+		if (ps.limit === 0) return [];
+	}
+	//#endregion
+
 	//#region Construct query
 	const sort = {
 		_id: -1
