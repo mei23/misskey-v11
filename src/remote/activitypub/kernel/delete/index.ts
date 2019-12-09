@@ -1,6 +1,6 @@
 import deleteNote from './note';
 import { IRemoteUser } from '../../../../models/user';
-import { IDelete, getApId, isNote, isTombstone } from '../../type';
+import { IDelete, getApId, isTombstone } from '../../type';
 import { apLogger } from '../../logger';
 
 /**
