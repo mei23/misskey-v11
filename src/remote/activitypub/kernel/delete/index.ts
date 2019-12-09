@@ -11,17 +11,16 @@ export default async (actor: IRemoteUser, activity: IDelete): Promise<void> => {
 		throw new Error('invalid actor');
 	}
 
+	// 削除対象objectのtype
 	let formarType: string | undefined;
 
 	if (typeof activity.object === 'string') {
+		// どうせremote resolveしても消えてるので不明なままにしておく
 		formarType = undefined;
-	} else if (isNote(activity.object)) {
-		formarType = 'Note';
 	} else if (isTombstone(activity.object)) {
 		formarType = activity.object.formerType;
 	} else {
-		apLogger.warn(`Unknown object type in Delete activity: ${activity.type}`);
-		return;
+		formarType = activity.object.type;
 	}
 
 	const uri = getApId(activity.object);
@@ -31,11 +30,13 @@ export default async (actor: IRemoteUser, activity: IDelete): Promise<void> => {
 	} else if (['Person', 'Service'].includes(formarType)) {
 		apLogger.warn(`Delete Actor is not implanted 1`);
 	} else if (formarType == null && uri === actor.uri) {
+		// formarTypeが不明でも対象がactorと同じならばそれはActorに違いない
 		apLogger.warn(`Delete Actor is not implanted 2`);
 	} else if (formarType == null) {
+		// それでもformarTypeが不明だったらおそらくNote
 		await deleteNote(actor, uri);
 	} else {
+		// 明示的に見知らぬformarTypeだった場合
 		apLogger.warn(`Unsupported target object type in Delete activity: ${formarType}`);
 	}
-	//  || formarType == null
 };
