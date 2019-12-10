@@ -108,8 +108,9 @@ export interface IOrderedCollectionPage extends IObject {
 export interface IApNote extends IObject {
 	type: 'Note' | 'Question' | 'Article' | 'Audio' | 'Document' | 'Image' | 'Page' | 'Video';
 	_misskey_content: string;
-	_misskey_quote: string;
-	_misskey_talk: boolean;
+	_misskey_quote?: string;
+	quoteUrl?: string;
+	_misskey_talk?: boolean;
 }
 
 export const isNote = (object: IObject): object is IApNote =>
@@ -127,7 +128,8 @@ export const isTombstone = (object: IObject): object is ITombstone =>
 export interface IQuestion extends IObject {
 	type: 'Note' | 'Question';
 	_misskey_content: string;
-	_misskey_quote: string;
+	_misskey_quote?: string;
+	quoteUrl?: string;
 	oneOf?: IQuestionChoice[];
 	anyOf?: IQuestionChoice[];
 	endTime?: Date;

@@ -162,6 +162,7 @@ export default async function renderNote(note: INote, dive = true, isTalk = fals
 		content,
 		_misskey_content: text,
 		_misskey_quote: quote,
+		quoteUrl: quote,
 		published: note.createdAt.toISOString(),
 		to,
 		cc,
