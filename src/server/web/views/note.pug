@@ -25,7 +25,7 @@ block meta
 
 	meta(name='twitter:card' content='summary')
 
-	if user.host
+	if user.host || user.avoidSearchIndex
 		meta(name='robots' content='noindex')
 
 	if user.twitter

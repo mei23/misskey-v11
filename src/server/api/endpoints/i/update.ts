@@ -108,6 +108,13 @@ export const meta = {
 			}
 		},
 
+		avoidSearchIndex: {
+			validator: $.optional.bool,
+			desc: {
+				'ja-JP': 'avoidSearchIndex'
+			}
+		},
+
 		noFederation: {
 			validator: $.optional.bool,
 			desc: {
@@ -195,6 +202,7 @@ export default define(meta, async (ps, user, app) => {
 	if (typeof ps.carefulBot == 'boolean') updates.carefulBot = ps.carefulBot;
 	if (typeof ps.carefulRemote == 'boolean') updates.carefulRemote = ps.carefulRemote;
 	if (typeof ps.autoAcceptFollowed == 'boolean') updates.autoAcceptFollowed = ps.autoAcceptFollowed;
+	if (typeof ps.avoidSearchIndex == 'boolean') updates.avoidSearchIndex = ps.avoidSearchIndex;
 	if (typeof ps.noFederation == 'boolean') updates.noFederation = ps.noFederation;
 	if (typeof ps.isCat == 'boolean') updates.isCat = ps.isCat;
 	if (typeof ps.autoWatch == 'boolean') updates['settings.autoWatch'] = ps.autoWatch;

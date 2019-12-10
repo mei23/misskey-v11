@@ -87,6 +87,7 @@
 			<ui-switch v-model="carefulBot" :disabled="isLocked" @change="save(false)">{{ $t('careful-bot') }}</ui-switch>
 			<ui-switch v-model="carefulRemote" :disabled="isLocked" @change="save(false)">{{ $t('careful-remote') }}</ui-switch>
 			<ui-switch v-model="autoAcceptFollowed" :disabled="!isLocked && !carefulBot && !carefulRemote" @change="save(false)">{{ $t('auto-accept-followed') }}</ui-switch>
+			<ui-switch v-model="avoidSearchIndex" @change="save(false)">{{ $t('avoid-search-index') }}</ui-switch>
 		</div>
 	</section>
 
@@ -164,6 +165,7 @@ export default Vue.extend({
 			carefulBot: false,
 			carefulRemote: false,
 			autoAcceptFollowed: false,
+			avoidSearchIndex: false,
 			noFederation: false,
 			fieldName0 : null,
 			fieldValue0 : null,
@@ -214,6 +216,7 @@ export default Vue.extend({
 		this.carefulBot = this.$store.state.i.carefulBot;
 		this.carefulRemote = this.$store.state.i.carefulRemote;
 		this.autoAcceptFollowed = this.$store.state.i.autoAcceptFollowed;
+		this.avoidSearchIndex = this.$store.state.i.avoidSearchIndex;
 		this.noFederation = this.$store.state.i.noFederation;
 
 		if (this.$store.state.i.fields) {
@@ -311,6 +314,7 @@ export default Vue.extend({
 				carefulBot: !!this.carefulBot,
 				carefulRemote: !!this.carefulRemote,
 				autoAcceptFollowed: !!this.autoAcceptFollowed,
+				avoidSearchIndex: !!this.avoidSearchIndex,
 				fields,
 			}).then(i => {
 				this.saving = false;

@@ -779,6 +779,7 @@ common/views/components/profile-editor.vue:
   careful-bot: "Botからのフォローだけ承認制にする"
   careful-remote: "リモートからのフォローだけ承認制にする"
   auto-accept-followed: "フォローしているユーザーからのフォローを自動承認する"
+  avoid-search-index: "検索エンジンによるインデックスを避ける"
   no-federation: "連合を無効にする"
   advanced: "その他"
   privacy: "プライバシー"

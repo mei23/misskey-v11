@@ -92,6 +92,8 @@ type IUserBase = {
 	 */
 	autoAcceptFollowed: boolean;
 
+	avoidSearchIndex?: boolean;
+
 	noFederation?: boolean;
 
 	/**
