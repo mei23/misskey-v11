@@ -10,7 +10,6 @@
 	<div class="info">
 		<span class="mobile" v-if="note.viaMobile"><fa icon="mobile-alt"/></span>
 		<mk-time :time="note.createdAt"/>
-		<x-visibility-icon class="visibility" :v="note.visibility" :localOnly="note.localOnly"/>
 	</div>
 </div>
 </template>

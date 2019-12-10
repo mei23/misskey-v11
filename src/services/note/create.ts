@@ -113,6 +113,7 @@ type Option = {
 
 export default async (user: IUser, data: Option, silent = false) => new Promise<INote>(async (res, rej) => {
 	const isFirstNote = user.notesCount === 0;
+	const isPureRenote = data.text == null && data.poll == null && (data.files == null || data.files.length == 0);
 
 	if (data.createdAt == null) data.createdAt = new Date();
 	if (data.visibility == null) data.visibility = 'public';
@@ -128,23 +129,18 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 		return rej('Reply target has been deleted');
 	}
 
-	// Renote対象が削除された投稿だったらreject
+	// Renote/Quote対象が削除された投稿だったらreject
 	if (data.renote && data.renote.deletedAt != null) {
 		return rej('Renote target has been deleted');
 	}
 
-	// Renote対象が「ホームまたは全体」以外の公開範囲ならreject
+	// Renote/Quote対象が「ホームまたは全体」以外の公開範囲ならreject
 	if (data.renote && data.renote.visibility != 'public' && data.renote.visibility != 'home') {
 		return rej('Renote target is not public or home');
 	}
 
-	// Renote対象がpublicではないならhomeにする
-	if (data.renote && data.renote.visibility != 'public' && data.visibility == 'public') {
-		data.visibility = 'home';
-	}
-
-	// 返信対象がpublicではないならhomeにする
-	if (data.reply && data.reply.visibility != 'public' && data.visibility == 'public') {
+	// PureRenoteの最大公開範囲はHomeにする
+	if (isPureRenote && data.visibility === 'public') {
 		data.visibility = 'home';
 	}
 
