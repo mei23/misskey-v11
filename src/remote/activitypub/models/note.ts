@@ -159,9 +159,39 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	let quote: INote;
 
 	if (note._misskey_quote || note.quoteUrl) {
-		quote = await resolveNote(note._misskey_quote || note.quoteUrl).catch(() => {
-			return null;
-		});
+		const tryResolveNote = async (uri: string): Promise<{
+			status: 'ok' | 'permerror' | 'temperror';
+			res?: INote | null;
+		}> => {
+			if (typeof uri !== 'string' || !uri.match(/^https?:/)) return { status: 'permerror' };
+			try {
+				const res = await resolveNote(uri);
+				if (res) {
+					return {
+						status: 'ok',
+						res
+					};
+				} else {
+					return {
+						status: 'permerror'
+					};
+				}
+			} catch (e) {
+				return {
+					status: e.statusCode >= 400 && e.statusCode < 500 ? 'permerror' : 'temperror'
+				};
+			}
+		};
+
+		const uris = unique([note._misskey_quote, note.quoteUrl].filter(x => typeof x === 'string') as string[]);
+		const results = await Promise.all(uris.map(uri => tryResolveNote(uri)));
+
+		quote = results.filter(x => x.status === 'ok').map(x => x.res).find(x => x);
+		if (!quote) {
+			if (results.some(x => x.status === 'temperror')) {
+				throw 'quote resolve failed';
+			}
+		}
 	}
 
 	const cw = note.summary === '' ? null : note.summary;
