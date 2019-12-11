@@ -4,6 +4,7 @@ import { pack } from '../../../../models/note';
 import Mute from '../../../../models/mute';
 import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import UserList, { IUserList } from '../../../../models/user-list';
+import config from '../../../../config';
 
 export default class extends Channel {
 	public readonly chName = 'userList';
@@ -34,7 +35,7 @@ export default class extends Channel {
 		if (!(
 			this.lists.some(list => list.hosts && list.hosts.includes('*')) ||
 			this.lists.some(list => list.userIds.some(userId => `${note.userId}` === `${userId}`)) ||
-			this.lists.some(list => list.hosts && list.hosts.includes(note.user.host))
+			this.lists.some(list => list.hosts && list.hosts.includes(note.user.host || config.host))
 		)) return;
 
 		if (['followers', 'specified'].includes(note.visibility)) {
