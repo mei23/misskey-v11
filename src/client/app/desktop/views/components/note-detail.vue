@@ -26,7 +26,7 @@
 			<span class="username"><mk-acct :user="appearNote.user"/></span>
 			<div class="info">
 				<router-link class="time" :to="appearNote | notePage">
-					<mk-time :time="appearNote.createdAt"/>
+					<mk-time :time="appearNote.createdAt" mode="detail"/>
 				</router-link>
 				<div class="visibility-info">
 				<x-visibility-icon class="visibility" :v="appearNote.visibility" :localOnly="appearNote.localOnly"/>
