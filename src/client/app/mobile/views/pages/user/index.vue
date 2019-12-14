@@ -182,7 +182,7 @@ export default Vue.extend({
 		background $bg
 
 		> .banner
-			padding-bottom 33.3%
+			padding-bottom 160px
 			background-color rgba(0, 0, 0, 0.1)
 			background-size cover
 			background-position center
