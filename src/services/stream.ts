@@ -1,6 +1,7 @@
 import * as mongo from 'mongodb';
 import redis from '../db/redis';
 import Xev from 'xev';
+import config from '../config';
 
 type ID = string | mongo.ObjectID;
 
@@ -22,7 +23,7 @@ class Publisher {
 		if (this.ev) {
 			this.ev.emit(channel, message);
 		} else {
-			redis.publish('misskey', JSON.stringify({
+			redis.publish(config.host, JSON.stringify({
 				channel: channel,
 				message: message
 			}));

@@ -28,7 +28,7 @@ module.exports = (server: http.Server) => {
 			const subscriber = redis.createClient(
 				config.redis.port, config.redis.host);
 
-			subscriber.subscribe('misskey');
+			subscriber.subscribe(config.host);
 
 			ev = new EventEmitter();
 
