@@ -42,5 +42,7 @@ export default async (actor: IRemoteUser, activity: IDelete): Promise<string> =>
 		return await deleteNote(actor, uri);
 	} else if (['Person', 'Service'].includes(formarType)) {
 		return `Delete Actor is not implanted`;
+	} else {
+		return `Unknown type ${formarType}`;
 	}
 };
