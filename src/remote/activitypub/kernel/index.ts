@@ -1,8 +1,9 @@
-import { isCreate, isDelete, isUpdate, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isCollectionOrOrderedCollection, isCollection, IObject } from '../type';
+import { isCreate, isDelete, isUpdate, isRead, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isCollectionOrOrderedCollection, isCollection, IObject } from '../type';
 import { IRemoteUser } from '../../../models/user';
 import create from './create';
 import performDeleteActivity from './delete';
 import performUpdateActivity from './update';
+import { performReadActivity } from './read';
 import follow from './follow';
 import undo from './undo';
 import like from './like';
@@ -20,8 +21,14 @@ export async function performActivity(actor: IRemoteUser, activity: IObject) {
 	if (isCollectionOrOrderedCollection(activity)) {
 		const resolver = new Resolver();
 		for (const item of toArray(isCollection(activity) ? activity.items : activity.orderedItems)) {
-			const act = await resolver.resolve(item);
-			await performOneActivity(actor, act);
+			try {
+				const act = await resolver.resolve(item);
+				const result = await performOneActivity(actor, act);
+				apLogger.info(`processed: ${result}`);
+			} catch (e) {
+				apLogger.warn(`failed: ${e}`);
+				continue;
+			}
 		}
 	} else {
 		return await performOneActivity(actor, activity);
@@ -37,6 +44,8 @@ export async function performOneActivity(actor: IRemoteUser, activity: IObject) 
 		return await performDeleteActivity(actor, activity);
 	} else if (isUpdate(activity)) {
 		return await performUpdateActivity(actor, activity);
+	} else if (isRead(activity)) {
+		return await performReadActivity(actor, activity);
 	} else if (isFollow(activity)) {
 		return await follow(actor, activity);
 	} else if (isAccept(activity)) {
