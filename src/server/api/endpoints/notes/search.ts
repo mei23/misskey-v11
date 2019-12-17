@@ -161,7 +161,7 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 
 			// medias (images/videos/audios)
 			if (matchFilter[1] === 'medias' || matchFilter[1] === 'images') {
-				types = concat([types, ['image/jpeg', 'image/gif', 'image/png']]);
+				types = concat([types, ['image/jpeg', 'image/gif', 'image/png', 'image/apng', 'image/webp']]);
 			}
 			if (matchFilter[1] === 'medias' || matchFilter[1] === 'videos') {
 				types = concat([types, ['video/mp4', 'video/webm']]);

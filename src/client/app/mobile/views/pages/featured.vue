@@ -83,7 +83,7 @@ export default Vue.extend({
 				limit: 30,
 				days: Number(this.days),
 				includeGlobal: this.includeGlobal,
-				fileType: this.mediaOnly ? ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'] : undefined,
+				fileType: this.mediaOnly ? ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'] : undefined,
 				excludeNsfw: this.sfwOnly,
 				excludeSfw: this.nsfwOnly,
 			}, false, true).then((notes: any) => {
