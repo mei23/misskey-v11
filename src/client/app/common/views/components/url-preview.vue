@@ -10,7 +10,7 @@
 </div>
 <div v-else class="mk-url-preview">
 	<a :class="{ mini: narrow, compact }" :href="url" rel="nofollow noopener" target="_blank" :title="url" v-if="!fetching">
-		<div class="thumbnail" v-if="thumbnail" :style="`background-image: url('${thumbnail}')`">
+		<div class="thumbnail" v-if="thumbnail && !sensitive" :style="`background-image: url('${thumbnail}')`">
 			<button v-if="!playerEnabled && player.url" @click.prevent="playerEnabled = true" :title="$t('enable-player')"><fa :icon="['far', 'play-circle']"/></button>
 		</div>
 		<article>
@@ -67,6 +67,7 @@ export default Vue.extend({
 			thumbnail: null,
 			icon: null,
 			sitename: null,
+			sensitive: false,
 			player: {
 				url: null,
 				width: null,
@@ -118,6 +119,7 @@ export default Vue.extend({
 				this.thumbnail = info.thumbnail;
 				this.icon = info.icon;
 				this.sitename = info.sitename;
+				this.sensitive = !!info.sensitive;
 				this.fetching = false;
 				this.player = info.player;
 			})
