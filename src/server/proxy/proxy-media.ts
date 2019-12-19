@@ -33,16 +33,18 @@ export async function proxyMedia(ctx: Koa.BaseContext) {
 			};
 		}
 
+		ctx.body = image.data;
 		ctx.set('Content-Type', image.type);
 		ctx.set('Cache-Control', 'max-age=31536000, immutable');
-		ctx.body = image.data;
 	} catch (e) {
 		serverLogger.error(e);
 
 		if (typeof e == 'number' && e >= 400 && e < 500) {
 			ctx.status = e;
+			ctx.set('Cache-Control', 'max-age=86400');
 		} else {
 			ctx.status = 500;
+			ctx.set('Cache-Control', 'max-age=300');
 		}
 	} finally {
 		cleanup();

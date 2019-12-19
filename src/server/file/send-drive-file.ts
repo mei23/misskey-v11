@@ -20,6 +20,7 @@ const assets = `${__dirname}/../../server/file/assets/`;
 const commonReadableHandlerGenerator = (ctx: Koa.BaseContext) => (e: Error): void => {
 	serverLogger.error(e);
 	ctx.status = 500;
+	ctx.set('Cache-Control', 'max-age=300');
 };
 
 export default async function(ctx: Koa.BaseContext) {
@@ -36,6 +37,7 @@ export default async function(ctx: Koa.BaseContext) {
 
 	if (file == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'max-age=86400');
 		await send(ctx as any, '/dummy.png', { root: assets });
 		return;
 	}
@@ -77,15 +79,16 @@ export default async function(ctx: Koa.BaseContext) {
 
 			const file = await convertFile();
 			ctx.set('Content-Type', file.type);
-			ctx.set('Cache-Control', 'max-age=31536000, immutable');
 			ctx.body = file.data;
 		} catch (e) {
 			serverLogger.error(e);
 
 			if (typeof e == 'number' && e >= 400 && e < 500) {
 				ctx.status = e;
+				ctx.set('Cache-Control', 'max-age=86400');
 			} else {
 				ctx.status = 500;
+				ctx.set('Cache-Control', 'max-age=300');
 			}
 		} finally {
 			cleanup();
@@ -101,12 +104,14 @@ export default async function(ctx: Koa.BaseContext) {
 
 	if (file.metadata.withoutChunks) {
 		ctx.status = 204;
+		ctx.set('Cache-Control', 'max-age=86400');
 		return;
 	}
 
 	const sendRaw = async () => {
 		if (file.metadata && file.metadata.accessKey && file.metadata.accessKey != ctx.query['original']) {
 			ctx.status = 403;
+			ctx.set('Cache-Control', 'max-age=86400');
 			return;
 		}
 
@@ -133,6 +138,7 @@ export default async function(ctx: Koa.BaseContext) {
 				await sendRaw();
 			} else {
 				ctx.status = 404;
+				ctx.set('Cache-Control', 'max-age=86400');
 				await send(ctx as any, '/thumbnail-not-available.png', { root: assets });
 			}
 		}

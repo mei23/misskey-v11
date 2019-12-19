@@ -15,6 +15,7 @@ export default async function(ctx: Koa.BaseContext) {
 
 	if (emoji == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'max-age=86400');
 		return;
 	}
 
@@ -43,7 +44,6 @@ export default async function(ctx: Koa.BaseContext) {
 		}
 
 		ctx.set('Content-Type', type);
-		ctx.set('Cache-Control', 'max-age=31536000, immutable');
 		ctx.body = fs.readFileSync(path);
 	} catch (e) {
 		serverLogger.error(e);
@@ -62,13 +62,16 @@ export default async function(ctx: Koa.BaseContext) {
 			// 4xx
 			defered();
 			ctx.status = e;
+			ctx.set('Cache-Control', 'max-age=86400');
 		} else if (typeof e == 'number') {
 			// other status code
 			ctx.status = 500;
+			ctx.set('Cache-Control', 'max-age=300');
 		} else {
 			// 繋がらない
 			defered();
 			ctx.status = 500;
+			ctx.set('Cache-Control', 'max-age=300');
 		}
 	} finally {
 		cleanup();
