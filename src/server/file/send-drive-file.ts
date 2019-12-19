@@ -78,8 +78,9 @@ export default async function(ctx: Koa.BaseContext) {
 			};
 
 			const file = await convertFile();
-			ctx.set('Content-Type', file.type);
 			ctx.body = file.data;
+			ctx.set('Content-Type', file.type);
+			ctx.set('Cache-Control', 'max-age=31536000, immutable');
 		} catch (e) {
 			serverLogger.error(e);
 
@@ -98,6 +99,7 @@ export default async function(ctx: Koa.BaseContext) {
 
 	if (file.metadata.deletedAt) {
 		ctx.status = 410;
+		ctx.set('Cache-Control', 'max-age=86400');
 		await send(ctx as any, '/tombstone.png', { root: assets });
 		return;
 	}
@@ -118,8 +120,9 @@ export default async function(ctx: Koa.BaseContext) {
 		const bucket = await getDriveFileBucket();
 		const readable = bucket.openDownloadStream(fileId);
 		readable.on('error', commonReadableHandlerGenerator(ctx));
-		ctx.set('Content-Type', file.contentType);
 		ctx.body = readable;
+		ctx.set('Content-Type', file.contentType);
+		ctx.set('Cache-Control', 'max-age=31536000, immutable');
 	};
 
 	if ('thumbnail' in ctx.query) {
@@ -132,6 +135,7 @@ export default async function(ctx: Koa.BaseContext) {
 			ctx.set('Content-Disposition', contentDisposition('inline', `${rename(file.filename, { suffix: '-thumb', extname: '.jpeg' })}`));
 			const bucket = await getDriveFileThumbnailBucket();
 			ctx.body = bucket.openDownloadStream(thumb._id);
+			ctx.set('Cache-Control', 'max-age=31536000, immutable');
 		} else {
 			if (file.contentType.startsWith('image/')) {
 				ctx.set('Content-Disposition', contentDisposition('inline', `${file.filename}`));
@@ -153,6 +157,7 @@ export default async function(ctx: Koa.BaseContext) {
 
 			const bucket = await getDriveFileWebpublicBucket();
 			ctx.body = bucket.openDownloadStream(web._id);
+			ctx.set('Cache-Control', 'max-age=31536000, immutable');
 		} else {
 			ctx.set('Content-Disposition', contentDisposition('inline', `${file.filename}`));
 			await sendRaw();

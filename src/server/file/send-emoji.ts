@@ -43,8 +43,9 @@ export default async function(ctx: Koa.BaseContext) {
 			});
 		}
 
-		ctx.set('Content-Type', type);
 		ctx.body = fs.readFileSync(path);
+		ctx.set('Content-Type', type);
+		ctx.set('Cache-Control', 'max-age=31536000, immutable');
 	} catch (e) {
 		serverLogger.error(e);
 
