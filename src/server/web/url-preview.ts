@@ -41,7 +41,13 @@ module.exports = async (ctx: Koa.BaseContext) => {
 	} catch (e) {
 		logger.error(`Failed to get preview of ${ctx.query.url}: ${e}`);
 		ctx.status = 200;
-		ctx.set('Cache-Control', 'max-age=86400, immutable');
+
+		if (e.statusCode <= 400 && e.statusCode < 500) {
+			ctx.set('Cache-Control', 'max-age=86400');
+		} else {
+			ctx.set('Cache-Control', 'max-age=3600');
+		}
+
 		ctx.body = '{}';
 	}
 };
