@@ -102,7 +102,7 @@ export default define(meta, async (ps, user) => {
 	}
 
 	// 隠すユーザーを取得
-	const hideUserIds = await getHideUserIds(user, true);
+	const hideUserIds = await getHideUserIds(user, true, false);
 
 	//#region Construct query
 	const sort = {
