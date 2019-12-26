@@ -51,6 +51,8 @@ async function save(path: string, name: string, type: string, hash: string, size
 		};
 	});
 
+	const animation = type === 'image/apng' ? 'yes' : type === 'image/png' ? 'no' : undefined;
+
 	if (type === 'image/apng') type = 'image/png';
 
 	if (drive.storage == 'minio') {
@@ -122,7 +124,8 @@ async function save(path: string, name: string, type: string, hash: string, size
 			md5: hash,
 			filename: name,
 			metadata: metadata,
-			contentType: type
+			contentType: type,
+			animation
 		});
 		//#endregion
 

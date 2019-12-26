@@ -111,6 +111,7 @@ export type IDriveFile = {
 	md5: string;
 	filename: string;
 	contentType: string;
+	animation?: 'yes' | 'no';
 	metadata: IMetadata;
 
 	/**
@@ -184,6 +185,7 @@ export const pack = (
 	_target.createdAt = _file.uploadDate;
 	_target.name = _file.filename;
 	_target.type = _file.contentType;
+	_target.animation = _file.animation;
 	_target.datasize = _file.length;
 	_target.md5 = _file.md5;
 
