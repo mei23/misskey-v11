@@ -2,7 +2,7 @@ import { url as instanceUrl } from '../../config';
 import * as url from '../../../../prelude/url';
 
 export function getStaticImageUrl(baseUrl: string, type?: string, animation?: string): string {
-	const anim = type === 'image/gif' || type === 'image/apng' || (type === 'image/png' && animation !== 'no');
+	const anim = type == null || type === 'image/gif' || type === 'image/apng' || (type === 'image/png' && animation !== 'no');
 
 	if (!anim) return baseUrl;
 	const u = new URL(baseUrl);
