@@ -98,8 +98,8 @@ export default Vue.extend({
 		fetchUsers() {
 			this.$root.api('users/show', {
 				userIds: this.list.userIds
-			}).then(users => {
-				this.users = users;
+			}).then((users: any[]) => {
+				this.users = users.sort((a, b) => a.username.localeCompare(b.username));
 			});
 		},
 
