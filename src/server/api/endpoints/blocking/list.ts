@@ -2,6 +2,7 @@ import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
 import Blocking, { packMany } from '../../../../models/blocking';
 import define from '../../define';
+import User from '../../../../models/user';
 
 export const meta = {
 	desc: {
@@ -41,8 +42,17 @@ export const meta = {
 };
 
 export default define(meta, async (ps, me) => {
+	const suspended = await User.find({
+		isSuspended: true
+	}, {
+		fields: {
+			_id: true
+		}
+	});
+
 	const query = {
-		blockerId: me._id
+		blockerId: me._id,
+		blockeeId: { $nin: suspended.map(x => x._id) }
 	} as any;
 
 	const sort = {
