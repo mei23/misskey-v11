@@ -89,8 +89,9 @@ export default class extends Channel {
 				oidEquals(note.reply.userId, this.user._id)	// reply to me
 			)) return;
 
+			// フォロワー から フォロワーor自分以外 へのリプライは表示しない
 			const followingOrMeIds = concat([[`${this.user._id}`], this.followingIds]);
-			if (oidIncludes(this.followingIds, note.userId) && !oidIncludes(followingOrMeIds, note.reply.userId)) return;
+			if (oidIncludes(this.followingIds, note.userId) && !oidIncludes(followingOrMeIds, note.reply.userId) && !oidEquals(note.userId, this.user._id)) return;
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
