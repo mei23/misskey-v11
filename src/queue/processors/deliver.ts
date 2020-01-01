@@ -12,7 +12,9 @@ const logger = new Logger('deliver');
 let latest: string = null;
 
 export default async (job: Bull.Job) => {
-	const { host } = new URL(job.data.to);
+	const { protocol, host } = new URL(job.data.to);
+
+	if (protocol !== 'https:') return 'skip (invalied protocol)';
 
 	// ブロック/閉鎖してたら中断
 	// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
