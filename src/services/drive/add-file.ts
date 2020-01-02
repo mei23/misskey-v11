@@ -28,7 +28,6 @@ import { DriveConfig } from '../../config/types';
 import { getDriveConfig } from '../../misc/get-drive-config';
 import * as S3 from 'aws-sdk/clients/s3';
 import { getS3 } from './s3';
-const probeImageSize = require('probe-image-size');
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
@@ -413,48 +412,28 @@ export async function addFile(
 
 	const properties: {[key: string]: any} = {};
 
+	let propPromises: Promise<void>[] = [];
+
 	const isImage = ['image/jpeg', 'image/gif', 'image/png', 'image/webp'].includes(mime);
 
-	let isOverSize = false;
-
-	//#region image properties
 	if (isImage) {
-		//#region dimensions and hard limit
-		const st = fs.createReadStream(path);
-		try {
-			const imageSize = await probeImageSize(st) as {
-				width: number;
-				height: number;
-				type: string;
-				mime: string;
-				wUnits: string;
-				hUnits: string;
-			};
-			console.log(JSON.stringify(imageSize, null, 2));
+		const img = sharp(path);
 
-			if (imageSize.wUnits === 'px') {	// SVGはpxじゃないかもなので無視
-				if (imageSize.width > 16384 || imageSize.height > 16384) {
-					logger.warn(`image dimensions is over size: ${imageSize.width}px x ${imageSize.height}px`);
-					isOverSize = true;
-				} else {
-					logger.debug(`image dimensions calculated: ${imageSize.width}px x ${imageSize.height}px`);
-					properties['width'] = imageSize.width;
-					properties['height'] = imageSize.height;
-				}
-			} else {
-				logger.warn(`image dimensions is unknown`);
-			}
-		} catch (e) {
-			logger.warn(`error in image dimensions ${e}`);
-		} finally {
-			st.destroy();
-		}
-		//#endregion dimensions and hard limit
+		// Calc width and height
+		const calcWh = async () => {
+			logger.debug('calculating image width and height...');
 
-		//#region average color
-		if (!isOverSize) {
-			const img = sharp(path);
+			// Calculate width and height
+			const meta = await img.metadata();
 
+			logger.debug(`image width and height is calculated: ${meta.width}, ${meta.height}`);
+
+			properties['width'] = meta.width;
+			properties['height'] = meta.height;
+		};
+
+		// Calc average color
+		const calcAvg = async () => {
 			logger.debug('calculating average color...');
 
 			try {
@@ -470,12 +449,12 @@ export async function addFile(
 
 				properties['avgColor'] = value;
 			} catch (e) { }
-		}
-		//#endregeon average color
-	}
-	//#endregeon image properties
+		};
 
-	const folder = await fetchFolder();
+		propPromises = [calcWh(), calcAvg()];
+	}
+
+	const [folder] = await Promise.all([fetchFolder(), Promise.all(propPromises)]);
 
 	const metadata = {
 		userId: user._id,
@@ -512,7 +491,7 @@ export async function addFile(
 				md5: hash,
 				filename: detectedName,
 				metadata: metadata,
-				contentType: isOverSize ? 'application/octet-stream' : mime
+				contentType: mime
 			});
 		} catch (e) {
 			// duplicate key error (when already registered)
@@ -530,7 +509,7 @@ export async function addFile(
 		}
 	} else {
 		const drive = getDriveConfig(uri != null);
-		driveFile = await (save(path, detectedName, isOverSize ? 'application/octet-stream' : mime, hash, size, metadata, drive));
+		driveFile = await (save(path, detectedName, mime, hash, size, metadata, drive));
 	}
 
 	logger.succ(`drive file has been created ${driveFile._id}`);
