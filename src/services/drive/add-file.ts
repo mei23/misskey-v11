@@ -430,7 +430,6 @@ export async function addFile(
 				wUnits: string;
 				hUnits: string;
 			};
-			console.log(JSON.stringify(imageSize, null, 2));
 
 			if (imageSize.wUnits === 'px') {	// SVGはpxじゃないかもなので無視
 				if (imageSize.width > 16384 || imageSize.height > 16384) {
