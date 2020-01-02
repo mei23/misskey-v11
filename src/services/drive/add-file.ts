@@ -171,7 +171,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	let webpublic: IImage;
 
 	if (generateWeb) {
-		logger.info(`creating web image`);
+		logger.debug(`creating web image`);
 
 		if (['image/jpeg'].includes(type)) {
 			webpublic = await ConvertToJpeg(path, 8192, 8192);
@@ -180,10 +180,10 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 		} else if (['image/png'].includes(type)) {
 			webpublic = await ConvertToPng(path, 8192, 8192);
 		} else {
-			logger.info(`web image not created (not an image)`);
+			logger.debug(`web image not created (not an image)`);
 		}
 	} else {
-		logger.info(`web image not created (from remote)`);
+		logger.debug(`web image not created (from remote)`);
 	}
 	// #endregion webpublic
 
@@ -198,7 +198,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 		try {
 			thumbnail = await GenerateVideoThumbnail(path);
 		} catch (e) {
-			logger.error(`GenerateVideoThumbnail failed: ${e}`);
+			logger.warn(`GenerateVideoThumbnail failed: ${e}`);
 		}
 	}
 	// #endregion thumbnail
