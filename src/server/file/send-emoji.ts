@@ -3,7 +3,7 @@ import * as tmp from 'tmp';
 import * as fs from 'fs';
 import { serverLogger } from '..';
 import Emoji from '../../models/emoji';
-import { detectMine } from '../../misc/detect-mine';
+import { detectType } from '../../misc/get-file-info';
 import { downloadUrl } from '../../misc/donwload-url';
 import { calcHash } from '../../misc/calc-hash';
 
@@ -30,7 +30,7 @@ export default async function(ctx: Koa.BaseContext) {
 	try {
 		await downloadUrl(emoji.url, path);
 
-		const [type] = await detectMine(path);
+		const { mime } = await detectType(path);
 
 		const md5 = await calcHash(path);
 
@@ -44,7 +44,7 @@ export default async function(ctx: Koa.BaseContext) {
 		}
 
 		ctx.body = fs.readFileSync(path);
-		ctx.set('Content-Type', type);
+		ctx.set('Content-Type', mime);
 		ctx.set('Cache-Control', 'max-age=31536000, immutable');
 	} catch (e) {
 		serverLogger.error(e);

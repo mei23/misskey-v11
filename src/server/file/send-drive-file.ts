@@ -12,7 +12,7 @@ import { serverLogger } from '..';
 import { ConvertToJpeg, ConvertToPng } from '../../services/drive/image-processor';
 import { GenerateVideoThumbnail } from '../../services/drive/generate-video-thumbnail';
 import { contentDisposition } from '../../misc/content-disposition';
-import { detectMine } from '../../misc/detect-mine';
+import { detectType } from '../../misc/get-file-info';
 import { downloadUrl } from '../../misc/donwload-url';
 
 const assets = `${__dirname}/../../server/file/assets/`;
@@ -57,15 +57,15 @@ export default async function(ctx: Koa.BaseContext) {
 		try {
 			await downloadUrl(url, path);
 
-			const [type, ext] = await detectMine(path);
+			const { mime, ext } = await detectType(path);
 
 			const convertFile = async () => {
 				if ('thumbnail' in ctx.query) {
-					if (['image/jpg', 'image/webp'].includes(type)) {
+					if (['image/jpg', 'image/webp'].includes(mime)) {
 						return await ConvertToJpeg(path, 498, 280);
-					} else if (['image/png'].includes(type)) {
+					} else if (['image/png'].includes(mime)) {
 						return await ConvertToPng(path, 498, 280);
-					} else if (type.startsWith('video/')) {
+					} else if (mime.startsWith('video/')) {
 						return await GenerateVideoThumbnail(path);
 					}
 				}
@@ -73,7 +73,7 @@ export default async function(ctx: Koa.BaseContext) {
 				return {
 					data: fs.readFileSync(path),
 					ext,
-					type,
+					type: mime,
 				};
 			};
 
