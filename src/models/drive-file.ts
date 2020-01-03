@@ -225,6 +225,9 @@ export const pack = (
 	delete _target.storageProps;
 	delete _target.isRemote;
 	delete _target._user;
+	delete _target.src;
+	delete _target.uri;
+	delete _target.attachedNoteIds;
 
 	if (opts.self) {
 		_target.url = getOriginalUrl(_file);
