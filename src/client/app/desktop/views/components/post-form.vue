@@ -531,7 +531,7 @@ export default Vue.extend({
 		},
 
 		doPreview() {
-			if (!this.canPost) {
+			if (!this.canPost || this.text.length > 1000) {
 				this.preview = null;
 				return;
 			}
