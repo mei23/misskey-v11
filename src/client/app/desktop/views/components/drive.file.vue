@@ -38,17 +38,24 @@ import copyToClipboard from '../../../common/scripts/copy-to-clipboard';
 import updateAvatar from '../../api/update-avatar';
 import updateBanner from '../../api/update-banner';
 import XFileThumbnail from '../../../common/views/components/drive-file-thumbnail.vue';
+import ImageViewer from '../../../common/views/components/image-viewer.vue';
+import MkMediaVideoDialog from '../../../desktop/views/components/media-video-dialog.vue';
+import { faImages } from '@fortawesome/free-regular-svg-icons/';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/drive.file.vue'),
 	props: ['file'],
 	components: {
-		XFileThumbnail
+		XFileThumbnail,
+		ImageViewer,
+		MkMediaVideoDialog
 	},
 	data() {
 		return {
 			isContextmenuShowing: false,
-			isDragging: false
+			isDragging: false,
+			faImages, faExternalLinkAlt
 		};
 	},
 	computed: {
@@ -69,7 +76,24 @@ export default Vue.extend({
 
 		onContextmenu(e) {
 			this.isContextmenuShowing = true;
-			this.$contextmenu(e, [{
+			this.$contextmenu(e, [
+			...(this.file.type.startsWith('image/') || this.file.type.startsWith('video/') ? [{
+				type: 'item',
+				text: this.$t('contextmenu.view'),
+				icon: faImages,
+				action: this.view
+			}] : [{
+				type: 'link',
+				href: this.file.url,
+				target: '_blank',
+				text: this.$t('contextmenu.open'),
+				icon: faExternalLinkAlt
+			}]), {
+				type: 'item',
+				text: this.$t('contextmenu.copy-url'),
+				icon: 'link',
+				action: this.copyUrl
+			}, null, {
 				type: 'item',
 				text: this.$t('contextmenu.rename'),
 				icon: 'i-cursor',
@@ -79,18 +103,6 @@ export default Vue.extend({
 				text: this.file.isSensitive ? this.$t('contextmenu.unmark-as-sensitive') : this.$t('contextmenu.mark-as-sensitive'),
 				icon: this.file.isSensitive ? ['far', 'eye'] : ['far', 'eye-slash'],
 				action: this.toggleSensitive
-			}, null, {
-				type: 'item',
-				text: this.$t('contextmenu.copy-url'),
-				icon: 'link',
-				action: this.copyUrl
-			}, {
-				type: 'link',
-				href: this.file.url,
-				target: '_blank',
-				text: this.$t('contextmenu.download'),
-				icon: 'download',
-				download: this.file.name
 			}, null, {
 				type: 'item',
 				text: this.$t('@.delete'),
@@ -170,6 +182,21 @@ export default Vue.extend({
 			this.$root.api('drive/files/update', {
 				fileId: this.file.id,
 				isSensitive: !this.file.isSensitive
+			});
+		},
+
+		view() {
+			const viewer = this.file.type.startsWith('image/')
+				? this.$root.new(ImageViewer, {
+					image: this.file
+				})
+				: this.$root.new(MkMediaVideoDialog, {
+					video: this.file,
+					start: 0
+				});
+
+			this.$once('hook:beforeDestroy', () => {
+				viewer.close();
 			});
 		},
 

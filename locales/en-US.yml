@@ -880,6 +880,8 @@ desktop/views/components/drive.file.vue:
     rename: "Rename"
     mark-as-sensitive: "Mark as 'sensitive'"
     unmark-as-sensitive: "Unmark as 'sensitive'"
+    view: "View"
+    open: "Open"
     copy-url: "Copy URL"
     download: "Download"
     else-files: "Others"
@@ -1551,6 +1553,7 @@ mobile/views/components/drive.file.vue:
   nsfw: "NSFW"
 mobile/views/components/drive.file-detail.vue:
   download: "Download"
+  open: "Open"
   rename: "Rename"
   move: "Move"
   hash: "Hash (md5)"

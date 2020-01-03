@@ -961,6 +961,8 @@ desktop/views/components/drive.file.vue:
     rename: "名前を変更"
     mark-as-sensitive: "閲覧注意に設定"
     unmark-as-sensitive: "閲覧注意を解除"
+    view: "閲覧"
+    open: "開く"
     copy-url: "URLをコピー"
     download: "ダウンロード"
     else-files: "その他..."
@@ -1716,6 +1718,7 @@ mobile/views/components/drive.file.vue:
 
 mobile/views/components/drive.file-detail.vue:
   download: "ダウンロード"
+  open: "開く"
   rename: "名前を変更"
   move: "移動"
   hash: "ハッシュ (md5)"
