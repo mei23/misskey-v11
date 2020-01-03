@@ -16,7 +16,8 @@ const TYPE_SVG = {
 export async function detectMine(path: string) {
 	let type = await detectType(path);
 
-	if (type.mime.startsWith('image/')) {
+	// 可能ならば画像のサイズチェックを行う
+	if (['image/jpeg', 'image/gif', 'image/png', 'image/apng', 'image/webp', 'image/bmp', 'image/tiff', 'image/svg+xml', 'image/vnd.adobe.photoshop'].includes(type.mime)) {
 		const imageSize = await detectImageSize(path).catch(() => null);
 
 		// うまく判定できない画像は octet-stream にする
