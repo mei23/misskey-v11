@@ -57,6 +57,8 @@ import i18n from '../../../i18n';
 import { faChartLine, faPlus, faHashtag } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark, faCommentAlt } from '@fortawesome/free-regular-svg-icons';
 
+const limit = 10;
+
 export default Vue.extend({
 	i18n: i18n('common/views/pages/explore.vue'),
 
@@ -75,42 +77,128 @@ export default Vue.extend({
 
 	data() {
 		return {
-			verifiedUsers: () => this.$root.api('users', {
+			verifiedUsers: (offset: number) => this.$root.api('users', {
 				state: 'verified',
 				origin: 'local',
 				sort: '+follower',
-				limit: 10
+				offset,
+				limit: limit + 1
+			}).then((x: any[]) => {
+				if (x.length === limit + 1) {
+					this.cursors.verifiedUsers += limit;
+				} else {
+					this.cursors.verifiedUsers = undefined;
+				}
+				return {
+						users: x.splice(0, limit),
+						cursor: this.cursors.verifiedUsers
+				};
 			}),
-			recommendedUsers: () => this.$root.api('users/recommendation', {
-				limit: 10,
+			recommendedUsers: (offset: number) => this.$root.api('users/recommendation', {
+				offset,
+				limit: limit + 1
+			}).then((x: any[]) => {
+				if (x.length === limit + 1) {
+					this.cursors.recommendedUsers += limit;
+				} else {
+					this.cursors.recommendedUsers = undefined;
+				}
+				return {
+						users: x.splice(0, limit),
+						cursor: this.cursors.recommendedUsers
+				};
 			}),
-			popularUsers: () => this.$root.api('users', {
+			popularUsers: (offset: number) => this.$root.api('users', {
 				state: 'alive',
 				origin: 'local',
 				sort: '+follower',
-				limit: 10
+				offset,
+				limit: limit + 1
+			}).then((x: any[]) => {
+				if (x.length === limit + 1) {
+					this.cursors.popularUsers += limit;
+				} else {
+					this.cursors.popularUsers = undefined;
+				}
+				return {
+						users: x.splice(0, limit),
+						cursor: this.cursors.popularUsers
+				};
 			}),
-			recentlyUpdatedUsers: () => this.$root.api('users', {
+			recentlyUpdatedUsers: (offset: number) => this.$root.api('users', {
 				origin: 'local',
 				sort: '+updatedAt',
-				limit: 10
+				offset,
+				limit: limit + 1
+			}).then((x: any[]) => {
+				if (x.length === limit + 1) {
+					this.cursors.recentlyUpdatedUsers += limit;
+				} else {
+					this.cursors.recentlyUpdatedUsers = undefined;
+				}
+				return {
+						users: x.splice(0, limit),
+						cursor: this.cursors.recentlyUpdatedUsers
+				};
 			}),
-			recentlyRegisteredUsers: () => this.$root.api('users', {
+			recentlyRegisteredUsers: (offset: number) => this.$root.api('users', {
 				origin: 'local',
 				state: 'alive',
 				sort: '+createdAt',
-				limit: 10
+				offset,
+				limit: limit + 1
+			}).then((x: any[]) => {
+				if (x.length === limit + 1) {
+					this.cursors.recentlyRegisteredUsers += limit;
+				} else {
+					this.cursors.recentlyRegisteredUsers = undefined;
+				}
+				return {
+						users: x.splice(0, limit),
+						cursor: this.cursors.recentlyRegisteredUsers
+				};
 			}),
-			recentlyUpdatedUsersF: () => this.$root.api('users', {
+			recentlyUpdatedUsersF: (offset: number) => this.$root.api('users', {
 				origin: 'combined',
 				sort: '+updatedAt',
-				limit: 10
+				offset,
+				limit: limit + 1
+			}).then((x: any[]) => {
+				if (x.length === limit + 1) {
+					this.cursors.recentlyUpdatedUsersF += limit;
+				} else {
+					this.cursors.recentlyUpdatedUsersF = undefined;
+				}
+				return {
+						users: x.splice(0, limit),
+						cursor: this.cursors.recentlyUpdatedUsersF
+				};
 			}),
-			recentlyRegisteredUsersF: () => this.$root.api('users', {
+			recentlyRegisteredUsersF: (offset: number) => this.$root.api('users', {
 				origin: 'combined',
 				sort: '+createdAt',
-				limit: 10
+				offset,
+				limit: limit + 1
+			}).then((x: any[]) => {
+				if (x.length === limit + 1) {
+					this.cursors.recentlyRegisteredUsersF += limit;
+				} else {
+					this.cursors.recentlyRegisteredUsersF = undefined;
+				}
+				return {
+						users: x.splice(0, limit),
+						cursor: this.cursors.recentlyRegisteredUsersF
+				};
 			}),
+			cursors: {
+				verifiedUsers: 0,
+				recommendedUsers: 0,
+				popularUsers: 0,
+				recentlyUpdatedUsers: 0,
+				recentlyRegisteredUsers: 0,
+				recentlyUpdatedUsersF: 0,
+				recentlyRegisteredUsersF: 0,
+			},
 			tagsLocal: [],
 			tagsRemote: [],
 			stats: null,
