@@ -41,7 +41,7 @@ export async function UpdateInstanceinfo(instance: IInstance) {
 	if (!_instance) throw 'Instance is not registed';
 
 	const now = Date.now();
-	if (_instance.infoUpdatedAt && (now - _instance.infoUpdatedAt.getTime() < 1000 * 60 * 60 * 24)) {
+	if (_instance.infoUpdatedAt && (now - _instance.infoUpdatedAt.getTime() < 1000 * 60 * 60 * 1)) {
 		return;
 	}
 
@@ -70,7 +70,15 @@ export async function UpdateInstanceinfo(instance: IInstance) {
 }
 
 export async function fetchInstanceinfo(host: string) {
-	const info = await fetchNodeinfo(host);
+	const info = await fetchNodeinfo(host).catch(() => null);
+
+	if (!info) {
+		const mastodon = await fetchMastodonInstance(host);
+		return {
+			softwareName: 'mastodon',
+			softwareVersion: mastodon.version,
+		};
+	}
 
 	// additional metadatas
 	const name = info.metadata ? (info.metadata.nodeName || info.metadata.name || null) : null;
@@ -109,6 +117,18 @@ export async function fetchNodeinfo(host: string) {
 	const nodeinfo = (await fetchJson(link.href)) as Nodeinfo;
 
 	return nodeinfo;
+}
+
+async function fetchMastodonInstance(host: string) {
+	const json = (await fetchJson(`https://${host}/api/v1/instance`)) as {
+		version: string;
+		title: string;
+		short_description: string;
+		description: string;
+		email: string;
+	};
+
+	return json;
 }
 
 async function fetchJson(url: string) {
