@@ -1546,6 +1546,8 @@ admin/views/federation.vue:
   host: "ホスト"
   notes: "投稿"
   users: "ユーザー"
+  system: "システム"
+  softwareName: "ソフトウェア"
   following: "フォロー中"
   followers: "フォロワー"
   caught-at: "登録日時"

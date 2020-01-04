@@ -1,6 +1,7 @@
 import $ from 'cafy';
 import define from '../../define';
 import Instance from '../../../../models/instance';
+import * as escapeRegexp from 'escape-regexp';
 
 export const meta = {
 	tags: ['federation'],
@@ -20,8 +21,12 @@ export const meta = {
 			validator: $.optional.nullable.bool,
 		},
 
+		softwareName: {
+			validator: $.optional.str,
+		},
+
 		limit: {
-			validator: $.optional.num.range(1, 100),
+			validator: $.optional.num.range(1, 1000),
 			default: 30
 		},
 
@@ -113,6 +118,7 @@ export default define(meta, async (ps, me) => {
 
 	const q = {} as any;
 
+	if (ps.softwareName) q.softwareName = new RegExp('^' + escapeRegexp(ps.softwareName).toLowerCase());
 	if (typeof ps.blocked === 'boolean') q.isBlocked = ps.blocked;
 	if (typeof ps.notResponding === 'boolean') q.isNotResponding = ps.notResponding;
 	if (typeof ps.markedAsClosed === 'boolean') q.isMarkedAsClosed = ps.markedAsClosed;

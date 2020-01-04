@@ -147,6 +147,9 @@
 					<option value="markedAsClosed">{{ $t('states.marked-as-closed') }}</option>
 				</ui-select>
 			</ui-horizon-group>
+			<ui-input v-model="softwareName" type="text" spellcheck="false" @input="fetchInstances()">
+				<span>{{ $t('softwareName') }}</span>
+			</ui-input>
 
 			<div class="instances">
 				<header>
@@ -158,11 +161,11 @@
 					<span>{{ $t('followers') }}</span>
 					<span>{{ $t('status') }}</span>
 				</header>
-				<div v-for="instance in instances" :style="{ opacity: instance.isNotResponding ? 0.5 : 1 }">
+				<div v-for="instance in instances" :key="instance.host" :style="{ opacity: instance.isNotResponding ? 0.5 : 1 }">
 					<a @click.prevent="showInstance(instance.host)" rel="nofollow noopener" target="_blank" :href="`https://${instance.host}`" :style="{ textDecoration: instance.isMarkedAsClosed ? 'line-through' : 'none' }">
 						{{ `${instance.host} ${instance.name ? ` (${instance.name})` : ''}` }}
 					</a>
-					<span>{{ `${instance.softwareName || 'unknown'} ${instance.softwareVersion || ''}` }}</span>
+					<span>{{ `${instance.softwareName || 'unknown'}` }} <small :style="{ opacity: 0.7 }">{{ `${instance.softwareVersion || ''}` }}</small></span>
 					<span>{{ instance.notesCount | number }}</span>
 					<span>{{ instance.usersCount | number }}</span>
 					<span>{{ instance.followingCount | number }}</span>
@@ -304,6 +307,7 @@ export default Vue.extend({
 		fetchInstances() {
 			this.instances = [];
 			this.$root.api('federation/instances', {
+				softwareName: this.softwareName,
 				blocked: this.state === 'blocked' ? true : null,
 				notResponding: this.state === 'notResponding' ? true : null,
 				markedAsClosed: this.state === 'markedAsClosed' ? true : null,

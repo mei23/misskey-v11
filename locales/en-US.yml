@@ -1403,6 +1403,8 @@ admin/views/federation.vue:
   host: "Host"
   notes: "Notes"
   users: "Users"
+  system: "System"
+  softwareName: "Software"
   following: "Following"
   followers: "Followers"
   caught-at: "Created at"
