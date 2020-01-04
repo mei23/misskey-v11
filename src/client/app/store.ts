@@ -101,7 +101,8 @@ export default (os: MiOS) => new Vuex.Store({
 	},
 
 	getters: {
-		isSignedIn: state => state.i != null
+		isSignedIn: state => state.i != null,
+		isAdminOrModerator: state => state.i && (state.i.isAdmin || state.i.isModerator),
 	},
 
 	mutations: {

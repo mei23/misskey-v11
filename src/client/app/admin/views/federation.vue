@@ -82,9 +82,9 @@
 						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 				</ui-horizon-group>
-				<ui-switch v-model="instance.isBlocked" @change="updateInstance()">{{ $t('block') }}</ui-switch>
-				<ui-switch v-model="instance.isMarkedAsClosed" @change="updateInstance()">{{ $t('marked-as-closed') }}</ui-switch>
-				<details>
+				<ui-switch v-model="instance.isBlocked" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('block') }}</ui-switch>
+				<ui-switch v-model="instance.isMarkedAsClosed" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('marked-as-closed') }}</ui-switch>
+				<details :open="true">
 					<summary>{{ $t('charts') }}</summary>
 					<ui-horizon-group inputs>
 						<ui-select v-model="chartSrc">
@@ -107,7 +107,7 @@
 					</ui-horizon-group>
 					<div ref="chart"></div>
 				</details>
-				<details>
+				<details v-if="$store.getters.isAdminOrModerator">
 					<summary>{{ $t('remove-all-following') }}</summary>
 					<ui-button @click="removeAllFollowing()" style="margin-top: 16px;"><fa :icon="faMinusCircle"/> {{ $t('remove-all-following') }}</ui-button>
 					<ui-info warn>{{ $t('remove-all-following-info', { host: instance.host }) }}</ui-info>

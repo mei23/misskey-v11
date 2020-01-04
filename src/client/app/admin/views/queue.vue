@@ -54,12 +54,12 @@
 			</ui-horizon-group>
 			<div ref="inboxChart" class="chart"></div>
 		</section>
-		<section>
+		<section v-if="$store.getters.isAdminOrModerator">
 			<ui-button @click="removeAllJobs">{{ $t('remove-all-jobs') }}</ui-button>
 		</section>
 	</ui-card>
 
-	<ui-card>
+	<ui-card v-if="$store.getters.isAdminOrModerator">
 		<template #title><fa :icon="faTasks"/> {{ $t('jobs') }}</template>
 		<section class="fit-top">
 			<ui-horizon-group inputs>
