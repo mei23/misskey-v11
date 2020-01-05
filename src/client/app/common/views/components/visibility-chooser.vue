@@ -97,17 +97,11 @@ export default Vue.extend({
 			let left;
 			let top;
 
-			if (this.$root.isMobile) {
-				const x = rect.left + window.pageXOffset + (this.source.offsetWidth / 2);
-				const y = rect.top + window.pageYOffset + (this.source.offsetHeight / 2);
-				left = (x - (width / 2));
-				top = (y - (height / 2));
-			} else {
-				const x = rect.left + window.pageXOffset + (this.source.offsetWidth / 2);
-				const y = rect.top + window.pageYOffset + this.source.offsetHeight;
-				left = (x - (width / 2));
-				top = y;
-			}
+			const x = rect.left + window.pageXOffset + (this.source.offsetWidth / 2);
+			const y = rect.top + window.pageYOffset + (this.source.offsetHeight / 2);
+			left = (x - (width / 2));
+			top = (y - (height / 2));
+			if (top < 0) top = 0;
 
 			if (left + width > window.innerWidth) {
 				left = window.innerWidth - width;
@@ -187,23 +181,6 @@ export default Vue.extend({
 		box-shadow 0 3px 12px rgba(27, 31, 35, 0.15)
 		transform scale(0.5)
 		opacity 0
-
-		&:not(.isMobile)
-			$arrow-size = 10px
-
-			margin-top $arrow-size
-			transform-origin center -($arrow-size)
-
-			&:before
-				content ""
-				display block
-				position absolute
-				top -($arrow-size * 2)
-				left s('calc(50% - %s)', $arrow-size)
-				border-top solid $arrow-size transparent
-				border-left solid $arrow-size transparent
-				border-right solid $arrow-size transparent
-				border-bottom solid $arrow-size $bgcolor
 
 		> div
 			display flex
