@@ -687,9 +687,9 @@ common/views/components/uploader.vue:
   waiting: "Waiting"
 common/views/components/visibility-chooser.vue:
   public: "Public"
-  public-desc: "Show in public (local/global) timeline "
+  public-desc: "Show in local/global timeline "
   home: "Home"
-  home-desc: "Do not show in public timeline"
+  home-desc: "Do not show in local/global timeline"
   followers: "Followers"
   followers-desc: "Publish to Followers only"
   specified: "Direct"
@@ -699,6 +699,7 @@ common/views/components/visibility-chooser.vue:
   local-home: "Home (Only local)"
   local-followers: "Followers (Only local)"
   once-public: "Only remote followers and local"
+  once-public-desc: "Deny secondary spreading"
 common/views/components/trends.vue:
   count: "{} users mentioned"
   empty: "No popular hashtag trends"

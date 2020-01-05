@@ -30,6 +30,13 @@
 				<span>{{ $t('specified-desc') }}</span>
 			</div>
 		</div>
+		<div @click="choose('once-public')" :class="{ active: v == 'once-public' }">
+			<x-visibility-icon v="once-public"/>
+			<div>
+				<span>{{ $t('once-public') }}</span>
+				<span>{{ $t('once-public-desc') }}</span>
+			</div>
+		</div>
 		<div @click="choose('local-public')" :class="{ active: v == 'local-public' }">
 			<x-visibility-icon v="local-public"/>
 			<div>
@@ -49,12 +56,7 @@
 				<span>{{ $t('local-followers') }}</span>
 			</div>
 		</div>
-		<div @click="choose('once-public')" :class="{ active: v == 'once-public' }">
-			<x-visibility-icon v="once-public"/>
-			<div>
-				<span>{{ $t('once-public') }}</span>
-			</div>
-		</div>
+
 	</div>
 </div>
 </template>
