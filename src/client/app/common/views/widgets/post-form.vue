@@ -29,7 +29,7 @@
 				<button @click="chooseFileFromDrive"><fa icon="cloud"/></button>
 				<button @click="kao"><fa :icon="['far', 'smile']"/></button>
 				<button @click="setVisibility" class="visibility" ref="visibilityButton">
-					<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
+					<x-visibility-icon :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 				</button>
 				<button v-if="tertiaryNoteVisibility != null && tertiaryNoteVisibility != 'none'" @click="post(tertiaryNoteVisibility)" :disabled="posting" class="tertiary" title="Tertiary Post">
 					<x-visibility-icon :v="tertiaryNoteVisibility"/>

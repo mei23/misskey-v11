@@ -45,7 +45,7 @@
 				</button>
 				<ui-button class="submit" :disabled="!canPost" @click="post()">
 					<div style="display: inline-flex; gap: 4px">
-						<x-visibility-icon v-if="!(this.renote && !this.text.length && !this.files.length && !this.poll)" :v="visibility" :localOnly="localOnly"/>
+						<x-visibility-icon v-if="!(this.renote && !this.text.length && !this.files.length && !this.poll)" :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 						<div>{{ submitText }}</div>
 					</div>
 				</ui-button>
