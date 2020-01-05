@@ -86,6 +86,14 @@ export const meta = {
 			}
 		},
 
+		copyOnce: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': 'copyOnce'
+			}
+		},
+
 		noExtractMentions: {
 			validator: $.optional.bool,
 			default: false,
@@ -332,6 +340,7 @@ export default define(meta, async (ps, user, app) => {
 		app,
 		viaMobile: ps.viaMobile,
 		localOnly: ps.localOnly,
+		copyOnce: ps.copyOnce,
 		visibility: ps.visibility,
 		visibleUsers,
 		apMentions: ps.noExtractMentions ? [] : undefined,

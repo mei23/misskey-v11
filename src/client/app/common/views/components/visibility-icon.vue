@@ -24,11 +24,18 @@
 			<div><fa icon="lock"/></div>
 			<div class="localOnly"><fa icon="heart"/></div>
 		</div>
+		<div class="wrap" v-if="visibility == 'once-public'">
+			<fa :icon="faTintSlash"/>
+		</div>
+		<div class="wrap" v-else-if="visibility == 'once-home'">
+			<fa :icon="faTintSlash"/>
+		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import { faTintSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	props: {
@@ -41,10 +48,20 @@ export default Vue.extend({
 			required: false,
 			default: false
 		},
+		copyOnce: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+	},
+	data() {
+		return {
+			faTintSlash
+		}
 	},
 	computed: {
 		visibility(): string {
-			return this.localOnly ? `local-${this.v}` : this.v;
+			return this.localOnly ? `local-${this.v}` : this.copyOnce ? `once-${this.v}` : this.v;
 		},
 	},
 });

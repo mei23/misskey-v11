@@ -41,7 +41,7 @@
 				<button v-if="!inside" class="poll" @click="poll = true"><fa icon="chart-pie"/></button>
 				<button class="poll" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
 				<button class="visibility" @click="setVisibility" ref="visibilityButton">
-					<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
+					<x-visibility-icon :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 				</button>
 				<ui-button class="submit" :disabled="!canPost" @click="post()">
 					<div style="display: inline-flex; gap: 4px">
@@ -156,6 +156,7 @@ export default Vue.extend({
 			visibility: 'public',
 			visibleUsers: [],
 			localOnly: false,
+			copyOnce: false,
 			secondaryNoteVisibility: 'none',
 			tertiaryNoteVisibility: 'none',
 			useCw: false,
@@ -386,7 +387,7 @@ export default Vue.extend({
 		setVisibility() {
 			const w = this.$root.new(MkVisibilityChooser, {
 				source: this.$refs.visibilityButton,
-				currentVisibility: this.localOnly ? `local-${this.visibility}` : this.visibility
+				currentVisibility: this.localOnly ? `local-${this.visibility}` : this.copyOnce ? `once-${this.visibility}` : this.visibility
 			});
 			w.$once('chosen', v => {
 				this.applyVisibility(v);
@@ -395,11 +396,18 @@ export default Vue.extend({
 
 		applyVisibility(v :string) {
 			const m = v.match(/^local-(.+)/);
+			const n = v.match(/^once-(.+)/);
 			if (m) {
 				this.localOnly = true;
+				this.copyOnce = false;
+				this.visibility = m[1];
+			} else if (n) {
+				this.localOnly = false;
+				this.copyOnce = true;
 				this.visibility = m[1];
 			} else {
 				this.localOnly = false;
+				this.copyOnce = false;
 				this.visibility = v;
 			}
 		},
@@ -483,18 +491,26 @@ export default Vue.extend({
 		post(v: any) {
 			let visibility = this.visibility;
 			let localOnly = this.localOnly;
+			let copyOnce = this.copyOnce;
 
 			// ただのRenoteはクライアントでvisibilityを指定しない
 			if (this.renote && !this.quote) visibility = undefined;
 
 			if (typeof v == 'string') {
 				const m = v.match(/^local-(.+)/);
+				const n = v.match(/^once-(.+)/);
 				if (m) {
-					localOnly = true;
-					visibility = m[1];
+					this.localOnly = true;
+					this.copyOnce = false;
+					this.visibility = m[1];
+				} else if (n) {
+					this.localOnly = false;
+					this.copyOnce = true;
+					this.visibility = m[1];
 				} else {
-					localOnly = false;
-					visibility = v;
+					this.localOnly = false;
+					this.copyOnce = false;
+					this.visibility = v;
 				}
 			}
 
@@ -511,6 +527,7 @@ export default Vue.extend({
 				visibility,
 				visibleUserIds: this.visibility == 'specified' ? this.visibleUsers.map(u => u.id) : undefined,
 				localOnly,
+				copyOnce,
 				viaMobile: viaMobile
 			}).then(data => {
 				if (this.initialNote && this.initialNote._edit) {

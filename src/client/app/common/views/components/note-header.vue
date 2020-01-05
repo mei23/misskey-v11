@@ -14,7 +14,7 @@
 		<router-link class="created-at" :to="note | notePage">
 			<mk-time :time="note.createdAt"/>
 		</router-link>
-		<x-visibility-icon class="visibility" :v="note.visibility" :localOnly="note.localOnly"/>
+		<x-visibility-icon class="visibility" :v="note.visibility" :localOnly="note.localOnly" :copyOnce="note.copyOnce"/>
 		<span class="remote" title="Remote post" v-if="note.user.host != null"><fa :icon="faGlobeAmericas"/></span>
 	</div>
 </header>

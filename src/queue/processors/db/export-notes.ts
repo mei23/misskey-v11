@@ -121,6 +121,7 @@ function serialize(note: INote): any {
 		visibleUserIds: note.visibleUserIds,
 		appId: note.appId,
 		geo: note.geo,
-		localOnly: note.localOnly
+		localOnly: note.localOnly,
+		copyOnce: !!note.copyOnce
 	};
 }

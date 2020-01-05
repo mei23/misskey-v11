@@ -100,6 +100,7 @@ type Option = {
 	poll?: any;
 	viaMobile?: boolean;
 	localOnly?: boolean;
+	copyOnce?: boolean;
 	cw?: string;
 	visibility?: string;
 	visibleUsers?: IUser[];
@@ -119,6 +120,7 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 	if (data.visibility == null) data.visibility = 'public';
 	if (data.viaMobile == null) data.viaMobile = false;
 	if (data.localOnly == null) data.localOnly = false;
+	if (data.copyOnce == null) data.copyOnce = false;
 
 	if (data.visibleUsers) {
 		data.visibleUsers = erase(null, data.visibleUsers);
@@ -436,6 +438,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 		userId: user._id,
 		viaMobile: data.viaMobile,
 		localOnly: data.localOnly,
+		copyOnce: data.copyOnce,
 		geo: data.geo || null,
 		appId: data.app ? data.app._id : null,
 		visibility: data.visibility,

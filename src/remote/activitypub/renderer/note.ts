@@ -64,7 +64,10 @@ export default async function renderNote(note: INote, dive = true, isTalk = fals
 	let to: string[] = [];
 	let cc: string[] = [];
 
-	if (note.visibility == 'public') {
+	if (note.copyOnce) {
+		to = [`${attributedTo}/followers`];
+		cc = mentions;
+	} else if (note.visibility == 'public') {
 		to = ['https://www.w3.org/ns/activitystreams#Public'];
 		cc = [`${attributedTo}/followers`].concat(mentions);
 	} else if (note.visibility == 'home') {

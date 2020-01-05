@@ -83,7 +83,8 @@ router.get('/notes/:note', async (ctx, next) => {
 		_id: new ObjectID(ctx.params.note),
 		deletedAt: { $exists: false },
 		visibility: { $in: ['public', 'home'] },
-		localOnly: { $ne: true }
+		localOnly: { $ne: true },
+		copyOnce: { $ne: true }
 	});
 
 	if (note == null || !await isNoteUserAvailable(note)) {
@@ -118,7 +119,8 @@ router.get('/notes/:note/activity', async ctx => {
 		deletedAt: { $exists: false },
 		'_user.host': null,
 		visibility: { $in: ['public', 'home'] },
-		localOnly: { $ne: true }
+		localOnly: { $ne: true },
+		copyOnce: { $ne: true }
 	});
 
 	if (note == null || !await isNoteUserAvailable(note)) {

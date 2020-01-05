@@ -40,7 +40,7 @@
 			<button class="poll" :title="$t('create-poll')" @click="poll = !poll"><fa icon="chart-pie"/></button>
 			<button class="cw" :title="$t('hide-contents')" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
 			<button class="visibility" :title="$t('visibility')" @click="setVisibility" ref="visibilityButton">
-				<x-visibility-icon :v="visibility" :localOnly="localOnly"/>
+				<x-visibility-icon :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 			</button>
 			<div class="text-count" :class="{ over: trimmedLength(text) > maxNoteTextLength }">{{ maxNoteTextLength - trimmedLength(text) }}</div>
 			<ui-button v-if="tertiaryNoteVisibility != null && tertiaryNoteVisibility != 'none'" inline :wait="posting" class="tertiary" :disabled="!canPost" @click="post(tertiaryNoteVisibility)" title="Tertiary Post">
@@ -53,7 +53,7 @@
 			</ui-button>
 			<ui-button inline primary :wait="posting" class="submit" :disabled="!canPost" @click="post" title="Post (Ctrl+Enter)">
 				<div style="display: inline-flex; gap: 4px">
-					<x-visibility-icon v-if="!(this.renote && !this.text.length && !this.files.length && !this.poll)" :v="visibility" :localOnly="localOnly"/>
+					<x-visibility-icon v-if="!(this.renote && !this.text.length && !this.files.length && !this.poll)" :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 					<div>{{ posting ? $t('posting') : submitText }}<mk-ellipsis v-if="posting"/></div>
 				</div>
 			</ui-button>
@@ -156,6 +156,7 @@ export default Vue.extend({
 			visibility: 'public',
 			visibleUsers: [],
 			localOnly: false,
+			copyOnce: false,
 			secondaryNoteVisibility: 'none',
 			tertiaryNoteVisibility: 'none',
 			autocomplete: null,
@@ -469,7 +470,7 @@ export default Vue.extend({
 		setVisibility() {
 			const w = this.$root.new(MkVisibilityChooser, {
 				source: this.$refs.visibilityButton,
-				currentVisibility: this.localOnly ? `local-${this.visibility}` : this.visibility
+				currentVisibility: this.localOnly ? `local-${this.visibility}` : this.copyOnce ? `once-${this.visibility}` : this.visibility
 			});
 			w.$once('chosen', v => {
 				this.applyVisibility(v);
@@ -481,11 +482,18 @@ export default Vue.extend({
 
 		applyVisibility(v :string) {
 			const m = v.match(/^local-(.+)/);
+			const n = v.match(/^once-(.+)/);
 			if (m) {
 				this.localOnly = true;
+				this.copyOnce = false;
+				this.visibility = m[1];
+			} else if (n) {
+				this.localOnly = false;
+				this.copyOnce = true;
 				this.visibility = m[1];
 			} else {
 				this.localOnly = false;
+				this.copyOnce = false;
 				this.visibility = v;
 			}
 		},
@@ -571,15 +579,23 @@ export default Vue.extend({
 		post(v: any, preview: boolean) {
 			let visibility = this.visibility;
 			let localOnly = this.localOnly;
+			let copyOnce = this.copyOnce;
 
 			if (typeof v == 'string') {
 				const m = v.match(/^local-(.+)/);
+				const n = v.match(/^once-(.+)/);
 				if (m) {
-					localOnly = true;
-					visibility = m[1];
+					this.localOnly = true;
+					this.copyOnce = false;
+					this.visibility = m[1];
+				} else if (n) {
+					this.localOnly = false;
+					this.copyOnce = true;
+					this.visibility = m[1];
 				} else {
-					localOnly = false;
-					visibility = v;
+					this.localOnly = false;
+					this.copyOnce = false;
+					this.visibility = v;
 				}
 			}
 
@@ -596,6 +612,7 @@ export default Vue.extend({
 				visibility,
 				visibleUserIds: visibility == 'specified' ? this.visibleUsers.map(u => u.id) : undefined,
 				localOnly,
+				copyOnce,
 				geo: null
 			}).then(data => {
 				if (preview) {

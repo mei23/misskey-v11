@@ -74,6 +74,7 @@ export default define({
 			files: [],
 			visibility: 'public',
 			localOnly: false,
+			copyOnce: false,
 			secondaryNoteVisibility: 'none',
 			tertiaryNoteVisibility: 'none',
 		};
@@ -220,11 +221,18 @@ export default define({
 
 		applyVisibility(v :string) {
 			const m = v.match(/^local-(.+)/);
+			const n = v.match(/^once-(.+)/);
 			if (m) {
 				this.localOnly = true;
+				this.copyOnce = false;
+				this.visibility = m[1];
+			} else if (n) {
+				this.localOnly = false;
+				this.copyOnce = true;
 				this.visibility = m[1];
 			} else {
 				this.localOnly = false;
+				this.copyOnce = false;
 				this.visibility = v;
 			}
 		},
@@ -232,15 +240,23 @@ export default define({
 		post(v: any) {
 			let visibility = this.visibility;
 			let localOnly = this.localOnly;
+			let copyOnce = this.copyOnce;
 
 			if (typeof v == 'string') {
 				const m = v.match(/^local-(.+)/);
+				const n = v.match(/^once-(.+)/);
 				if (m) {
-					localOnly = true;
-					visibility = m[1];
+					this.localOnly = true;
+					this.copyOnce = false;
+					this.visibility = m[1];
+				} else if (n) {
+					this.localOnly = false;
+					this.copyOnce = true;
+					this.visibility = m[1];
 				} else {
-					localOnly = false;
-					visibility = v;
+					this.localOnly = false;
+					this.copyOnce = false;
+					this.visibility = v;
 				}
 			}
 
@@ -251,6 +267,7 @@ export default define({
 				fileIds: this.files.length > 0 ? this.files.map(f => f.id) : undefined,
 				visibility,
 				localOnly,
+				copyOnce,
 			}).then(data => {
 				this.clear();
 			}).catch(err => {
