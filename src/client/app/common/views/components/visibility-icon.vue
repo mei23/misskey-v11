@@ -25,17 +25,17 @@
 			<div class="localOnly"><fa icon="heart"/></div>
 		</div>
 		<div class="wrap" v-if="visibility == 'once-public'">
-			<fa :icon="faTintSlash"/>
+			<fa :icon="faHandHoldingHeart"/>
 		</div>
 		<div class="wrap" v-else-if="visibility == 'once-home'">
-			<fa :icon="faTintSlash"/>
+			<fa :icon="faHandHoldingHeart"/>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { faTintSlash } from '@fortawesome/free-solid-svg-icons';
+import { faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	props: {
@@ -56,7 +56,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			faTintSlash
+			faHandHoldingHeart
 		}
 	},
 	computed: {
