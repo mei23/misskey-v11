@@ -490,7 +490,7 @@ export default Vue.extend({
 			} else if (n) {
 				this.localOnly = false;
 				this.copyOnce = true;
-				this.visibility = m[1];
+				this.visibility = n[1];
 			} else {
 				this.localOnly = false;
 				this.copyOnce = false;
@@ -585,17 +585,17 @@ export default Vue.extend({
 				const m = v.match(/^local-(.+)/);
 				const n = v.match(/^once-(.+)/);
 				if (m) {
-					this.localOnly = true;
-					this.copyOnce = false;
-					this.visibility = m[1];
+					localOnly = true;
+					copyOnce = false;
+					visibility = m[1];
 				} else if (n) {
-					this.localOnly = false;
-					this.copyOnce = true;
-					this.visibility = m[1];
+					localOnly = false;
+					copyOnce = true;
+					visibility = n[1];
 				} else {
-					this.localOnly = false;
-					this.copyOnce = false;
-					this.visibility = v;
+					localOnly = false;
+					copyOnce = false;
+					visibility = v;
 				}
 			}
 
