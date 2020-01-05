@@ -433,7 +433,7 @@ export default Vue.extend({
 			const vm = this.$root.new(Picker, {
 				includeRemote: true,
 				x: 0,
-				y: 120
+				y: 120 + window.pageYOffset
 			});
 			vm.$once('chosen', (emoji: string) => {
 				insertTextAtCursor(this.$refs.text, emoji + (emoji.startsWith(':') ? String.fromCharCode(0x200B) : ''));
