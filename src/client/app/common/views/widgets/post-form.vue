@@ -27,7 +27,7 @@
 			<footer>
 				<button @click="chooseFile"><fa icon="upload"/></button>
 				<button @click="chooseFileFromDrive"><fa icon="cloud"/></button>
-				<button @click="kao"><fa :icon="['far', 'smile']"/></button>
+				<button @click="kao"><fa :icon="faFish"/></button>
 				<button @click="setVisibility" class="visibility" ref="visibilityButton">
 					<x-visibility-icon :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 				</button>
@@ -52,6 +52,7 @@ import getFace from '../../../common/scripts/get-face';
 import MkVisibilityChooser from '../../../common/views/components/visibility-chooser.vue';
 import XPostFormAttaches from '../components/post-form-attaches.vue';
 import XVisibilityIcon from '../components/visibility-icon.vue';
+import { faFish } from '@fortawesome/free-solid-svg-icons';
 
 export default define({
 	name: 'post-form',
@@ -77,6 +78,7 @@ export default define({
 			copyOnce: false,
 			secondaryNoteVisibility: 'none',
 			tertiaryNoteVisibility: 'none',
+			faFish
 		};
 	},
 

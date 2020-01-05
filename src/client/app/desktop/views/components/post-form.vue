@@ -36,7 +36,7 @@
 		<footer>
 			<button class="upload" :title="$t('attach-media-from-local')" @click="chooseFile"><fa icon="upload"/></button>
 			<button class="drive" :title="$t('attach-media-from-drive')" @click="chooseFileFromDrive"><fa icon="cloud"/></button>
-			<button class="kao" :title="$t('insert-a-kao')" @click="kao"><fa :icon="['far', 'smile']"/></button>
+			<button class="kao" :title="$t('insert-a-kao')" @click="kao"><fa :icon="faFish"/></button>
 			<button class="poll" :title="$t('create-poll')" @click="poll = !poll"><fa icon="chart-pie"/></button>
 			<button class="cw" :title="$t('hide-contents')" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
 			<button class="visibility" :title="$t('visibility')" @click="setVisibility" ref="visibilityButton">
@@ -85,6 +85,7 @@ import XPostFormAttaches from '../../../common/views/components/post-form-attach
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 import { nyaize } from '../../../../../misc/nyaize';
 import * as config from '../../../config';
+import { faFish } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/post-form.vue'),
@@ -162,7 +163,8 @@ export default Vue.extend({
 			autocomplete: null,
 			draghover: false,
 			recentHashtags: JSON.parse(localStorage.getItem('hashtags') || '[]'),
-			maxNoteTextLength: 1000
+			maxNoteTextLength: 1000,
+			faFish
 		};
 	},
 

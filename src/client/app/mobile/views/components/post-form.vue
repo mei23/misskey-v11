@@ -37,7 +37,7 @@
 			<footer v-if="!renote || quote">
 				<button class="upload" @click="chooseFile"><fa icon="upload"/></button>
 				<button class="drive" @click="chooseFileFromDrive"><fa icon="cloud"/></button>
-				<button class="kao" @click="kao"><fa :icon="['far', 'smile']"/></button>
+				<button class="kao" @click="kao"><fa :icon="faFish"/></button>
 				<button v-if="!inside" class="poll" @click="poll = true"><fa icon="chart-pie"/></button>
 				<button class="poll" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
 				<button class="visibility" @click="setVisibility" ref="visibilityButton">
@@ -80,6 +80,7 @@ import { toASCII } from 'punycode';
 import extractMentions from '../../../../../misc/extract-mentions';
 import XPostFormAttaches from '../../../common/views/components/post-form-attaches.vue';
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
+import { faFish } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/components/post-form.vue'),
@@ -162,7 +163,8 @@ export default Vue.extend({
 			useCw: false,
 			cw: null,
 			recentHashtags: JSON.parse(localStorage.getItem('hashtags') || '[]'),
-			maxNoteTextLength: 1000
+			maxNoteTextLength: 1000,
+			faFish
 		};
 	},
 

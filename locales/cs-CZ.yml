@@ -723,7 +723,6 @@ desktop/views/components/post-form.vue:
   reposted: "Renotováno!"
   note-failed: "Nepodařilo se přidat příspěvek"
   renote-failed: "Renotování neuspělo"
-  insert-a-kao: "v('ω')v"
   create-poll: "Vytvořit anketu"
   text-remain: "{0} znaků zbývá"
   recent-tags: "Nejnovější"
