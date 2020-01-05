@@ -88,14 +88,14 @@ export default Vue.extend({
 			let popX = sourceX - (popover.offsetWidth / 2);
 			let popY = sourceY - (popover.offsetHeight / 2);
 
-			// 下はみ出し判定
-			if (popY + popH > window.innerHeight) popY = window.innerHeight - popH;
 			// 右はみ出し判定
 			if (popX + popW > window.innerWidth) popX = window.innerWidth - popW;
-			// 上はみ出し判定
-			if (popY < 0) popY = 0;
+			// 下はみ出し判定
+			if (popY + popH > window.innerHeight) popY = window.innerHeight - popH;
 			// 左はみ出し判定
 			if (popX < 0) popX = 0;
+			// 上はみ出し判定
+			if (popY < 0) popY = 0;
 
 			popover.style.left = `${popX + window.pageXOffset}px`;
 			popover.style.top = `${popY + window.pageYOffset}px`;
@@ -148,8 +148,8 @@ export default Vue.extend({
 			const button = this.$refs.emoji;
 			const rect = button.getBoundingClientRect();
 			const vm = this.$root.new(Picker, {
-				x: this.$root.isMobile ? 8 : button.offsetWidth + rect.left + window.pageXOffset,
-				y: this.$root.isMobile ? window.pageYOffset + 120 : rect.top + window.pageYOffset
+				x: button.offsetWidth + rect.left + window.pageXOffset,
+				y: rect.top + window.pageYOffset
 			});
 			vm.$once('chosen', emoji => {
 				this.react(emoji);

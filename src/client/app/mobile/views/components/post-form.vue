@@ -432,8 +432,8 @@ export default Vue.extend({
 			const rect = button.getBoundingClientRect();
 			const vm = this.$root.new(Picker, {
 				includeRemote: true,
-				x: 0,
-				y: 120 + window.pageYOffset
+				x: button.offsetWidth + rect.left + window.pageXOffset,
+				y: rect.top + window.pageYOffset
 			});
 			vm.$once('chosen', (emoji: string) => {
 				insertTextAtCursor(this.$refs.text, emoji + (emoji.startsWith(':') ? String.fromCharCode(0x200B) : ''));

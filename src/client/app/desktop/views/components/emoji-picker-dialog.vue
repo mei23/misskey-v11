@@ -31,22 +31,24 @@ export default Vue.extend({
 
 	mounted() {
 		this.$nextTick(() => {
-			const width = this.$el.offsetWidth;
-			const height = this.$el.offsetHeight;
+			// nextTickだと間に合わない？ので最小サイズを指定
+			const width = Math.max(this.$el.offsetWidth, 350);
+			const height = Math.max(this.$el.offsetHeight, 340);
 
 			let x = this.x;
 			let y = this.y;
 
-			if (x + width - window.pageXOffset > window.innerWidth) {
-				x = window.innerWidth - width + window.pageXOffset;
-			}
+			// 右はみ出し判定
+			if (x + width > window.innerWidth) x = window.innerWidth - width;
+			// 下はみ出し判定
+			if (y + height > window.innerHeight) y = window.innerHeight - height;
+			// 左はみ出し判定
+			if (x < 0) x = 0;
+			// 上はみ出し判定
+			if (y < 0) y = 0;
 
-			if (y + height - window.pageYOffset > window.innerHeight) {
-				y = window.innerHeight - height + window.pageYOffset;
-			}
-
-			this.$el.style.left = x + 'px';
-			this.$el.style.top = y + 'px';
+			this.$el.style.left = `${x + window.pageXOffset}px`;
+			this.$el.style.top = `${y + window.pageYOffset}px`;
 
 			for (const el of Array.from(document.querySelectorAll('body *'))) {
 				el.addEventListener('mousedown', this.onMousedown);
