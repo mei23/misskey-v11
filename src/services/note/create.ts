@@ -156,6 +156,11 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 		data.localOnly = true;
 	}
 
+	// copyOnceで既存のを広げてはダメ
+	if (data.copyOnce && (data.visibility === 'specified' || data.localOnly)) {
+		data.copyOnce = false;
+	}
+
 	if (data.text) {
 		data.text = data.text.trim();
 	}
