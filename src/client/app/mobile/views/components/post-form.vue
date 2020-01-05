@@ -477,6 +477,7 @@ export default Vue.extend({
 					text: this.text === '' ? undefined : this.$store.state.i.isCat ? nyaize(this.text.trim()) : this.text.trim(),
 					visibility: this.visibility,
 					localOnly: this.localOnly,
+					copyOnce: this.copyOnce,
 					fileIds: this.files.length > 0 ? this.files.map(f => f.id) : undefined,
 					files: this.files || [],
 					replyId: this.reply ? this.reply.id : undefined,
