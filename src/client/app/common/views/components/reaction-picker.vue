@@ -73,23 +73,32 @@ export default Vue.extend({
 		this.recentReaction = localStorage.getItem('recentReaction');
 
 		this.$nextTick(() => {
-			const popover = this.$refs.popover as any;
+			const popover = this.$refs.popover as HTMLElement;
+			const sourceRect = (this.source as HTMLElement).getBoundingClientRect();
 
-			const rect = this.source.getBoundingClientRect();
-			const width = popover.offsetWidth;
-			const height = popover.offsetHeight;
+			// このポップアップのサイズ
+			const popW = popover.offsetWidth;
+			const popH = popover.offsetHeight;
 
-			if (this.$root.isMobile) {
-				const x = rect.left + window.pageXOffset + (this.source.offsetWidth / 2);
-				const y = rect.top + window.pageYOffset + (this.source.offsetHeight / 2);
-				popover.style.left = (x - (width / 2)) + 'px';
-				popover.style.top = (y - (height / 2)) + 'px';
-			} else {
-				const x = rect.left + window.pageXOffset + (this.source.offsetWidth / 2);
-				const y = rect.top + window.pageYOffset + this.source.offsetHeight;
-				popover.style.left = (x - (width / 2)) + 'px';
-				popover.style.top = y + 'px';
-			}
+			// 呼び出し元 (たいていボタン) の中心地点
+			const sourceX = sourceRect.left + (this.source.offsetWidth / 2);
+			const sourceY = sourceRect.top + (this.source.offsetHeight / 2);
+
+			// このポップアップは呼び出し元の中心に配置
+			let popX = sourceX - (popover.offsetWidth / 2);
+			let popY = sourceY - (popover.offsetHeight / 2);
+
+			// 下はみ出し判定
+			if (popY + popH > window.innerHeight) popY = window.innerHeight - popH;
+			// 右はみ出し判定
+			if (popX + popW > window.innerWidth) popX = window.innerWidth - popW;
+			// 上はみ出し判定
+			if (popY < 0) popY = 0;
+			// 左はみ出し判定
+			if (popX < 0) popX = 0;
+
+			popover.style.left = `${popX + window.pageXOffset}px`;
+			popover.style.top = `${popY + window.pageYOffset}px`;
 
 			anime({
 				targets: this.$refs.backdrop,
@@ -209,23 +218,6 @@ export default Vue.extend({
 					height 50px
 					font-size 28px
 					border-radius 4px
-
-		&:not(.isMobile)
-			$arrow-size = 16px
-
-			margin-top $arrow-size
-			transform-origin center -($arrow-size)
-
-			&:before
-				content ""
-				display block
-				position absolute
-				top -($arrow-size * 2)
-				left s('calc(50% - %s)', $arrow-size)
-				border-top solid $arrow-size transparent
-				border-left solid $arrow-size transparent
-				border-right solid $arrow-size transparent
-				border-bottom solid $arrow-size $bgcolor
 
 		> p
 			display block
