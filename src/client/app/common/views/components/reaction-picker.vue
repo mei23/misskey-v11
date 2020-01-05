@@ -8,7 +8,7 @@
 		<div v-if="enableEmojiReaction" class="text">
 			<input v-model="text" placeholder="Emoji" @keyup.enter="reactText" @keydown.esc="close" @input="tryReactText" v-autocomplete="{ model: 'text', noZwsp: true }" ref="text">
 			<button title="OK" @click="reactText"><fa icon="check"/></button>
-			<button title="Pick" class="emoji" @click="emoji" ref="emoji" v-if="!$root.isMobile">
+			<button title="Pick" class="emoji" @click="emoji" ref="emoji">
 				<fa :icon="['far', 'laugh']"/>
 			</button>
 			<button title="Random" @click="reactRandom()"><fa :icon="faRandom"/></button>
@@ -139,8 +139,8 @@ export default Vue.extend({
 			const button = this.$refs.emoji;
 			const rect = button.getBoundingClientRect();
 			const vm = this.$root.new(Picker, {
-				x: button.offsetWidth + rect.left + window.pageXOffset,
-				y: rect.top + window.pageYOffset
+				x: this.$root.isMobile ? 8 : button.offsetWidth + rect.left + window.pageXOffset,
+				y: this.$root.isMobile ? window.pageYOffset + 120 : rect.top + window.pageYOffset
 			});
 			vm.$once('chosen', emoji => {
 				this.react(emoji);
