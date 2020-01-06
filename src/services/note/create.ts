@@ -156,8 +156,7 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 		data.localOnly = true;
 	}
 
-	// copyOnceで既存のを広げてはダメ
-	if (data.copyOnce && (data.visibility === 'specified' || data.localOnly)) {
+	if (data.copyOnce && data.localOnly) {
 		data.copyOnce = false;
 	}
 
@@ -380,6 +379,11 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 
 				// フォロワーへ配送
 				if (['public', 'home', 'followers'].includes(note.visibility)) {
+					dm.addFollowersRecipe();
+				}
+
+				// リモートのみ配送
+				if (note.visibility === 'specified' && note.copyOnce) {
 					dm.addFollowersRecipe();
 				}
 			}

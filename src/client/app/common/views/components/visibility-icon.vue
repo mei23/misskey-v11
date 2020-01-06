@@ -30,13 +30,16 @@
 		<div class="wrap" v-else-if="visibility == 'once-home'" :title="$t('@.note-visibility.once-home')">
 			<fa :icon="faHandHoldingHeart"/>
 		</div>
+		<div class="wrap" v-else-if="visibility == 'once-specified'" :title="$t('@.note-visibility.once-specified')">
+			<fa :icon="faSatelliteDish"/>
+		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHandHoldingHeart, faSatelliteDish } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n(),
@@ -58,7 +61,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			faHandHoldingHeart
+			faHandHoldingHeart, faSatelliteDish
 		}
 	},
 	computed: {

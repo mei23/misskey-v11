@@ -56,7 +56,12 @@
 				<span>{{ $t('local-followers') }}</span>
 			</div>
 		</div>
-
+		<div @click="choose('once-specified')" :class="{ active: v == 'once-specified' }">
+			<x-visibility-icon v="once-specified"/>
+			<div>
+				<span>{{ $t('once-specified') }}</span>
+			</div>
+		</div>
 	</div>
 </div>
 </template>
