@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as crypto from 'crypto';
-import * as fileType from 'file-type';
+import * as FileType from 'file-type';
 import isSvg from 'is-svg';
 const probeImageSize = require('probe-image-size');
 import * as sharp from 'sharp';
@@ -98,9 +98,7 @@ export async function detectType(path: string) {
 		return TYPE_OCTET_STREAM;
 	}
 
-	const readable = fs.createReadStream(path);
-	const type = (await fileType.stream(readable)).fileType;
-	readable.destroy();
+	const type = await FileType.fromFile(path);
 
 	if (type) {
 		// XMLはSVGかもしれない
