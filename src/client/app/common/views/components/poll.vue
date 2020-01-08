@@ -90,7 +90,8 @@ export default Vue.extend({
 				}
 				if (!this.showResult) this.showResult = !this.poll.multiple;
 			});
-		}
+			this.$emit('voted');
+		},
 	}
 });
 </script>

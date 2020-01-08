@@ -15,7 +15,7 @@
 					<mfm :text="poll.text" :author="poll.user" :custom-emojis="poll.emojis"/>
 				</router-link></p>
 				<p v-if="!poll.text"><router-link :to="poll | notePage"><fa icon="link"/></router-link></p>
-				<mk-poll :note="poll"/>
+				<mk-poll :note="poll" @voted="voted()"/>
 			</div>
 			<p class="empty" v-if="!fetching && poll == null">{{ $t('nothing') }}</p>
 			<p class="fetching" v-if="fetching"><fa icon="spinner" pulse fixed-width/>{{ $t('@.loading') }}<mk-ellipsis/></p>
@@ -74,6 +74,9 @@ export default define({
 				this.fetching = false;
 				this.more = false;
 			});
+		},
+		voted() {
+			if (this.more) this.offset--;
 		}
 	}
 });
