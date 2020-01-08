@@ -630,6 +630,7 @@ export default Vue.extend({
 				> textarea
 					display block
 					padding 12px
+					padding-right 32px
 					margin 0
 					width 100%
 					font-size 16px
