@@ -7,7 +7,7 @@ const faces = [
 	"(｡>﹏<｡)",
 	"(Δ・x・Δ)",
 	"( ‘ω’ و(و “",
-	"ԅ( ˘ω˘ ԅ) ﾓﾐﾓﾐ",
+	"ԅ( ˘ω˘ ԅ)ﾓﾐﾓﾐ",
 ];
 
 let pasts: string[] = [];
@@ -21,7 +21,7 @@ export default () => {
 	}
 
 	pasts.unshift(face);
-	pasts = pasts.splice(0, 10);
+	pasts = pasts.splice(0, 9);
 
 	return face;
 }
