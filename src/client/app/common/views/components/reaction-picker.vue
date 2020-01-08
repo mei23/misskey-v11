@@ -63,16 +63,7 @@ export default Vue.extend({
 	},
 
 	mounted() {
-		this.$root.getMeta().then(meta => {
-			this.enableEmojiReaction = meta.enableEmojiReaction;
-			this.$nextTick(() => {
-				if (!this.$root.isMobile && this.$refs.text) this.$refs.text.focus();
-			});
-		});
-
-		this.recentReaction = localStorage.getItem('recentReaction');
-
-		this.$nextTick(() => {
+		const fixPos = () => {
 			const popover = this.$refs.popover as HTMLElement;
 			const sourceRect = (this.source as HTMLElement).getBoundingClientRect();
 
@@ -99,7 +90,20 @@ export default Vue.extend({
 
 			popover.style.left = `${popX + window.pageXOffset}px`;
 			popover.style.top = `${popY + window.pageYOffset}px`;
+		};
 
+		this.$root.getMeta().then(meta => {
+			this.enableEmojiReaction = meta.enableEmojiReaction;
+			fixPos();
+
+			this.$nextTick(() => {
+				if (!this.$root.isMobile && this.$refs.text) this.$refs.text.focus();
+			});
+		});
+
+		this.recentReaction = localStorage.getItem('recentReaction');
+
+		this.$nextTick(() => {
 			anime({
 				targets: this.$refs.backdrop,
 				opacity: 1,
