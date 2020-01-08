@@ -10,7 +10,7 @@ import { toDbHost, isSelfHost } from '../../../../misc/convert-host';
 import Following from '../../../../models/following';
 import { concat } from '../../../../prelude/array';
 import { getHideUserIds } from '../../common/get-hide-users';
-import { getFriends } from '../../common/get-friends';
+import { getFriends, getFriendIds } from '../../common/get-friends';
 import NoteWatching from '../../../../models/note-watching';
 const escapeRegexp = require('escape-regexp');
 
@@ -109,6 +109,7 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 	const tokens = query.trim().split(/\s+/);
 	const words: string[] = [];
 	let from: IUser = null;
+	let followFrom: IUser = null;
 	let since: Date = null;
 	let until: Date = null;
 	let types: string[] = [];
@@ -129,6 +130,20 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 
 			if (user == null) return [];	// fromが存在しないユーザーならno match
 			from = user;
+
+			filtered = true;
+			continue;
+		}
+
+		// followers
+		const matchFollow = token.match(/^follow:@?([\w-]+)(?:@([\w.-]+))?$/);
+		if (matchFollow) {
+			followFrom = await User.findOne({
+				usernameLower: matchFollow[1].toLowerCase(),
+				host: toDbHost(matchFollow[2]),
+			});
+
+			if (followFrom == null) return [];
 
 			filtered = true;
 			continue;
@@ -271,6 +286,25 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 				}];
 			}
 		}
+	} else if (followFrom != null) {
+		const myFollowingIds = me ? await getFriendIds(me._id) : [];
+
+		visibleQuery = [{
+			visibility: {
+				$in: ['public', 'home'],
+			},
+		}, {
+			$and: [
+				{ visibility: 'followers' },
+				{ userId: { $in: myFollowingIds } }
+			]
+		}, {
+			// myself (for specified/private)
+			userId: me._id
+		}, {
+			// to me (for specified)
+			visibleUserIds: { $in: [ me._id ] }
+		}];
 	} else {
 		// フォローを取得
 		const followings = await getFriends(me._id);
@@ -319,6 +353,11 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 	// note - userId
 	if (from != null) {
 		noteQuery.userId = from._id;
+	}
+
+	if (followFrom != null) {
+		const targetFollowingIds = await getFriendIds(followFrom._id);
+		noteQuery.userId = { $in: targetFollowingIds };
 	}
 
 	// Date
