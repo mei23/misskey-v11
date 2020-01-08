@@ -35,8 +35,8 @@ export default Vue.extend({
 			const width = Math.max(this.$el.offsetWidth, 350);
 			const height = Math.max(this.$el.offsetHeight, 340);
 
-			let x = this.x;
-			let y = this.y;
+			let x = this.x - window.pageXOffset;
+			let y = this.y - window.pageYOffset;
 
 			// 右はみ出し判定
 			if (x + width > window.innerWidth) x = window.innerWidth - width;
