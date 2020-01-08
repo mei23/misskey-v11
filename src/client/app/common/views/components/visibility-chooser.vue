@@ -93,27 +93,32 @@ export default Vue.extend({
 	},
 	mounted() {
 		this.$nextTick(() => {
-			const popover = this.$refs.popover as any;
+			const popover = this.$refs.popover as HTMLElement;
+			const sourceRect = (this.source as HTMLElement).getBoundingClientRect();
 
-			const rect = this.source.getBoundingClientRect();
-			const width = popover.offsetWidth;
-			const height = popover.offsetHeight;
+			// このポップアップのサイズ
+			const popW = popover.offsetWidth;
+			const popH = popover.offsetHeight;
 
-			let left;
-			let top;
+			// 呼び出し元 (たいていボタン) の中心地点
+			const sourceX = sourceRect.left + (this.source.offsetWidth / 2);
+			const sourceY = sourceRect.top + (this.source.offsetHeight / 2);
 
-			const x = rect.left + window.pageXOffset + (this.source.offsetWidth / 2);
-			const y = rect.top + window.pageYOffset + (this.source.offsetHeight / 2);
-			left = (x - (width / 2));
-			top = (y - (height / 2));
-			if (top < 0) top = 0;
+			// このポップアップは呼び出し元の中心に配置
+			let popX = sourceX - (popover.offsetWidth / 2);
+			let popY = sourceY - (popover.offsetHeight / 2);
 
-			if (left + width > window.innerWidth) {
-				left = window.innerWidth - width;
-			}
+			// 右はみ出し判定
+			if (popX + popW > window.innerWidth) popX = window.innerWidth - popW;
+			// 下はみ出し判定
+			if (popY + popH > window.innerHeight) popY = window.innerHeight - popH;
+			// 左はみ出し判定
+			if (popX < 0) popX = 0;
+			// 上はみ出し判定
+			if (popY < 0) popY = 0;
 
-			popover.style.left = left + 'px';
-			popover.style.top = top + 'px';
+			popover.style.left = `${popX + window.pageXOffset}px`;
+			popover.style.top = `${popY + window.pageYOffset}px`;
 
 			anime({
 				targets: this.$refs.backdrop,
