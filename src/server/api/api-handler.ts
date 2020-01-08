@@ -32,10 +32,6 @@ export default (endpoint: IEndpoint, ctx: Koa.BaseContext) => new Promise((res) 
 
 	// Authentication
 	authenticate(body['i']).then(([user, app]) => {
-		if (ctx.is('multipart/form-data')) {
-			console.log(`multipart: i=${body['i']}, userId=${user ? user._id : 'undefined user'}`);
-		}
-
 		// API invoking
 		call(endpoint.name, user, app, body, (ctx.req as any).file).then(res => {
 			if (ctx.method === 'GET' && endpoint.meta.cacheSec && !body['i'] && !user) {
