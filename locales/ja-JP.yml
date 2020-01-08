@@ -568,8 +568,9 @@ common/views/components/nav.vue:
 common/views/components/note-menu.vue:
   mention: "メンション"
   detail: "詳細"
-  go-timeline: "タイムラインへ"
-  up-timeline: "タイムラインへ (逆順)"
+  go-timeline: "ローカルTLへ"
+  up-timeline: "ローカルTLへ (逆順)"
+  go-follow-tl: "フォローのTLへ"
   copy-content: "内容をコピー"
   copy-link: "リンクをコピー"
   favorite: "お気に入り"

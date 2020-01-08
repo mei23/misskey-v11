@@ -10,7 +10,7 @@ import i18n from '../../../i18n';
 import { url } from '../../../config';
 import copyToClipboard from '../../../common/scripts/copy-to-clipboard';
 import { faCopy, faEye, faEyeSlash, } from '@fortawesome/free-regular-svg-icons';
-import { faPlaneArrival, faPlaneDeparture } from '@fortawesome/free-solid-svg-icons';
+import { faPlaneArrival, faPlaneDeparture, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/note-menu.vue'),
@@ -39,6 +39,10 @@ export default Vue.extend({
 				icon: faPlaneDeparture,
 				text: this.$t('up-timeline'),
 				action: this.upTimeline
+			}, {
+				icon: faUserFriends,
+				text: this.$t('go-follow-tl'),
+				action: this.goFollowTL
 			}, {
 				icon: faCopy,
 				text: this.$t('copy-content'),
@@ -246,6 +250,14 @@ export default Vue.extend({
 			const date = new Date(new Date(this.note.createdAt).getTime() - 5000).toISOString();
 			const host = this.note.user.host || '.';
 			const q = `host:${host} since:${date}`;
+
+			this.$router.push(`/search?q=${encodeURIComponent(q)}`);
+		},
+
+		goFollowTL() {
+			const date = new Date(new Date(this.note.createdAt).getTime() + 5000).toISOString();
+			const user = this.note.user.host ? `@${this.note.user.username}@${this.note.user.host}` : `@${this.note.user.username}`;
+			const q = `follow:${user} until:${date}`;
 
 			this.$router.push(`/search?q=${encodeURIComponent(q)}`);
 		},
