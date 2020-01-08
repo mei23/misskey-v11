@@ -36,10 +36,6 @@ export default Vue.extend({
 				text: this.$t('go-timeline'),
 				action: this.goTimeline
 			}, {
-				icon: faPlaneDeparture,
-				text: this.$t('up-timeline'),
-				action: this.upTimeline
-			}, {
 				icon: faUserFriends,
 				text: this.$t('go-follow-tl'),
 				action: this.goFollowTL
