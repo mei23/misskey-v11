@@ -11,7 +11,11 @@ export type IImage = {
  *   with resize, remove metadata, resolve orientation, stop animation
  */
 export async function ConvertToJpeg(path: string, width: number, height: number): Promise<IImage> {
-	const data = await sharp(path)
+	return ConvertSharpToJpeg(await sharp(path), width, height);
+}
+
+export async function ConvertSharpToJpeg(sharp: sharp.Sharp, width: number, height: number): Promise<IImage> {
+	const data = await sharp
 		.resize(width, height, {
 			fit: 'inside',
 			withoutEnlargement: true
@@ -35,7 +39,11 @@ export async function ConvertToJpeg(path: string, width: number, height: number)
  *   with resize, remove metadata, resolve orientation, stop animation
  */
 export async function ConvertToWebp(path: string, width: number, height: number): Promise<IImage> {
-	const data = await sharp(path)
+	return ConvertSharpToWebp(await sharp(path), width, height);
+}
+
+export async function ConvertSharpToWebp(sharp: sharp.Sharp, width: number, height: number): Promise<IImage> {
+	const data = await sharp
 		.resize(width, height, {
 			fit: 'inside',
 			withoutEnlargement: true
@@ -58,7 +66,11 @@ export async function ConvertToWebp(path: string, width: number, height: number)
  *   with resize, remove metadata, resolve orientation, stop animation
  */
 export async function ConvertToPng(path: string, width: number, height: number): Promise<IImage> {
-	const data = await sharp(path)
+	return ConvertSharpToPng(await sharp(path), width, height);
+}
+
+export async function ConvertSharpToPng(sharp: sharp.Sharp, width: number, height: number): Promise<IImage> {
+	const data = await sharp
 		.resize(width, height, {
 			fit: 'inside',
 			withoutEnlargement: true

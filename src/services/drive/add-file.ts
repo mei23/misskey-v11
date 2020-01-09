@@ -17,7 +17,7 @@ import instanceChart from '../../services/chart/instance';
 import fetchMeta from '../../misc/fetch-meta';
 import { GenerateVideoThumbnail } from './generate-video-thumbnail';
 import { driveLogger } from './logger';
-import { IImage, ConvertToJpeg, ConvertToWebp, ConvertToPng } from './image-processor';
+import { IImage, ConvertSharpToJpeg, ConvertSharpToWebp, ConvertSharpToPng } from './image-processor';
 import Instance from '../../models/instance';
 import { contentDisposition } from '../../misc/content-disposition';
 import { getFileInfo } from '../../misc/get-file-info';
@@ -25,6 +25,7 @@ import { DriveConfig } from '../../config/types';
 import { getDriveConfig } from '../../misc/get-drive-config';
 import * as S3 from 'aws-sdk/clients/s3';
 import { getS3 } from './s3';
+import * as sharp from 'sharp';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
@@ -164,6 +165,8 @@ async function save(path: string, name: string, type: string, hash: string, size
  * @param generateWeb Generate webpublic or not
  */
 export async function generateAlts(path: string, type: string, generateWeb: boolean) {
+	const s = sharp(path);
+
 	// #region webpublic
 	let webpublic: IImage;
 
@@ -171,11 +174,11 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 		logger.debug(`creating web image`);
 
 		if (['image/jpeg'].includes(type)) {
-			webpublic = await ConvertToJpeg(path, 8192, 8192);
+			webpublic = await ConvertSharpToJpeg(s, 8192, 8192);
 		} else if (['image/webp'].includes(type)) {
-			webpublic = await ConvertToWebp(path, 8192, 8192);
+			webpublic = await ConvertSharpToWebp(s, 8192, 8192);
 		} else if (['image/png'].includes(type)) {
-			webpublic = await ConvertToPng(path, 8192, 8192);
+			webpublic = await ConvertSharpToPng(s, 8192, 8192);
 		} else {
 			logger.debug(`web image not created (not an image)`);
 		}
@@ -188,9 +191,9 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	let thumbnail: IImage;
 
 	if (['image/jpeg', 'image/webp'].includes(type)) {
-		thumbnail = await ConvertToJpeg(path, 498, 280);
+		thumbnail = await ConvertSharpToJpeg(s, 498, 280);
 	} else if (['image/png'].includes(type)) {
-		thumbnail = await ConvertToPng(path, 498, 280);
+		thumbnail = await ConvertSharpToPng(s, 498, 280);
 	} else if (type.startsWith('video/')) {
 		try {
 			thumbnail = await GenerateVideoThumbnail(path);
