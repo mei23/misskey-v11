@@ -159,42 +159,41 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 export async function generateAlts(path: string, type: string, generateWeb: boolean) {
 	const img = sharp(path);
 
+	// #region webpublic
 	let webpublic: IImage;
+
+	if (generateWeb) {
+		logger.debug(`creating web image`);
+
+		if (['image/jpeg'].includes(type)) {
+			webpublic = await ConvertSharpToJpeg(img, 8192, 8192);
+		} else if (['image/webp'].includes(type)) {
+			webpublic = await ConvertSharpToWebp(img, 8192, 8192);
+		} else if (['image/png'].includes(type)) {
+			webpublic = await ConvertSharpToPng(img, 8192, 8192);
+		} else {
+			logger.debug(`web image not created (not an image)`);
+		}
+	} else {
+		logger.debug(`web image not created (from remote)`);
+	}
+	// #endregion webpublic
+
+	// #region thumbnail
 	let thumbnail: IImage;
 
-	const genWeb = async () => {
-		if (generateWeb) {
-			logger.debug(`creating web image`);
-
-			if (['image/jpeg'].includes(type)) {
-				webpublic = await ConvertSharpToJpeg(img, 8192, 8192);
-			} else if (['image/webp'].includes(type)) {
-				webpublic = await ConvertSharpToWebp(img, 8192, 8192);
-			} else if (['image/png'].includes(type)) {
-				webpublic = await ConvertSharpToPng(img, 8192, 8192);
-			} else {
-				logger.debug(`web image not created (not an image)`);
-			}
-		} else {
-			logger.debug(`web image not created (from remote)`);
+	if (['image/jpeg', 'image/webp'].includes(type)) {
+		thumbnail = await ConvertSharpToJpeg(img, 498, 280);
+	} else if (['image/png'].includes(type)) {
+		thumbnail = await ConvertSharpToPng(img, 498, 280);
+	} else if (type.startsWith('video/')) {
+		try {
+			thumbnail = await GenerateVideoThumbnail(path);
+		} catch (e) {
+			logger.warn(`GenerateVideoThumbnail failed: ${e}`);
 		}
-	};
-
-	const genThumbnail = async () => {
-		if (['image/jpeg', 'image/webp'].includes(type)) {
-			thumbnail = await ConvertSharpToJpeg(img, 498, 280);
-		} else if (['image/png'].includes(type)) {
-			thumbnail = await ConvertSharpToPng(img, 498, 280);
-		} else if (type.startsWith('video/')) {
-			try {
-				thumbnail = await GenerateVideoThumbnail(path);
-			} catch (e) {
-				logger.warn(`GenerateVideoThumbnail failed: ${e}`);
-			}
-		}
-	};
-
-	await Promise.all([genWeb(), genThumbnail()]);
+	}
+	// #endregion thumbnail
 
 	return {
 		webpublic,
