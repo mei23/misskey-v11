@@ -20,7 +20,7 @@ import { driveLogger } from './logger';
 import { IImage, ConvertSharpToJpeg, ConvertSharpToWebp, ConvertSharpToPng } from './image-processor';
 import Instance from '../../models/instance';
 import { contentDisposition } from '../../misc/content-disposition';
-import { getFileInfo } from '../../misc/get-file-info';
+import { getFileInfo, FileInfo } from '../../misc/get-file-info';
 import { DriveConfig } from '../../config/types';
 import { getDriveConfig } from '../../misc/get-drive-config';
 import * as S3 from 'aws-sdk/clients/s3';
@@ -33,14 +33,12 @@ const logger = driveLogger.createSubLogger('register', 'yellow');
  * Save file
  * @param path Path for original
  * @param name Name for original
- * @param type Content-Type for original
- * @param hash Hash for original
- * @param size Size for original
+ * @param info FileInfo
  * @param metadata
  */
-async function save(path: string, name: string, type: string, hash: string, size: number, metadata: IMetadata, drive: DriveConfig): Promise<IDriveFile> {
+async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig): Promise<IDriveFile> {
 	// thunbnail, webpublic を必要なら生成
-	const alts = await generateAlts(path, type, !metadata.uri).catch(err => {
+	const alts = await generateAlts(path, info.type.mime, !metadata.uri).catch(err => {
 		logger.error(err);
 
 		return {
@@ -49,19 +47,13 @@ async function save(path: string, name: string, type: string, hash: string, size
 		};
 	});
 
-	const animation = type === 'image/apng' ? 'yes' : type === 'image/png' ? 'no' : undefined;
+	const animation = info.type.mime === 'image/apng' ? 'yes' : info.type.mime === 'image/png' ? 'no' : undefined;
 
-	if (type === 'image/apng') type = 'image/png';
+	if (info.type.mime === 'image/apng') info.type.mime = 'image/png';
 
 	if (drive.storage == 'minio') {
 		//#region ObjectStorage params
-		let [ext] = (name.match(/\.(\w+)$/) || ['']);
-
-		if (ext === '') {
-			if (type === 'image/jpeg') ext = '.jpg';
-			if (type === 'image/png') ext = '.png';
-			if (type === 'image/webp') ext = '.webp';
-		}
+		const ext = info.type.ext || '';
 
 		const baseUrl = drive.baseUrl
 			|| `${ drive.config.useSSL ? 'https' : 'http' }://${ drive.config.endPoint }${ drive.config.port ? `:${drive.config.port}` : '' }/${ drive.bucket }`;
@@ -80,7 +72,7 @@ async function save(path: string, name: string, type: string, hash: string, size
 		//#region Uploads
 		logger.info(`uploading original: ${key}`);
 		const uploads = [
-			upload(key, fs.createReadStream(path), type, name, drive)
+			upload(key, fs.createReadStream(path), info.type.mime, name, drive)
 		];
 
 		if (alts.webpublic) {
@@ -117,12 +109,12 @@ async function save(path: string, name: string, type: string, hash: string, size
 		} as IMetadata);
 
 		const file = await DriveFile.insert({
-			length: size,
+			length: info.size,
 			uploadDate: new Date(),
-			md5: hash,
+			md5: info.md5,
 			filename: name,
 			metadata: metadata,
-			contentType: type,
+			contentType: info.type.mime,
 			animation
 		});
 		//#endregion
@@ -135,7 +127,7 @@ async function save(path: string, name: string, type: string, hash: string, size
 		// web用(Exif削除済み)がある場合はオリジナルにアクセス制限
 		if (alts.webpublic) metadata.accessKey = uuid();
 
-		const originalFile = await storeOriginal(originalDst, name, path, type, metadata);
+		const originalFile = await storeOriginal(originalDst, name, path, info.type.mime, metadata);
 
 		logger.info(`original stored to ${originalFile._id}`);
 		// #endregion store original
@@ -165,7 +157,7 @@ async function save(path: string, name: string, type: string, hash: string, size
  * @param generateWeb Generate webpublic or not
  */
 export async function generateAlts(path: string, type: string, generateWeb: boolean) {
-	const s = sharp(path);
+	const img = sharp(path);
 
 	// #region webpublic
 	let webpublic: IImage;
@@ -174,11 +166,11 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 		logger.debug(`creating web image`);
 
 		if (['image/jpeg'].includes(type)) {
-			webpublic = await ConvertSharpToJpeg(s, 8192, 8192);
+			webpublic = await ConvertSharpToJpeg(img, 8192, 8192);
 		} else if (['image/webp'].includes(type)) {
-			webpublic = await ConvertSharpToWebp(s, 8192, 8192);
+			webpublic = await ConvertSharpToWebp(img, 8192, 8192);
 		} else if (['image/png'].includes(type)) {
-			webpublic = await ConvertSharpToPng(s, 8192, 8192);
+			webpublic = await ConvertSharpToPng(img, 8192, 8192);
 		} else {
 			logger.debug(`web image not created (not an image)`);
 		}
@@ -191,9 +183,9 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	let thumbnail: IImage;
 
 	if (['image/jpeg', 'image/webp'].includes(type)) {
-		thumbnail = await ConvertSharpToJpeg(s, 498, 280);
+		thumbnail = await ConvertSharpToJpeg(img, 498, 280);
 	} else if (['image/png'].includes(type)) {
-		thumbnail = await ConvertSharpToPng(s, 498, 280);
+		thumbnail = await ConvertSharpToPng(img, 498, 280);
 	} else if (type.startsWith('video/')) {
 		try {
 			thumbnail = await GenerateVideoThumbnail(path);
@@ -451,7 +443,7 @@ export async function addFile(
 		}
 	} else {
 		const drive = getDriveConfig(uri != null);
-		driveFile = await (save(path, detectedName, info.type.mime, info.md5, info.size, metadata, drive));
+		driveFile = await (save(path, detectedName, info, metadata, drive));
 	}
 
 	logger.succ(`drive file has been created ${driveFile._id}`);
