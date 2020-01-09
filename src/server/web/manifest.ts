@@ -1,6 +1,6 @@
 import * as Koa from 'koa';
 import * as manifest from '../../client/assets/manifest.json';
-const deepcopy = require('deepcopy');
+import * as deepcopy from 'deepcopy';
 import fetchMeta from '../../misc/fetch-meta';
 
 module.exports = async (ctx: Koa.BaseContext) => {
