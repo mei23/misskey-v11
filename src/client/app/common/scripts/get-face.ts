@@ -11,17 +11,18 @@ const faces = [
 ];
 
 let pasts: string[] = [];
+const back = 9;
 
 export default () => {
 	const kakutei = faces[2];
 	let face = faces[Math.floor(Math.random() * faces.length)];
 
-	if (face !== kakutei && !pasts.includes(kakutei)) {
+	if (face !== kakutei && pasts.length >= back && !pasts.includes(kakutei)) {
 		face = kakutei;
 	}
 
 	pasts.unshift(face);
-	pasts = pasts.splice(0, 9);
+	pasts = pasts.splice(0, back);
 
 	return face;
-}
+};
