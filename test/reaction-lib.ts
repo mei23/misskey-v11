@@ -2,10 +2,10 @@
  * Tests of MFM
  *
  * How to run the tests:
- * > mocha test/reaction-lib.ts --require ts-node/register
+ * > TS_NODE_FILES=true mocha test/reaction-lib.ts --require ts-node/register
  *
  * To specify test:
- * > mocha test/reaction-lib.ts --require ts-node/register -g 'test name'
+ * > TS_NODE_FILES=true mocha test/reaction-lib.ts --require ts-node/register -g 'test name'
  */
 
 import * as assert from 'assert';
