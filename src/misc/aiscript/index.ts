@@ -130,6 +130,12 @@ export const envVarsDef: Record<string, Type> = {
 	MY_FOLLOWING_COUNT: 'number',
 	SEED: null,
 	YMD: 'string',
+	YEAR: 'number',
+	MON: 'number',
+	DAY: 'number',
+	HOUR: 'number',
+	MIN: 'number',
+	SEC: 'number',
 	NULL: null,
 };
 

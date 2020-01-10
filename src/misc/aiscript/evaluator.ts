@@ -43,6 +43,12 @@ export class ASEvaluator {
 			MY_FOLLOWING_COUNT: opts.user ? opts.user.followingCount : 0,
 			SEED: opts.randomSeed ? opts.randomSeed : '',
 			YMD: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
+			YEAR: date.getFullYear(),
+			MON: date.getMonth() + 1,
+			DAY: date.getDate(),
+			HOUR: date.getHours(),
+			MIN: date.getMinutes(),
+			SEC: date.getSeconds(),
 			NULL: null
 		};
 	}
