@@ -8,9 +8,9 @@ import Note, { pack as packNote, INote } from '../../../../models/note';
 import { createNote } from '../../../../remote/activitypub/models/note';
 import Resolver from '../../../../remote/activitypub/resolver';
 import { ApiError } from '../../error';
-import Instance from '../../../../models/instance';
-import { extractDbHost } from '../../../../misc/convert-host';
+import { extractApHost } from '../../../../misc/convert-host';
 import { isPerson, isNote } from '../../../../remote/activitypub/type';
+import { isBlockedHost } from '../../../../misc/instance-info';
 
 export const meta = {
 	tags: ['federation'],
@@ -65,8 +65,7 @@ async function fetchAny(uri: string) {
 	}
 
 	// ブロックしてたら中断
-	const instance = await Instance.findOne({ host: extractDbHost(uri) });
-	if (instance && instance.isBlocked) return null;
+	if (await isBlockedHost(extractApHost(uri))) return null;
 
 	// URI(AP Object id)としてDB検索
 	{

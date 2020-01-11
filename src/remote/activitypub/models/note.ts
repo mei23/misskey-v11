@@ -19,10 +19,10 @@ import vote from '../../../services/note/polls/vote';
 import { apLogger } from '../logger';
 import { IDriveFile } from '../../../models/drive-file';
 import { deliverQuestionUpdate } from '../../../services/note/polls/update';
-import Instance from '../../../models/instance';
-import { extractDbHost, extractApHost } from '../../../misc/convert-host';
+import { extractApHost } from '../../../misc/convert-host';
 import { getApLock } from '../../../misc/app-lock';
 import { createMessage } from '../../../services/messages/create';
+import { isBlockedHost } from '../../../misc/instance-info';
 
 const logger = apLogger;
 
@@ -279,9 +279,7 @@ export async function resolveNote(value: string | IObject, resolver?: Resolver):
 	const uri = typeof value == 'string' ? value : value.id;
 
 	// ブロックしてたら中断
-	// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
-	const instance = await Instance.findOne({ host: extractDbHost(uri) });
-	if (instance && instance.isBlocked) throw { statusCode: 451 };
+	if (await isBlockedHost(extractApHost(uri))) throw { statusCode: 451 };
 
 	const unlock = await getApLock(uri);
 

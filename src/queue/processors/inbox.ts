@@ -12,8 +12,8 @@ import { registerOrFetchInstanceDoc } from '../../services/register-or-fetch-ins
 import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
 import { IActivity, getApId } from '../../remote/activitypub/type';
-import { toDbHost } from '../../misc/convert-host';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
+import { isBlockedHost } from '../../misc/instance-info';
 
 const logger = new Logger('inbox');
 
@@ -46,9 +46,7 @@ export default async (job: Bull.Job): Promise<string> => {
 		}
 
 		// ブロックしてたら中断
-		// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
-		const instance = await Instance.findOne({ host: toDbHost(host) });
-		if (instance && instance.isBlocked) {
+		if (await isBlockedHost(host)) {
 			return `skip: Blocked instance: ${host}`;
 		}
 
@@ -63,9 +61,7 @@ export default async (job: Bull.Job): Promise<string> => {
 		}
 
 		// ブロックしてたら中断
-		// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
-		const instance = await Instance.findOne({ host: toDbHost(host) });
-		if (instance && instance.isBlocked) {
+		if (await isBlockedHost(host)) {
 			return `skip: Blocked instance: ${host}`;
 		}
 

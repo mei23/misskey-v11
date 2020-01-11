@@ -5,9 +5,9 @@ import { IAnnounce, getApId, getApIds } from '../../type';
 import { fetchNote, resolveNote } from '../../models/note';
 import { resolvePerson } from '../../models/person';
 import { apLogger } from '../../logger';
-import { extractDbHost } from '../../../../misc/convert-host';
-import Instance from '../../../../models/instance';
+import { extractApHost } from '../../../../misc/convert-host';
 import { getApLock } from '../../../../misc/app-lock';
+import { isBlockedHost } from '../../../../misc/instance-info';
 
 const logger = apLogger;
 
@@ -23,9 +23,7 @@ export default async function(resolver: Resolver, actor: IRemoteUser, activity: 
 	}
 
 	// アナウンス先をブロックしてたら中断
-	// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
-	const instance = await Instance.findOne({ host: extractDbHost(uri) });
-	if (instance && instance.isBlocked) return;
+	if (await isBlockedHost(extractApHost(uri))) return;
 
 	const unlock = await getApLock(uri);
 

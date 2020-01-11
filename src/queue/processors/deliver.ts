@@ -5,7 +5,7 @@ import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
 import Logger from '../../services/logger';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
-import { toDbHost } from '../../misc/convert-host';
+import { isBlockedHost, isClosedHost } from '../../misc/instance-info';
 
 const logger = new Logger('deliver');
 
@@ -17,12 +17,10 @@ export default async (job: Bull.Job) => {
 	if (protocol !== 'https:') return 'skip (invalied protocol)';
 
 	// ブロック/閉鎖してたら中断
-	// TODO: いちいちデータベースにアクセスするのはコスト高そうなのでどっかにキャッシュしておく
-	const instance = await Instance.findOne({ host: toDbHost(host) });
-	if (instance && instance.isBlocked) {
+	if (await isBlockedHost(host)) {
 		return 'skip (blocked)';
 	}
-	if (instance && instance.isMarkedAsClosed) {
+	if (await isClosedHost(host)) {
 		return 'skip (closed)';
 	}
 
