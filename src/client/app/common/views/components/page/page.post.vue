@@ -2,11 +2,12 @@
 <div class="ngbfujlo">
 	<ui-textarea class="textarea" :value="text" readonly></ui-textarea>
 	<ui-button v-if="$store.state.i != null" primary @click="post()" :disabled="posting || posted">{{ posted ? $t('posted-from-post-form') : $t('post-from-post-form') }}</ui-button>
-	<footer v-if="$store.state.i != null" style="padding-top: 8px">
+	<footer v-if="$store.state.i != null" style="padding-top: 8px; display: flex">
 		<button @click="setVisibility" class="visibility" ref="visibilityButton">
 			<x-visibility-icon :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 		</button>
 		<button class="cw" title="Hide" @click="useCw = !useCw" :class="{ useCW: this.useCw }"><fa :icon="['far', 'eye-slash']"/></button>
+		<ui-input v-if="useCw" ref="cw" v-model="cw" style="margin: 0"/>
 	</footer>
 </div>
 </template>
@@ -44,7 +45,7 @@ export default Vue.extend({
 			localOnly: false,
 			copyOnce: false,
 			useCw: !!this.page.sensitive,
-			cw: null,
+			cw: this.page.title,
 			posted: false,
 			posting: false,
 		};
