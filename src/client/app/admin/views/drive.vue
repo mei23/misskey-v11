@@ -15,58 +15,6 @@
 			<ui-textarea v-if="file" :value="file | json5" readonly tall style="margin-top:16px;"></ui-textarea>
 		</section>
 	</ui-card>
-
-	<ui-card>
-		<template #title><fa :icon="faCloud"/> {{ $t('@.drive') }}</template>
-		<section class="fit-top">
-			<ui-horizon-group inputs>
-				<ui-select v-model="sort">
-					<template #label>{{ $t('sort.title') }}</template>
-					<option value="-createdAt">{{ $t('sort.createdAtAsc') }}</option>
-					<option value="+createdAt">{{ $t('sort.createdAtDesc') }}</option>
-					<option value="-size">{{ $t('sort.sizeAsc') }}</option>
-					<option value="+size">{{ $t('sort.sizeDesc') }}</option>
-				</ui-select>
-				<ui-select v-model="origin">
-					<template #label>{{ $t('origin.title') }}</template>
-					<option value="combined">{{ $t('origin.combined') }}</option>
-					<option value="local">{{ $t('origin.local') }}</option>
-					<option value="remote">{{ $t('origin.remote') }}</option>
-				</ui-select>
-			</ui-horizon-group>
-			<sequential-entrance animation="entranceFromTop" delay="25">
-				<div class="kidvdlkg" v-for="file in files">
-					<div @click="file._open = !file._open">
-						<div>
-							<x-file-thumbnail class="thumbnail" :file="file" fit="contain" @click="showFileMenu(file)"/>
-						</div>
-						<div>
-							<header>
-								<b>{{ file.name }}</b>
-								<span class="username">@{{ file.user | acct }}</span>
-							</header>
-							<div>
-								<div>
-									<span style="margin-right:16px;">{{ file.type }}</span>
-									<span>{{ file.datasize | bytes }}</span>
-								</div>
-								<div><mk-time :time="file.createdAt" mode="detail"/></div>
-							</div>
-						</div>
-					</div>
-					<div v-show="file._open">
-						<ui-input readonly :value="file.url"></ui-input>
-						<ui-horizon-group>
-							<ui-button @click="toggleSensitive(file)" v-if="file.isSensitive"><fa :icon="faEye"/> {{ $t('unmark-as-sensitive') }}</ui-button>
-							<ui-button @click="toggleSensitive(file)" v-else><fa :icon="faEyeSlash"/> {{ $t('mark-as-sensitive') }}</ui-button>
-							<ui-button @click="del(file)"><fa :icon="faTrashAlt"/> {{ $t('delete') }}</ui-button>
-						</ui-horizon-group>
-					</div>
-				</div>
-			</sequential-entrance>
-			<ui-button v-if="existMore" @click="fetch">{{ $t('@.load-more') }}</ui-button>
-		</section>
-	</ui-card>
 </div>
 </template>
 
@@ -133,27 +81,6 @@ export default Vue.extend({
 					});
 				}
 			}
-		},
-
-		fetch() {
-			this.$root.api('admin/drive/files', {
-				origin: this.origin,
-				sort: this.sort,
-				offset: this.offset,
-				limit: this.limit + 1
-			}).then(files => {
-				if (files.length == this.limit + 1) {
-					files.pop();
-					this.existMore = true;
-				} else {
-					this.existMore = false;
-				}
-				for (const x of files) {
-					x._open = false;
-				}
-				this.files = this.files.concat(files);
-				this.offset += this.limit;
-			});
 		},
 
 		async del(file: any) {
