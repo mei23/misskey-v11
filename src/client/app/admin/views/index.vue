@@ -9,7 +9,7 @@
 		@click="navOpend = false"
 		@touchstart="navOpend = false"
 	></div>
-	<nav v-show="navOpend">
+	<nav v-show="navOpend" @click="navOpend = false">
 		<div class="mi">
 			<img svg-inline src="../assets/header-icon.svg"/>
 		</div>
