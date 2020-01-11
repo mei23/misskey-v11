@@ -2,7 +2,7 @@ import $ from 'cafy';
 import * as escapeRegexp from 'escape-regexp';
 import User, { pack, validateUsername, IUser } from '../../../../models/user';
 import define from '../../define';
-import { toDbHost } from '../../../../misc/convert-host';
+import { toDbHost, isSelfHost } from '../../../../misc/convert-host';
 import Instance from '../../../../models/instance';
 import { concat } from '../../../../prelude/array';
 
@@ -168,7 +168,7 @@ export default define(meta, async (ps, me) => {
 	} else if (isHostname) {
 		users = await User
 		.find({
-			host: toDbHost(ps.query.replace('@', '')),
+			host: isSelfHost(ps.query) ? null : toDbHost(ps.query.replace('@', '')),
 			isSuspended: { $ne: true }
 		}, {
 			limit: ps.limit - users.length
