@@ -59,6 +59,10 @@ export const meta = {
 			validator: $.optional.bool,
 		},
 
+		sensitive: {
+			validator: $.optional.bool,
+		},
+
 		hideTitleWhenPinned: {
 			validator: $.optional.bool,
 		},
@@ -130,6 +134,7 @@ export default define(meta, async (ps, user) => {
 			content: ps.content,
 			variables: ps.variables,
 			alignCenter: ps.alignCenter === undefined ? page.alignCenter : ps.alignCenter,
+			sensitive: ps.sensitive === undefined ? page.sensitive : ps.sensitive,
 			hideTitleWhenPinned: ps.hideTitleWhenPinned === undefined ? page.hideTitleWhenPinned : ps.hideTitleWhenPinned,
 			font: ps.font === undefined ? page.font : ps.font,
 			eyeCatchingImageId: ps.eyeCatchingImageId === null

@@ -27,6 +27,7 @@
 					<span>{{ $t('url') }}</span>
 				</ui-input>
 
+				<ui-switch v-model="sensitive">{{ $t('sensitive-page') }}</ui-switch>
 				<ui-switch v-model="alignCenter">{{ $t('align-center') }}</ui-switch>
 
 				<ui-select v-model="font">
@@ -139,6 +140,7 @@ export default Vue.extend({
 			eyeCatchingImageId: null,
 			font: 'sans-serif',
 			content: [],
+			sensitive: false,
 			alignCenter: false,
 			hideTitleWhenPinned: false,
 			variables: [],
@@ -194,6 +196,7 @@ export default Vue.extend({
 			this.summary = this.page.summary;
 			this.font = this.page.font;
 			this.hideTitleWhenPinned = this.page.hideTitleWhenPinned;
+			this.sensitive = this.page.sensitive;
 			this.alignCenter = this.page.alignCenter;
 			this.content = this.page.content;
 			this.variables = this.page.variables;
@@ -224,6 +227,7 @@ export default Vue.extend({
 				summary: this.summary,
 				font: this.font,
 				hideTitleWhenPinned: this.hideTitleWhenPinned,
+				sensitive: this.sensitive,
 				alignCenter: this.alignCenter,
 				content: this.content,
 				variables: this.variables,

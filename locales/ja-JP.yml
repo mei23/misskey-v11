@@ -2041,6 +2041,7 @@ pages:
   title: "タイトル"
   url: "ページURL"
   summary: "ページの要約"
+  sensitive-page: "不適切なページ"
   align-center: "中央寄せ"
   hide-title-when-pinned: "ピン留めされているときにタイトルを非表示"
   font: "フォント"

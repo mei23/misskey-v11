@@ -3,9 +3,10 @@
 	<ui-textarea class="textarea" :value="text" readonly></ui-textarea>
 	<ui-button v-if="$store.state.i != null" primary @click="post()" :disabled="posting || posted">{{ posted ? $t('posted-from-post-form') : $t('post-from-post-form') }}</ui-button>
 	<footer v-if="$store.state.i != null" style="padding-top: 8px">
-		<button style="padding: 8px" @click="setVisibility" class="visibility" ref="visibilityButton">
+		<button @click="setVisibility" class="visibility" ref="visibilityButton">
 			<x-visibility-icon :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 		</button>
+		<button class="cw" title="Hide" @click="useCw = !useCw" :class="{ useCW: this.useCw }"><fa :icon="['far', 'eye-slash']"/></button>
 	</footer>
 </div>
 </template>
@@ -25,6 +26,9 @@ export default Vue.extend({
 	},
 
 	props: {
+		page: {
+			required: false
+		},
 		value: {
 			required: true
 		},
@@ -39,6 +43,8 @@ export default Vue.extend({
 			visibility: 'public',
 			localOnly: false,
 			copyOnce: false,
+			useCw: !!this.page.sensitive,
+			cw: null,
 			posted: false,
 			posting: false,
 		};
@@ -90,6 +96,7 @@ export default Vue.extend({
 				visibility: this.visibility,
 				localOnly: this.localOnly,
 				copyOnce: this.copyOnce,
+				cw: this.useCw ? this.cw || '' : undefined,
 			}).then(() => {
 				this.posted = true;
 				this.$root.dialog({
@@ -114,5 +121,15 @@ export default Vue.extend({
 		> .textarea
 			margin-top 16px
 			margin-bottom 16px
+
+	> footer
+		> button
+			padding 8px
+
+		> button.cw
+			opacity 0.5
+		
+			&.useCW
+				opacity 1
 
 </style>

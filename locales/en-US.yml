@@ -1837,6 +1837,7 @@ pages:
   title: "Title"
   url: "Page URL"
   summary: "Summary of page"
+  sensitive-page: "Sensitive page"
   align-center: "Center align"
   hide-title-when-pinned: "Hide page title when pinned to profile"
   font: "Font"

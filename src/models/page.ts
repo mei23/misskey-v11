@@ -21,6 +21,7 @@ export type IPage = {
 	title: string;
 	name: string;
 	summary: string;
+	sensitive?: boolean;
 	alignCenter: boolean;
 	hideTitleWhenPinned: boolean;
 	font: string;
@@ -85,6 +86,7 @@ export async function packPage(src: string | mongo.ObjectID | IPage, meId?: mong
 		name: populated.name,
 		summary: populated.summary,
 		hideTitleWhenPinned: populated.hideTitleWhenPinned,
+		sensitive: !!populated.sensitive,
 		alignCenter: populated.alignCenter,
 		font: populated.font,
 		eyeCatchingImageId: populated.eyeCatchingImageId,

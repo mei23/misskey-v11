@@ -58,6 +58,11 @@ export const meta = {
 			default: false
 		},
 
+		sensitive: {
+			validator: $.optional.bool,
+			default: false
+		},
+
 		hideTitleWhenPinned: {
 			validator: $.optional.bool,
 			default: false
@@ -115,6 +120,7 @@ export default define(meta, async (ps, user) => {
 		name: ps.name,
 		summary: ps.summary,
 		alignCenter: ps.alignCenter,
+		sensitive: ps.sensitive,
 		hideTitleWhenPinned: ps.hideTitleWhenPinned,
 		font: ps.font,
 		userId: user._id,
