@@ -73,7 +73,7 @@ export default class DeliverManager {
 	/**
 	 * Execute delivers
 	 */
-	public async execute() {
+	public async execute(lowSeverity = false) {
 		if (!isLocalUser(this.actor)) return;
 
 		const inboxes: string[] = [];
@@ -103,7 +103,7 @@ export default class DeliverManager {
 
 		// deliver
 		for (const inbox of inboxes) {
-			deliver(this.actor, this.activity, inbox);
+			deliver(this.actor, this.activity, inbox, lowSeverity);
 		}
 	}
 }
@@ -114,10 +114,10 @@ export default class DeliverManager {
  * @param activity Activity
  * @param from Followee
  */
-export async function deliverToFollowers(actor: ILocalUser, activity: any) {
+export async function deliverToFollowers(actor: ILocalUser, activity: any, lowSeverity = false) {
 	const manager = new DeliverManager(actor, activity);
 	manager.addFollowersRecipe();
-	await manager.execute();
+	await manager.execute(lowSeverity);
 }
 
 /**
@@ -125,9 +125,9 @@ export async function deliverToFollowers(actor: ILocalUser, activity: any) {
  * @param activity Activity
  * @param to Target user
  */
-export async function deliverToUser(actor: ILocalUser, activity: any, to: IRemoteUser) {
+export async function deliverToUser(actor: ILocalUser, activity: any, to: IRemoteUser, lowSeverity = false) {
 	const manager = new DeliverManager(actor, activity);
 	manager.addDirectRecipe(to);
-	await manager.execute();
+	await manager.execute(lowSeverity);
 }
 //#endregion

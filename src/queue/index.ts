@@ -48,7 +48,9 @@ inboxQueue
 	.on('error', (error) => inboxLogger.error(`error ${error}`))
 	.on('stalled', (job) => inboxLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
 
-export function deliver(user: ILocalUser, content: any, to: any) {
+export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = false) {
+	const attempts = lowSeverity ? 2 : 6;
+
 	if (content == null) return null;
 
 	const data = {
@@ -58,10 +60,10 @@ export function deliver(user: ILocalUser, content: any, to: any) {
 	};
 
 	return deliverQueue.add(data, {
-		attempts: 8,
+		attempts,
 		backoff: {
 			type: 'exponential',
-			delay: 60 * 1000
+			delay: 277 * 1000	// prime number near 5min
 		},
 		removeOnComplete: true,
 		removeOnFail: true
@@ -75,10 +77,10 @@ export function inbox(activity: any, signature: httpSignature.IParsedSignature) 
 	};
 
 	return inboxQueue.add(data, {
-		attempts: 8,
+		attempts: 6,
 		backoff: {
 			type: 'exponential',
-			delay: 60 * 1000
+			delay: 277 * 1000
 		},
 		removeOnComplete: true,
 		removeOnFail: true
