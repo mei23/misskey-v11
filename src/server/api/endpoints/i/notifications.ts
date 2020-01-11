@@ -114,6 +114,7 @@ export default define(meta, async (ps, user) => {
 
 	const notifications = await Notification
 		.find(query, {
+			maxTimeMS: 20000,
 			limit: ps.limit,
 			sort: sort
 		});
