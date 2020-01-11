@@ -272,7 +272,8 @@ router.get('/@:user/pages/:page', async ctx => {
 		await ctx.render('page', {
 			initialMeta: htmlescape(builded),
 			page: _page,
-			instanceName: meta.name || 'Misskey'
+			instanceName: meta.name || 'Misskey',
+			icon: meta.iconUrl
 		});
 
 		if (['public'].includes(page.visibility)) {
