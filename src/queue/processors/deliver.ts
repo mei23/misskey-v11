@@ -29,10 +29,7 @@ export default async (job: Bull.Job) => {
 			logger.debug(`delivering ${latest}`);
 		}
 
-		const t0 = Date.now();
 		await request(job.data.user, job.data.to, job.data.content);
-		const t1 = Date.now();
-		console.log(`DeliverTime: ${job.data.to} ${t1 - t0}`);
 
 		// Update stats
 		registerOrFetchInstanceDoc(host).then(i => {
