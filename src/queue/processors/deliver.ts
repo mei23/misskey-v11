@@ -65,6 +65,10 @@ export default async (job: Bull.Job) => {
 		if (res != null && res.hasOwnProperty('statusCode')) {
 			// 4xx
 			if (res.statusCode >= 400 && res.statusCode < 500) {
+				// Mastodonから返ってくる401がどうもpermanent errorじゃなさそう
+				if (res.statusCode === 401) {
+					throw `${res.statusCode} ${res.statusMessage}`;
+				}
 				// HTTPステータスコード4xxはクライアントエラーであり、それはつまり
 				// 何回再送しても成功することはないということなのでエラーにはしないでおく
 				return `${res.statusCode} ${res.statusMessage}`;
