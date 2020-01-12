@@ -157,10 +157,8 @@ export default define(meta, async (ps, user) => {
 		.filter(x => !hideFromHomeUsers.includes(x));
 
 	if (efectiveFollowings.length === 0) {
-		// フォローが0ならば絶対に自分の投稿数以上の投稿はかからないのでlimitを絞る
-		ps.limit = user.notesCount;
-		// さらに未投稿ならクエリしない
-		if (ps.limit === 0) return [];
+		// フォローが0ならばクエリさせない
+		return [];
 	}
 	//#endregion
 
