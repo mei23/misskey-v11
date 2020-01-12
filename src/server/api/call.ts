@@ -95,7 +95,7 @@ export default async (endpoint: string, user: IUser, app: IApp, data: any, file?
 		const after = performance.now();
 		const time = after - before;
 		if (time > 1000) {
-			apiLogger.warn(`SLOW API CALL DETECTED: ${ep.name} user=${user?.name} (${time}ms)`);
+			apiLogger.warn(`SLOW API CALL DETECTED: ${ep.name} user=${user?.username} (${time}ms)`);
 		}
 	});
 };
