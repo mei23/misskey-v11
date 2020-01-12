@@ -49,7 +49,7 @@ inboxQueue
 	.on('stalled', (job) => inboxLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
 
 export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = false) {
-	const attempts = lowSeverity ? 2 : 6;
+	const attempts = lowSeverity ? 2 : 8;
 
 	if (content == null) return null;
 
@@ -63,7 +63,7 @@ export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = f
 		attempts,
 		backoff: {
 			type: 'exponential',
-			delay: 277 * 1000	// prime number near 5min
+			delay: 67 * 1000
 		},
 		removeOnComplete: true,
 		removeOnFail: true
