@@ -29,8 +29,10 @@ export default async (job: Bull.Job) => {
 			logger.debug(`delivering ${latest}`);
 		}
 
-		console.time(`${job.id} ${job.data.to}`);
+		const t0 = Date.now();
 		await request(job.data.user, job.data.to, job.data.content);
+		const t1 = Date.now();
+		console.log(`DeliverTime: ${job.data.to} ${t1 - t0}`);
 
 		// Update stats
 		registerOrFetchInstanceDoc(host).then(i => {
@@ -81,7 +83,5 @@ export default async (job: Bull.Job) => {
 			// DNS error, socket error, timeout ...
 			throw res;
 		}
-	} finally {
-		console.timeEnd(`${job.id} ${job.data.to}`);
 	}
 };
