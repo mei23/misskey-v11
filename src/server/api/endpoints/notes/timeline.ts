@@ -157,8 +157,8 @@ export default define(meta, async (ps, user) => {
 		.filter(x => !hideFromHomeUsers.includes(x));
 
 	if (efectiveFollowings.length === 0) {
-		// フォローが0ならばクエリさせない
-		return [];
+		// フォローが0ならば期間制限
+		ps.sinceDate = Date.now() - (1000 * 86400 * 7);
 	}
 	//#endregion
 
@@ -312,7 +312,7 @@ export default define(meta, async (ps, user) => {
 	//#endregion
 
 	const timeline = await Note.find(query, {
-		maxTimeMS: 20000,
+		maxTimeMS: 10000,
 		limit: ps.limit,
 		sort: sort
 	});
