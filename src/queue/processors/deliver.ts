@@ -29,6 +29,7 @@ export default async (job: Bull.Job) => {
 			logger.debug(`delivering ${latest}`);
 		}
 
+		console.time(`${job.id} ${job.data.to}`);
 		await request(job.data.user, job.data.to, job.data.content);
 
 		// Update stats
@@ -80,5 +81,7 @@ export default async (job: Bull.Job) => {
 			// DNS error, socket error, timeout ...
 			throw res;
 		}
+	} finally {
+		console.timeEnd(`${job.id} ${job.data.to}`);
 	}
 };
