@@ -158,7 +158,9 @@ export default define(meta, async (ps, user) => {
 
 	if (efectiveFollowings.length === 0) {
 		// フォローが0ならば期間制限
-		ps.sinceDate = Date.now() - (1000 * 86400 * 3);
+		if (ps.sinceDate == null) {
+			ps.sinceDate = Date.now() - (1000 * 86400 * 2);
+		}
 	}
 	//#endregion
 
