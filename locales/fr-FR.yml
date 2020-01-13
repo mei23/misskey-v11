@@ -140,8 +140,6 @@ common:
     deck-column-align-center: "Centrer"
     deck-column-align-left: "À gauche"
     deck-column-align-flexible: "Flexible"
-    deck-column-width: "Largeur des colonnes du Deck"
-    deck-column-width-normal: "Normale"
     timeline: "Fil d’actualité"
     navbar-position-top: "en haut"
     navbar-position-left: "À gauche"

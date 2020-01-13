@@ -40,7 +40,6 @@ common:
     font-size: "字體大小"
     font-size-x-small: "小"
     font-size-small: "較小"
-    deck-column-width-wide: "寬"
     timeline: "時間軸"
 common/views/components/connect-failed.troubleshooter.vue:
   flush: "清除快取"

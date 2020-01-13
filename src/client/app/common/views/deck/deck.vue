@@ -1,6 +1,6 @@
 <template>
 <mk-ui :class="$style.root">
-	<div class="qlvquzbjribqcaozciifydkngcwtyzje" ref="body" :style="style" :class="`${$store.state.device.deckColumnAlign} ${$store.state.device.deckColumnWidth}`" v-hotkey.global="keymap">
+	<div class="qlvquzbjribqcaozciifydkngcwtyzje" ref="body" :style="style" :class="`${$store.state.device.deckColumnAlign}`" v-hotkey.global="keymap">
 		<template v-for="ids in layout">
 			<div v-if="ids.length > 1" class="folder">
 				<template v-for="id, i in ids">
@@ -349,26 +349,6 @@ export default Vue.extend({
 
 			> *:not(:last-child)
 				margin-bottom 8px
-
-	&.narrow
-		> div
-			width 303px
-			min-width 303px
-
-	&.narrower
-		> div
-			width 316.5px
-			min-width 316.5px
-
-	&.wider
-		> div
-			width 343.5px
-			min-width 343.5px
-
-	&.wide
-		> div
-			width 357px
-			min-width 357px
 
 	&.center
 		> *
