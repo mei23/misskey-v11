@@ -48,20 +48,6 @@
 				<ui-switch v-model="disableAnimatedMfm">{{ $t('@._settings.disable-animated-mfm') }}</ui-switch>
 				<ui-switch v-model="disableShowingAnimatedImages">{{ $t('@._settings.disable-showing-animated-images') }}</ui-switch>
 			</section>
-			<section v-if="isAdvanced">
-				<header>{{ $t('@._settings.line-width') }}</header>
-				<ui-radio v-model="lineWidth" :value="0.5">{{ $t('@._settings.line-width-thin') }}</ui-radio>
-				<ui-radio v-model="lineWidth" :value="1">{{ $t('@._settings.line-width-normal') }}</ui-radio>
-				<ui-radio v-model="lineWidth" :value="2">{{ $t('@._settings.line-width-thick') }}</ui-radio>
-			</section>
-			<section v-if="isAdvanced">
-				<header>{{ $t('@._settings.font-size') }}</header>
-				<ui-radio v-model="fontSize" :value="-2">{{ $t('@._settings.font-size-x-small') }}</ui-radio>
-				<ui-radio v-model="fontSize" :value="-1">{{ $t('@._settings.font-size-small') }}</ui-radio>
-				<ui-radio v-model="fontSize" :value="0">{{ $t('@._settings.font-size-medium') }}</ui-radio>
-				<ui-radio v-model="fontSize" :value="1">{{ $t('@._settings.font-size-large') }}</ui-radio>
-				<ui-radio v-model="fontSize" :value="2">{{ $t('@._settings.font-size-x-large') }}</ui-radio>
-			</section>
 			<section v-if="$root.isMobile">
 				<header>{{ $t('@._settings.post-style') }}</header>
 				<ui-radio v-model="postStyle" value="standard">{{ $t('@._settings.post-style-standard') }}</ui-radio>
@@ -470,16 +456,6 @@ export default Vue.extend({
 		disableViaMobile: {
 			get() { return this.$store.state.settings.disableViaMobile; },
 			set(value) { this.$store.dispatch('settings/set', { key: 'disableViaMobile', value }); }
-		},
-
-		lineWidth: {
-			get() { return this.$store.state.device.lineWidth; },
-			set(value) { this.$store.commit('device/set', { key: 'lineWidth', value }); }
-		},
-
-		fontSize: {
-			get() { return this.$store.state.device.fontSize; },
-			set(value) { this.$store.commit('device/set', { key: 'fontSize', value }); }
 		},
 
 		fetchOnScroll: {

@@ -403,21 +403,7 @@ export default (callback: (launch: (router: VueRouter) => [Vue, MiOS], os: MiOS)
 			}
 
 			//#region line width
-			document.documentElement.style.setProperty('--lineWidth', `${os.store.state.device.lineWidth}px`);
-			os.store.watch(s => {
-				return s.device.lineWidth;
-			}, v => {
-				document.documentElement.style.setProperty('--lineWidth', `${os.store.state.device.lineWidth}px`);
-			});
-			//#endregion
-
-			//#region fontSize
-			document.documentElement.style.setProperty('--fontSize', `${os.store.state.device.fontSize}px`);
-			os.store.watch(s => {
-				return s.device.fontSize;
-			}, v => {
-				document.documentElement.style.setProperty('--fontSize', `${os.store.state.device.fontSize}px`);
-			});
+			document.documentElement.style.setProperty('--lineWidth', `1px`);
 			//#endregion
 
 			document.addEventListener('visibilitychange', () => {

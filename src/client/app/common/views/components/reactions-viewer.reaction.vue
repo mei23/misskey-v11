@@ -86,7 +86,6 @@ export default Vue.extend({
 				icon.$el.style.zIndex = 100;
 				icon.$el.style.top = (y + window.scrollY) + 'px';
 				icon.$el.style.left = (x + window.scrollX) + 'px';
-				icon.$el.style.fontSize = window.getComputedStyle(this.$refs.icon.$el).fontSize;
 
 				document.body.appendChild(icon.$el);
 

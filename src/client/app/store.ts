@@ -55,8 +55,6 @@ const defaultDeviceSettings = Object.assign({
 	darkmode: false,
 	darkTheme: 'dark',
 	lightTheme: 'light',
-	lineWidth: 1,
-	fontSize: 0,
 	themes: [],
 	enableSounds: true,
 	enableSoundsInTimeline: false,
