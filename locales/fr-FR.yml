@@ -132,8 +132,6 @@ common:
     note-visibility: "Visibilité de la publication"
     default-note-visibility: "Visibilité par défaut"
     remember-note-visibility: "Se souvenir du mode de visibilité de la publication"
-    web-search-engine: "Moteur de recherche Web"
-    web-search-engine-desc: "Exemple : https://www.google.com/?#q={{query}}"
     show-via: "Afficher via"
     reduce-motion: "Réduire les animations dans l’interface utilisateur"
     this-setting-is-this-device-only: "Uniquement sur cet appareil"

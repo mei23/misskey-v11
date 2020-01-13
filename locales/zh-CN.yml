@@ -136,8 +136,6 @@ common:
     note-visibility: "帖子可见性"
     default-note-visibility: "默认可见性"
     remember-note-visibility: "记住帖子可见性"
-    web-search-engine: "搜索引擎"
-    web-search-engine-desc: "例如: https://www.google.com/?#q={{query}}"
     i-like-sushi: "相比于布丁来说, 我更喜欢寿司。"
     show-reversi-board-labels: "在 Reversi 中显示行和列表签"
     use-avatar-reversi-stones: "用头像作为黑白棋的棋子"

@@ -136,8 +136,6 @@ common:
     note-visibility: "게시물의 공개 범위"
     default-note-visibility: "기본 공개 범위"
     remember-note-visibility: "글의 공개 범위를 기억하기"
-    web-search-engine: "웹 검색엔진"
-    web-search-engine-desc: "예: https://www.google.com/?#q={{query}}"
     i-like-sushi: "저는 (푸딩보다 차라리) 초밥이 좋아요"
     show-reversi-board-labels: "리버시 보드의 행과 열 레이블을 표시"
     use-avatar-reversi-stones: "리버시의 돌로 아바타를 사용"

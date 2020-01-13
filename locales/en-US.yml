@@ -181,8 +181,6 @@ common:
     secondary-note-visibility: "Visibility of secondary post button"
     tertiary-note-visibility: "Visibility of tertiary post button"
     remember-note-visibility: "Remember post visibility"
-    web-search-engine: "Web search engine"
-    web-search-engine-desc: "Example: https://www.google.com/?#q={{query}}"
     i-like-sushi: "I prefer sushi rather than pudding"
     show-reversi-board-labels: "Show row and column labels in Reversi"
     use-avatar-reversi-stones: "Use avatar as a stone in reversi"

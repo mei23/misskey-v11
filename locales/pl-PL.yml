@@ -123,7 +123,6 @@ common:
     behavior: "Zachowanie"
     fetch-on-scroll: "Automatycznie ładuj po przeciągnięciu w dół"
     note-visibility: "Widoczność wpisów"
-    web-search-engine: "Wyszukiwarka internetowa"
     deck-column-align-center: "Po środku"
     deck-column-align-left: "Z lewej"
     deck-column-align-flexible: "Elastyczne"

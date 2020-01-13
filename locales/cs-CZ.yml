@@ -136,8 +136,6 @@ common:
     note-visibility: "Viditelnost příspěvku"
     default-note-visibility: "Výchozí viditelnost příspěvku"
     remember-note-visibility: "Zapamatovat viditelnost příspěvků"
-    web-search-engine: "Webové vyhledávače"
-    web-search-engine-desc: "Například: https://www.google.com/?#q={{query}}"
     i-like-sushi: "Mam radši sushi (než puding)"
     show-reversi-board-labels: "Zobrazit označení řad a sloupců v Reversi"
     use-avatar-reversi-stones: "Použít avatar jako figurku v Reversi"

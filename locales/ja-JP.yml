@@ -192,8 +192,6 @@ common:
     secondary-note-visibility: "セカンダリ投稿ボタンの公開範囲"
     tertiary-note-visibility: "ターシャリ投稿ボタンの公開範囲"
     remember-note-visibility: "投稿の公開範囲を記憶する"
-    web-search-engine: "ウェブ検索エンジン"
-    web-search-engine-desc: "例: https://www.google.com/?#q={{query}}"
     i-like-sushi: "私は(プリンよりむしろ)寿司が好き"
     show-reversi-board-labels: "リバーシのボードの行と列のラベルを表示"
     use-avatar-reversi-stones: "リバーシの石にアバターを使う"
