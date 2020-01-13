@@ -149,6 +149,7 @@ export default Vue.extend({
 					type: 'success',
 					splash: true
 				});
+				this.$emit('closed');
 				this.destroyDom();
 			}).catch(e => {
 				if (e.id === '72dab508-c64d-498f-8740-a8eec1ba385a') {
@@ -171,6 +172,7 @@ export default Vue.extend({
 				this.$root.api('notes/delete', {
 					noteId: this.note.id
 				}).then(() => {
+					this.$emit('closed');
 					this.destroyDom();
 				});
 			});
@@ -190,26 +192,6 @@ export default Vue.extend({
 			});
 		},
 
-		deleteAndEdit() {
-			this.$root.dialog({
-				type: 'warning',
-				text: this.$t('delete-and-edit-confirm'),
-				showCancelButton: true
-			}).then(({ canceled }) => {
-				if (canceled) return;
-				this.$root.api('notes/delete', {
-					noteId: this.note.id
-				}).then(() => {
-					this.destroyDom();
-				});
-				this.$post({
-					initialText: this.note.text,
-					initialNote: this.note,
-					reply: this.note.reply,
-				});
-			});
-		},
-
 		toggleFavorite(favorite: boolean) {
 			this.$root.api(favorite ? 'notes/favorites/create' : 'notes/favorites/delete', {
 				noteId: this.note.id
@@ -218,6 +200,7 @@ export default Vue.extend({
 					type: 'success',
 					splash: true
 				});
+				this.$emit('closed');
 				this.destroyDom();
 			});
 		},
@@ -230,6 +213,7 @@ export default Vue.extend({
 					type: 'success',
 					splash: true
 				});
+				this.$emit('closed');
 				this.destroyDom();
 			});
 		},
