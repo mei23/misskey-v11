@@ -2,7 +2,7 @@
 <div
 	class="note"
 	:class="{ mini: narrow }"
-	v-show="(this.$store.state.settings.remainDeletedNote || appearNote.deletedAt == null) && !hideThisNote"
+	v-show="appearNote.deletedAt == null && !hideThisNote"
 	:tabindex="appearNote.deletedAt == null ? '-1' : null"
 	v-hotkey="keymap"
 	:title="title"

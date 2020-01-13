@@ -186,7 +186,6 @@ common:
     show-my-renotes: "내 리노트를 타임라인에 보이기"
     show-renoted-my-notes: "내 글이 리노트될 경우 타임라인에 보이기"
     show-local-renotes: "로컬 글의 리노트를 타임라인에 보이기"
-    remain-deleted-note: "삭제된 글을 계속 표시"
     sound: "소리"
     enable-sounds: "소리 사용"
     enable-sounds-desc: "글이나 메시지를 송수신하였을 때 소리를 재생합니다. 이 설정은 브라우저에 저장됩니다."

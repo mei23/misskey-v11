@@ -49,7 +49,6 @@
 				<ui-switch v-model="showReplyTarget">{{ $t('@._settings.show-reply-target') }}</ui-switch>
 				<ui-switch v-model="disableAnimatedMfm">{{ $t('@._settings.disable-animated-mfm') }}</ui-switch>
 				<ui-switch v-model="disableShowingAnimatedImages">{{ $t('@._settings.disable-showing-animated-images') }}</ui-switch>
-				<ui-switch v-model="remainDeletedNote" v-if="isAdvanced">{{ $t('@._settings.remain-deleted-note') }}</ui-switch>
 			</section>
 			<section v-if="isAdvanced">
 				<header>{{ $t('@._settings.line-width') }}</header>
@@ -622,11 +621,6 @@ export default Vue.extend({
 		disableShowingAnimatedImages: {
 			get() { return this.$store.state.device.disableShowingAnimatedImages; },
 			set(value) { this.$store.commit('device/set', { key: 'disableShowingAnimatedImages', value }); }
-		},
-
-		remainDeletedNote: {
-			get() { return this.$store.state.settings.remainDeletedNote; },
-			set(value) { this.$store.dispatch('settings/set', { key: 'remainDeletedNote', value }); }
 		},
 
 		mobileNotificationPosition: {

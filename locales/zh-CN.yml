@@ -186,7 +186,6 @@ common:
     show-my-renotes: "在时间线上显示我的Renote"
     show-renoted-my-notes: "在时间线上显示我的帖子的Renote"
     show-local-renotes: "在时间线上显示本地帖子的Renote"
-    remain-deleted-note: "继续显示已删除的帖子"
     sound: "声音"
     enable-sounds: "开启声音"
     enable-sounds-desc: "收到帖子/留言时播放声音。 此设置将被存储在浏览器中。"

@@ -231,7 +231,6 @@ common:
     show-my-renotes: "Show my renotes in the timeline"
     show-renoted-my-notes: "Show renotes of your own posts in the timeline"
     show-local-renotes: "Show renotes of local posts on the timeline"
-    remain-deleted-note: "Continue to show deleted notes"
     sound: "Sound"
     enable-sounds: "Enable sounds"
     enable-sounds-desc: "Play a sound when you receive a post/message. This setting is stored in the browser."

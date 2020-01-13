@@ -186,7 +186,6 @@ common:
     show-my-renotes: "Zobrazit moje renoty v časové ose"
     show-renoted-my-notes: "Zobrazit renoty vašich vlastních příspěvků v časové ose"
     show-local-renotes: "Zobrazit renoty místních příspěvků v časové ose"
-    remain-deleted-note: "I nadále zobrazovat odstraněné příspěvky"
     sound: "Zvuk"
     enable-sounds: "Povolit zvuk"
     enable-sounds-desc: "Přehrát zvuk, například při odeslání nebo přijetí příspěvku, či zprávy. Toto nastavení je uloženo v prohlížeči."
