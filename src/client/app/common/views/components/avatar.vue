@@ -37,9 +37,6 @@ export default Vue.extend({
 		}
 	},
 	computed: {
-		lightmode(): boolean {
-			return this.$store.state.device.lightmode;
-		},
 		cat(): boolean {
 			return this.user.isCat && this.$store.state.settings.circleIcons;
 		},
@@ -55,12 +52,10 @@ export default Vue.extend({
 		},
 		icon(): any {
 			return {
-				backgroundColor: this.lightmode
-					? `rgb(${this.user.avatarColor.slice(0, 3).join(',')})`
-					: this.user.avatarColor && this.user.avatarColor.length == 3
+				backgroundColor: this.user.avatarColor && this.user.avatarColor.length == 3
 						? `rgb(${this.user.avatarColor.join(',')})`
 						: null,
-				backgroundImage: this.lightmode ? null : `url(${this.url})`,
+				backgroundImage: `url(${this.url})`,
 				borderRadius: this.$store.state.settings.circleIcons ? '100%' : null
 			};
 		}

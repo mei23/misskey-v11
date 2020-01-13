@@ -193,7 +193,6 @@ common:
     notification-position-bottom: "아래"
     notification-position-top: "위"
     disable-via-mobile: "작성하는 글에 \"모바일에서 작성함\" 을 붙이지 않음"
-    load-raw-images: "첨부 이미지를 고품질로 표시"
     load-remote-media: "원격 서버의 미디어를 표시"
   search: "검색"
   delete: "삭제"

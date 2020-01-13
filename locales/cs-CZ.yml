@@ -193,7 +193,6 @@ common:
     notification-position-bottom: "Dole"
     notification-position-top: "Nahoře"
     disable-via-mobile: "Neoznačovat příspěvky jako „z mobilu“"
-    load-raw-images: "Zobrazovat obrázky v původní kvalitě"
     load-remote-media: "Zobrazovat média ze vzdáleného serveru"
   search: "Hledání"
   delete: "Odstranit"

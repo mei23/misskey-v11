@@ -251,7 +251,6 @@ common:
     notification-position-bottom: "下"
     notification-position-top: "上"
     disable-via-mobile: "「モバイルからの投稿」フラグを付けない"
-    load-raw-images: "添付された画像を高画質で表示する"
     load-remote-media: "リモートサーバーのメディアを表示する"
     sync: "同期"
     save: "保存"

@@ -7,7 +7,7 @@
 		<div :data-count="mediaList.filter(media => previewable(media)).length" ref="grid">
 			<template v-for="media in mediaList">
 				<mk-media-video :video="media" :key="media.id" v-if="media.type.startsWith('video')"/>
-				<x-image :image="media" :key="media.id" v-else-if="media.type.startsWith('image')" :hide="hide" :raw="raw"/>
+				<x-image :image="media" :key="media.id" v-else-if="media.type.startsWith('image')" :hide="hide"/>
 			</template>
 		</div>
 	</div>

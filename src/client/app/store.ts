@@ -62,8 +62,6 @@ const defaultDeviceSettings = Object.assign({
 	lang: null,
 	debug: false,
 	showAdvancedSettings: false,
-	lightmode: false,
-	loadRawImages: false,
 	alwaysShowNsfw: false,
 	postStyle: 'standard',
 	navbar: 'top',

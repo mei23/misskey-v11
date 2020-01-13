@@ -240,7 +240,6 @@ common:
     notification-position-bottom: "Bottom"
     notification-position-top: "Top"
     disable-via-mobile: "Don't mark the post as 'from mobile'"
-    load-raw-images: "Show attached images in original quality"
     load-remote-media: "Show media from a remote server"
     sync: "Sync"
     save: "Save"

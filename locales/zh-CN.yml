@@ -193,7 +193,6 @@ common:
     notification-position-bottom: "底部"
     notification-position-top: "顶部"
     disable-via-mobile: "不要将帖子标记为“来自手机”"
-    load-raw-images: "以原始质量显示附加图像"
     load-remote-media: "显示来自远程服务器的媒体"
   search: "搜索"
   delete: "删除"

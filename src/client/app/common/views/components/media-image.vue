@@ -31,9 +31,6 @@ export default Vue.extend({
 			type: Boolean,
 			required: false,
 			default: true
-		},
-		raw: {
-			default: false
 		}
 	},
 	computed: {
@@ -43,12 +40,6 @@ export default Vue.extend({
 					? getStaticImageUrl(this.image.thumbnailUrl, this.image.type, this.image.animation)
 					: this.image.thumbnailUrl
 			})`;
-
-			if (this.$store.state.device.loadRemoteMedia || this.$store.state.device.lightmode) {
-				url = null;
-			} else if (this.raw || this.$store.state.device.loadRawImages) {
-				url = `url(${this.image.url})`;
-			}
 
 			return {
 				'background-color': this.image.properties.avgColor && this.image.properties.avgColor.length == 3 ? `rgb(${this.image.properties.avgColor.join(',')}, 0.3)` : 'transparent',
