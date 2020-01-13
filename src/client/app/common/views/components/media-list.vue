@@ -5,12 +5,14 @@
 	</template>
 	<div v-if="mediaList.filter(media => previewable(media)).length > 0" class="gird-container">
 		<div :data-count="mediaList.filter(media => previewable(media)).length" ref="grid">
-			<template v-for="media in mediaList">
+			<template v-for="(media, i) in mediaList">
 				<mk-media-video :video="media" :key="media.id" v-if="media.type.startsWith('video')"/>
-				<x-image :image="media" :key="media.id" v-else-if="media.type.startsWith('image')" :hide="hide"/>
+				<x-image :image="media" :key="media.id" v-else-if="media.type.startsWith('image')" :hide="hide" 
+					@imageClick="showImage(i - [...mediaList].splice(0, i).filter(isVideo).length)"/>
 			</template>
 		</div>
 	</div>
+	<ImageBox v-if="imgList.length > 0" :images="imgList" :index="index" @close="index = null" :bgcolor="bgcolor"/>
 </div>
 </template>
 
@@ -18,11 +20,13 @@
 import Vue from 'vue';
 import XBanner from './media-banner.vue';
 import XImage from './media-image.vue';
+import ImageBox from "vue-image-box";
 
 export default Vue.extend({
 	components: {
 		XBanner,
-		XImage
+		XImage,
+		ImageBox
 	},
 	props: {
 		mediaList: {
@@ -32,9 +36,28 @@ export default Vue.extend({
 			type: Boolean,
 			required: false,
 			default: true
+		}
+	},
+	data() {
+		return {
+			index: null,
+			bgcolor: "rgba(51, 51, 51, .9)",
+		}
+	},
+	computed: {
+		imgList(): any[] {
+			return this.images
+				.map(x => ({
+					imageUrl: x.url,
+					thumbUrl: x.thumbnailUrl,
+					caption: x.nane,
+				}));
 		},
-		raw: {
-			default: false
+		images(): any[] {
+			return (this.mediaList as { type: string }[]).filter(this.isImage);
+		},
+		count(): number {
+			return (this.mediaList as { type: string }[]).filter(this.previewable).length;
 		}
 	},
 	mounted() {
@@ -46,9 +69,18 @@ export default Vue.extend({
 		//#endregion
 	},
 	methods: {
-		previewable(file) {
-			return file.type.startsWith('video') || file.type.startsWith('image');
-		}
+		showImage(i: number) {
+			this.index = i;
+		},
+		isImage(file: { type: string }) {
+			return file.type.startsWith('image');
+		},
+		isVideo(file: { type: string }) {
+			return file.type.startsWith('video') || file.type.startsWith('audio');
+		},
+		previewable(file: { type: string }) {
+			return this.isImage(file) || this.isVideo(file);
+		},
 	}
 });
 </script>

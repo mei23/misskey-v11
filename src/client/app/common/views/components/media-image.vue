@@ -17,7 +17,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import ImageViewer from './image-viewer.vue';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
 
 export default Vue.extend({
@@ -49,12 +48,7 @@ export default Vue.extend({
 	},
 	methods: {
 		onClick() {
-			const viewer = this.$root.new(ImageViewer, {
-				image: this.image
-			});
-			this.$once('hook:beforeDestroy', () => {
-				viewer.close();
-			});
+			this.$emit('imageClick');
 		}
 	}
 });
