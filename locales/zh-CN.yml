@@ -1104,8 +1104,6 @@ admin/views/instance.vue:
   disable-local-timeline: "停用本地时间线功能"
   disable-global-timeline: "禁用全局时间线"
   disabling-timelines-info: "即使禁用时间线，管理员和版主仍然可用。"
-  enable-emoji-reaction: "在回应上使用表情符号"
-  use-star-for-reaction-fallback: "使用默认的star来表示未知的回应"
   invite: "邀请"
   save: "保存"
   saved: "保存完毕"

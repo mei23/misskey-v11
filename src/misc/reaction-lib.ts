@@ -1,6 +1,5 @@
 import Emoji from '../models/emoji';
 import { emojiRegex } from './emoji-regex';
-import fetchMeta from './fetch-meta';
 
 const basic10: Record<string, string> = {
 	'👍': 'like',
@@ -15,18 +14,15 @@ const basic10: Record<string, string> = {
 	'🍮': 'pudding',
 };
 
-export async function getFallbackReaction(): Promise<string> {
-	const meta = await fetchMeta();
-	return  meta.useStarForReactionFallback ? 'star' : 'like';
-}
+const REACTION_STAR = '⭐';
 
 export async function toDbReaction(reaction: string, enableEmoji = true): Promise<string> {
-	if (reaction == null) return await getFallbackReaction();
+	if (reaction == null) return REACTION_STAR;
 
 	// 既存の文字列リアクションはそのまま
 	if (Object.values(basic10).includes(reaction)) return reaction;
 
-	if (!enableEmoji) return await getFallbackReaction();
+	if (!enableEmoji) return REACTION_STAR;
 
 	// Unicode絵文字
 	const match = emojiRegex.exec(reaction);
@@ -57,5 +53,5 @@ export async function toDbReaction(reaction: string, enableEmoji = true): Promis
 		if (emoji) return reaction;
 	}
 
-	return await getFallbackReaction();
+	return REACTION_STAR;
 }

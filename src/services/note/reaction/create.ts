@@ -11,11 +11,9 @@ import { renderActivity } from '../../../remote/activitypub/renderer';
 import perUserReactionsChart from '../../../services/chart/per-user-reactions';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 import { toDbReaction } from '../../../misc/reaction-lib';
-import fetchMeta from '../../../misc/fetch-meta';
 
 export default async (user: IUser, note: INote, reaction: string) => {
-	const meta = await fetchMeta();
-	reaction = await toDbReaction(reaction, meta.enableEmojiReaction);
+	reaction = await toDbReaction(reaction);
 
 	// Create reaction
 	await NoteReaction.insert({

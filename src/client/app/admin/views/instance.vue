@@ -26,8 +26,6 @@
 			<ui-switch v-model="disableGlobalTimeline">{{ $t('disable-global-timeline') }}</ui-switch>
 			<ui-info>{{ $t('disabling-timelines-info') }}</ui-info>
 			<ui-switch v-model="showReplayInPublicTimeline">showReplayInPublicTimeline</ui-switch>
-			<ui-switch v-model="enableEmojiReaction">{{ $t('enable-emoji-reaction') }}</ui-switch>
-			<ui-switch v-model="useStarForReactionFallback">{{ $t('use-star-for-reaction-fallback') }}</ui-switch>
 		</section>
 		<section class="fit-bottom">
 			<header><fa icon="cloud"/> {{ $t('drive-config') }}</header>
@@ -159,8 +157,6 @@ export default Vue.extend({
 			disableLocalTimeline: false,
 			disableGlobalTimeline: false,
 			showReplayInPublicTimeline: false,
-			enableEmojiReaction: true,
-			useStarForReactionFallback: false,
 			mascotImageUrl: null,
 			bannerUrl: null,
 			errorImageUrl: null,
@@ -213,8 +209,6 @@ export default Vue.extend({
 			this.disableLocalTimeline = meta.disableLocalTimeline;
 			this.disableGlobalTimeline = meta.disableGlobalTimeline;
 			this.showReplayInPublicTimeline = meta.showReplayInPublicTimeline;
-			this.enableEmojiReaction = meta.enableEmojiReaction;
-			this.useStarForReactionFallback = meta.useStarForReactionFallback;
 			this.mascotImageUrl = meta.mascotImageUrl;
 			this.bannerUrl = meta.bannerUrl;
 			this.errorImageUrl = meta.errorImageUrl;
@@ -277,8 +271,6 @@ export default Vue.extend({
 				disableLocalTimeline: this.disableLocalTimeline,
 				disableGlobalTimeline: this.disableGlobalTimeline,
 				showReplayInPublicTimeline: this.showReplayInPublicTimeline,
-				enableEmojiReaction: this.enableEmojiReaction,
-				useStarForReactionFallback: this.useStarForReactionFallback,
 				mascotImageUrl: this.mascotImageUrl,
 				bannerUrl: this.bannerUrl,
 				errorImageUrl: this.errorImageUrl,

@@ -5,14 +5,14 @@
 		<div class="buttons" ref="buttons">
 			<button v-for="(reaction, i) in rs" :key="i" @click="react(reaction)" :tabindex="i + 1" :title="/^[a-z]+$/.test(reaction) ? $t('@.reactions.' + reaction) : reaction" v-particle><mk-reaction-icon :reaction="reaction"/></button>
 		</div>
-		<div v-if="enableEmojiReaction" class="text">
+		<div class="text">
 			<input v-model="text" placeholder="Emoji" @keyup.enter="reactText" @keydown.esc="close" @input="tryReactText" v-autocomplete="{ model: 'text', noZwsp: true }" ref="text">
 			<button title="OK" @click="reactText"><fa icon="check"/></button>
 			<button title="Pick" class="emoji" @click="emoji" ref="emoji">
 				<fa :icon="['far', 'laugh']"/>
 			</button>
 			<button title="Random" @click="reactRandom()"><fa :icon="faRandom"/></button>
-			<button v-if="enableEmojiReaction && recentReaction != null" @click="react(recentReaction)" tabindex="11" v-particle><mk-reaction-icon :reaction="recentReaction"/></button>
+			<button v-if="recentReaction != null" @click="react(recentReaction)" tabindex="11" v-particle><mk-reaction-icon :reaction="recentReaction"/></button>
 		</div>
 	</div>
 </div>
@@ -49,7 +49,6 @@ export default Vue.extend({
 			faRandom,
 			rs: this.reactions || this.$store.state.settings.reactions,
 			text: null,
-			enableEmojiReaction: true,
 			recentReaction: null,
 		};
 	},
@@ -92,18 +91,13 @@ export default Vue.extend({
 			popover.style.top = `${popY + window.pageYOffset}px`;
 		};
 
-		this.$root.getMeta().then(meta => {
-			this.enableEmojiReaction = meta.enableEmojiReaction;
-			fixPos();
-
-			this.$nextTick(() => {
-				if (!this.$root.isMobile && this.$refs.text) this.$refs.text.focus();
-			});
-		});
-
 		this.recentReaction = localStorage.getItem('recentReaction');
 
 		this.$nextTick(() => {
+			fixPos();
+
+			if (!this.$root.isMobile && this.$refs.text) this.$refs.text.focus();
+
 			anime({
 				targets: this.$refs.backdrop,
 				opacity: 1,

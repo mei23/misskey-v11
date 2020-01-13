@@ -36,7 +36,7 @@ export async function buildMeta(instance: IMeta, detail = true) {
 		disableLocalTimeline: instance.disableLocalTimeline,
 		disableGlobalTimeline: instance.disableGlobalTimeline,
 		showReplayInPublicTimeline: instance.showReplayInPublicTimeline,
-		enableEmojiReaction: instance.enableEmojiReaction,
+		enableEmojiReaction: true,
 		driveCapacityPerLocalUserMb: instance.localDriveCapacityMb,
 		driveCapacityPerRemoteUserMb: instance.remoteDriveCapacityMb,
 		cacheRemoteFiles: instance.cacheRemoteFiles,

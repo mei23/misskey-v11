@@ -1240,8 +1240,6 @@ admin/views/instance.vue:
   disable-local-timeline: "Disable the Local Timeline"
   disable-global-timeline: "Disable global timeline"
   disabling-timelines-info: "Even if you disable these timelines, the administrator as well as moderators can use them continually."
-  enable-emoji-reaction: "Enable pictograms for reactions"
-  use-star-for-reaction-fallback: "Use the star as fallback for unknown reaction"
   invite: "Invite"
   save: "Save"
   saved: "Saved"
