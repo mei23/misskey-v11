@@ -1,7 +1,6 @@
 <template>
 <img v-if="customEmoji" class="fvgwvorwhxigeolkkrcderjzcawqrscl custom" :class="{ normal: normal }" :src="url" :alt="alt" :title="title"/>
-<img v-else-if="char && !useOsDefaultEmojis" class="fvgwvorwhxigeolkkrcderjzcawqrscl" :src="url" :alt="alt" :title="alt"/>
-<span v-else-if="char && useOsDefaultEmojis">{{ char }}</span>
+<img v-else-if="char" class="fvgwvorwhxigeolkkrcderjzcawqrscl" :src="url" :alt="alt" :title="alt"/>
 <span v-else>:{{ name }}:</span>
 </template>
 
@@ -51,10 +50,6 @@ export default Vue.extend({
 		title(): string {
 			return this.customEmoji ? `:${this.customEmoji.name}:` : this.char;
 		},
-
-		useOsDefaultEmojis(): boolean {
-			return this.$store.state.device.useOsDefaultEmojis && !this.isReaction;
-		}
 	},
 
 	watch: {

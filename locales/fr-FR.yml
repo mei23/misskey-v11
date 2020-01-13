@@ -137,7 +137,6 @@ common:
     show-via: "Afficher via"
     reduce-motion: "Réduire les animations dans l’interface utilisateur"
     this-setting-is-this-device-only: "Uniquement sur cet appareil"
-    use-os-default-emojis: "Utiliser les émojis standards du système"
     line-width: "Epaisseur du trait"
     line-width-thin: "Fine"
     line-width-normal: "Normale"

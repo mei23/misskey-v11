@@ -152,7 +152,6 @@ common:
     show-via: "zobrazit přes"
     reduce-motion: "Snížit pohyb v rozhraní"
     this-setting-is-this-device-only: "Pouze pro toto zařízení"
-    use-os-default-emojis: "Použít výchozí emoji systému"
     line-width: "Hrubka línie"
     line-width-thin: "Úzka"
     line-width-normal: "Běžná"

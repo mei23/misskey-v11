@@ -152,7 +152,6 @@ common:
     show-via: "显示 via"
     reduce-motion: "减弱UI中的动画效果"
     this-setting-is-this-device-only: "设置仅在本设备中生效"
-    use-os-default-emojis: "使用设备系统默认的表情符号"
     line-width: "线条宽度"
     line-width-thin: "细"
     line-width-normal: "正常"

@@ -103,7 +103,6 @@ common:
     tags: "Etiquetas"
     blocking: "Bloquear"
     password: "Contraseña"
-    use-os-default-emojis: "Usar los emoticonos estándar del sistema operativo"
     line-width: "Grosor de línea"
     line-width-thick: "Grosor"
     font-size: "Tamaño del texto"

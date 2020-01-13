@@ -152,7 +152,6 @@ common:
     show-via: "via 표시하기"
     reduce-motion: "UI의 애니메이션 줄이기"
     this-setting-is-this-device-only: "이 장치만"
-    use-os-default-emojis: "운영체제의 기본 이모지 사용"
     line-width: "선 두께"
     line-width-thin: "얇음"
     line-width-normal: "보통"

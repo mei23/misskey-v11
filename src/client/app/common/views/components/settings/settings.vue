@@ -39,7 +39,6 @@
 				<ui-switch v-model="contrastedAcct" v-if="isAdvanced">{{ $t('@._settings.contrasted-acct') }}</ui-switch>
 				<ui-switch v-model="showFullAcct" v-if="isAdvanced">{{ $t('@._settings.show-full-acct') }}</ui-switch>
 				<ui-switch v-model="showVia">{{ $t('@._settings.show-via') }}</ui-switch>
-				<ui-switch v-model="useOsDefaultEmojis" v-if="isAdvanced">{{ $t('@._settings.use-os-default-emojis') }}</ui-switch>
 				<ui-switch v-model="iLikeSushi">{{ $t('@._settings.i-like-sushi') }}</ui-switch>
 			</section>
 			<section>
@@ -394,11 +393,6 @@ export default Vue.extend({
 		splitedReactions(): any {
 			const emojis = this.reactions.match(emojiRegex2);
 			return emojis;
-		},
-
-		useOsDefaultEmojis: {
-			get() { return this.$store.state.device.useOsDefaultEmojis; },
-			set(value) { this.$store.commit('device/set', { key: 'useOsDefaultEmojis', value }); }
 		},
 
 		reduceMotion: {

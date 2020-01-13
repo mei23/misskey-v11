@@ -75,7 +75,6 @@ const defaultDeviceSettings = Object.assign({
 	postStyle: 'standard',
 	navbar: 'top',
 	mobileNotificationPosition: 'bottom',
-	useOsDefaultEmojis: false,
 	disableShowingAnimatedImages: true,
 	expandUsersPhotos: true,
 	expandUsersActivity: true,
