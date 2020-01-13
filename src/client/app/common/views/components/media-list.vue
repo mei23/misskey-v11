@@ -12,7 +12,7 @@
 			</template>
 		</div>
 	</div>
-	<ImageBox v-if="imgList.length > 0" :images="imgList" :index="index" @close="index = null" :bgcolor="bgcolor"/>
+	<ImageBox v-if="imgList.length > 0" :images="imgList" :index="index" @close="index = null" :bgcolor="bgcolor" style="z-index: 99999"/>
 </div>
 </template>
 
