@@ -228,8 +228,6 @@ common:
     deck-column-width-normal: "普通"
     deck-column-width-wider: "やや広"
     deck-column-width-wide: "広"
-    use-shadow: "UIに影を使用"
-    rounded-corners: "UIの角を丸める"
     circle-icons: "円形のアイコンを使用"
     contrasted-acct: "ユーザー名にコントラストを付ける"
     wallpaper: "壁紙"

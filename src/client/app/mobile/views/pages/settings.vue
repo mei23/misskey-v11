@@ -2,13 +2,13 @@
 <mk-ui>
 	<template #header><span style="margin-right:4px;"><fa icon="cog"/></span>{{ $t('@.settings') }}</template>
 	<main>
-		<div class="signed-in-as" :class="{ shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }">
+		<div class="signed-in-as">
 			<mfm :text="$t('signed-in-as').replace('{}', name)" :plain="true" :custom-emojis="$store.state.i.emojis"/>
 		</div>
 
 		<x-settings/>
 
-		<div class="signout" :class="{ shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }" @click="signout">{{ $t('@.signout') }}</div>
+		<div class="signout" @click="signout">{{ $t('@.signout') }}</div>
 
 		<footer>
 			<small>ver {{ version }} ({{ codename }})</small>
@@ -60,12 +60,8 @@ main
 		color var(--mobileSignedInAsFg)
 		background var(--mobileSignedInAsBg)
 		font-weight bold
-
-		&.round
-			border-radius 6px
-
-		&.shadow
-			box-shadow 0 3px 1px -2px rgba(#000, 0.2), 0 2px 2px 0 rgba(#000, 0.14), 0 1px 5px 0 rgba(#000, 0.12)
+		border-radius 6px
+		box-shadow 0 3px 1px -2px rgba(#000, 0.2), 0 2px 2px 0 rgba(#000, 0.14), 0 1px 5px 0 rgba(#000, 0.12)
 
 	> .signout
 		margin 16px
@@ -73,12 +69,8 @@ main
 		text-align center
 		color var(--mobileSignedInAsFg)
 		background var(--mobileSignedInAsBg)
-
-		&.round
-			border-radius 6px
-
-		&.shadow
-			box-shadow 0 3px 1px -2px rgba(#000, 0.2), 0 2px 2px 0 rgba(#000, 0.14), 0 1px 5px 0 rgba(#000, 0.12)
+		border-radius 6px
+		box-shadow 0 3px 1px -2px rgba(#000, 0.2), 0 2px 2px 0 rgba(#000, 0.14), 0 1px 5px 0 rgba(#000, 0.12)
 
 	> footer
 		margin 16px

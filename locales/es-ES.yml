@@ -121,8 +121,6 @@ common:
     deck-column-width-normal: "Normal"
     deck-column-width-wider: "Un poco ancho"
     deck-column-width-wide: "Ancho"
-    use-shadow: "Usar sombras en la Interfaz de Usuario"
-    rounded-corners: "Esquinas redondeadas en la Interfaz de Usuario"
     circle-icons: "Usar iconos circulares"
     contrasted-acct: "Añadir contraste al nombre de usuario"
     wallpaper: "Fondo de pantalla"

@@ -1,5 +1,5 @@
 <template>
-<div class="mk-note-detail" tabindex="-1" :class="{ shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }">
+<div class="mk-note-detail" tabindex="-1">
 	<button
 		class="more"
 		v-if="appearNote.reply && appearNote.reply.replyId && conversation.length == 0"
@@ -168,12 +168,8 @@ export default Vue.extend({
 	width 100%
 	text-align left
 	background var(--face)
-
-	&.round
-		border-radius 8px
-
-	&.shadow
-		box-shadow 0 4px 16px rgba(#000, 0.1)
+	border-radius 8px
+	box-shadow 0 4px 16px rgba(#000, 0.1)
 
 		@media (min-width 500px)
 			box-shadow 0 8px 32px rgba(#000, 0.1)

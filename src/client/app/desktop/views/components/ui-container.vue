@@ -1,5 +1,5 @@
 <template>
-<div class="kedshtep" :class="{ naked, inNakedDeckColumn, shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }">
+<div class="kedshtep" :class="{ naked, inNakedDeckColumn }">
 	<header v-if="showHeader" :class="{ bodyTogglable }" @click="toggleContent(!showBody)">
 		<div class="title"><slot name="header"></slot></div>
 		<slot name="func"></slot>
@@ -61,12 +61,8 @@ export default Vue.extend({
 
 	&:not(.inNakedDeckColumn)
 		background var(--face)
-
-		&.round
-			border-radius 6px
-
-		&.shadow
-			box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
+		border-radius 6px
+		box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
 
 		& + .kedshtep
 			margin-top 16px

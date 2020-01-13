@@ -32,8 +32,6 @@
 				<ui-radio v-model="navbar" value="right">{{ $t('@._settings.navbar-position-right') }}</ui-radio>
 			</section>
 			<section>
-				<ui-switch v-model="useShadow" v-if="isAdvanced">{{ $t('@._settings.use-shadow') }}</ui-switch>
-				<ui-switch v-model="roundedCorners" v-if="isAdvanced">{{ $t('@._settings.rounded-corners') }}</ui-switch>
 				<ui-switch v-model="circleIcons">{{ $t('@._settings.circle-icons') }}</ui-switch>
 				<ui-switch v-model="reduceMotion">{{ $t('@._settings.reduce-motion') }}</ui-switch>
 				<ui-switch v-model="contrastedAcct" v-if="isAdvanced">{{ $t('@._settings.contrasted-acct') }}</ui-switch>
@@ -472,16 +470,6 @@ export default Vue.extend({
 		disableViaMobile: {
 			get() { return this.$store.state.settings.disableViaMobile; },
 			set(value) { this.$store.dispatch('settings/set', { key: 'disableViaMobile', value }); }
-		},
-
-		useShadow: {
-			get() { return this.$store.state.device.useShadow; },
-			set(value) { this.$store.commit('device/set', { key: 'useShadow', value }); }
-		},
-
-		roundedCorners: {
-			get() { return this.$store.state.device.roundedCorners; },
-			set(value) { this.$store.commit('device/set', { key: 'roundedCorners', value }); }
 		},
 
 		lineWidth: {

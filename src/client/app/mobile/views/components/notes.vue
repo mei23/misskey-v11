@@ -1,5 +1,5 @@
 <template>
-<div class="ivaojijs" :class="{ shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }">
+<div class="ivaojijs">
 	<div class="empty" v-if="notes.length == 0 && !fetching && inited">{{ $t('@.no-notes') }}</div>
 
 	<mk-error v-if="!fetching && !inited" @retry="init()"/>
@@ -253,12 +253,8 @@ export default Vue.extend({
 .ivaojijs
 	overflow hidden
 	background var(--face)
-
-	&.round
-		border-radius 8px
-
-	&.shadow
-		box-shadow 0 4px 16px rgba(#000, 0.1)
+	border-radius 8px
+	box-shadow 0 4px 16px rgba(#000, 0.1)
 
 		@media (min-width 500px)
 			box-shadow 0 8px 32px rgba(#000, 0.1)

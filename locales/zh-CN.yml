@@ -172,8 +172,6 @@ common:
     deck-column-width-normal: "普通"
     deck-column-width-wider: "很宽"
     deck-column-width-wide: "宽"
-    use-shadow: "在UI中使用阴影效果"
-    rounded-corners: "UI界面圆角效果"
     circle-icons: "使用圆形图标"
     contrasted-acct: "增加用户名的对比度"
     wallpaper: "壁纸"

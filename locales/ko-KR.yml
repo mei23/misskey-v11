@@ -172,8 +172,6 @@ common:
     deck-column-width-normal: "보통"
     deck-column-width-wider: "조금 넓음"
     deck-column-width-wide: "넓음"
-    use-shadow: "UI에 그림자 효과 적용"
-    rounded-corners: "UI의 모서리를 둥글게 설정"
     circle-icons: "원형 아이콘 사용"
     contrasted-acct: "사용자명에 대비 추가"
     wallpaper: "배경"

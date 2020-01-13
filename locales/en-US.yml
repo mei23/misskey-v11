@@ -217,8 +217,6 @@ common:
     deck-column-width-normal: "Regular"
     deck-column-width-wider: "Slightly wide"
     deck-column-width-wide: "Wide"
-    use-shadow: "Use shadows in the UI"
-    rounded-corners: "Round the corners of the UI"
     circle-icons: "Use circular icons"
     contrasted-acct: "Add contrast to user account"
     wallpaper: "Background image"

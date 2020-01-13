@@ -1,6 +1,6 @@
 <template>
 <div>
-	<div class="gwbmwxkm" :class="{ shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }">
+	<div class="gwbmwxkm">
 		<header>
 			<div class="title"><fa :icon="faStickyNote"/> {{ readonly ? $t('read-page') : pageId ? $t('edit-page') : $t('new-page') }}</div>
 			<div class="buttons">
@@ -429,12 +429,8 @@ export default Vue.extend({
 	overflow hidden
 	background var(--face)
 	margin-bottom 16px
-
-	&.round
-		border-radius 6px
-
-	&.shadow
-		box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
+	border-radius 6px
+	box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
 
 	> header
 		background var(--faceHeader)

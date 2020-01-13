@@ -1,5 +1,5 @@
 <template>
-<div class="header" :class="{ shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }">
+<div class="header">
 	<div class="banner-container" :style="style">
 		<div class="banner" ref="banner" :style="style"></div>
 		<div class="fade"></div>
@@ -136,12 +136,8 @@ export default Vue.extend({
 .header
 	background var(--face)
 	overflow hidden
-
-	&.round
-		border-radius 6px
-
-	&.shadow
-		box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
+	border-radius 6px
+	box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
 
 	> .banner-container
 		height 250px

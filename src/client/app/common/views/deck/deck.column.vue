@@ -1,5 +1,5 @@
 <template>
-<div class="dnpfarvgbnfmyzbdquhhzyxcmstpdqzs" :class="{ naked, narrow, active, isStacked, draghover, dragging, dropready, isMobile: $root.isMobile, shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }"
+<div class="dnpfarvgbnfmyzbdquhhzyxcmstpdqzs" :class="{ naked, narrow, active, isStacked, draghover, dragging, dropready, isMobile: $root.isMobile }"
 		@dragover.prevent.stop="onDragover"
 		@dragleave="onDragleave"
 		@drop.prevent.stop="onDrop"
@@ -323,12 +323,8 @@ export default Vue.extend({
 	height 100%
 	background var(--face)
 	overflow hidden
-
-	&.round
-		border-radius 6px
-
-	&.shadow
-		box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
+	border-radius 6px
+	box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
 
 	&.draghover
 		box-shadow 0 0 0 2px var(--primaryAlpha08)

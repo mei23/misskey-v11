@@ -1,6 +1,6 @@
 <template>
 <div class="pwbzawku">
-	<mk-post-form class="form" :class="{ shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }" v-if="$store.state.settings.showPostFormOnTopOfTl"/>
+	<mk-post-form class="form" v-if="$store.state.settings.showPostFormOnTopOfTl"/>
 	<div class="main">
 		<component :is="src == 'list' ? 'mk-user-list-timeline' : 'x-core'" ref="tl" v-bind="options">
 			<header class="zahtxcqi">
@@ -195,12 +195,8 @@ export default Vue.extend({
 .pwbzawku
 	> .form
 		margin-bottom 16px
-
-		&.round
-			border-radius 6px
-
-		&.shadow
-			box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
+		border-radius 6px
+		box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
 
 	.zahtxcqi
 		display flex

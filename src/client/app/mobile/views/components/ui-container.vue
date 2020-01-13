@@ -1,5 +1,5 @@
 <template>
-<div class="ukygtjoj" :class="{ naked, inNakedDeckColumn, hideHeader: !showHeader, shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }">
+<div class="ukygtjoj" :class="{ naked, inNakedDeckColumn, hideHeader: !showHeader }">
 	<header v-if="showHeader" @click="() => showBody = !showBody">
 		<div class="title"><slot name="header"></slot></div>
 		<slot name="func"></slot>
@@ -60,12 +60,8 @@ export default Vue.extend({
 
 	&:not(.inNakedDeckColumn)
 		background var(--face)
-
-		&.round
-			border-radius 8px
-
-		&.shadow
-			box-shadow 0 4px 16px rgba(#000, 0.1)
+		border-radius 8px
+		box-shadow 0 4px 16px rgba(#000, 0.1)
 
 		& + .ukygtjoj
 			margin-top 16px

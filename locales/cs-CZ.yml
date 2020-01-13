@@ -172,8 +172,6 @@ common:
     deck-column-width-normal: "Normální"
     deck-column-width-wider: "Poněkud široké"
     deck-column-width-wide: "Široké"
-    use-shadow: "Používat v rozhraní stíny"
-    rounded-corners: "Zakulatit rohy v rozhraní"
     circle-icons: "Používat kulaté ikony"
     contrasted-acct: "Přidat uživatelskému účtu kontrast"
     wallpaper: "Obrázek na pozadí"

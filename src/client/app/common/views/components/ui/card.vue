@@ -1,5 +1,5 @@
 <template>
-<div class="ui-card" :class="{ shadow: $store.state.device.useShadow, round: $store.state.device.roundedCorners }">
+<div class="ui-card">
 	<header>
 		<slot name="title"></slot>
 	</header>
@@ -25,12 +25,8 @@ export default Vue.extend({
 	max-width 850px
 	color var(--faceText)
 	background var(--face)
-
-	&.round
-		border-radius 6px
-
-	&.shadow
-		box-shadow 0 3px 1px -2px rgba(#000, 0.2), 0 2px 2px 0 rgba(#000, 0.14), 0 1px 5px 0 rgba(#000, 0.12)
+	border-radius 6px
+	box-shadow 0 3px 1px -2px rgba(#000, 0.2), 0 2px 2px 0 rgba(#000, 0.14), 0 1px 5px 0 rgba(#000, 0.12)
 
 	> header
 		padding 16px
