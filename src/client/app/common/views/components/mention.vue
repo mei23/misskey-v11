@@ -4,7 +4,7 @@
 	<img class="avator" v-if="!isMe && avator != null" :src="avator"/>
 	<span class="main">
 		<span class="username">@{{ username }}</span>
-		<span class="host" :class="{ fade: $store.state.settings.contrastedAcct }" v-if="(host != localHost) || $store.state.settings.showFullAcct">@{{ toUnicode(host) }}</span>
+		<span class="host" v-if="(host != localHost) || $store.state.settings.showFullAcct">@{{ toUnicode(host) }}</span>
 	</span>
 </router-link>
 </template>
@@ -79,7 +79,6 @@ export default Vue.extend({
 		margin-right 0.2em
 
 	> .main
-		> .host.fade
-			opacity 0.5
+		opacity 0.5
 
 </style>

@@ -276,12 +276,6 @@ export default Vue.extend({
 			});
 		}
 
-		// keep cw when reply
-		if (this.$store.state.settings.keepCw && this.reply && this.reply.cw) {
-			this.useCw = true;
-			this.cw = this.reply.cw;
-		}
-
 		this.$nextTick(() => {
 			if (this.initialNote) {
 				// 削除して編集

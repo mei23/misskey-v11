@@ -34,7 +34,6 @@
 			<section>
 				<ui-switch v-model="circleIcons">{{ $t('@._settings.circle-icons') }}</ui-switch>
 				<ui-switch v-model="reduceMotion">{{ $t('@._settings.reduce-motion') }}</ui-switch>
-				<ui-switch v-model="contrastedAcct" v-if="isAdvanced">{{ $t('@._settings.contrasted-acct') }}</ui-switch>
 				<ui-switch v-model="showFullAcct" v-if="isAdvanced">{{ $t('@._settings.show-full-acct') }}</ui-switch>
 				<ui-switch v-model="showVia">{{ $t('@._settings.show-via') }}</ui-switch>
 				<ui-switch v-model="iLikeSushi">{{ $t('@._settings.i-like-sushi') }}</ui-switch>
@@ -78,9 +77,6 @@
 			<section>
 				<ui-switch v-model="fetchOnScroll">{{ $t('@._settings.fetch-on-scroll') }}
 					<template #desc>{{ $t('@._settings.fetch-on-scroll-desc') }}</template>
-				</ui-switch>
-				<ui-switch v-model="keepCw" v-if="isAdvanced">{{ $t('@._settings.keep-cw') }}
-					<template #desc>{{ $t('@._settings.keep-cw-desc') }}</template>
 				</ui-switch>
 				<ui-switch v-if="$root.isMobile" v-model="disableViaMobile">{{ $t('@._settings.disable-via-mobile') }}</ui-switch>
 			</section>
@@ -375,11 +371,6 @@ export default Vue.extend({
 			set(value) { this.$store.commit('device/set', { key: 'reduceMotion', value }); }
 		},
 
-		keepCw: {
-			get() { return this.$store.state.settings.keepCw; },
-			set(value) { this.$store.commit('settings/set', { key: 'keepCw', value }); }
-		},
-
 		navbar: {
 			get() { return this.$store.state.device.navbar; },
 			set(value) { this.$store.commit('device/set', { key: 'navbar', value }); }
@@ -514,14 +505,6 @@ export default Vue.extend({
 			get() { return this.$store.state.settings.circleIcons; },
 			set(value) {
 				this.$store.dispatch('settings/set', { key: 'circleIcons', value });
-				this.reload();
-			}
-		},
-
-		contrastedAcct: {
-			get() { return this.$store.state.settings.contrastedAcct; },
-			set(value) {
-				this.$store.dispatch('settings/set', { key: 'contrastedAcct', value });
 				this.reload();
 			}
 		},

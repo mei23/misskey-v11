@@ -108,7 +108,6 @@ common:
     deck-column-align-left: "Izquierda"
     deck-column-align-flexible: "Flexible"
     circle-icons: "Usar iconos circulares"
-    contrasted-acct: "Añadir contraste al nombre de usuario"
     wallpaper: "Fondo de pantalla"
     choose-wallpaper: "Escoge un fondo de pantalla"
     navbar-position-left: "Izquierda"

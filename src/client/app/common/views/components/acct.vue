@@ -1,7 +1,7 @@
 <template>
 <span class="mk-acct" v-once>
 	<span class="name">@{{ user.username }}</span>
-	<span class="host" :class="{ fade: $store.state.settings.contrastedAcct }" v-if="user.host || detail || $store.state.settings.showFullAcct">@{{ user.host || host }}</span>
+	<span class="host" v-if="user.host || detail || $store.state.settings.showFullAcct">@{{ user.host || host }}</span>
 	<fa v-if="user.isLocked == true" class="locked" icon="lock" fixed-width/>
 	<fa v-if="user.noFederation == true" class="no-federation" icon="heart" title="No federation" fixed-width/>
 </span>
@@ -23,8 +23,7 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 .mk-acct
-	> .host.fade
-		opacity 0.5
+	opacity 0.5
 
 	> .locked, .no-federation
 		opacity 0.8

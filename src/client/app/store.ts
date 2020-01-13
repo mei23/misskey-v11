@@ -11,7 +11,6 @@ import { mods } from './config';
 const defaultSettings = {
 	home: null,
 	mobileHome: [],
-	keepCw: false,
 	tagTimelines: [],
 	fetchOnScroll: true,
 	showPostFormOnTopOfTl: false,
@@ -19,7 +18,6 @@ const defaultSettings = {
 	suggestRecentHashtags: true,
 	showClockOnHeader: true,
 	circleIcons: true,
-	contrastedAcct: true,
 	showFullAcct: false,
 	showVia: true,
 	showReplyTarget: true,
