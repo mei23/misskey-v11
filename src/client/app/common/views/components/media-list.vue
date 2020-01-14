@@ -3,12 +3,12 @@
 	<template v-for="media in mediaList.filter(media => !previewable(media))">
 		<x-banner :media="media" :key="media.id"/>
 	</template>
-	<div v-if="mediaList.filter(media => previewable(media)).length > 0" class="gird-container">
-		<div :data-count="mediaList.filter(media => previewable(media)).length" ref="grid">
-			<template v-for="(media, i) in mediaList">
+	<div v-if="previewables.length > 0" class="gird-container">
+		<div :data-count="previewables.length" ref="grid">
+			<template v-for="(media, i) in previewables">
 				<mk-media-video :video="media" :key="media.id" v-if="media.type.startsWith('video')"/>
 				<x-image :image="media" :key="media.id" v-else-if="media.type.startsWith('image')" :hide="hide" 
-					@imageClick="showImage(i - [...mediaList].splice(0, i).filter(isVideo).length)"/>
+					@imageClick="showImage(i - [...previewables].splice(0, i).filter(isVideo).length)"/>
 			</template>
 		</div>
 	</div>
@@ -56,6 +56,9 @@ export default Vue.extend({
 		},
 		images(): any[] {
 			return (this.mediaList as { type: string }[]).filter(this.isImage);
+		},
+		previewables(): any[] {
+			return (this.mediaList as { type: string }[]).filter(this.previewable);
 		},
 		count(): number {
 			return (this.mediaList as { type: string }[]).filter(this.previewable).length;
