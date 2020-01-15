@@ -84,7 +84,6 @@ import XCpuMemory from "./dashboard.cpu-memory.vue";
 import XQueue from "./dashboard.queue-charts.vue";
 import XCharts from "./dashboard.charts.vue";
 import { faDatabase } from '@fortawesome/free-solid-svg-icons';
-import { setIntervalPromise } from '../../../../misc/set-interval-promise';
 
 export default Vue.extend({
 	i18n: i18n('admin/views/dashboard.vue'),
@@ -110,7 +109,6 @@ export default Vue.extend({
 		this.connection = this.$root.stream.useSharedConnection('serverStats');
 
 		this.updateStats();
-		setIntervalPromise(this.updateStats, 60 * 1000, true, () => this.alive);
 
 		this.$root.api('admin/meta').then((meta: any) => {
 			this.meta = meta;
