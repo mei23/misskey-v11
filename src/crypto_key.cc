@@ -42,7 +42,7 @@ NAN_METHOD(extractPublic)
 		return;
 	}
 
-	const auto result = PEM_write_bio_RSAPublicKey(destination, rsa);
+	const auto result = PEM_write_bio_RSA_PUBKEY(destination, rsa);
 
 	RSA_free(rsa);
 
