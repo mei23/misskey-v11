@@ -9,8 +9,8 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import { url } from '../../../config';
 import copyToClipboard from '../../../common/scripts/copy-to-clipboard';
-import { faCopy, faEye, faEyeSlash, } from '@fortawesome/free-regular-svg-icons';
-import { faPlaneArrival, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { faPlaneArrival, faPlaneDeparture, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/note-menu.vue'),
@@ -18,7 +18,6 @@ export default Vue.extend({
 	data() {
 		return {
 			isFavorited: false,
-			isWatching: false
 		};
 	},
 	computed: {
@@ -35,6 +34,10 @@ export default Vue.extend({
 				icon: faPlaneArrival,
 				text: this.$t('go-timeline'),
 				action: this.goTimeline
+			}, {
+				icon: faPlaneDeparture,
+				text: this.$t('up-timeline'),
+				action: this.upTimeline
 			}, {
 				icon: faUserFriends,
 				text: this.$t('go-follow-tl'),
@@ -64,15 +67,6 @@ export default Vue.extend({
 				text: this.$t('favorite'),
 				action: () => this.toggleFavorite(true)
 			},
-			this.note.userId != this.$store.state.i.id ? this.isWatching ? {
-				icon: faEyeSlash,
-				text: this.$t('unwatch'),
-				action: () => this.toggleWatch(false)
-			} : {
-				icon: faEye,
-				text: this.$t('watch'),
-				action: () => this.toggleWatch(true)
-			} : undefined,
 			this.note.userId == this.$store.state.i.id && (this.$store.state.i.pinnedNoteIds || []).includes(this.note.id) ? {
 				icon: 'thumbtack',
 				text: this.$t('unpin'),
@@ -112,7 +106,6 @@ export default Vue.extend({
 			noteId: this.note.id
 		}).then(state => {
 			this.isFavorited = state.isFavorited;
-			this.isWatching = state.isWatching;
 		});
 	},
 
@@ -194,19 +187,6 @@ export default Vue.extend({
 
 		toggleFavorite(favorite: boolean) {
 			this.$root.api(favorite ? 'notes/favorites/create' : 'notes/favorites/delete', {
-				noteId: this.note.id
-			}).then(() => {
-				this.$root.dialog({
-					type: 'success',
-					splash: true
-				});
-				this.$emit('closed');
-				this.destroyDom();
-			});
-		},
-
-		toggleWatch(watch: boolean) {
-			this.$root.api(watch ? 'notes/watching/create' : 'notes/watching/delete', {
 				noteId: this.note.id
 			}).then(() => {
 				this.$root.dialog({
