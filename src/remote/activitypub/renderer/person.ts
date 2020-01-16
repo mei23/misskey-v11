@@ -104,7 +104,7 @@ export default async (user: ILocalUser) => {
 		image: (banner && banner.metadata && !banner.metadata.isSensitive) ? renderImage(banner) : undefined,
 		tag,
 		manuallyApprovesFollowers: user.isLocked || user.carefulRemote,
-		publicKey: renderKey(user),
+		publicKey: renderKey(user, `#main-key`),
 		isCat: user.isCat,
 		attachment: attachment.length ? attachment : undefined
 	};
