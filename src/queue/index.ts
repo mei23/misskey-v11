@@ -13,7 +13,7 @@ import { IDriveFile } from '../models/drive-file';
 import { INote } from '../models/note';
 import { getJobInfo } from './get-job-info';
 
-function initializeQueue(name: string) {
+function initializeQueue(name: string, limitPerSec = -1) {
 	return new Queue(name, config.redis != null ? {
 		redis: {
 			port: config.redis.port,
@@ -21,12 +21,16 @@ function initializeQueue(name: string) {
 			password: config.redis.pass,
 			db: config.redis.db || 0,
 		},
-		prefix: config.redis.prefix ? `${config.redis.prefix}:queue` : 'queue'
+		prefix: config.redis.prefix ? `${config.redis.prefix}:queue` : 'queue',
+		limiter: limitPerSec > 0 ? {
+			max: limitPerSec * 5,
+			duration: 5000
+		} : undefined
 	} : null);
 }
 
-export const deliverQueue = initializeQueue('deliver');
-export const inboxQueue = initializeQueue('inbox');
+export const deliverQueue = initializeQueue('deliver', config.deliverJobPerSec || 128);
+export const inboxQueue = initializeQueue('inbox', config.inboxJobPerSec || 16);
 export const dbQueue = initializeQueue('db');
 
 const deliverLogger = queueLogger.createSubLogger('deliver');

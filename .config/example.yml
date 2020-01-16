@@ -131,8 +131,13 @@ autoAdmin: true
 # IP address family used for outgoing request (ipv4, ipv6 or dual)
 #outgoingAddressFamily: ipv4
 
+# Job concurrency per worker
 # deliverJobConcurrency: 128
 # inboxJobConcurrency: 16
+
+# Job late limiter
+# deliverJobPerSec: 128
+# inboxJobPerSec: 16
 
 # Proxy for HTTP/HTTPS
 #proxy: http://127.0.0.1:3128

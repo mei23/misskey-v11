@@ -45,6 +45,8 @@ export type Source = {
 
 	deliverJobConcurrency?: number;
 	inboxJobConcurrency?: number;
+	deliverJobPerSec?: number;
+	inboxJobPerSec?: number;
 };
 
 export type DriveConfig = {
