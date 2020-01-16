@@ -2,15 +2,19 @@
 <div class="dkjvrdxtkvqrwmhfickhndpmnncsgacq" v-hotkey.global="keymap">
 	<div class="bg" @click="close"></div>
 	<img :src="img.url" :alt="img.name" :title="img.name" @click="close"/>
-	<button class="prev" @click="prev"><fa :icon="faChevronLeft"/></button>
-	<button class="next" @click="next"><fa :icon="faChevronRight"/></button>
+	<button v-if="isMultiple && !isFirst" class="prev" @click="prev">
+		<fa :icon="faChevronLeft"/>
+	</button>
+	<button v-if="isMultiple" class="next" @click="next">
+		<fa :icon="isLast ? faAngleDoubleLeft : faChevronRight"/>
+	</button>
 </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import anime from 'animejs';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	props: {
@@ -31,7 +35,7 @@ export default Vue.extend({
 	data() {
 		return {
 			currentIndex: 0,
-			faChevronLeft, faChevronRight
+			faChevronLeft, faChevronRight, faAngleDoubleLeft
 		}
 	},
 	created() {
@@ -54,6 +58,15 @@ export default Vue.extend({
 		img(): any {
 			return this.images[this.currentIndex];
 		},
+		isMultiple() {
+			return this.images.length > 1;
+		},
+		isFirst() {
+			return this.currentIndex === 0;
+		},
+		isLast() {
+			return this.currentIndex === this.images.length - 1;
+		},
 		keymap(): any {
 			return {
 				'esc': this.close,
@@ -62,14 +75,14 @@ export default Vue.extend({
 	},
 	methods: {
 		prev() {
-			if (this.currentIndex === 0) {
+			if (this.isFirst) {
 				this.currentIndex = this.images.length - 1;
 			} else {
 				this.currentIndex--;
 			}
 		},
 		next() {
-			if (this.currentIndex === this.images.length - 1) {
+			if (this.isLast) {
 				this.currentIndex = 0;
 			} else {
 				this.currentIndex++;
