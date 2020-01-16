@@ -53,7 +53,7 @@ inboxQueue
 	.on('stalled', (job) => inboxLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
 
 export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = false) {
-	const attempts = lowSeverity ? 2 : 10;
+	const attempts = lowSeverity ? 2 : 11;
 
 	if (content == null) return null;
 
@@ -67,7 +67,7 @@ export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = f
 		attempts,
 		backoff: {
 			type: 'exponential',
-			delay: 57 * 1000
+			delay: 60 * 1000
 		},
 		removeOnComplete: true,
 		removeOnFail: true
@@ -81,10 +81,10 @@ export function inbox(activity: any, signature: httpSignature.IParsedSignature) 
 	};
 
 	return inboxQueue.add(data, {
-		attempts: 6,
+		attempts: 8,
 		backoff: {
 			type: 'exponential',
-			delay: 277 * 1000
+			delay: 60 * 1000
 		},
 		removeOnComplete: true,
 		removeOnFail: true
