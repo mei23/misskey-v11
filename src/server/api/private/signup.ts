@@ -1,6 +1,6 @@
 import * as Koa from 'koa';
 import * as bcrypt from 'bcryptjs';
-import { generate as generateKeypair } from '../../../crypto_key';
+import { generateKeyPair } from 'crypto';
 import User, { IUser, validateUsername, validatePassword, pack } from '../../../models/user';
 import generateUserToken from '../common/generate-native-user-token';
 import config from '../../../config';
@@ -90,6 +90,23 @@ export default async (ctx: Koa.BaseContext) => {
 	// Generate secret
 	const secret = generateUserToken();
 
+	const keyPair = await new Promise<string[]>((res, rej) =>
+		generateKeyPair('rsa', {
+			modulusLength: 2048,
+			publicKeyEncoding: {
+				type: 'spki',
+				format: 'pem'
+			},
+			privateKeyEncoding: {
+				type: 'pkcs8',
+				format: 'pem',
+				cipher: undefined,
+				passphrase: undefined
+			}
+		} as any, (err, publicKey, privateKey) =>
+			err ? rej(err) : res([publicKey, privateKey])
+		));
+
 	// Create account
 	const account: IUser = await User.insert({
 		avatarId: null,
@@ -103,7 +120,7 @@ export default async (ctx: Koa.BaseContext) => {
 		username: username,
 		usernameLower: username.toLowerCase(),
 		host: null,
-		keypair: generateKeypair(),
+		keypair: keyPair[1],
 		token: secret,
 		password: hash,
 		isAdmin: config.autoAdmin && usersCount === 0,

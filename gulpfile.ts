@@ -48,7 +48,6 @@ gulp.task('build:copy:fonts', () =>
 
 gulp.task('build:copy', gulp.parallel('build:copy:views', 'build:copy:fonts', () =>
 	gulp.src([
-		'./build/Release/crypto_key.node',
 		'./src/const.json',
 		'./src/server/web/views/**/*',
 		'./src/**/assets/**/*',

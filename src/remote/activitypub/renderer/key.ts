@@ -1,10 +1,13 @@
 import config from '../../../config';
-import { extractPublic } from '../../../crypto_key';
+import { createPublicKey } from 'crypto';
 import { ILocalUser } from '../../../models/user';
 
 export default (user: ILocalUser) => ({
 	id: `${config.url}/users/${user._id}/publickey`,
 	type: 'Key',
 	owner: `${config.url}/users/${user._id}`,
-	publicKeyPem: extractPublic(user.keypair)
+	publicKeyPem: createPublicKey(user.keypair).export({
+		type: 'spki',
+		format: 'pem'
+	})
 });
