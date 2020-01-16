@@ -1,6 +1,7 @@
 import * as Bull from 'bull';
 import * as httpSignature from 'http-signature';
-import { IRemoteUser } from '../../models/user';
+import parseAcct from '../../misc/acct/parse';
+import User, { IRemoteUser } from '../../models/user';
 import perform from '../../remote/activitypub/perform';
 import { resolvePerson } from '../../remote/activitypub/models/person';
 import { toUnicode } from 'punycode';
@@ -28,31 +29,60 @@ export default async (job: Bull.Job): Promise<string> => {
 	logger.debug(JSON.stringify(info, null, 2));
 	//#endregion
 
-	// アクティビティ内のホストの検証
-	const host = toUnicode(new URL(signature.keyId).hostname.toLowerCase());
-	try {
-		ValidateActivity(activity, host);
-	} catch (e) {
-		return `skip: host validation failed ${e.message}`;
-	}
-
-	// ブロックしてたら中断
-	if (await isBlockedHost(host)) {
-		return `skip: Blocked instance: ${host}`;
-	}
-
+	const keyIdLower = signature.keyId.toLowerCase();
 	let user: IRemoteUser;
 
-	// ユーザー解決
-	try {
-		user = await resolvePerson(getApId(activity.actor)) as IRemoteUser;
-	} catch (e) {
-		// 対象が4xxならスキップ
-		if (e.statusCode >= 400 && e.statusCode < 500) {
-			return `skip: Ignored actor ${activity.actor} - ${e.statusCode}`;
+	if (keyIdLower.startsWith('acct:')) {
+		const { username, host } = parseAcct(keyIdLower.slice('acct:'.length));
+		if (host === null) {
+			return `skip: request was made by local user: @${username}`;
 		}
-		logger.error(`Error in actor ${activity.actor} - ${e.statusCode || e}`);
-		throw e;
+
+		// アクティビティ内のホストの検証
+		try {
+			ValidateActivity(activity, host);
+		} catch (e) {
+			return `skip: host validation failed ${e.message}`;
+		}
+
+		// ブロックしてたら中断
+		if (await isBlockedHost(host)) {
+			return `skip: Blocked instance: ${host}`;
+		}
+
+		user = await User.findOne({ usernameLower: username, host: host.toLowerCase() }) as IRemoteUser;
+	} else {
+		// アクティビティ内のホストの検証
+		const host = toUnicode(new URL(signature.keyId).hostname.toLowerCase());
+		try {
+			ValidateActivity(activity, host);
+		} catch (e) {
+			return `skip: host validation failed ${e.message}`;
+		}
+
+		// ブロックしてたら中断
+		if (await isBlockedHost(host)) {
+			return `skip: Blocked instance: ${host}`;
+		}
+
+		user = await User.findOne({
+			host: { $ne: null },
+			'publicKey.id': signature.keyId
+		}) as IRemoteUser;
+	}
+
+	// アクティビティを送信してきたユーザーがまだMisskeyサーバーに登録されていなかったら登録する
+	if (user === null) {
+		try {
+			user = await resolvePerson(getApId(activity.actor)) as IRemoteUser;
+		} catch (e) {
+			// 対象が4xxならスキップ
+			if (e.statusCode >= 400 && e.statusCode < 500) {
+				return `skip: Ignored actor ${activity.actor} - ${e.statusCode}`;
+			}
+			logger.error(`Error in actor ${activity.actor} - ${e.statusCode || e}`);
+			throw e;
+		}
 	}
 
 	if (user === null) {
