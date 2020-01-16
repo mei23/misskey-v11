@@ -12,7 +12,6 @@
 			</template>
 		</div>
 	</div>
-	<ImageBox v-if="imgList.length > 0" :images="imgList" :index="index" @close="index = null" :bgcolor="bgcolor" style="z-index: 99999"/>
 </div>
 </template>
 
@@ -20,14 +19,12 @@
 import Vue from 'vue';
 import XBanner from './media-banner.vue';
 import XImage from './media-image.vue';
-import ImageBox from "vue-image-box";
 import ImageViewer from './image-viewer.vue';
 
 export default Vue.extend({
 	components: {
 		XBanner,
-		XImage,
-		ImageBox
+		XImage
 	},
 	props: {
 		mediaList: {
@@ -74,16 +71,13 @@ export default Vue.extend({
 	},
 	methods: {
 		showImage(i: number) {
-			if (this.images.length > 1) {
-				this.index = i;
-			} else {
-				const viewer = this.$root.new(ImageViewer, {
-					image: this.images[0]
-				});
-				this.$once('hook:beforeDestroy', () => {
-					viewer.close();
-				});
-			}
+			const viewer = this.$root.new(ImageViewer, {
+				images: this.images,
+				index: i,
+			});
+			this.$once('hook:beforeDestroy', () => {
+				viewer.close();
+			});
 		},
 		isImage(file: { type: string }) {
 			return file.type.startsWith('image');

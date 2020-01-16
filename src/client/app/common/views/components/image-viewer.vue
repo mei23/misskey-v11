@@ -1,16 +1,47 @@
 <template>
 <div class="dkjvrdxtkvqrwmhfickhndpmnncsgacq" v-hotkey.global="keymap">
 	<div class="bg" @click="close"></div>
-	<img :src="image.url" :alt="image.name" :title="image.name" @click="close"/>
+	<img :src="img.url" :alt="img.name" :title="img.name" @click="close"/>
+	<button class="prev" @click="prev"><fa :icon="faChevronLeft"/></button>
+	<button class="next" @click="next"><fa :icon="faChevronRight"/></button>
 </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import anime from 'animejs';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
-	props: ['image'],
+	props: {
+		image: {
+			type: Object,
+			required: false
+		},
+		images: {
+			type: Array,
+			required: false
+		},
+		index: {
+			type: Number,
+			required: false,
+			default: 0
+		}
+	},
+	data() {
+		return {
+			currentIndex: 0,
+			faChevronLeft, faChevronRight
+		}
+	},
+	created() {
+		if (this.image) {
+			this.images = [this.image];
+			this.currentIndex = 0;
+		} else {
+			this.currentIndex = this.index;
+		}
+	},
 	mounted() {
 		anime({
 			targets: this.$el,
@@ -20,6 +51,9 @@ export default Vue.extend({
 		});
 	},
 	computed: {
+		img(): any {
+			return this.images[this.currentIndex];
+		},
 		keymap(): any {
 			return {
 				'esc': this.close,
@@ -27,6 +61,20 @@ export default Vue.extend({
 		}
 	},
 	methods: {
+		prev() {
+			if (this.currentIndex === 0) {
+				this.currentIndex = this.images.length - 1;
+			} else {
+				this.currentIndex--;
+			}
+		},
+		next() {
+			if (this.currentIndex === this.images.length - 1) {
+				this.currentIndex = 0;
+			} else {
+				this.currentIndex++;
+			}
+		},
 		close() {
 			anime({
 				targets: this.$el,
@@ -73,5 +121,29 @@ export default Vue.extend({
 		margin auto
 		cursor zoom-out
 		image-orientation from-image
+
+	> button
+		position fixed
+		top 50%
+		z-index 4096
+		display flex
+		align-items center
+		justify-content center
+		color #fff
+		opacity 0.6
+		margin-top -25px
+
+		> svg
+			height 50px
+			width 50px
+
+		&.prev
+			left 0
+			margin-left -10px
+
+		&.next
+			right 0
+			margin-top -25px
+			margin-right -10px
 
 </style>
