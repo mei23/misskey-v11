@@ -53,7 +53,7 @@ export default Vue.extend({
 	},
 
 	methods: {
-		fetch(cb?) {
+		fetch() {
 			this.fetching = true;
 
 			this.$root.api('notes/featured', {

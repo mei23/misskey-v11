@@ -52,7 +52,7 @@
 			<div class="photos block">
 				<header><fa :icon="['far', 'images']"/> {{ $t('photos') }}</header>
 				<div>
-					<div v-for="photo in photos" :style="`background-image: url(${photo.thumbnailUrl})`"></div>
+					<div v-for="(photo, i) in photos" :key="i" :style="`background-image: url(${photo.thumbnailUrl})`"></div>
 				</div>
 			</div>
 
