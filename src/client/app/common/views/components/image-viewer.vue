@@ -1,7 +1,7 @@
 <template>
 <div class="dkjvrdxtkvqrwmhfickhndpmnncsgacq" v-hotkey.global="keymap">
 	<div class="bg" @click="close"></div>
-	<img :src="img.url" :alt="img.name" :title="img.name" @click="close"/>
+	<img ref="img" :src="img.url" :alt="img.name" :title="img.name" @click="close" @load="loaded"/>
 	<button v-if="isMultiple && !isFirst" class="prev" @click="prev">
 		<fa :icon="faChevronLeft"/>
 	</button>
@@ -74,19 +74,36 @@ export default Vue.extend({
 		}
 	},
 	methods: {
+		loaded() {
+			(this.$refs.img as HTMLImageElement).style.opacity = '1';
+		},
 		prev() {
-			if (this.isFirst) {
-				this.currentIndex = this.images.length - 1;
-			} else {
-				this.currentIndex--;
-			}
+			anime({
+				targets: this.$refs.img,
+				opacity: 0.5,
+				duration: 100,
+				easing: 'linear',
+			}).finished.then(() => {
+				if (this.isFirst) {
+					this.currentIndex = this.images.length - 1;
+				} else {
+					this.currentIndex--;
+				}
+			});
 		},
 		next() {
-			if (this.isLast) {
-				this.currentIndex = 0;
-			} else {
-				this.currentIndex++;
-			}
+			anime({
+				targets: this.$refs.img,
+				opacity: 0.5,
+				duration: 100,
+				easing: 'linear',
+			}).finished.then(() => {
+				if (this.isLast) {
+					this.currentIndex = 0;
+				} else {
+					this.currentIndex++;
+				}
+			});
 		},
 		close() {
 			anime({
