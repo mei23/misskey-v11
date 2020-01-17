@@ -139,6 +139,9 @@ autoAdmin: true
 # deliverJobPerSec: 128
 # inboxJobPerSec: 16
 
+# deliverJobMaxAttempts: 12
+# inboxJobMaxAttempts: 8
+
 # Proxy for HTTP/HTTPS
 #proxy: http://127.0.0.1:3128
 

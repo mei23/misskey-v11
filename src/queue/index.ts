@@ -53,7 +53,7 @@ inboxQueue
 	.on('stalled', (job) => inboxLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
 
 export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = false) {
-	const attempts = lowSeverity ? 2 : 11;
+	const attempts = lowSeverity ? 2 : (config.deliverJobMaxAttempts || 12);
 
 	if (content == null) return null;
 
@@ -81,7 +81,7 @@ export function inbox(activity: any, signature: httpSignature.IParsedSignature) 
 	};
 
 	return inboxQueue.add(data, {
-		attempts: 8,
+		attempts: config.inboxJobMaxAttempts || 8,
 		backoff: {
 			type: 'exponential',
 			delay: 60 * 1000
