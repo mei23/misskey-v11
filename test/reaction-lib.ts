@@ -74,18 +74,18 @@ describe('toDbReaction', async () => {
 	});
 
 	it('fallback - undefined', async () => {
-		assert.strictEqual(await toDbReaction(undefined), 'like');
+		assert.strictEqual(await toDbReaction(undefined), '⭐');
 	});
 
 	it('fallback - null', async () => {
-		assert.strictEqual(await toDbReaction(null), 'like');
+		assert.strictEqual(await toDbReaction(null), '⭐');
 	});
 
 	it('fallback - empty', async () => {
-		assert.strictEqual(await toDbReaction(''), 'like');
+		assert.strictEqual(await toDbReaction(''), '⭐');
 	});
 
 	it('fallback - unknown', async () => {
-		assert.strictEqual(await toDbReaction('unknown'), 'like');
+		assert.strictEqual(await toDbReaction('unknown'), '⭐');
 	});
 });
