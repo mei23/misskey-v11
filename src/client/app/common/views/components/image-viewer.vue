@@ -70,6 +70,8 @@ export default Vue.extend({
 		keymap(): any {
 			return {
 				'esc': this.close,
+				'left': this.prev,
+				'right': this.next,
 			};
 		}
 	},
