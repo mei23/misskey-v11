@@ -98,10 +98,7 @@ export default define({
 
 	mounted() {
 		// デフォルト公開範囲
-		this.applyVisibility(this.$store.state.settings.defaultNoteVisibility);
-
-		this.secondaryNoteVisibility = this.$store.state.settings.secondaryNoteVisibility;
-		this.tertiaryNoteVisibility = this.$store.state.settings.tertiaryNoteVisibility;
+		this.applyVisibilityFromState();
 	},
 
 	methods: {
@@ -219,6 +216,15 @@ export default define({
 			w.$once('chosen', v => {
 				this.applyVisibility(v);
 			});
+		},
+
+		applyVisibilityFromState() {
+			this.applyVisibility(this.$store.state.settings.rememberNoteVisibility
+				? (this.$store.state.device.visibility || this.$store.state.settings.defaultNoteVisibility)
+				: this.$store.state.settings.defaultNoteVisibility);
+
+			this.secondaryNoteVisibility = this.$store.state.settings.secondaryNoteVisibility;
+			this.tertiaryNoteVisibility = this.$store.state.settings.tertiaryNoteVisibility;
 		},
 
 		applyVisibility(v :string) {

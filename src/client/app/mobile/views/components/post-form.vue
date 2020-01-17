@@ -69,21 +69,23 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import insertTextAtCursor from 'insert-text-at-cursor';
-import MkVisibilityChooser from '../../../common/views/components/visibility-chooser.vue';
-import getFace from '../../../common/scripts/get-face';
 import { parse } from '../../../../../mfm/parse';
 import { host } from '../../../config';
-import { erase, unique, concat } from '../../../../../prelude/array';
-import { length } from 'stringz';
 import { toASCII } from 'punycode';
 import extractMentions from '../../../../../misc/extract-mentions';
 import XPostFormAttaches from '../../../common/views/components/post-form-attaches.vue';
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
-import { faFish } from '@fortawesome/free-solid-svg-icons';
+import form from '../../../common/scripts/post-form';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/components/post-form.vue'),
+
+	mixins: [
+		form({
+			mobile: true
+		}),
+	],
+
 	components: {
 		XPostFormAttaches,
 		XVisibilityIcon,
@@ -95,36 +97,11 @@ export default Vue.extend({
 			required: false,
 			default: false
 		},
-		reply: {
-			type: Object,
-			required: false
-		},
-		renote: {
-			type: Object,
-			required: false
-		},
-		mention: {
-			type: Object,
-			required: false
-		},
 		quote: {
 			type: Boolean,
 			required: false,
 			default: true
 		},
-		initialText: {
-			type: String,
-			required: false
-		},
-		initialNote: {
-			type: Object,
-			required: false
-		},
-		instant: {
-			type: Boolean,
-			required: false,
-			default: false
-		}
 	},
 
 	watch: {
@@ -140,81 +117,6 @@ export default Vue.extend({
 		localOnly() {
 			this.doPreview();
 		},
-	},
-
-	data() {
-		return {
-			posting: false,
-			preview: null,
-			previewTimer: null,
-			text: '',
-			uploadings: [],
-			files: [],
-			poll: false,
-			pollChoices: [],
-			pollMultiple: false,
-			geo: null,
-			visibility: 'public',
-			visibleUsers: [],
-			localOnly: false,
-			copyOnce: false,
-			secondaryNoteVisibility: 'none',
-			tertiaryNoteVisibility: 'none',
-			useCw: false,
-			cw: null,
-			recentHashtags: JSON.parse(localStorage.getItem('hashtags') || '[]'),
-			maxNoteTextLength: 1000,
-			faFish
-		};
-	},
-
-	created() {
-		this.$root.getMeta().then(meta => {
-			this.maxNoteTextLength = meta.maxNoteTextLength;
-		});
-	},
-
-	computed: {
-		draftId(): string {
-			return this.renote
-				? `renote:${this.renote.id}`
-				: this.reply
-					? `reply:${this.reply.id}`
-					: 'note';
-		},
-
-		placeholder(): string {
-			const xs = [
-				this.$t('@.note-placeholders.a'),
-				this.$t('@.note-placeholders.b'),
-				this.$t('@.note-placeholders.c'),
-				this.$t('@.note-placeholders.d'),
-				this.$t('@.note-placeholders.e'),
-				this.$t('@.note-placeholders.f')
-			];
-			const x = xs[Math.floor(Math.random() * xs.length)];
-
-			return this.renote && !this.text.length && !this.files.length && !this.poll
-				? this.$t('quote-placeholder')
-				: this.reply
-					? this.$t('reply-placeholder')
-					: x;
-		},
-
-		submitText(): string {
-			return this.renote && !this.text.length && !this.files.length && !this.poll
-				? this.$t('renote')
-				: this.reply
-					? this.$t('reply')
-					: this.$t('submit');
-		},
-
-		canPost(): boolean {
-			return !this.posting &&
-				(1 <= this.text.length || 1 <= this.files.length || this.poll || this.renote) &&
-				(this.text.trim().length <= this.maxNoteTextLength) &&
-				(!this.poll || this.pollChoices.length >= 2);
-		}
 	},
 
 	mounted() {
@@ -249,10 +151,7 @@ export default Vue.extend({
 		}
 
 		// デフォルト公開範囲
-		this.applyVisibility(this.$store.state.settings.rememberNoteVisibility ? (this.$store.state.device.visibility || this.$store.state.settings.defaultNoteVisibility) : this.$store.state.settings.defaultNoteVisibility);
-
-		this.secondaryNoteVisibility = this.$store.state.settings.secondaryNoteVisibility;
-		this.tertiaryNoteVisibility = this.$store.state.settings.tertiaryNoteVisibility;
+		this.applyVisibilityFromState();
 
 		if (this.reply && this.reply.localOnly) {
 			this.localOnly = true;
@@ -310,249 +209,9 @@ export default Vue.extend({
 	},
 
 	methods: {
-		normalizedText(maybeText?: string | null) {
-			return typeof maybeText === 'string' && this.trimmedLength(maybeText) ? maybeText : null;
-		},
-
-		trimmedLength(text: string) {
-			return length(text.trim());
-		},
-
-		addTag(tag: string) {
-			insertTextAtCursor(this.$refs.text, ` #${tag} `);
-		},
-
-		focus() {
-			(this.$refs.text as any).focus();
-		},
-
-		addVisibleUser() {
-			this.$root.dialog({
-				title: this.$t('enter-username'),
-				user: true
-			}).then(({ canceled, result: user }) => {
-				if (canceled) return;
-				this.visibleUsers.push(user);
-			});
-		},
-
-		chooseFile() {
-			(this.$refs.file as any).click();
-		},
-
-		chooseFileFromDrive() {
-			this.$chooseDriveFile({
-				multiple: true
-			}).then(files => {
-				for (const x of files) this.attachMedia(x);
-			});
-		},
-
-		attachMedia(driveFile) {
-			if (driveFile.error) {
-				this.$notify(driveFile.error.message);
-				return;
-			}
-			this.files.push(driveFile);
-			this.$emit('change-attached-files', this.files);
-		},
-
-		detachMedia(id) {
-			this.files = this.files.filter(x => x.id != id);
-			this.$emit('change-attached-files', this.files);
-		},
-
-		onChangeFile() {
-			for (const x of Array.from((this.$refs.file as any).files)) this.upload(x);
-		},
-
-		onPollUpdate() {
-			const got = this.$refs.poll.get();
-			this.pollChoices = got.choices;
-			this.pollMultiple = got.multiple;
-		},
-
-		upload(file) {
-			(this.$refs.uploader as any).upload(file);
-		},
-
-		onChangeUploadings(uploads) {
-			this.$emit('change-uploadings', uploads);
-		},
-
-		setVisibility() {
-			const w = this.$root.new(MkVisibilityChooser, {
-				source: this.$refs.visibilityButton,
-				currentVisibility: this.localOnly ? `local-${this.visibility}` : this.copyOnce ? `once-${this.visibility}` : this.visibility
-			});
-			w.$once('chosen', v => {
-				this.applyVisibility(v);
-			});
-		},
-
-		applyVisibility(v :string) {
-			const m = v.match(/^local-(.+)/);
-			const n = v.match(/^once-(.+)/);
-			if (m) {
-				this.localOnly = true;
-				this.copyOnce = false;
-				this.visibility = m[1];
-			} else if (n) {
-				this.localOnly = false;
-				this.copyOnce = true;
-				this.visibility = n[1];
-			} else {
-				this.localOnly = false;
-				this.copyOnce = false;
-				this.visibility = v;
-			}
-		},
-
-		removeVisibleUser(user) {
-			this.visibleUsers = erase(user, this.visibleUsers);
-		},
-
-		clear() {
-			this.preview = null;
-			this.text = '';
-			this.files = [];
-			this.poll = false;
-			this.$emit('change-attached-files');
-		},
-
-		async emoji() {
-			const Picker = await import('../../../desktop/views/components/emoji-picker-dialog.vue').then(m => m.default);
-			const button = this.$refs.emoji;
-			const rect = button.getBoundingClientRect();
-			const vm = this.$root.new(Picker, {
-				includeRemote: true,
-				x: button.offsetWidth + rect.left + window.pageXOffset,
-				y: rect.top + window.pageYOffset
-			});
-			vm.$once('chosen', (emoji: string) => {
-				insertTextAtCursor(this.$refs.text, emoji + (emoji.startsWith(':') ? String.fromCharCode(0x200B) : ''));
-			});
-			this.$once('hook:beforeDestroy', () => {
-				vm.close();
-			});
-		},
-
-		togglePreview() {
-			this.$store.commit('device/set', { key: 'showPostPreview', value: this.$refs.preview.open });
-		},
-
-		triggerPreview() {
-			if (this.previewTimer) clearTimeout(this.previewTimer);
-			this.previewTimer = setTimeout(this.doPreview, 1000);
-		},
-
-		doPreview() {
-			if (!this.canPost || this.text.length > 1000) {
-				this.preview = null;
-				return;
-			}
-
-			this.$root.getMeta().then(meta => {
-				const localEmojis = (meta && meta.emojis) ? meta.emojis : [];
-				const ms = this.text.match(/:[\w-]+@[\w.-]+:/g) || [];
-				const remoteEmojis = ms.map(m => {
-					const m2 = m.match(/:(.*)@(.*):/);
-					return {
-						name: `${m2[1]}@${m2[2]}`,
-						host: m2[2],
-						url: `${config.url}/files/${m2[1]}@${m2[2]}/${Math.floor(Date.now() / 1000 / 3600)}.png`
-					}
-				});
-				const emojis = concat([localEmojis, remoteEmojis]);
-
-				this.preview = {
-					id: `${Math.random()}`,
-					createdAt: new Date().toISOString(),
-					userId: this.$store.state.i.id,
-					user: this.$store.state.i,
-					text: this.text === '' ? undefined : this.$store.state.i.isCat ? nyaize(this.text.trim()) : this.text.trim(),
-					visibility: this.visibility,
-					localOnly: this.localOnly,
-					copyOnce: this.copyOnce,
-					fileIds: this.files.length > 0 ? this.files.map(f => f.id) : undefined,
-					files: this.files || [],
-					replyId: this.reply ? this.reply.id : undefined,
-					reply: this.reply,
-					renoteId: this.renote ? this.renote.id : this.quoteId ? this.quoteId : undefined,
-					renote: this.renote,
-					emojis,
-				};
-			});
-		},
-
-		post(v: any) {
-			let visibility = this.visibility;
-			let localOnly = this.localOnly;
-			let copyOnce = this.copyOnce;
-
-			// ただのRenoteはクライアントでvisibilityを指定しない
-			if (this.renote && !this.quote) visibility = undefined;
-
-			if (typeof v == 'string') {
-				const m = v.match(/^local-(.+)/);
-				const n = v.match(/^once-(.+)/);
-				if (m) {
-					localOnly = true;
-					copyOnce = false;
-					visibility = m[1];
-				} else if (n) {
-					localOnly = false;
-					copyOnce = true;
-					visibility = n[1];
-				} else {
-					localOnly = false;
-					copyOnce = false;
-					visibility = v;
-				}
-			}
-
-			this.posting = true;
-			const viaMobile = this.$store.state.settings.disableViaMobile !== true;
-			this.$root.api('notes/create', {
-				text: this.text == '' ? undefined : this.text,
-				fileIds: this.files.length > 0 ? this.files.map(f => f.id) : undefined,
-				replyId: this.reply ? this.reply.id : undefined,
-				renoteId: this.renote ? this.renote.id : undefined,
-				poll: this.poll ? (this.$refs.poll as any).get() : undefined,
-				cw: this.useCw ? this.cw || '' : undefined,
-				geo: null,
-				visibility,
-				visibleUserIds: this.visibility == 'specified' ? this.visibleUsers.map(u => u.id) : undefined,
-				localOnly,
-				copyOnce,
-				viaMobile: viaMobile
-			}).then(data => {
-				if (this.initialNote && this.initialNote._edit) {
-					this.$root.api('notes/delete', {
-						noteId: this.initialNote.id
-					});
-				}
-
-				this.$emit('posted');
-				this.clear();
-			}).finally(() => {
-				this.posting = false;
-			});
-
-			if (this.text && this.text != '') {
-				const hashtags = parse(this.text).filter(x => x.node.type === 'hashtag').map(x => x.node.props.hashtag);
-				const history = JSON.parse(localStorage.getItem('hashtags') || '[]') as string[];
-				localStorage.setItem('hashtags', JSON.stringify(unique(hashtags.concat(history))));
-			}
-		},
-
 		cancel() {
 			this.$emit('cancel');
 		},
-
-		kao() {
-			this.text += getFace();
-		}
 	}
 });
 </script>
