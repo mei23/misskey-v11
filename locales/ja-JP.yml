@@ -1759,6 +1759,7 @@ mobile/views/components/post-form.vue:
   error: "エラー"
   username-prompt: "ユーザー名を入力してください"
   quote: "引用する..."
+  annotations: "内容への注釈 (オプション)"
 
 mobile/views/components/sub-note-content.vue:
   private: "この投稿は非公開です"

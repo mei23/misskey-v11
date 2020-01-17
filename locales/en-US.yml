@@ -1587,6 +1587,7 @@ mobile/views/components/post-form.vue:
   error: "Error"
   username-prompt: "Enter user name"
   quote: "Quote..."
+  annotations: "Annotations for the post (optional)"
 mobile/views/components/sub-note-content.vue:
   private: "This post is private"
   deleted: "This post has been deleted"
