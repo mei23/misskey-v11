@@ -46,15 +46,16 @@
 					<mk-note-preview :note="appearNote.renote"/>
 				</div>
 			</div>
-			<span class="app" v-if="appearNote.app && $store.state.settings.showVia">via <b>{{ appearNote.app.name }}</b></span>
 		</div>
 		<router-link class="time" :to="appearNote | notePage">
+			<fa :icon="faClock"/>
+			{{ }}
 			<mk-time :time="appearNote.createdAt" mode="detail"/>
 		</router-link>
 		<div class="visibility-info">
-			<x-visibility-icon class="visibility" :v="appearNote.visibility" :localOnly="appearNote.localOnly"/>
-			<span class="remote" title="Remote post" v-if="appearNote.user.host != null"><fa :icon="faGlobeAmericas"/></span>
+			<x-visibility-icon class="visibility" :v="appearNote.visibility" :localOnly="appearNote.localOnly" :copyOnce="appearNote.copyOnce" :withText="true"/>
 		</div>
+		<span class="app" v-if="appearNote.app && $store.state.settings.showVia">via <b>{{ appearNote.app.name }}</b></span>
 		<footer>
 			<mk-reactions-viewer :note="appearNote"/>
 			<button @click="reply()" :title="$t('title')">
@@ -94,7 +95,7 @@ import i18n from '../../../i18n';
 import XSub from './note.sub.vue';
 import noteSubscriber from '../../../common/scripts/note-subscriber';
 import noteMixin from '../../../common/scripts/note-mixin';
-import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 
 export default Vue.extend({
@@ -119,7 +120,7 @@ export default Vue.extend({
 
 	data() {
 		return {
-			faGlobeAmericas,
+			faClock,
 			conversation: [],
 			conversationFetching: false,
 			replies: []
@@ -310,20 +311,9 @@ export default Vue.extend({
 						display block
 						max-width 100%
 
-			> .app
-				font-size 12px
-				color #ccc
 
-		> .time
-			font-size 16px
+		> .time, .visibility-info, .app
 			color var(--noteHeaderInfo)
-
-		> .visibility-info
-			color var(--noteHeaderInfo)
-
-			> .remote
-				margin-left 4px
-				color #4dabf7
 
 		> footer
 			font-size 1.2em

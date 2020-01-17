@@ -33,6 +33,18 @@
 		<div class="wrap" v-else-if="visibility == 'once-specified'" :title="$t('@.note-visibility.once-specified')">
 			<fa :icon="faSatelliteDish"/>
 		</div>
+		<div v-if="withText" style="margin-left: 0.3em">
+			<span v-if="visibility == 'public'">{{ $t('@.note-visibility.public') }}</span>
+			<span v-else-if="visibility == 'home'">{{ $t('@.note-visibility.home') }}</span>
+			<span v-else-if="visibility == 'followers'">{{ $t('@.note-visibility.followers') }}</span>
+			<span v-else-if="visibility == 'specified'">{{ $t('@.note-visibility.specified') }}</span>
+			<span v-else-if="visibility == 'local-public'">{{ $t('@.note-visibility.local-public') }}</span>
+			<span v-else-if="visibility == 'local-home'">{{ $t('@.note-visibility.local-home') }}</span>
+			<span v-else-if="visibility == 'local-followers'">{{ $t('@.note-visibility.local-followers') }}</span>
+			<span v-else-if="visibility == 'once-public'">{{ $t('@.note-visibility.once-public') }}</span>
+			<span v-else-if="visibility == 'once-home'">{{ $t('@.note-visibility.once-home') }}</span>
+			<span v-else-if="visibility == 'once-specified'">{{ $t('@.note-visibility.once-specified') }}</span>
+		</div>
 	</div>
 </template>
 
@@ -54,6 +66,11 @@ export default Vue.extend({
 			default: false
 		},
 		copyOnce: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		withText: {
 			type: Boolean,
 			required: false,
 			default: false

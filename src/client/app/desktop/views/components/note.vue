@@ -15,7 +15,7 @@
 	<article class="article">
 		<mk-avatar class="avatar" :user="appearNote.user"/>
 		<div class="main">
-			<mk-note-header class="header" :note="appearNote" :mini="narrow"/>
+			<mk-note-header class="header" :note="appearNote" :mini="narrow" :no-info="detail"/>
 			<div class="body" v-if="appearNote.deletedAt == null">
 				<p v-if="appearNote.cw != null" class="cw">
 					<mfm v-if="appearNote.cw != ''" class="text" :text="appearNote.cw" :author="appearNote.user" :i="$store.state.i" :custom-emojis="appearNote.emojis" />
@@ -39,6 +39,14 @@
 				</div>
 			</div>
 			<footer v-if="appearNote.deletedAt == null && !preview" class="footer">
+				<router-link v-if="detail" class="time" :to="appearNote | notePage">
+					<fa :icon="faClock"/>
+					{{ }}
+					<mk-time :time="appearNote.createdAt" mode="detail"/>
+				</router-link>
+				<div v-if="detail" class="visibility-info">
+					<x-visibility-icon class="visibility" :v="appearNote.visibility" :localOnly="appearNote.localOnly" :copyOnce="appearNote.copyOnce" :withText="true"/>
+				</div>
 				<span class="app" v-if="appearNote.app && narrow && detail && $store.state.settings.showVia">via <b>{{ appearNote.app.name }}</b></span>
 				<mk-reactions-viewer :note="appearNote" ref="reactionsViewer"/>
 				<button class="replyButton button" @click="reply()" :title="$t('reply')">
@@ -83,12 +91,15 @@ import i18n from '../../../i18n';
 import XSub from './note.sub.vue';
 import noteMixin from '../../../common/scripts/note-mixin';
 import noteSubscriber from '../../../common/scripts/note-subscriber';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/note.vue'),
 
 	components: {
-		XSub
+		XSub,
+		XVisibilityIcon
 	},
 
 	mixins: [
@@ -126,6 +137,7 @@ export default Vue.extend({
 
 	data() {
 		return {
+			faClock,
 			conversation: [],
 			replies: []
 		};
@@ -286,12 +298,9 @@ export default Vue.extend({
 							border-radius 8px
 
 			> .footer
-				> .app
+				> .time, .visibility-info, .app
 					display block
-					margin-top 0.5em
-					margin-left 0.5em
 					color var(--noteHeaderInfo)
-					font-size 0.8em
 
 				> .button
 					margin 0 28px 0 0

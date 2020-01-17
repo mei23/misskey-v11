@@ -24,15 +24,6 @@
 				<mk-user-name :user="appearNote.user"/>
 			</router-link>
 			<span class="username"><mk-acct :user="appearNote.user"/></span>
-			<div class="info">
-				<router-link class="time" :to="appearNote | notePage">
-					<mk-time :time="appearNote.createdAt" mode="detail"/>
-				</router-link>
-				<div class="visibility-info">
-				<x-visibility-icon class="visibility" :v="appearNote.visibility" :localOnly="appearNote.localOnly"/>
-					<span class="remote" title="Remote post" v-if="appearNote.user.host != null"><fa :icon="faGlobeAmericas"/></span>
-				</div>
-			</div>
 		</header>
 		<div class="body">
 			<p v-if="appearNote.cw != null" class="cw">
@@ -58,6 +49,14 @@
 			</div>
 		</div>
 		<footer>
+			<router-link class="time" :to="appearNote | notePage">
+				<fa :icon="faClock"/>
+				{{ }}
+				<mk-time :time="appearNote.createdAt" mode="detail"/>
+			</router-link>
+			<div class="visibility-info">
+				<x-visibility-icon class="visibility" :v="appearNote.visibility" :localOnly="appearNote.localOnly" :copyOnce="appearNote.copyOnce" :withText="true"/>
+			</div>
 			<span class="app" v-if="note.app && $store.state.settings.showVia">via <b>{{ note.app.name }}</b></span>
 			<mk-reactions-viewer :note="appearNote"/>
 			<button class="replyButton" @click="reply()" :title="$t('reply')">
@@ -97,7 +96,7 @@ import i18n from '../../../i18n';
 import XSub from './note.sub.vue';
 import noteSubscriber from '../../../common/scripts/note-subscriber';
 import noteMixin from '../../../common/scripts/note-mixin';
-import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 
 export default Vue.extend({
@@ -122,7 +121,7 @@ export default Vue.extend({
 
 	data() {
 		return {
-			faGlobeAmericas,
+			faClock,
 			conversation: [],
 			conversationFetching: false,
 			replies: []
@@ -262,7 +261,7 @@ export default Vue.extend({
 					> .remote
 						margin-left 4px
 						color #4dabf7
-	
+
 		> .body
 			padding 8px 0
 
@@ -313,10 +312,9 @@ export default Vue.extend({
 		> footer
 			font-size 1.2em
 
-			> .app
+			> .time, .visibility-info, .app
 				display block
 				font-size 0.8em
-				margin-left 0.5em
 				color var(--noteHeaderInfo)
 
 			> button

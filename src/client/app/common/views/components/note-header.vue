@@ -9,7 +9,7 @@
 	<span class="is-cat" v-if="note.user.isCat">cat</span>
 	<span class="username"><mk-acct :user="note.user"/></span>
 	<span class="is-verified" v-if="note.user.isVerified" :title="$t('@.verified-user')"><fa icon="star"/></span>
-	<div class="info">
+	<div class="info" v-if="!noInfo">
 		<span class="mobile" v-if="note.viaMobile"><fa icon="mobile-alt"/></span>
 		<router-link class="created-at" :to="note | notePage">
 			<mk-time :time="note.createdAt"/>
@@ -40,6 +40,11 @@ export default Vue.extend({
 		note: {
 			type: Object,
 			required: true
+		},
+		noInfo: {
+			type: Boolean,
+			required: false,
+			default: false
 		},
 		mini: {
 			type: Boolean,
