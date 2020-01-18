@@ -4,7 +4,7 @@
 	<div class="popover" :class="{ bubble }" ref="popover">
 		<template v-for="item, i in items">
 			<div v-if="item === null"></div>
-			<button v-if="item" @click="clicked(item.action)" :tabindex="i">
+			<button v-if="item" @click="clicked(item.action, item.actionArg)" :tabindex="i">
 				<fa v-if="item.icon" :icon="item.icon"/>{{ item.text }}
 			</button>
 		</template>
@@ -87,8 +87,12 @@ export default Vue.extend({
 		});
 	},
 	methods: {
-		clicked(fn) {
-			fn();
+		clicked(fn: Function, arg: any) {
+			if (arg) {
+				fn(arg);
+			} else {
+				fn();
+			}
 			this.close();
 		},
 		close() {

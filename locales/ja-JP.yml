@@ -587,6 +587,11 @@ common/views/components/user-menu.vue:
   suspend-confirm: "このユーザーを凍結しますか？"
   unsuspend-confirm: "このユーザーを凍結解除しますか？"
 
+common/views/components/list-menu.vue:
+  push-to-list: "リストに追加"
+  pull-from-list: "{} から削除"
+  select-list: "リストを選択してください"
+  pull-list-confirm: "リストから削除しますか？"
 common/views/components/poll.vue:
   vote-to: "「{}」に投票する"
   vote-count: "{}票"

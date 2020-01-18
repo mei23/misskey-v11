@@ -16,6 +16,7 @@
 		<span class="followed" v-if="$store.getters.isSignedIn && $store.state.i.id != user.id && user.isFollowed">{{ $t('follows-you') }}</span>
 		<div class="actions" v-if="$store.getters.isSignedIn">
 			<button @click="menu" class="menu" ref="menu"><fa icon="ellipsis-h"/></button>
+			<button @click="listMenu" class="listMenu" ref="listMenu"><fa :icon="['fas', 'list']"/></button>
 			<mk-follow-button v-if="$store.state.i.id != user.id" :user="user" :inline="true" :transparent="false" class="follow"/>
 		</div>
 	</div>
@@ -54,6 +55,7 @@ import Vue from 'vue';
 import i18n from '../../../../i18n';
 import * as age from 's-age';
 import XUserMenu from '../../../../common/views/components/user-menu.vue';
+import XListMenu from '../../../../common/views/components/list-menu.vue';
 import XIntegrations from '../../../../common/views/components/integrations.vue';
 import ImageViewer from '../../../../common/views/components/image-viewer.vue';
 
@@ -127,7 +129,17 @@ export default Vue.extend({
 			this.$once('hook:beforeDestroy', () => {
 				w.destroyDom();
 			});
-		}
+		},
+
+		listMenu() {
+			const w = this.$root.new(XListMenu, {
+				source: this.$refs.listMenu,
+				user: this.user
+			});
+			this.$once('hook:beforeDestroy', () => {
+				w.destroyDom();
+			});
+		},
 	}
 });
 </script>
@@ -174,7 +186,7 @@ export default Vue.extend({
 			top 12px
 			right 12px
 
-			> .menu
+			> .menu, .listMenu
 				height 100%
 				padding 0 14px
 				color #fff

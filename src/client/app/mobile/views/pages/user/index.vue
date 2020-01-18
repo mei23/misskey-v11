@@ -15,6 +15,7 @@
 						<img :src="avator" alt="avatar"/>
 					</a>
 					<button class="menu" ref="menu" @click="menu"><fa icon="ellipsis-h"/></button>
+					<button class="listMenu" ref="listMenu" @click="listMenu"><fa :icon="['fas', 'list']"/></button>
 					<mk-follow-button v-if="$store.getters.isSignedIn && $store.state.i.id != user.id" :user="user" :key="user.id"/>
 				</div>
 				<div class="title">
@@ -87,6 +88,7 @@ import * as age from 's-age';
 import parseAcct from '../../../../../../misc/acct/parse';
 import Progress from '../../../../common/scripts/loading';
 import XUserMenu from '../../../../common/views/components/user-menu.vue';
+import XListMenu from '../../../../common/views/components/list-menu.vue';
 import XHome from './home.vue';
 import { getStaticImageUrl } from '../../../../common/scripts/get-static-image-url';
 import XIntegrations from '../../../../common/views/components/integrations.vue';
@@ -143,6 +145,13 @@ export default Vue.extend({
 		menu() {
 			this.$root.new(XUserMenu, {
 				source: this.$refs.menu,
+				user: this.user
+			});
+		},
+
+		listMenu() {
+			this.$root.new(XListMenu, {
+				source: this.$refs.listMenu,
 				user: this.user
 			});
 		},
@@ -218,6 +227,13 @@ export default Vue.extend({
 
 				> .menu
 					margin 0 0 0 auto
+					padding 8px
+					margin-right 8px
+					font-size 18px
+					color var(--text)
+
+				> .listMenu
+					margin 0 0 0 0
 					padding 8px
 					margin-right 8px
 					font-size 18px

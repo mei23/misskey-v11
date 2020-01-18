@@ -14,6 +14,7 @@
 		<header :style="bannerStyle">
 			<div>
 				<button class="menu" @click="menu" ref="menu"><fa icon="ellipsis-h"/></button>
+				<button class="listMenu" @click="listMenu" ref="listMenu"><fa :icon="['fas', 'list']"/></button>
 				<mk-follow-button v-if="$store.getters.isSignedIn && user.id != $store.state.i.id" :user="user" :key="user.id" class="follow" mini/>
 				<mk-avatar class="avatar" :user="user" :disable-preview="true" :disable-link="true" :key="user.id" @click="onAvatarClick()" style="cursor: pointer"/>
 				<router-link class="name" :to="user | userPage()">
@@ -70,6 +71,7 @@ import i18n from '../../../i18n';
 import parseAcct from '../../../../../misc/acct/parse';
 import XColumn from './deck.column.vue';
 import XUserMenu from '../../../common/views/components/user-menu.vue';
+import XListMenu from '../../../common/views/components/list-menu.vue';
 import ImageViewer from '../../../common/views/components/image-viewer.vue';
 
 export default Vue.extend({
@@ -133,7 +135,17 @@ export default Vue.extend({
 			this.$once('hook:beforeDestroy', () => {
 				w.destroyDom();
 			});
-		}
+		},
+
+		listMenu() {
+			const w = this.$root.new(XListMenu, {
+				source: this.$refs.listMenu,
+				user: this.user
+			});
+			this.$once('hook:beforeDestroy', () => {
+				w.destroyDom();
+			});
+		},
 	}
 });
 </script>
@@ -168,6 +180,14 @@ export default Vue.extend({
 				position absolute
 				top 8px
 				left 8px
+				padding 8px
+				font-size 16px
+				text-shadow 0 0 8px #000
+
+			> .listMenu
+				position absolute
+				top 8px
+				left 40px
 				padding 8px
 				font-size 16px
 				text-shadow 0 0 8px #000
