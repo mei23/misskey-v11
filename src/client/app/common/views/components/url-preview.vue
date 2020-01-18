@@ -104,9 +104,6 @@ export default Vue.extend({
 			return;
 		}
 
-		if (requestUrl.hostname === 'music.youtube.com')
-			requestUrl.hostname = 'youtube.com';
-
 		const requestLang = (lang || 'ja-JP').replace('ja-KS', 'ja-JP');
 
 		requestUrl.hash = '';
