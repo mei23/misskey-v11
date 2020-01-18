@@ -53,7 +53,7 @@ export default Vue.extend({
 		timeSplitters: {
 			type: Array,
 			required: false,
-			default: [],
+			default: (): any[] => [],
 		},
 		makePromise: {
 			required: true
