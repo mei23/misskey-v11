@@ -127,6 +127,11 @@ export default Vue.extend({
 			required: false,
 			default: false
 		},
+		mini: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 	},
 
 	inject: {
