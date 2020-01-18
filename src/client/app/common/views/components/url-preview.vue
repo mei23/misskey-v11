@@ -82,6 +82,10 @@ export default Vue.extend({
 	created() {
 		const requestUrl = new URL(this.url);
 
+		if (this.isBlokedUrl(requestUrl)) {
+			return;
+		}
+
 		if (this.detail && requestUrl.hostname == 'twitter.com' && /^\/.+\/status(es)?\/\d+/.test(requestUrl.pathname)) {
 			this.tweetUrl = requestUrl;
 			const twttr = (window as any).twttr || {};
@@ -121,6 +125,14 @@ export default Vue.extend({
 				this.player = info.player;
 			})
 		});
+	},
+
+	methods: {
+		isBlokedUrl(url: URL) {
+			if (url.pathname.match(/\.(?:jpg|gif|png)$/)) return true;
+			if (url.pathname.match(/^\/media\/(?:[\w-]{19})$/)) return true;
+			return false;
+		}
 	}
 });
 </script>
