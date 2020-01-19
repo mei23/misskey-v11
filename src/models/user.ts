@@ -15,6 +15,7 @@ import packEmojis from '../misc/pack-emojis';
 import { dbLogger } from '../db/logger';
 import DriveFile from './drive-file';
 import getDriveFileUrl from '../misc/get-drive-file-url';
+import UserFilter from './user-filter';
 
 const User = db.get<IUser>('users');
 
@@ -211,7 +212,7 @@ export function isValidBirthday(birthday: string): boolean {
 //#endregion
 
 export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
-	const [following1, following2, followReq1, followReq2, toBlocking, fromBlocked, mute] = await Promise.all([
+	const [following1, following2, followReq1, followReq2, toBlocking, fromBlocked, mute, filter] = await Promise.all([
 		Following.findOne({
 			followerId: me,
 			followeeId: target
@@ -239,6 +240,10 @@ export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
 		Mute.findOne({
 			muterId: me,
 			muteeId: target
+		}),
+		UserFilter.findOne({
+			ownerId: me,
+			targetId: target
 		})
 	]);
 
@@ -250,7 +255,8 @@ export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
 		isFollowed: following2 !== null,
 		isBlocking: toBlocking !== null,
 		isBlocked: fromBlocked !== null,
-		isMuted: mute !== null
+		isMuted: mute !== null,
+		isHideRenoting: !!(filter?.hideRenote),
 	};
 }
 
@@ -392,6 +398,7 @@ export const pack = (
 		_user.isBlocking = relation.isBlocking;
 		_user.isBlocked = relation.isBlocked;
 		_user.isMuted = relation.isMuted;
+		_user.isHideRenoting = relation.isHideRenoting;
 	}
 
 	if (opts.detail) {

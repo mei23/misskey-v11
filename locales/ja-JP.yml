@@ -586,6 +586,10 @@ common/views/components/user-menu.vue:
   unsuspend: "凍結解除"
   suspend-confirm: "このユーザーを凍結しますか？"
   unsuspend-confirm: "このユーザーを凍結解除しますか？"
+  hide-renote: "Renoteを隠す"
+  unhide-renote: "Renoteを隠すを解除"
+  hide-renote-confirm: "このユーザーのRenoteを隠しますか？"
+  unhide-renote-confirm: "このユーザーのRenoteを隠してるのを解除しますか？"
 
 common/views/components/list-menu.vue:
   push-to-list: "リストに追加"

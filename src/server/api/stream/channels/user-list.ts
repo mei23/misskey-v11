@@ -5,6 +5,8 @@ import Mute from '../../../../models/mute';
 import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import UserList, { IUserList } from '../../../../models/user-list';
 import config from '../../../../config';
+import UserFilter from '../../../../models/user-filter';
+import { oidIncludes } from '../../../../prelude/oid';
 
 export default class extends Channel {
 	public readonly chName = 'userList';
@@ -14,12 +16,20 @@ export default class extends Channel {
 	public lists: IUserList[] = [];
 
 	private mutedUserIds: string[] = [];
+	private hideRenoteUsers: string[] = [];
 
 	@autobind
 	public async init(params: any) {
 		this.listId = params.listId;
 		const mute = this.user ? await Mute.find({ muterId: this.user._id }) : null;
 		this.mutedUserIds = mute ? mute.map(m => m.muteeId.toString()) : [];
+
+		const hideRenotes = await UserFilter.find({
+			ownerId: this.user._id,
+			hideRenote: true
+		});
+
+		this.hideRenoteUsers = hideRenotes.map(hideRenote => hideRenote.targetId).map(x => x.toString());
 
 		// Subscribe stream
 		this.subscriber.on(`userListStream:${this.listId}`, this.send);
@@ -63,6 +73,11 @@ export default class extends Channel {
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
 		if (shouldMuteThisNote(note, this.mutedUserIds)) return;
+
+		// Renoteを隠すユーザー
+		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
+			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
+		}
 
 		this.send('note', note);
 	}

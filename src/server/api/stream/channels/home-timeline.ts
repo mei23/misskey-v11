@@ -8,6 +8,7 @@ import UserList from '../../../../models/user-list';
 import { isSelfHost } from '../../../../misc/convert-host';
 import Following from '../../../../models/following';
 import { oidEquals, oidIncludes } from '../../../../prelude/oid';
+import UserFilter from '../../../../models/user-filter';
 
 export default class extends Channel {
 	public readonly chName = 'homeTimeline';
@@ -17,6 +18,7 @@ export default class extends Channel {
 	private mutedUserIds: string[] = [];
 	private hideFromUsers: string[] = [];
 	private hideFromHosts: string[] = [];
+	private hideRenoteUsers: string[] = [];
 	private followingIds: string[] = [];
 
 	@autobind
@@ -41,6 +43,13 @@ export default class extends Channel {
 
 		this.hideFromUsers = concat(lists.map(list => list.userIds)).map(x => x.toString());
 		this.hideFromHosts = concat(lists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
+
+		const hideRenotes = await UserFilter.find({
+			ownerId: this.user._id,
+			hideRenote: true
+		});
+
+		this.hideRenoteUsers = hideRenotes.map(hideRenote => hideRenote.targetId).map(x => x.toString());
 	}
 
 	@autobind
@@ -96,6 +105,11 @@ export default class extends Channel {
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
 		if (shouldMuteThisNote(note, this.mutedUserIds, this.hideFromUsers, this.hideFromHosts)) return;
+
+		// Renoteを隠すユーザー
+		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
+			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
+		}
 
 		this.send('note', note);
 	}

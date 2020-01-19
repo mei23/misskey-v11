@@ -9,6 +9,7 @@ import { getHideUserIds } from '../../common/get-hide-users';
 import UserList from '../../../../models/user-list';
 import { concat } from '../../../../prelude/array';
 import { isSelfHost } from '../../../../misc/convert-host';
+import { getHideRenoteUserIds } from '../../common/get-hide-renote-users';
 
 export const meta = {
 	desc: {
@@ -131,7 +132,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user) => {
-	const [followings, hideUserIds, hideFromHomeLists] = await Promise.all([
+	const [followings, hideUserIds, hideFromHomeLists, hideRenoteUserIds] = await Promise.all([
 		// フォローを取得
 		// Fetch following
 		getFriends(user._id),
@@ -143,7 +144,10 @@ export default define(meta, async (ps, user) => {
 		UserList.find({
 			userId: user._id,
 			hideFromHome: true,
-		})
+		}),
+
+		// リノートを隠すユーザーを取得
+		getHideRenoteUserIds(user),
 	]);
 
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
@@ -216,6 +220,22 @@ export default define(meta, async (ps, user) => {
 	// MongoDBではトップレベルで否定ができないため、De Morganの法則を利用してクエリします。
 	// つまり、「『自分の投稿かつRenote』ではない」を「『自分の投稿ではない』または『Renoteではない』」と表現します。
 	// for details: https://en.wikipedia.org/wiki/De_Morgan%27s_laws
+
+	if (hideRenoteUserIds.length > 0) {
+		query.$and.push({
+			$or: [{
+				userId: { $nin: hideRenoteUserIds }
+			}, {
+				renoteId: null
+			}, {
+				text: { $ne: null }
+			}, {
+				fileIds: { $ne: [] }
+			}, {
+				poll: { $ne: null }
+			}]
+		});
+	}
 
 	if (ps.includeMyRenotes === false) {
 		query.$and.push({

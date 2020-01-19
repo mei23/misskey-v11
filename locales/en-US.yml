@@ -548,6 +548,10 @@ common/views/components/user-menu.vue:
   unsuspend: "Unsuspend"
   suspend-confirm: "Are you sure that you want to suspend this user?"
   unsuspend-confirm: "Are you sure that you want to unsuspend this user?"
+  hide-renote: "Hide Renote"
+  unhide-renote: "Unhide Renote"
+  hide-renote-confirm: "Hide Renote from this user?"
+  unhide-renote-confirm: "Unhide Renote from this user?"
 common/views/components/list-menu.vue:
   push-to-list: "Add to list"
   pull-from-list: "Remove from {}"

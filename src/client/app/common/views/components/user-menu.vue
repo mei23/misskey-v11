@@ -24,20 +24,32 @@ export default Vue.extend({
 			}
 		}] as any;
 		
+		// ログインユーザー
 		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id) {
-			menu = menu.concat([null, {
-				icon: this.user.isMuted ? ['fas', 'eye'] : ['far', 'eye-slash'],
-				text: this.user.isMuted ? this.$t('unmute') : this.$t('mute'),
-				action: this.toggleMute
-			}, {
-				icon: 'ban',
-				text: this.user.isBlocking ? this.$t('unblock') : this.$t('block'),
-				action: this.toggleBlock
-			}, null, {
-				icon: faExclamationCircle,
-				text: this.$t('report-abuse'),
-				action: this.reportAbuse
-			}]);
+			menu = menu.concat([
+				null,
+				{
+					icon: this.user.isHideRenoting ? ['fas', 'eye'] : ['far', 'eye-slash'],
+					text: this.user.isHideRenoting ? this.$t('unhide-renote') : this.$t('hide-renote'),
+					action: this.toggleHideRenote
+				},
+				{
+					icon: this.user.isMuted ? ['fas', 'eye'] : ['far', 'eye-slash'],
+					text: this.user.isMuted ? this.$t('unmute') : this.$t('mute'),
+					action: this.toggleMute
+				},
+				{
+					icon: 'ban',
+					text: this.user.isBlocking ? this.$t('unblock') : this.$t('block'),
+					action: this.toggleBlock
+				},
+				null,
+				{
+					icon: faExclamationCircle,
+					text: this.$t('report-abuse'),
+					action: this.reportAbuse
+				}
+			]);
 		}
 
 		if (this.$store.getters.isSignedIn && (this.$store.state.i.isAdmin || this.$store.state.i.isModerator)) {
@@ -62,6 +74,32 @@ export default Vue.extend({
 			this.$nextTick(() => {
 				this.destroyDom();
 			});
+		},
+
+		async toggleHideRenote() {
+			if (this.user.isHideRenoting) {
+				if (!await this.getConfirmed(this.$t('unhide-renote-confirm'))) return;
+
+				this.$root.api('user-filter/update', {
+					targetId: this.user.id,
+					hideRenote: false,
+				}).then(() => {
+					this.user.isHideRenoting = false;
+				}, (e: any) => {
+					this.$root.dialog({ type: 'error', text: e });
+				});
+			} else {
+				if (!await this.getConfirmed(this.$t('hide-renote-confirm'))) return;
+
+				this.$root.api('user-filter/update', {
+					targetId: this.user.id,
+					hideRenote: true,
+				}).then(() => {
+					this.user.isHideRenoting = true;
+				}, (e: any) => {
+					this.$root.dialog({ type: 'error', text: e });
+				});
+			}
 		},
 
 		async toggleMute() {
