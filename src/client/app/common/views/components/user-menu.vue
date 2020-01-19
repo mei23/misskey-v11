@@ -22,10 +22,6 @@ export default Vue.extend({
 			action: () => {
 				this.$post({ mention: this.user });
 			}
-		}, null, {
-			icon: ['fas', 'list'],
-			text: this.$t('push-to-list'),
-			action: this.pushList
 		}] as any;
 		
 		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id) {
@@ -65,30 +61,6 @@ export default Vue.extend({
 		closed() {
 			this.$nextTick(() => {
 				this.destroyDom();
-			});
-		},
-
-		async pushList() {
-			const t = this.$t('select-list'); // なぜか後で参照すると null になるので最初にメモリに確保しておく
-			const lists = await this.$root.api('users/lists/list');
-			const { canceled, result: listId } = await this.$root.dialog({
-				type: null,
-				title: t,
-				select: {
-					items: lists.map(list => ({
-						value: list.id, text: list.title
-					}))
-				},
-				showCancelButton: true
-			});
-			if (canceled) return;
-			await this.$root.api('users/lists/push', {
-				listId: listId,
-				userId: this.user.id
-			});
-			this.$root.dialog({
-				type: 'success',
-				splash: true
 			});
 		},
 

@@ -7,6 +7,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/list-menu.vue'),
@@ -17,6 +18,7 @@ export default Vue.extend({
 		return {
 			lists: [],
 			_listId: null,
+			faPlus, faMinus
 		};
 	},
 
@@ -31,12 +33,12 @@ export default Vue.extend({
 	computed: {
 		items() {
 			let menu = [{
-				icon: ['fas', 'list'],
+				icon: faPlus,
 				text: this.$t('push-to-list'),
 				action: this.pushList
 			}, ...(
 				this.lists.map((list: any) => ({
-					icon: ['fas', 'list'],
+					icon: faMinus,
 					text: this.$t('pull-from-list').replace('{}', list.title),
 					action: this.pullList,
 					actionArg: list.id
