@@ -6,6 +6,7 @@ import { parse } from '../../../../mfm/parse';
 import i18n from '../../i18n';
 import { erase, unique, concat } from '../../../../prelude/array';
 import { faFish } from '@fortawesome/free-solid-svg-icons';
+import { nyaize } from '../../../../misc/nyaize';
 
 export default (opts) => ({
 	i18n: i18n(),
