@@ -107,6 +107,8 @@ common:
   empty-timeline-info:
     follow-users-to-make-your-timeline: "Following users will show their posts in your timeline."
     explore: "Find users"
+  post-form:
+    enter-username: "Please enter username"
   weekday-short:
     sunday: "S"
     monday: "M"

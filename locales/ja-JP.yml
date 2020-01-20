@@ -114,6 +114,9 @@ common:
     follow-users-to-make-your-timeline: "ユーザーをフォローすると投稿がタイムラインに表示されます。"
     explore: "ユーザーを探索する"
 
+  post-form:
+    enter-username: "ユーザー名を入力してください"
+
   weekday-short:
     sunday: "日"
     monday: "月"
