@@ -107,32 +107,4 @@ export default Vue.extend({
 				left 0
 				width 100%
 
-	@media (max-width 550px)
-		font-size 12px
-
-		> .thumbnail
-			height 80px
-
-		> article
-			padding 12px
-
-	@media (max-width 500px)
-		font-size 10px
-
-		> .thumbnail
-			height 70px
-
-		> article
-			padding 8px
-
-			> header
-				margin-bottom 4px
-
-			> footer
-				margin-top 4px
-
-				> img
-					width 12px
-					height 12px
-
 </style>
