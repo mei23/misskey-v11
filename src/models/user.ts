@@ -81,6 +81,9 @@ type IUserBase = {
 	 */
 	isBot: boolean;
 
+	isOrganization?: boolean;
+	isGroup?: boolean;
+
 	/**
 	 * Botからのフォローを承認制にするか
 	 */
@@ -294,6 +297,8 @@ export const pack = (
 		emojis: true,
 		isCat: true,
 		isBot: true,
+		isOrganization: true,
+		isGroup: true,
 		isAdmin: true,
 		isVerified: true
 	};

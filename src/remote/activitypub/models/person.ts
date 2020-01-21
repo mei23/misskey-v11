@@ -137,8 +137,6 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 
 	const tags = extractHashtags(person.tag).map(tag => tag.toLowerCase()).splice(0, 64);
 
-	const isBot = object.type == 'Service';
-
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
 	// const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);
 	const alsoKnownAsUserIds: mongo.ObjectID[] = [];
@@ -176,7 +174,9 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 			fields,
 			...services,
 			tags,
-			isBot,
+			isBot: object.type == 'Service',
+			isGroup: object.type == 'Group',
+			isOrganization: object.type == 'Organization',
 			isCat: (person as any).isCat === true
 		}) as IRemoteUser;
 	} catch (e) {
@@ -362,6 +362,8 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 		...services,
 		tags,
 		isBot: object.type == 'Service',
+		isGroup: object.type == 'Group',
+		isOrganization: object.type == 'Organization',
 		isCat: (person as any).isCat === true,
 		isLocked: person.manuallyApprovesFollowers,
 		publicKey: {

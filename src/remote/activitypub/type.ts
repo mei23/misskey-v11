@@ -180,7 +180,7 @@ export const isHashtag = (object: IObject): object is IApHashtag =>
 	typeof object.name === 'string';
 
 export interface IApPerson extends IObject {
-	type: 'Person' | 'Service';
+	type: 'Person' | 'Service' | 'Organization' | 'Group';
 	name: string;
 	preferredUsername: string;
 	manuallyApprovesFollowers: boolean;
@@ -195,7 +195,7 @@ export interface IApPerson extends IObject {
 }
 
 export const isPerson = (object: IObject): object is IApPerson =>
-	['Person', 'Service'].includes(object.type);
+	['Person', 'Service', 'Organization', 'Group'].includes(object.type);
 
 export interface IApEmoji extends IObject {
 	type: 'Emoji';
