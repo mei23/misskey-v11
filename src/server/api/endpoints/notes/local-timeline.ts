@@ -76,30 +76,6 @@ export const meta = {
 		untilDate: {
 			validator: $.optional.num,
 		},
-
-		includeMyRenotes: {
-			validator: $.optional.bool,
-			default: true,
-			desc: {
-				'ja-JP': '自分の行ったRenoteを含めるかどうか'
-			}
-		},
-
-		includeRenotedMyNotes: {
-			validator: $.optional.bool,
-			default: true,
-			desc: {
-				'ja-JP': 'Renoteされた自分の投稿を含めるかどうか'
-			}
-		},
-
-		includeLocalRenotes: {
-			validator: $.optional.bool,
-			default: true,
-			desc: {
-				'ja-JP': 'Renoteされたローカルの投稿を含めるかどうか'
-			}
-		},
 	},
 
 	res: {
@@ -155,62 +131,18 @@ export default define(meta, async (ps, user) => {
 			$nin: hideUserIds
 		};
 
-		query['_reply.userId'] = {
-			$nin: hideUserIds
-		};
+		// リプライを表示する設定じゃなければリプライ先のミュートは不要
+		if (m.showReplayInPublicTimeline) {
+			query['_reply.userId'] = {
+				$nin: hideUserIds
+			};
+		}
 
 		query['_renote.userId'] = {
 			$nin: hideUserIds
 		};
 	}
 
-	if (ps.includeMyRenotes === false) {
-		query.$and.push({
-			$or: [{
-				userId: { $ne: user._id }
-			}, {
-				renoteId: null
-			}, {
-				text: { $ne: null }
-			}, {
-				fileIds: { $ne: [] }
-			}, {
-				poll: { $ne: null }
-			}]
-		});
-	}
-
-	if (ps.includeRenotedMyNotes === false) {
-		query.$and.push({
-			$or: [{
-				'_renote.userId': { $ne: user._id }
-			}, {
-				renoteId: null
-			}, {
-				text: { $ne: null }
-			}, {
-				fileIds: { $ne: [] }
-			}, {
-				poll: { $ne: null }
-			}]
-		});
-	}
-
-	if (ps.includeLocalRenotes === false) {
-		query.$and.push({
-			$or: [{
-				'_renote.user.host': { $ne: null }
-			}, {
-				renoteId: null
-			}, {
-				text: { $ne: null }
-			}, {
-				fileIds: { $ne: [] }
-			}, {
-				poll: { $ne: null }
-			}]
-		});
-	}
 	const withFiles = ps.withFiles != null ? ps.withFiles : ps.mediaOnly;
 
 	if (withFiles) {
