@@ -314,6 +314,7 @@ export default Vue.extend({
 
 		> .time, .visibility-info, .app
 			color var(--noteHeaderInfo)
+			font-size 0.9em
 
 		> footer
 			font-size 1.2em

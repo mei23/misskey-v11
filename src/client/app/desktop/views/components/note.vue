@@ -306,6 +306,7 @@ export default Vue.extend({
 				> .time, .visibility-info, .app
 					display block
 					color var(--noteHeaderInfo)
+					font-size 0.9em
 
 				> .button
 					margin 0 28px 0 0
