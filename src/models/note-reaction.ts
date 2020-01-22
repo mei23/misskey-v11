@@ -5,9 +5,10 @@ import isObjectId from '../misc/is-objectid';
 import { pack as packUser } from './user';
 
 const NoteReaction = db.get<INoteReaction>('noteReactions');
-NoteReaction.createIndex('noteId');
-NoteReaction.createIndex('userId');
-NoteReaction.createIndex(['userId', 'noteId'], { unique: true });
+NoteReaction.createIndex(['noteId', 'userId'], { unique: true });
+NoteReaction.dropIndex('noteId').catch(() => {});
+NoteReaction.dropIndex('userId').catch(() => {});
+NoteReaction.dropIndex(['userId', 'noteId'], { unique: true }).catch(() => {});
 export default NoteReaction;
 
 export interface INoteReaction {
