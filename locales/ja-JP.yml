@@ -74,6 +74,12 @@ common:
   deck: "デッキ"
   timeline: "タイムライン"
   explore: "みつける"
+  new-post: "新規投稿"
+  featured: "ハイライト"
+  game: "ゲーム"
+  room: "ルーム"
+  notifications: "通知"
+  follow-requests: "フォロー申請"
   following: "フォロー中"
   followers: "フォロワー"
   only-not-followed: "フォローされてないユーザーのみ"
@@ -1241,6 +1247,8 @@ desktop/views/components/ui.header.post.vue:
 
 desktop/views/components/ui.header.search.vue:
   placeholder: "検索"
+
+desktop/views/components/ui.sidebar.vue:
 
 desktop/views/components/received-follow-requests-window.vue:
   title: "フォロー申請"
