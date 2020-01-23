@@ -2,7 +2,6 @@
  * Web Client Server
  */
 
-import * as os from 'os';
 import ms = require('ms');
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
