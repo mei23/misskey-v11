@@ -1,4 +1,4 @@
-import * as Router from '@koa/router';
+import * as Koa from 'koa';
 import * as send from 'koa-send';
 import * as mongodb from 'mongodb';
 import * as tmp from 'tmp';
@@ -17,13 +17,13 @@ import { downloadUrl } from '../../misc/donwload-url';
 
 const assets = `${__dirname}/../../server/file/assets/`;
 
-const commonReadableHandlerGenerator = (ctx: Router.RouterContext) => (e: Error): void => {
+const commonReadableHandlerGenerator = (ctx: Koa.BaseContext) => (e: Error): void => {
 	serverLogger.error(e);
 	ctx.status = 500;
 	ctx.set('Cache-Control', 'max-age=300');
 };
 
-export default async function(ctx: Router.RouterContext) {
+export default async function(ctx: Koa.BaseContext) {
 	// Validate id
 	if (!mongodb.ObjectID.isValid(ctx.params.id)) {
 		ctx.throw(400, 'incorrect id');

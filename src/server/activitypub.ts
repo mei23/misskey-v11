@@ -1,5 +1,5 @@
 import { ObjectID } from 'mongodb';
-import * as Router from '@koa/router';
+import * as Router from 'koa-router';
 import * as json from 'koa-json-body';
 import * as httpSignature from 'http-signature';
 
@@ -23,7 +23,7 @@ const router = new Router();
 
 //#region Routing
 
-function inbox(ctx: Router.RouterContext) {
+function inbox(ctx: Router.IRouterContext) {
 	let signature;
 
 	try {
@@ -41,7 +41,7 @@ function inbox(ctx: Router.RouterContext) {
 const ACTIVITY_JSON = 'application/activity+json; charset=utf-8';
 const LD_JSON = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"; charset=utf-8';
 
-function isActivityPubReq(ctx: Router.RouterContext) {
+function isActivityPubReq(ctx: Router.IRouterContext) {
 	ctx.response.vary('Accept');
 	const accepted = ctx.accepts('html', ACTIVITY_JSON, LD_JSON);
 	return typeof accepted === 'string' && !accepted.match(/html/);
@@ -57,8 +57,8 @@ export function setResponseType(ctx: Router.RouterContext) {
 }
 
 // inbox
-router.post('/inbox', json(), inbox as any);
-router.post('/users/:user/inbox', json(), inbox as any);
+router.post('/inbox', json(), inbox);
+router.post('/users/:user/inbox', json(), inbox);
 
 const isNoteUserAvailable = async (note: INote) => {
 	const user = await User.findOne({
@@ -177,7 +177,7 @@ router.get('/users/:user/publickey', async ctx => {
 });
 
 // user
-async function userInfo(ctx: Router.RouterContext, user: IUser) {
+async function userInfo(ctx: Router.IRouterContext, user: IUser) {
 	if (user === null) {
 		ctx.status = 404;
 		return;

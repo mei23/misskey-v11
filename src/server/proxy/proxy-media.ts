@@ -1,12 +1,12 @@
 import * as fs from 'fs';
-import * as Router from '@koa/router';
+import * as Koa from 'koa';
 import { serverLogger } from '..';
 import { IImage, ConvertToPng, ConvertToJpeg } from '../../services/drive/image-processor';
 import { createTemp } from '../../misc/create-temp';
 import { downloadUrl } from '../../misc/donwload-url';
 import { detectType } from '../../misc/get-file-info';
 
-export async function proxyMedia(ctx: Router.RouterContext) {
+export async function proxyMedia(ctx: Koa.BaseContext) {
 	const url = 'url' in ctx.query ? ctx.query.url : 'https://' + ctx.params.url;
 
 	// Create temp file
