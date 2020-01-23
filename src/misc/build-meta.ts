@@ -1,7 +1,6 @@
 import { IMeta } from '../models/meta';
 import Emoji from '../models/emoji';
 import config from '../config';
-import * as os from 'os';
 
 export async function buildMeta(instance: IMeta, detail = true) {
 	const emojis = await Emoji.find({ host: null }, {
@@ -21,14 +20,13 @@ export async function buildMeta(instance: IMeta, detail = true) {
 		description: instance.description,
 		langs: instance.langs,
 
-		secure: config.https != null,
-		machine: os.hostname(),
-		os: os.platform(),
-		node: process.version,
+		machine: 'Unknown',
+		os: 'Unknown',
+		node: 'Unknown',
 
 		cpu: {
-			model: os.cpus()[0].model,
-			cores: os.cpus().length
+			model: 'Unknown',
+			cores: 'Unknown'
 		},
 
 		announcements: instance.announcements || [],

@@ -297,13 +297,6 @@ router.get('/info', async ctx => {
 	});
 	await ctx.render('info', {
 		version: config.version,
-		machine: os.hostname(),
-		os: os.platform(),
-		node: process.version,
-		cpu: {
-			model: os.cpus()[0].model,
-			cores: os.cpus().length
-		},
 		emojis: emojis,
 		meta: meta
 	});
