@@ -162,8 +162,8 @@ export default Vue.extend({
 					'profile',
 					'calendar',
 					'activity',
-					'rss',
 					'hashtags',
+					'rss',
 					'version'
 				],
 				right: [
@@ -171,7 +171,6 @@ export default Vue.extend({
 					'broadcast',
 					'notifications',
 					'polls',
-					'server',
 					'nav',
 					'tips'
 				]
