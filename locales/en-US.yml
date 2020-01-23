@@ -935,6 +935,8 @@ desktop/views/components/home.vue:
   done: "Done"
   add-widget: "Add widget:"
   add: "Add"
+  restore-default: "Default"
+  restore-default-confirm: "Restore to default?"
 desktop/views/input-dialog.vue:
   cancel: "Cancel"
   ok: "OK"

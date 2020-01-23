@@ -1025,6 +1025,8 @@ desktop/views/components/home.vue:
   done: "完了"
   add-widget: "ウィジェットを追加:"
   add: "追加"
+  restore-default: "デフォルト"
+  restore-default-confirm: "デフォルトに戻しますか？"
 
 desktop/views/input-dialog.vue:
   cancel: "キャンセル"

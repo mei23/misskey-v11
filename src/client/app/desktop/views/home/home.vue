@@ -29,6 +29,7 @@
 						<option value="tips">{{ $t('@.widgets.tips') }}</option>
 					</select>
 					<button @click="addWidget">{{ $t('add') }}</button>
+					<button @click="restoreDefault">{{ $t('restore-default') }}</button>
 				</div>
 				<div class="trash">
 					<x-draggable v-model="trash" :options="{ group: 'x' }" @add="onTrash"></x-draggable>
@@ -135,6 +136,27 @@ export default Vue.extend({
 
 	created() {
 		if (this.$store.getters.isSignedIn) {
+			if (this.$store.state.settings.home == null) {
+				const _defaultDesktopHomeWidgets = this.generateDefault();
+				this.$root.api('i/update_home', {
+					home: _defaultDesktopHomeWidgets
+				}).then(() => {
+					this.$store.commit('settings/setHome', _defaultDesktopHomeWidgets);
+				});
+			}
+		}
+	},
+
+	mounted() {
+		this.connection = this.$root.stream.useSharedConnection('main');
+	},
+
+	beforeDestroy() {
+		this.connection.dispose();
+	},
+
+	methods: {
+		generateDefault() {
 			const defaultDesktopHomeWidgets = {
 				left: [
 					'profile',
@@ -177,25 +199,8 @@ export default Vue.extend({
 			}
 			//#endregion
 
-			if (this.$store.state.settings.home == null) {
-				this.$root.api('i/update_home', {
-					home: _defaultDesktopHomeWidgets
-				}).then(() => {
-					this.$store.commit('settings/setHome', _defaultDesktopHomeWidgets);
-				});
-			}
-		}
-	},
-
-	mounted() {
-		this.connection = this.$root.stream.useSharedConnection('main');
-	},
-
-	beforeDestroy() {
-		this.connection.dispose();
-	},
-
-	methods: {
+			return _defaultDesktopHomeWidgets;
+		},
 		hint() {
 			this.$root.dialog({
 				title: this.$t('@.customization-tips.title'),
@@ -228,6 +233,27 @@ export default Vue.extend({
 				place: 'left',
 				data: {}
 			});
+		},
+
+		async restoreDefault() {
+			if (!await this.getConfirmed(this.$t('restore-default-confirm'))) return;
+			const _defaultDesktopHomeWidgets = this.generateDefault();
+			this.$root.api('i/update_home', {
+				home: _defaultDesktopHomeWidgets
+			}).then(() => {
+				this.$store.commit('settings/setHome', _defaultDesktopHomeWidgets);
+			});
+		},
+
+		async getConfirmed(text: string): Promise<Boolean> {
+			const confirm = await this.$root.dialog({
+				type: 'warning',
+				showCancelButton: true,
+				title: 'confirm',
+				text,
+			});
+
+			return !confirm.canceled;
 		},
 
 		saveHome() {
