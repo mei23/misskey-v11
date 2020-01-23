@@ -42,7 +42,7 @@
 						<i><fa icon="angle-right"/></i>
 					</router-link>
 				</li>
-				<li @click="followRequests" v-if="($store.state.i.isLocked || $store.state.i.carefulBot || $store.state.i.carefulRemote)">
+				<li @click="followRequests">
 					<p>
 						<i><fa :icon="['far', 'envelope']" fixed-width/></i>
 						<span>{{ $t('follow-requests') }}<i v-if="$store.state.i.pendingReceivedFollowRequestsCount">{{ $store.state.i.pendingReceivedFollowRequestsCount }}</i></span>

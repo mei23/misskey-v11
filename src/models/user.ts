@@ -91,6 +91,8 @@ type IUserBase = {
 
 	carefulRemote: boolean;
 
+	carefulMassive?: boolean;
+
 	/**
 	 * フォローしているユーザーからのフォローリクエストを自動承認するか
 	 */

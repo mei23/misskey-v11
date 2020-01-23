@@ -159,8 +159,13 @@ export default async function(follower: IUser, followee: IUser, requestId?: stri
 	// フォロー対象が鍵アカウントである or
 	// フォロワーがBotであり、フォロー対象がBotからのフォローに慎重である or
 	// フォロワーがローカルユーザーであり、フォロー対象がリモートユーザーである
+	// 大量フォロワーであり、フォロー対象が大量フォロワーに慎重である
 	// 上記のいずれかに当てはまる場合はすぐフォローせずにフォローリクエストを発行しておく
-	if (followee.isLocked || (followee.carefulBot && follower.isBot) || (followee.carefulRemote && isRemoteUser(follower)) || (isLocalUser(follower) && isRemoteUser(followee))) {
+	if (followee.isLocked
+		|| (followee.carefulBot && follower.isBot)
+		|| (followee.carefulRemote && isRemoteUser(follower))
+		|| (followee.carefulMassive && follower.followingCount > 5000 && (follower.followingCount / follower.followersCount) > 10)
+		|| (isLocalUser(follower) && isRemoteUser(followee))) {
 		let autoAccept = false;
 
 		// 鍵アカウントであっても、既にフォローされていた場合はスルー

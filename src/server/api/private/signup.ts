@@ -124,6 +124,7 @@ export default async (ctx: Koa.BaseContext) => {
 		token: secret,
 		password: hash,
 		isAdmin: config.autoAdmin && usersCount === 0,
+		carefulMassive: true,
 		autoAcceptFollowed: true,
 		profile: {
 			bio: null,

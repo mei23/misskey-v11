@@ -717,6 +717,7 @@ common/views/components/profile-editor.vue:
   is-locked: "Follower requests require approval"
   careful-bot: "Follower requests from bots require approval"
   careful-remote: "Follower requests from remote require approval"
+  careful-massive: "Massive follow requests pending approval"
   auto-accept-followed: "Automatically approve follows from the people you follow"
   avoid-search-index: "Avoid search engine index"
   no-federation: "Disable federation"
