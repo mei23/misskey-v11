@@ -1,9 +1,9 @@
-import * as Koa from 'koa';
+import * as Router from 'koa-router';
 import * as manifest from '../../client/assets/manifest.json';
 import * as deepcopy from 'deepcopy';
 import fetchMeta from '../../misc/fetch-meta';
 
-module.exports = async (ctx: Koa.BaseContext) => {
+module.exports = async (ctx: Router.IRouterContext) => {
 	const json = deepcopy(manifest);
 
 	const instance = await fetchMeta();

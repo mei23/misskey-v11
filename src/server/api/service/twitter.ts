@@ -1,4 +1,3 @@
-import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import { v4 as uuid } from 'uuid';
 import autwh from 'autwh';
@@ -9,11 +8,11 @@ import config from '../../../config';
 import signin from '../common/signin';
 import fetchMeta from '../../../misc/fetch-meta';
 
-function getUserToken(ctx: Koa.BaseContext) {
+function getUserToken(ctx: Router.IRouterContext) {
 	return ((ctx.headers['cookie'] || '').match(/i=(!\w+)/) || [null, null])[1];
 }
 
-function compareOrigin(ctx: Koa.BaseContext) {
+function compareOrigin(ctx: Router.IRouterContext) {
 	function normalizeUrl(url: string) {
 		return url.endsWith('/') ? url.substr(0, url.length - 1) : url;
 	}

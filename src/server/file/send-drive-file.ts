@@ -1,4 +1,4 @@
-import * as Koa from 'koa';
+import * as Router from 'koa-router';
 import * as send from 'koa-send';
 import * as mongodb from 'mongodb';
 import * as tmp from 'tmp';
@@ -17,13 +17,13 @@ import { downloadUrl } from '../../misc/donwload-url';
 
 const assets = `${__dirname}/../../server/file/assets/`;
 
-const commonReadableHandlerGenerator = (ctx: Koa.BaseContext) => (e: Error): void => {
+const commonReadableHandlerGenerator = (ctx: Router.IRouterContext) => (e: Error): void => {
 	serverLogger.error(e);
 	ctx.status = 500;
 	ctx.set('Cache-Control', 'max-age=300');
 };
 
-export default async function(ctx: Koa.BaseContext) {
+export default async function(ctx: Router.IRouterContext) {
 	// Validate id
 	if (!mongodb.ObjectID.isValid(ctx.params.id)) {
 		ctx.throw(400, 'incorrect id');
@@ -38,7 +38,7 @@ export default async function(ctx: Koa.BaseContext) {
 	if (file == null) {
 		ctx.status = 404;
 		ctx.set('Cache-Control', 'max-age=86400');
-		await send(ctx as any, '/dummy.png', { root: assets });
+		await send(ctx, '/dummy.png', { root: assets });
 		return;
 	}
 
@@ -100,7 +100,7 @@ export default async function(ctx: Koa.BaseContext) {
 	if (file.metadata.deletedAt) {
 		ctx.status = 410;
 		ctx.set('Cache-Control', 'max-age=86400');
-		await send(ctx as any, '/tombstone.png', { root: assets });
+		await send(ctx, '/tombstone.png', { root: assets });
 		return;
 	}
 
@@ -143,7 +143,7 @@ export default async function(ctx: Koa.BaseContext) {
 			} else {
 				ctx.status = 404;
 				ctx.set('Cache-Control', 'max-age=86400');
-				await send(ctx as any, '/thumbnail-not-available.png', { root: assets });
+				await send(ctx, '/thumbnail-not-available.png', { root: assets });
 			}
 		}
 	} else if ('web' in ctx.query) {

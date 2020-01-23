@@ -1,4 +1,4 @@
-import * as Koa from 'koa';
+import * as Router from 'koa-router';
 import * as bcrypt from 'bcryptjs';
 import { generateKeyPair } from 'crypto';
 import User, { IUser, validateUsername, validatePassword, pack } from '../../../models/user';
@@ -10,8 +10,8 @@ import usersChart from '../../../services/chart/users';
 import fetchMeta from '../../../misc/fetch-meta';
 import * as recaptcha from 'recaptcha-promise';
 
-export default async (ctx: Koa.BaseContext) => {
-	const body = ctx.request.body as any;
+export default async (ctx: Router.IRouterContext) => {
+	const body = ctx.request.body;
 
 	const instance = await fetchMeta();
 
