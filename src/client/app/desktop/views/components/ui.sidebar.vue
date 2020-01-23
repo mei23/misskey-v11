@@ -275,6 +275,9 @@ export default Vue.extend({
 				font-size 18px
 				color var(--desktopHeaderFg)
 
+				@media (max-height 800px)
+					line-height 32px
+
 				&:hover
 					background rgba(0, 0, 0, 0.05)
 					color var(--desktopHeaderHoverFg)
