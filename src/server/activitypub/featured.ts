@@ -1,5 +1,5 @@
 import { ObjectID } from 'mongodb';
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 import config from '../../config';
 import User from '../../models/user';
 import { renderActivity } from '../../remote/activitypub/renderer';
@@ -8,7 +8,7 @@ import { setResponseType } from '../activitypub';
 import Note from '../../models/note';
 import renderNote from '../../remote/activitypub/renderer/note';
 
-export default async (ctx: Router.IRouterContext) => {
+export default async (ctx: Router.RouterContext) => {
 	if (!ObjectID.isValid(ctx.params.user)) {
 		ctx.status = 404;
 		return;

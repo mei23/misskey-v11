@@ -1,4 +1,4 @@
-import * as Koa from 'koa';
+import * as Router from '@koa/router';
 import * as request from 'request-promise-native';
 import summaly from 'summaly';
 import fetchMeta from '../../misc/fetch-meta';
@@ -8,7 +8,7 @@ import { query } from '../../prelude/url';
 
 const logger = new Logger('url-preview');
 
-module.exports = async (ctx: Koa.BaseContext) => {
+module.exports = async (ctx: Router.RouterContext) => {
 	const meta = await fetchMeta();
 
 	logger.info(meta.summalyProxy

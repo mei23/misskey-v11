@@ -1,11 +1,11 @@
-import * as Koa from 'koa';
+import * as Router from '@koa/router';
 
 import { IEndpoint } from './endpoints';
 import authenticate from './authenticate';
 import call from './call';
 import { ApiError } from './error';
 
-export default (endpoint: IEndpoint, ctx: Koa.BaseContext) => new Promise((res) => {
+export default (endpoint: IEndpoint, ctx: Router.RouterContext) => new Promise((res) => {
 	const body = ctx.is('multipart/form-data') ? (ctx.req as any).body
 		: ctx.method === 'GET' ? ctx.query
 		: ctx.request.body;
