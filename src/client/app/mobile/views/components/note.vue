@@ -36,7 +36,7 @@
 					<div class="renote" v-if="appearNote.renote"><mk-note-preview :note="appearNote.renote"/></div>
 				</div>
 			</div>
-			<footer v-if="appearNote.deletedAt == null" class="footer">
+			<footer v-if="appearNote.deletedAt == null && !preview" class="footer">
 				<mk-reactions-viewer :note="appearNote" ref="reactionsViewer"/>
 				<button @click="reply()" class="button">
 					<template v-if="appearNote.reply"><fa icon="reply-all"/></template>
@@ -96,6 +96,11 @@ export default Vue.extend({
 			required: true
 		},
 		detail: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		preview: {
 			type: Boolean,
 			required: false,
 			default: false
