@@ -1,4 +1,7 @@
+import * as crypto from 'crypto';
+
 const CHARS = '0123456789abcdef';
+const CHARS_LEN = CHARS.length;
 
 //  4bit Fixed hex value '7'
 // 44bit UNIX Time ms in Hex
@@ -17,7 +20,11 @@ function getRandom() {
 	let str = '';
 
 	for (let i = 0; i < 12; i++) {
-		str += CHARS[Math.floor(Math.random() * CHARS.length)];
+		let rand = Math.floor((crypto.randomBytes(1).readUInt8(0) / 0xFF) * CHARS_LEN);
+		if (rand === CHARS_LEN) {
+			rand = CHARS_LEN - 1;
+		}
+		str += CHARS.charAt(rand);
 	}
 
 	return str;
