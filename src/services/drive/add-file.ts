@@ -53,13 +53,13 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 
 	if (drive.storage == 'minio') {
 		//#region ObjectStorage params
-		const ext = info.type.ext || '';
+		const ext = info.type.ext ? `.${info.type.ext}` : '';
 
 		const baseUrl = drive.baseUrl
 			|| `${ drive.config.useSSL ? 'https' : 'http' }://${ drive.config.endPoint }${ drive.config.port ? `:${drive.config.port}` : '' }/${ drive.bucket }`;
 
 		// for original
-		const key = `${drive.prefix}/${genFid()}.${ext}`;
+		const key = `${drive.prefix}/${genFid()}${ext}`;
 		const url = `${ baseUrl }/${ key }`;
 
 		// for alts
