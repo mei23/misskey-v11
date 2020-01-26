@@ -13,7 +13,7 @@ function getTime(time: number) {
 		return CHARS[0];
 	}
 
-	return time.toString(16).padStart(11, CHARS[0]);
+	return time.toString(16).padStart(11, CHARS[0]).slice(-11);
 }
 
 function getRandom() {
