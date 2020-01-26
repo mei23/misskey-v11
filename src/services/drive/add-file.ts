@@ -59,7 +59,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			|| `${ drive.config.useSSL ? 'https' : 'http' }://${ drive.config.endPoint }${ drive.config.port ? `:${drive.config.port}` : '' }/${ drive.bucket }`;
 
 		// for original
-		const key = `${drive.prefix}/${uuid()}${ext}`;
+		const key = `${drive.prefix}/${uuid()}.${ext}`;
 		const url = `${ baseUrl }/${ key }`;
 
 		// for alts
