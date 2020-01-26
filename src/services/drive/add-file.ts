@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 
 import * as mongodb from 'mongodb';
-import { v4 as uuid } from 'uuid';
 
 import DriveFile, { IMetadata, getDriveFileBucket, IDriveFile } from '../../models/drive-file';
 import DriveFolder from '../../models/drive-folder';
@@ -26,6 +25,7 @@ import { getDriveConfig } from '../../misc/get-drive-config';
 import * as S3 from 'aws-sdk/clients/s3';
 import { getS3 } from './s3';
 import * as sharp from 'sharp';
+import { genFid } from '../../misc/id/fid';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
@@ -59,7 +59,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			|| `${ drive.config.useSSL ? 'https' : 'http' }://${ drive.config.endPoint }${ drive.config.port ? `:${drive.config.port}` : '' }/${ drive.bucket }`;
 
 		// for original
-		const key = `${drive.prefix}/${uuid()}.${ext}`;
+		const key = `${drive.prefix}/${genFid()}.${ext}`;
 		const url = `${ baseUrl }/${ key }`;
 
 		// for alts
@@ -76,7 +76,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 		];
 
 		if (alts.webpublic) {
-			webpublicKey = `${drive.prefix}/${uuid()}.${alts.webpublic.ext}`;
+			webpublicKey = `${drive.prefix}/${genFid()}.${alts.webpublic.ext}`;
 			webpublicUrl = `${ baseUrl }/${ webpublicKey }`;
 
 			logger.info(`uploading webpublic: ${webpublicKey}`);
@@ -84,7 +84,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 		}
 
 		if (alts.thumbnail) {
-			thumbnailKey = `${drive.prefix}/${uuid()}.${alts.thumbnail.ext}`;
+			thumbnailKey = `${drive.prefix}/${genFid()}.${alts.thumbnail.ext}`;
 			thumbnailUrl = `${ baseUrl }/${ thumbnailKey }`;
 
 			logger.info(`uploading thumbnail: ${thumbnailKey}`);
@@ -125,7 +125,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 		const originalDst = await getDriveFileBucket();
 
 		// web用(Exif削除済み)がある場合はオリジナルにアクセス制限
-		if (alts.webpublic) metadata.accessKey = uuid();
+		if (alts.webpublic) metadata.accessKey = genFid();
 
 		const originalFile = await storeOriginal(originalDst, name, path, info.type.mime, metadata);
 
