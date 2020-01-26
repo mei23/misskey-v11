@@ -5,15 +5,15 @@ import config from '../../../config';
 import Resolver from '../resolver';
 import Note, { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IApNote, IObject, getApIds, getOneApId, getApId, isNote, isEmoji } from '../type';
+import { IApNote, IObject, getOneApId, getApId, isNote, isEmoji, ICreate, isCreate } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
-import { IRemoteUser, IUser } from '../../../models/user';
+import { IRemoteUser } from '../../../models/user';
 import { fromHtml } from '../../../mfm/fromHtml';
 import Emoji, { IEmoji } from '../../../models/emoji';
 import { extractHashtags } from './tag';
 import { toUnicode } from 'punycode';
-import { unique, concat, difference, toArray, toSingle } from '../../../prelude/array';
+import { unique, toArray, toSingle } from '../../../prelude/array';
 import { extractPollFromQuestion } from './question';
 import vote from '../../../services/note/polls/vote';
 import { apLogger } from '../logger';
@@ -23,6 +23,7 @@ import { extractApHost } from '../../../misc/convert-host';
 import { getApLock } from '../../../misc/app-lock';
 import { createMessage } from '../../../services/messages/create';
 import { isBlockedHost } from '../../../misc/instance-info';
+import { parseAudience } from '../audience';
 
 const logger = apLogger;
 
@@ -76,7 +77,7 @@ export async function fetchNote(value: string | IObject, resolver?: Resolver): P
 /**
  * Noteを作成します。
  */
-export async function createNote(value: string | IObject, resolver?: Resolver, silent = false): Promise<INote> {
+export async function createNote(value: string | IObject, resolver?: Resolver, silent = false, activity?: ICreate): Promise<INote> {
 	if (resolver == null) resolver = new Resolver();
 
 	const object = await resolver.resolve(value);
@@ -109,25 +110,25 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 		return null;
 	}
 
-	//#region Visibility
-	const to = getApIds(note.to);
-	const cc = getApIds(note.cc);
+	const noteAudience = await parseAudience(actor, note.to, note.cc);
+	let visibility = noteAudience.visibility;
+	let visibleUsers = noteAudience.visibleUsers;
+	let apMentions = noteAudience.mentionedUsers;
 
-	let visibility = 'public';
-	let visibleUsers: IUser[] = [];
-	if (!to.includes('https://www.w3.org/ns/activitystreams#Public')) {
-		if (cc.includes('https://www.w3.org/ns/activitystreams#Public')) {
-			visibility = 'home';
-		} else if (to.includes(`${actor.uri}/followers`)) {	// TODO: person.followerと照合するべき？
-			visibility = 'followers';
-		} else {
-			visibility = 'specified';
-			visibleUsers = await Promise.all(to.map(uri => resolvePerson(uri, null, resolver)));
+	// Audience (to, cc) が指定されてなかった場合
+	if (visibility === 'specified' && visibleUsers.length === 0) {
+		if (activity && isCreate(activity)) {
+			// Create 起因ならば Activity を見る
+			const activityAudience = await parseAudience(actor, activity.to, activity.cc);
+			visibility = activityAudience.visibility;
+			visibleUsers = activityAudience.visibleUsers;
+			apMentions = activityAudience.mentionedUsers;
+		} else if (typeof value === 'string') {	// 入力がstringならばresolverでGETが発生している
+			// こちらから匿名GET出来たものならばpublic
+			console.log(`!!pull`);
+			visibility = 'public';
 		}
-}
-	//#endergion
-
-	const apMentions = await extractMentionedUsers(actor, to, cc, resolver);
+	}
 
 	const apHashtags = await extractHashtags(note.tag);
 
@@ -348,16 +349,4 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 			});
 		})
 	);
-}
-
-async function extractMentionedUsers(actor: IRemoteUser, to: string[], cc: string[], resolver: Resolver) {
-	const ignoreUris = ['https://www.w3.org/ns/activitystreams#Public', `${actor.uri}/followers`];
-	const uris = difference(unique(concat([to || [], cc || []])), ignoreUris);
-
-	const limit = promiseLimit(2);
-	const users = await Promise.all(
-		uris.map(uri => limit(() => resolvePerson(uri, null, resolver).catch(() => null)) as Promise<IUser>)
-	);
-
-	return users.filter(x => x != null);
 }
