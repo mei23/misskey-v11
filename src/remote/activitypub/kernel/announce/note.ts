@@ -1,13 +1,13 @@
 import Resolver from '../../resolver';
 import post from '../../../../services/note/create';
-import { IRemoteUser, IUser } from '../../../../models/user';
-import { IAnnounce, getApId, getApIds } from '../../type';
+import { IRemoteUser } from '../../../../models/user';
+import { IAnnounce, getApId } from '../../type';
 import { fetchNote, resolveNote } from '../../models/note';
-import { resolvePerson } from '../../models/person';
 import { apLogger } from '../../logger';
 import { extractApHost } from '../../../../misc/convert-host';
 import { getApLock } from '../../../../misc/app-lock';
 import { isBlockedHost } from '../../../../misc/instance-info';
+import { parseAudience } from '../../audience';
 
 const logger = apLogger;
 
@@ -56,45 +56,16 @@ export default async function(resolver: Resolver, actor: IRemoteUser, activity: 
 
 		logger.info(`Creating the (Re)Note: ${uri}`);
 
-		//#region Visibility
-		const to = getApIds(activity.to);
-		const cc = getApIds(activity.cc);
-
-		const visibility = getVisibility(to, cc, actor);
-
-		let visibleUsers: IUser[] = [];
-		if (visibility == 'specified') {
-			visibleUsers = await Promise.all(to.map(uri => resolvePerson(uri)));
-		}
-		//#endergion
+		const activityAudience = await parseAudience(actor, activity.to, activity.cc);
 
 		await post(actor, {
 			createdAt: new Date(activity.published),
 			renote,
-			visibility,
-			visibleUsers,
+			visibility: activityAudience.visibility,
+			visibleUsers: activityAudience.visibleUsers,
 			uri
 		});
 	} finally {
 		unlock();
-	}
-}
-
-type visibility = 'public' | 'home' | 'followers' | 'specified';
-
-function getVisibility(to: string[], cc: string[], actor: IRemoteUser): visibility {
-	const PUBLIC = 'https://www.w3.org/ns/activitystreams#Public';
-
-	to = to || [];
-	cc = cc || [];
-
-	if (to.includes(PUBLIC)) {
-		return 'public';
-	} else if (cc.includes(PUBLIC)) {
-		return 'home';
-	} else if (to.includes(`${actor.uri}/followers`)) {
-		return 'followers';
-	} else {
-		return 'specified';
 	}
 }

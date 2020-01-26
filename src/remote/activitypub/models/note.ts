@@ -5,15 +5,15 @@ import config from '../../../config';
 import Resolver from '../resolver';
 import Note, { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IApNote, IObject, getApIds, getOneApId, getApId, isNote, isEmoji } from '../type';
+import { IApNote, IObject, getOneApId, getApId, isNote, isEmoji } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
-import { IRemoteUser, IUser } from '../../../models/user';
+import { IRemoteUser } from '../../../models/user';
 import { fromHtml } from '../../../mfm/fromHtml';
 import Emoji, { IEmoji } from '../../../models/emoji';
 import { extractHashtags } from './tag';
 import { toUnicode } from 'punycode';
-import { unique, concat, difference, toArray, toSingle } from '../../../prelude/array';
+import { unique, toArray, toSingle } from '../../../prelude/array';
 import { extractPollFromQuestion } from './question';
 import vote from '../../../services/note/polls/vote';
 import { apLogger } from '../logger';
@@ -23,6 +23,7 @@ import { extractApHost } from '../../../misc/convert-host';
 import { getApLock } from '../../../misc/app-lock';
 import { createMessage } from '../../../services/messages/create';
 import { isBlockedHost } from '../../../misc/instance-info';
+import { parseAudience } from '../audience';
 
 const logger = apLogger;
 
@@ -109,25 +110,10 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 		return null;
 	}
 
-	//#region Visibility
-	const to = getApIds(note.to);
-	const cc = getApIds(note.cc);
-
-	let visibility = 'public';
-	let visibleUsers: IUser[] = [];
-	if (!to.includes('https://www.w3.org/ns/activitystreams#Public')) {
-		if (cc.includes('https://www.w3.org/ns/activitystreams#Public')) {
-			visibility = 'home';
-		} else if (to.includes(`${actor.uri}/followers`)) {	// TODO: person.followerと照合するべき？
-			visibility = 'followers';
-		} else {
-			visibility = 'specified';
-			visibleUsers = await Promise.all(to.map(uri => resolvePerson(uri, null, resolver)));
-		}
-}
-	//#endergion
-
-	const apMentions = await extractMentionedUsers(actor, to, cc, resolver);
+	const noteAudience = await parseAudience(actor, note.to, note.cc);
+	const visibility = noteAudience.visibility;
+	const visibleUsers = noteAudience.visibleUsers;
+	const apMentions = noteAudience.mentionedUsers;
 
 	const apHashtags = await extractHashtags(note.tag);
 
@@ -348,16 +334,4 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 			});
 		})
 	);
-}
-
-async function extractMentionedUsers(actor: IRemoteUser, to: string[], cc: string[], resolver: Resolver) {
-	const ignoreUris = ['https://www.w3.org/ns/activitystreams#Public', `${actor.uri}/followers`];
-	const uris = difference(unique(concat([to || [], cc || []])), ignoreUris);
-
-	const limit = promiseLimit(2);
-	const users = await Promise.all(
-		uris.map(uri => limit(() => resolvePerson(uri, null, resolver).catch(() => null)) as Promise<IUser>)
-	);
-
-	return users.filter(x => x != null);
 }
