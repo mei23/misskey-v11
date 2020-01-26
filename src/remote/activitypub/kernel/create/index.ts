@@ -23,7 +23,7 @@ export default async (actor: IRemoteUser, activity: ICreate): Promise<string> =>
 	}
 
 	if (isNote(object)) {
-		return await createNote(resolver, actor, object);
+		return await createNote(resolver, actor, object, false, activity);
 	} else {
 		return `Unknown type: ${object.type}`;
 	}
