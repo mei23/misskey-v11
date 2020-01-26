@@ -18,12 +18,27 @@ export default class extends Channel {
 	private mutedUserIds: string[] = [];
 	private hideRenoteUsers: string[] = [];
 
+	private refreshClock: NodeJS.Timer;
+
 	@autobind
 	public async init(params: any) {
 		this.listId = params.listId;
 		const mute = this.user ? await Mute.find({ muterId: this.user._id }) : null;
 		this.mutedUserIds = mute ? mute.map(m => m.muteeId.toString()) : [];
 
+		await this.refreshLists();
+
+		// Subscribe stream
+		if (this.list) {
+			this.subscriber.on(`userListStream:${this.listId}`, this.send);
+			this.subscriber.on('notesStream', this.onNote);
+
+			this.refreshClock = setInterval(this.refreshLists, 60000);
+		}
+	}
+
+	@autobind
+	private async refreshLists() {
 		const hideRenotes = await UserFilter.find({
 			ownerId: this.user._id,
 			hideRenote: true
@@ -35,12 +50,6 @@ export default class extends Channel {
 			_id: this.listId,
 			userId: this.user._id
 		});
-
-		// Subscribe stream
-		if (this.list) {
-			this.subscriber.on(`userListStream:${this.listId}`, this.send);
-			this.subscriber.on('notesStream', this.onNote);
-		}
 	}
 
 	@autobind
@@ -97,6 +106,7 @@ export default class extends Channel {
 		if (this.list) {
 			this.subscriber.off(`userListStream:${this.listId}`, this.send);
 			this.subscriber.off('notesStream', this.onNote);
+			clearInterval(this.refreshClock);
 		}
 	}
 }
