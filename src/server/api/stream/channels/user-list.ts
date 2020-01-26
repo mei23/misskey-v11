@@ -32,7 +32,8 @@ export default class extends Channel {
 		this.hideRenoteUsers = hideRenotes.map(hideRenote => hideRenote.targetId).map(x => x.toString());
 
 		this.list = await UserList.findOne({
-			_id: this.listId
+			_id: this.listId,
+			userId: this.user._id
 		});
 
 		// Subscribe stream
