@@ -14,6 +14,7 @@ export interface IUserList {
 	userIds: mongo.ObjectID[];
 	hosts?: string[];
 	hideFromHome?: boolean;
+	mediaOnly?: boolean;
 }
 
 export const pack = (
@@ -40,6 +41,9 @@ export const pack = (
 	delete _userList._id;
 
 	_userList.hosts = _userList.hosts || [];
+
+	_userList.hideFromHome = !!_userList.hideFromHome;
+	_userList.mediaOnly = !!_userList.mediaOnly;
 
 	resolve(_userList);
 });

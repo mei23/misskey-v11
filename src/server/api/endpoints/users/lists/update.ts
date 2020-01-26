@@ -41,6 +41,13 @@ export const meta = {
 				'ja-JP': 'これらのユーザーをホームに表示しない'
 			}
 		},
+
+		mediaOnly: {
+			validator: $.optional.bool,
+			desc: {
+				'ja-JP': 'メディア投稿のみ'
+			}
+		},
 	},
 
 	errors: {
@@ -68,6 +75,7 @@ export default define(meta, async (ps, user) => {
 	} as any;
 
 	if (typeof ps.hideFromHome == 'boolean') set.hideFromHome = ps.hideFromHome;
+	if (typeof ps.mediaOnly == 'boolean') set.mediaOnly = ps.mediaOnly;
 
 	await UserList.update({ _id: userList._id }, {
 		$set: set

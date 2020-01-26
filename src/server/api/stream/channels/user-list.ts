@@ -13,7 +13,7 @@ export default class extends Channel {
 	public static shouldShare = false;
 	public static requireCredential = false;
 	private listId: string;
-	public lists: IUserList[] = [];
+	public list: IUserList = null;
 
 	private mutedUserIds: string[] = [];
 	private hideRenoteUsers: string[] = [];
@@ -31,21 +31,29 @@ export default class extends Channel {
 
 		this.hideRenoteUsers = hideRenotes.map(hideRenote => hideRenote.targetId).map(x => x.toString());
 
-		// Subscribe stream
-		this.subscriber.on(`userListStream:${this.listId}`, this.send);
-		this.subscriber.on('notesStream', this.onNote);
-
-		this.lists = await UserList.find({
+		this.list = await UserList.findOne({
 			_id: this.listId
 		});
+
+		// Subscribe stream
+		if (this.list) {
+			this.subscriber.on(`userListStream:${this.listId}`, this.send);
+			this.subscriber.on('notesStream', this.onNote);
+		}
 	}
 
 	@autobind
 	private async onNote(note: any) {
+		if (this.list.mediaOnly) {
+			const medias = ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
+			const types = ((note.files || []) as any[]).map(x => x.type);
+			if (!medias.some(x => types.includes(x))) return;
+		}
+
 		if (!(
-			this.lists.some(list => list.hosts && list.hosts.includes('*')) ||
-			this.lists.some(list => list.userIds.some(userId => `${note.userId}` === `${userId}`)) ||
-			this.lists.some(list => list.hosts && list.hosts.includes(note.user.host || config.host))
+			this.list.hosts && this.list.hosts.includes('*') ||
+			this.list.userIds.some(userId => `${note.userId}` === `${userId}`) ||
+			this.list.hosts && this.list.hosts.includes(note.user.host || config.host)
 		)) return;
 
 		if (['followers', 'specified'].includes(note.visibility)) {
@@ -85,7 +93,9 @@ export default class extends Channel {
 	@autobind
 	public dispose() {
 		// Unsubscribe events
-		this.subscriber.off(`userListStream:${this.listId}`, this.send);
-		this.subscriber.off('notesStream', this.onNote);
+		if (this.list) {
+			this.subscriber.off(`userListStream:${this.listId}`, this.send);
+			this.subscriber.off('notesStream', this.onNote);
+		}
 	}
 }

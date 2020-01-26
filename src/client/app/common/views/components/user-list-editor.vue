@@ -1,16 +1,18 @@
 <template>
 <div class="cudqjmnl">
-	<ui-card>
+	<p class="fetching" v-if="!list" style="text-align: center; color: var(--text);"><fa icon="spinner" pulse fixed-width/>{{ $t('@.loading') }}<mk-ellipsis/></p>
+	<ui-card v-if="list">
 		<template #title><fa :icon="faList"/> {{ list.title }}</template>
 
 		<section>
 			<ui-button @click="rename"><fa :icon="faICursor"/> {{ $t('rename') }}</ui-button>
 			<ui-button @click="del"><fa :icon="faTrashAlt"/> {{ $t('delete') }}</ui-button>
 			<ui-switch v-model="list.hideFromHome" @change="update">{{ $t('hide-from-home') }}</ui-switch>
+			<ui-switch v-model="list.mediaOnly" @change="update">{{ $t('media-only') }}</ui-switch>
 		</section>
 	</ui-card>
 
-	<ui-card>
+	<ui-card v-if="list">
 		<template #title><fa :icon="faUsers"/> {{ $t('users') }}</template>
 		<div style="margin: 8px">
 			<a @click="addUser">{{ $t('add-user') }}</a>
@@ -37,7 +39,7 @@
 		</section>
 	</ui-card>
 
-	<ui-card>
+	<ui-card v-if="list">
 		<template #title><fa :icon="faUsers"/> {{ $t('hosts') }}</template>
 		<div style="margin: 8px">
 			<a @click="addHost">{{ $t('add-host') }}</a>
@@ -107,7 +109,8 @@ export default Vue.extend({
 			this.$root.api('users/lists/update', {
 				listId: this.list.id,
 				title: this.list.title,
-				hideFromHome: this.list.hideFromHome
+				hideFromHome: this.list.hideFromHome,
+				mediaOnly: this.list.mediaOnly,
 			}).then((list: any) => {
 				this.list = list;
 			});

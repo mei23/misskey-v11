@@ -9,6 +9,7 @@ import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
 import { isSelfHost } from '../../../../misc/convert-host';
 import { getHideRenoteUserIds } from '../../common/get-hide-renote-users';
+import _ = require('lodash');
 
 export const meta = {
 	desc: {
@@ -168,6 +169,15 @@ export default define(meta, async (ps, user) => {
 
 	if (list == null) {
 		throw new ApiError(meta.errors.noSuchList);
+	}
+
+	if (list.mediaOnly) {
+		const medias = ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
+		if (ps.fileType?.length) {
+			ps.fileType = _.intersection(ps.fileType, medias);
+		} else {
+			ps.fileType = medias;
+		}
 	}
 
 	//#region Construct query
