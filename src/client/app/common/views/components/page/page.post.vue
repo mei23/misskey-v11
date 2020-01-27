@@ -17,6 +17,7 @@ import Vue from 'vue';
 import i18n from '../../../../i18n';
 import XVisibilityIcon from '../visibility-icon.vue';
 import MkVisibilityChooser from '../visibility-chooser.vue';
+import { parseVisibility } from '../../../scripts/parse-visibility';
 
 export default Vue.extend({
 	i18n: i18n('pages'),
@@ -73,21 +74,10 @@ export default Vue.extend({
 		},
 
 		applyVisibility(v :string) {
-			const m = v.match(/^local-(.+)/);
-			const n = v.match(/^once-(.+)/);
-			if (m) {
-				this.localOnly = true;
-				this.copyOnce = false;
-				this.visibility = m[1];
-			} else if (n) {
-				this.localOnly = false;
-				this.copyOnce = true;
-				this.visibility = n[1];
-			} else {
-				this.localOnly = false;
-				this.copyOnce = false;
-				this.visibility = v;
-			}
+			const vis = parseVisibility(v);
+			this.localOnly = vis.localOnly;
+			this.copyOnce = vis.copyOnce;
+			this.visibility = vis.visibility;
 		},
 
 		post() {

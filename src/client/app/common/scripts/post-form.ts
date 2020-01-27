@@ -7,6 +7,7 @@ import i18n from '../../i18n';
 import { erase, unique, concat } from '../../../../prelude/array';
 import { faFish } from '@fortawesome/free-solid-svg-icons';
 import { nyaize } from '../../../../misc/nyaize';
+import { parseVisibility } from './parse-visibility';
 
 export default (opts) => ({
 	i18n: i18n(),
@@ -279,21 +280,10 @@ export default (opts) => ({
 		},
 
 		applyVisibility(v: string) {
-			const m = v.match(/^local-(.+)/);
-			const n = v.match(/^once-(.+)/);
-			if (m) {
-				this.localOnly = true;
-				this.copyOnce = false;
-				this.visibility = m[1];
-			} else if (n) {
-				this.localOnly = false;
-				this.copyOnce = true;
-				this.visibility = n[1];
-			} else {
-				this.localOnly = false;
-				this.copyOnce = false;
-				this.visibility = v;
-			}
+			const vis = parseVisibility(v);
+			this.localOnly = vis.localOnly;
+			this.copyOnce = vis.copyOnce;
+			this.visibility = vis.visibility;
 		},
 
 		addVisibleUser() {
@@ -412,21 +402,10 @@ export default (opts) => ({
 			let copyOnce = this.copyOnce;
 
 			if (typeof v == 'string') {
-				const m = v.match(/^local-(.+)/);
-				const n = v.match(/^once-(.+)/);
-				if (m) {
-					localOnly = true;
-					copyOnce = false;
-					visibility = m[1];
-				} else if (n) {
-					localOnly = false;
-					copyOnce = true;
-					visibility = n[1];
-				} else {
-					localOnly = false;
-					copyOnce = false;
-					visibility = v;
-				}
+				const vis = parseVisibility(v);
+				localOnly = vis.localOnly;
+				copyOnce = vis.copyOnce;
+				visibility = vis.visibility;
 			}
 
 			this.posting = true;
