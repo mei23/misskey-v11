@@ -125,7 +125,6 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 			apMentions = activityAudience.mentionedUsers;
 		} else if (typeof value === 'string') {	// 入力がstringならばresolverでGETが発生している
 			// こちらから匿名GET出来たものならばpublic
-			console.log(`!!pull`);
 			visibility = 'public';
 		}
 	}
