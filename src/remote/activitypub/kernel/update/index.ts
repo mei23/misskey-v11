@@ -1,5 +1,5 @@
 import { IRemoteUser } from '../../../../models/user';
-import { IUpdate, isPerson } from '../../type';
+import { IUpdate, isActor } from '../../type';
 import { apLogger } from '../../logger';
 import { updateQuestion } from '../../models/question';
 import Resolver from '../../resolver';
@@ -22,7 +22,7 @@ export default async (actor: IRemoteUser, activity: IUpdate): Promise<void> => {
 		throw e;
 	});
 
-	if (isPerson(object)) {
+	if (isActor(object)) {
 		await updatePerson(actor.uri, resolver, object);
 	} else if (object.type === 'Question') {
 		await updateQuestion(object).catch(e => console.log(e));

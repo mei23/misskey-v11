@@ -6,7 +6,7 @@ import config from '../../../config';
 import User, { validateUsername, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
-import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isPerson, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, isOrderedCollectionPage, isCreate, isPost } from '../type';
+import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isActor, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, isOrderedCollectionPage, isCreate, isPost } from '../type';
 import { IDriveFile } from '../../../models/drive-file';
 import Meta from '../../../models/meta';
 import { fromHtml } from '../../../mfm/fromHtml';
@@ -40,7 +40,7 @@ function toPerson(x: IObject, uri: string): IApPerson {
 		throw new Error('invalid person: object is null');
 	}
 
-	if (!isPerson(x)) {
+	if (!isActor(x)) {
 		throw new Error(`invalid person type '${x.type}'`);
 	}
 

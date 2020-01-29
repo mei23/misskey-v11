@@ -196,8 +196,10 @@ export interface IApPerson extends IObject {
 	endpoints: any;
 }
 
-export const isPerson = (object: IObject): object is IApPerson =>
-	['Person', 'Service', 'Organization', 'Group'].includes(object.type);
+export const valiedActor = ['Person', 'Service', 'Group', 'Organization'];
+
+export const isActor = (object: IObject): object is IApPerson =>
+	valiedActor.includes(object.type);
 
 export interface IApEmoji extends IObject {
 	type: 'Emoji';
