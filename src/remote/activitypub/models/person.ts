@@ -6,7 +6,7 @@ import config from '../../../config';
 import User, { validateUsername, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
-import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isPerson, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, isOrderedCollectionPage, isCreate, isNote } from '../type';
+import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isPerson, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, isOrderedCollectionPage, isCreate, isPost } from '../type';
 import { IDriveFile } from '../../../models/drive-file';
 import Meta from '../../../models/meta';
 import { fromHtml } from '../../../mfm/fromHtml';
@@ -549,7 +549,7 @@ export async function fetchOutbox(user: IUser) {
 
 		if (isCreate(activity)) {
 			const object = await resolver.resolve(activity.object);
-			if (isNote(object)) {
+			if (isPost(object)) {
 				// Note
 				if (object.inReplyTo) {
 					// skip reply

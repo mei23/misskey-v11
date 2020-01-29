@@ -105,16 +105,18 @@ export interface IOrderedCollectionPage extends IObject {
 	startIndex?: number;
 }
 
-export interface IApNote extends IObject {
-	type: 'Note' | 'Question' | 'Article' | 'Audio' | 'Document' | 'Image' | 'Page' | 'Video';
+export interface IPost extends IObject {
+	type: 'Note' | 'Question' | 'Article' | 'Audio' | 'Document' | 'Image' | 'Page' | 'Video' | 'Event';
 	_misskey_content: string;
 	_misskey_quote?: string;
 	quoteUrl?: string;
 	_misskey_talk?: boolean;
 }
 
-export const isNote = (object: IObject): object is IApNote =>
-	['Note', 'Question', 'Article', 'Audio', 'Document', 'Image', 'Page', 'Video'].includes(object.type);
+export const validPost = ['Note', 'Question', 'Article', 'Audio', 'Document', 'Image', 'Page', 'Video', 'Event'];
+
+export const isPost = (object: IObject): object is IPost =>
+	validPost.includes(object.type);
 
 export interface ITombstone extends IObject {
 	type: 'Tombstone';

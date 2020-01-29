@@ -9,7 +9,7 @@ import { createNote } from '../../../../remote/activitypub/models/note';
 import Resolver from '../../../../remote/activitypub/resolver';
 import { ApiError } from '../../error';
 import { extractApHost } from '../../../../misc/convert-host';
-import { isPerson, isNote } from '../../../../remote/activitypub/type';
+import { isPerson, isPost } from '../../../../remote/activitypub/type';
 import { isBlockedHost } from '../../../../misc/instance-info';
 
 export const meta = {
@@ -114,7 +114,7 @@ async function fetchAny(uri: string) {
 		};
 	}
 
-	if (isNote(object)) {
+	if (isPost(object)) {
 		const note = await createNote(object.id, null, true);
 		return {
 			type: 'Note',

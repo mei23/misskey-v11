@@ -5,7 +5,7 @@ import config from '../../../config';
 import Resolver from '../resolver';
 import Note, { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IApNote, IObject, getOneApId, getApId, isNote, isEmoji, ICreate, isCreate } from '../type';
+import { IPost, IObject, getOneApId, getApId, isPost, isEmoji, ICreate, isCreate } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
@@ -27,14 +27,14 @@ import { parseAudience } from '../audience';
 
 const logger = apLogger;
 
-function toNote(object: IObject, uri: string): IApNote {
+function toNote(object: IObject, uri: string): IPost {
 	const expectHost = extractApHost(uri);
 
 	if (object == null) {
 		throw new Error('invalid Note: object is null');
 	}
 
-	if (!isNote(object)) {
+	if (!isPost(object)) {
 		throw new Error(`invalid Note: invalid object type ${object.type}`);
 	}
 
@@ -84,7 +84,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 
 	const entryUri = getApId(value);
 
-	let note: IApNote;
+	let note: IPost;
 	try {
 		note = toNote(object, entryUri);
 	} catch (err) {
