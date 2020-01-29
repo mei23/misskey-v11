@@ -297,6 +297,7 @@ export const pack = (
 		avatarId: true,
 		bannerId: true,
 		emojis: true,
+		avoidSearchIndex: true,
 		isCat: true,
 		isBot: true,
 		isOrganization: true,
