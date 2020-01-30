@@ -10,6 +10,7 @@ import readNote from '../../../services/note/read';
 import Channel from './channel';
 import channels from './channels';
 import { EventEmitter } from 'events';
+import { ApiError } from '../error';
 
 /**
  * Main stream connection
@@ -71,8 +72,16 @@ export default class Connection {
 		// 呼び出し
 		call(endpoint, user, this.app, payload.data).then(res => {
 			this.sendMessageToWs(`api:${payload.id}`, { res });
-		}).catch(e => {
-			this.sendMessageToWs(`api:${payload.id}`, { e });
+		}).catch((e: ApiError) => {
+			this.sendMessageToWs(`api:${payload.id}`, {
+				error: {
+					message: e.message,
+					code: e.code,
+					id: e.id,
+					kind: e.kind,
+					...(e.info ? { info: e.info } : {})
+				}
+			});
 		});
 	}
 
