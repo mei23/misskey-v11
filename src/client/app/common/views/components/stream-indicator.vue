@@ -1,7 +1,7 @@
 <template>
 <div>
-	<div class="disconnect-notify" v-if="stream.state == 'connected' && hasDisconnected" @click="hasDisconnected = false">
-		<div><fa icon="exclamation-triangle"/> {{ $t('has-disconnected') }}</div>
+	<div class="disconnect-notify" v-if="stream.state == 'connected' && hasDisconnected" @click="resetDisconnected">
+		<div><fa icon="exclamation-triangle"/> {{ $t('has-disconnected') }} ({{ disconnectedTime }})</div>
 		<div class="command">
 			<button @click="reload">{{ $t('reload') }}</button>
 			<button>{{ $t('ignore') }}</button>
@@ -34,12 +34,22 @@ export default Vue.extend({
 	data() {
 		return {
 			hasDisconnected: false,
+			t0: 0,
+			tSum: 0
 		}
 	},
 	computed: {
 		stream() {
 			return this.$root.stream;
-		}
+		},
+		disconnectedTime(): string {
+			const t = this.tSum / 1000;
+			return (
+				t >= 86400    ? `${~~(t / 86400)} days` :
+				t >= 3600     ? `${~~(t / 3600)} hours` :
+				t >= 60       ? `${~~(t / 60)} min` :
+				`${~~(t % 60)} sec`);
+		},
 	},
 	created() {
 		this.$root.stream.on('_connected_', this.onConnected);
@@ -57,6 +67,9 @@ export default Vue.extend({
 	},
 	methods: {
 		onConnected() {
+			if (this.hasDisconnected) {
+				this.tSum += Date.now() - this.t0;
+			}
 			setTimeout(() => {
 				anime({
 					targets: this.$refs.indicator,
@@ -68,12 +81,17 @@ export default Vue.extend({
 		},
 		onDisconnected() {
 			this.hasDisconnected = true;
+			this.t0 = Date.now();
 			anime({
 				targets: this.$refs.indicator,
 				opacity: 1,
 				easing: 'linear',
 				duration: 100
 			});
+		},
+		resetDisconnected() {
+			this.hasDisconnected = false;
+			this.tSum = 0;
 		},
 		reload() {
 			location.reload();
