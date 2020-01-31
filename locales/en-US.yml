@@ -655,6 +655,7 @@ common/views/components/stream-indicator.vue:
   has-disconnected: "Connection to server was lost in the past"
   reload: "Reload"
   ignore: "Do nothing"
+  update-available: "A new version is available"
 common/views/components/notification-settings.vue:
   title: "Notifications"
   mark-as-read-all-notifications: "Mark all notifications as read"

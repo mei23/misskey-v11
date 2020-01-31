@@ -2,6 +2,7 @@
 <div>
 	<div class="disconnect-notify" v-if="stream.state == 'connected' && hasDisconnected" @click="resetDisconnected">
 		<div><fa icon="exclamation-triangle"/> {{ $t('has-disconnected') }} ({{ disconnectedTime }})</div>
+		<div v-if="newVersion != null"><fa :icon="faInfoCircle"/> {{ $t('update-available') }} ({{ newVersion }})</div>
 		<div class="command">
 			<button @click="reload">{{ $t('reload') }}</button>
 			<button>{{ $t('ignore') }}</button>
@@ -28,6 +29,8 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import anime from 'animejs';
+import checkForUpdate from '../../scripts/check-for-update';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/stream-indicator.vue'),
@@ -35,7 +38,9 @@ export default Vue.extend({
 		return {
 			hasDisconnected: false,
 			t0: 0,
-			tSum: 0
+			tSum: 0,
+			newVersion: null,
+			faInfoCircle
 		}
 	},
 	computed: {
@@ -69,6 +74,9 @@ export default Vue.extend({
 		onConnected() {
 			if (this.hasDisconnected) {
 				this.tSum += Date.now() - this.t0;
+				checkForUpdate(this.$root, true, true).then(newer => {
+					this.newVersion = newer;
+				});
 			}
 			setTimeout(() => {
 				anime({
