@@ -103,7 +103,7 @@ export default async function(user: IUser, note: INote, quiet = false) {
 
 			const content = renderActivity(renote
 				? renderUndo(renderAnnounce(renote.uri || `${config.url}/notes/${renote._id}`, note), user)
-				: renderDelete(renderTombstone(`${config.url}/notes/${note._id}`), user));
+				: renderDelete(renderTombstone(`${config.url}/notes/${note._id}`), user, `${config.url}/notes/${note._id}/delete`));
 
 			deliverToFollowers(user, content);
 		}
