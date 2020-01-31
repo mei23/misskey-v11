@@ -1,17 +1,26 @@
 <template>
-<div class="mk-stream-indicator">
-	<p v-if="stream.state == 'initializing'">
-		<fa icon="spinner" pulse/>
-		<span>{{ $t('connecting') }}<mk-ellipsis/></span>
-	</p>
-	<p v-if="stream.state == 'reconnecting'">
-		<fa icon="spinner" pulse/>
-		<span>{{ $t('reconnecting') }}<mk-ellipsis/></span>
-	</p>
-	<p v-if="stream.state == 'connected'">
-		<fa icon="check"/>
-		<span>{{ $t('connected') }}</span>
-	</p>
+<div>
+	<div class="disconnect-notify" v-if="stream.state == 'connected' && hasDisconnected" @click="hasDisconnected = false">
+		<div><fa icon="exclamation-triangle"/> {{ $t('has-disconnected') }}</div>
+		<div class="command">
+			<button @click="reload">{{ $t('reload') }}</button>
+			<button>{{ $t('ignore') }}</button>
+		</div>
+	</div>
+	<div class="mk-stream-indicator" ref="indicator">
+		<p v-if="stream.state == 'initializing'">
+			<fa icon="spinner" pulse/>
+			<span>{{ $t('connecting') }}<mk-ellipsis/></span>
+		</p>
+		<p v-if="stream.state == 'reconnecting'">
+			<fa icon="spinner" pulse/>
+			<span>{{ $t('reconnecting') }}<mk-ellipsis/></span>
+		</p>
+		<p v-if="stream.state == 'connected'">
+			<fa icon="check"/>
+			<span>{{ $t('connected') }}</span>
+		</p>
+	</div>
 </div>
 </template>
 
@@ -22,6 +31,11 @@ import anime from 'animejs';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/stream-indicator.vue'),
+	data() {
+		return {
+			hasDisconnected: false,
+		}
+	},
 	computed: {
 		stream() {
 			return this.$root.stream;
@@ -45,7 +59,7 @@ export default Vue.extend({
 		onConnected() {
 			setTimeout(() => {
 				anime({
-					targets: this.$el,
+					targets: this.$refs.indicator,
 					opacity: 0,
 					easing: 'linear',
 					duration: 200
@@ -53,18 +67,46 @@ export default Vue.extend({
 			}, 1000);
 		},
 		onDisconnected() {
+			this.hasDisconnected = true;
 			anime({
-				targets: this.$el,
+				targets: this.$refs.indicator,
 				opacity: 1,
 				easing: 'linear',
 				duration: 100
 			});
-		}
+		},
+		reload() {
+			location.reload();
+		},
 	}
 });
 </script>
 
 <style lang="stylus" scoped>
+.disconnect-notify
+	position fixed
+	z-index 16385
+	bottom 8px
+	right 8px
+	margin 0
+	padding 6px 12px
+	font-size 0.9em
+	color #fff
+	background rgba(#000)
+	border-radius 4px
+	max-width 320px
+
+	> .command
+		display flex
+		justify-content space-around
+
+		> button
+			color #aaa
+			padding 0.7em
+
+			&:hover
+				color #ccc
+
 .mk-stream-indicator
 	pointer-events none
 	position fixed

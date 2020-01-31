@@ -652,6 +652,9 @@ common/views/components/stream-indicator.vue:
   connecting: "Connecting"
   reconnecting: "Reconnecting"
   connected: "Connected"
+  has-disconnected: "Connection to server was lost in the past"
+  reload: "Reload"
+  ignore: "Do nothing"
 common/views/components/notification-settings.vue:
   title: "Notifications"
   mark-as-read-all-notifications: "Mark all notifications as read"
