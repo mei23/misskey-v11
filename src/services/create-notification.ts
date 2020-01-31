@@ -32,13 +32,6 @@ export default (
 	// Publish notification event
 	publishMainStream(notifiee, 'notification', packed);
 
-	// Update flag
-	User.update({ _id: notifiee }, {
-		$set: {
-			hasUnreadNotification: true
-		}
-	});
-
 	// 2秒経っても(今回作成した)通知が既読にならなかったら「未読の通知がありますよ」イベントを発行する
 	setTimeout(async () => {
 		const fresh = await Notification.findOne({ _id: notification._id }, { isRead: true });
@@ -53,6 +46,13 @@ export default (
 				return;
 			}
 			//#endregion
+
+			// Update flag
+			User.update({ _id: notifiee }, {
+				$set: {
+					hasUnreadNotification: true
+				}
+			});
 
 			publishMainStream(notifiee, 'unreadNotification', packed);
 
