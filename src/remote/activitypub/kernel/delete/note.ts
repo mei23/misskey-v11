@@ -11,7 +11,7 @@ export default async function(actor: IRemoteUser, uri: string): Promise<string> 
 	const note = await Note.findOne({ uri });
 
 	if (note == null) {
-		throw new Error('note not found (yet)');
+		return 'note not found';
 	}
 
 	if (!note.userId.equals(actor._id)) {
