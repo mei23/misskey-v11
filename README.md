@@ -15,7 +15,7 @@ The fork is open-source software licensed under the GNU AGPLv3.
 https://github.com/mei23/misskey/blob/mei-m544/LICENSE
 
 Unicode絵文字正規表現は [twitter/twemoji-parser](https://github.com/twitter/twemoji-parser/) のものを使用しており、以下の内容でライセンスされています。  
-https://github.com/twitter/twemoji-parser/blob/LICENSE.md
+https://github.com/twitter/twemoji-parser/blob/master/LICENSE.md
 
 絵文字テーブルは [muan/emojilib](https://github.com/muan/emojilib) を元にしており、オリジナルは以下の内容でライセンスされています。  
-https://github.com/muan/emojilib/blob/LICENSE
+https://github.com/muan/emojilib/blob/master/LICENSE
