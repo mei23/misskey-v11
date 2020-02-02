@@ -1,11 +1,11 @@
-import { IUser, isLocalUser, isRemoteUser } from '../../../models/user';
+import { IUser, isLocalUser, IRemoteUser } from '../../../models/user';
 import Note, { INote } from '../../../models/note';
 import NoteReaction from '../../../models/note-reaction';
 import { publishNoteStream } from '../../stream';
 import renderLike from '../../../remote/activitypub/renderer/like';
 import renderUndo from '../../../remote/activitypub/renderer/undo';
 import { renderActivity } from '../../../remote/activitypub/renderer';
-import { deliver } from '../../../queue';
+import DeliverManager from '../../../remote/activitypub/deliver-manager';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 
 export default async (user: IUser, note: INote) => {
@@ -39,10 +39,12 @@ export default async (user: IUser, note: INote) => {
 	});
 
 	//#region 配信
-	// リアクターがローカルユーザーかつリアクション対象がリモートユーザーの投稿なら配送
-	if (isLocalUser(user) && isRemoteUser(note._user)) {
+	if (isLocalUser(user) && !note.localOnly && !user.noFederation) {
 		const content = renderActivity(renderUndo(renderLike(user, note, exist.reaction), user));
-		deliver(user, content, note._user.inbox);
+		const dm = new DeliverManager(user, content);
+		dm.addDirectRecipe(note._user as IRemoteUser);
+		dm.addFollowersRecipe();
+		dm.execute();
 	}
 	//#endregion
 
