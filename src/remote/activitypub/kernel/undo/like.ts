@@ -1,27 +1,17 @@
-import * as mongo from 'mongodb';
 import { IRemoteUser } from '../../../../models/user';
-import { ILike } from '../../type';
-import Note from '../../../../models/note';
+import { ILike, getApId } from '../../type';
 import deleteReaction from '../../../../services/note/reaction/delete';
-import { isSelfHost, extractApHost } from '../../../../misc/convert-host';
-import { apLogger } from '../../logger';
+import { fetchNote } from '../../models/note';
 
 /**
  * Process Undo.Like activity
  */
-export default async (actor: IRemoteUser, activity: ILike): Promise<void> => {
-	const id = typeof activity.object == 'string' ? activity.object : activity.object.id;
+export default async (actor: IRemoteUser, activity: ILike) => {
+	const targetUri = getApId(activity.object);
 
-	if (!isSelfHost(extractApHost(id))) {
-		apLogger.warn(`skip Undo ${activity.type} to foreign host (${id})`);
-		return;
-	}
-	const noteId = new mongo.ObjectID(id.split('/').pop());
-
-	const note = await Note.findOne({ _id: noteId });
-	if (note === null) {
-		throw 'note not found';
-	}
+	const note = await fetchNote(targetUri);
+	if (!note) return `skip: target note not found ${targetUri}`;
 
 	await deleteReaction(actor, note);
+	return `ok`;
 };
