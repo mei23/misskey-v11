@@ -9,26 +9,34 @@ import renderLike from '../../../remote/activitypub/renderer/like';
 import { deliver } from '../../../queue';
 import { renderActivity } from '../../../remote/activitypub/renderer';
 import perUserReactionsChart from '../../../services/chart/per-user-reactions';
-import { IdentifiableError } from '../../../misc/identifiable-error';
 import { toDbReaction } from '../../../misc/reaction-lib';
+import deleteReaction from './delete';
 
 export default async (user: IUser, note: INote, reaction: string) => {
 	reaction = await toDbReaction(reaction);
 
 	// Create reaction
-	await NoteReaction.insert({
-		createdAt: new Date(),
-		noteId: note._id,
-		userId: user._id,
-		reaction
-	}).catch(e => {
+	try {
+		await NoteReaction.insert({
+			createdAt: new Date(),
+			noteId: note._id,
+			userId: user._id,
+			reaction
+		});
+	} catch (e) {
 		// duplicate key error
 		if (e.code === 11000) {
-			throw new IdentifiableError('51c42bb4-931a-456b-bff7-e5a8a70dd298', 'already reacted');
+			await deleteReaction(user, note);
+			await NoteReaction.insert({
+				createdAt: new Date(),
+				noteId: note._id,
+				userId: user._id,
+				reaction
+			});
+		} else {
+			throw e;
 		}
-
-		throw e;
-	});
+	}
 
 	// Increment reactions count
 	await Note.update({ _id: note._id }, {
