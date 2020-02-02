@@ -1,4 +1,4 @@
-import { IUser, isLocalUser, IRemoteUser } from '../../../models/user';
+import { IUser, isLocalUser, isRemoteUser } from '../../../models/user';
 import Note, { INote } from '../../../models/note';
 import NoteReaction from '../../../models/note-reaction';
 import { publishNoteStream } from '../../stream';
@@ -42,7 +42,7 @@ export default async (user: IUser, note: INote) => {
 	if (isLocalUser(user) && !note.localOnly && !user.noFederation) {
 		const content = renderActivity(renderUndo(renderLike(user, note, exist.reaction), user));
 		const dm = new DeliverManager(user, content);
-		dm.addDirectRecipe(note._user as IRemoteUser);
+		if (isRemoteUser(note._user)) dm.addDirectRecipe(note._user);
 		dm.addFollowersRecipe();
 		dm.execute();
 	}
