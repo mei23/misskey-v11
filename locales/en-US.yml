@@ -596,7 +596,7 @@ common/views/components/poll-editor.vue:
   second: "Seconds"
   minute: "Minutes"
   hour: "Hours"
-  day: "S"
+  day: "Days"
 common/views/components/reaction-picker.vue:
   choose-reaction: "Send a reaction"
 common/views/components/emoji-picker.vue:
