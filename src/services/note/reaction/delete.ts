@@ -5,7 +5,7 @@ import { publishNoteStream } from '../../stream';
 import renderLike from '../../../remote/activitypub/renderer/like';
 import renderUndo from '../../../remote/activitypub/renderer/undo';
 import { renderActivity } from '../../../remote/activitypub/renderer';
-import DeliverManager from '../../../remote/activitypub/deliver-manager';
+import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 
 export default async (user: IUser, note: INote) => {
@@ -41,10 +41,8 @@ export default async (user: IUser, note: INote) => {
 	//#region 配信
 	if (isLocalUser(user) && !note.localOnly && !user.noFederation) {
 		const content = renderActivity(renderUndo(renderLike(user, note, exist.reaction), user));
-		const dm = new DeliverManager(user, content);
-		if (isRemoteUser(note._user)) dm.addDirectRecipe(note._user);
-		dm.addFollowersRecipe();
-		dm.execute();
+		if (isRemoteUser(note._user)) deliverToUser(user, content, note._user);
+		deliverToFollowers(user, content, true);
 	}
 	//#endregion
 

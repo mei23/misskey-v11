@@ -6,10 +6,11 @@ import notify from '../../create-notification';
 import NoteWatching from '../../../models/note-watching';
 import watch from '../watch';
 import renderLike from '../../../remote/activitypub/renderer/like';
-import DeliverManager from '../../../remote/activitypub/deliver-manager';
+import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
 import { renderActivity } from '../../../remote/activitypub/renderer';
 import perUserReactionsChart from '../../../services/chart/per-user-reactions';
 import { toDbReaction } from '../../../misc/reaction-lib';
+import { IdentifiableError } from '../../../misc/identifiable-error';
 import deleteReaction from './delete';
 
 export default async (user: IUser, note: INote, reaction: string) => {
@@ -25,7 +26,7 @@ export default async (user: IUser, note: INote, reaction: string) => {
 		if (exist.reaction !== reaction) {
 			await deleteReaction(user, note);
 		} else {
-			return;
+			throw new IdentifiableError('51c42bb4-931a-456b-bff7-e5a8a70dd298', 'already reacted');
 		}
 	}
 
@@ -86,10 +87,8 @@ export default async (user: IUser, note: INote, reaction: string) => {
 	//#region 配信
 	if (isLocalUser(user) && !note.localOnly && !user.noFederation) {
 		const content = renderActivity(renderLike(user, note, reaction));
-		const dm = new DeliverManager(user, content);
-		if (isRemoteUser(note._user)) dm.addDirectRecipe(note._user);
-		dm.addFollowersRecipe();
-		dm.execute();
+		if (isRemoteUser(note._user)) deliverToUser(user, content, note._user);
+		deliverToFollowers(user, content, true);
 	}
 	//#endregion
 
