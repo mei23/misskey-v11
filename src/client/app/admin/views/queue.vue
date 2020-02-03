@@ -27,6 +27,9 @@
 				</ui-input>
 			</ui-horizon-group>
 			<div ref="deliverChart" class="chart"></div>
+			<div v-if="$store.getters.isAdminOrModerator">
+				<ui-button @click="promoteJobs('deliver')">Promote jobs</ui-button>
+			</div>
 		</section>
 		<section class="wptihjuy">
 			<header><fa :icon="faInbox"/> Inbox</header>
@@ -265,6 +268,22 @@ export default Vue.extend({
 			};
 
 			await process().catch(e => {
+				this.$root.dialog({
+					type: 'error',
+					text: e.toString()
+				});
+			});
+		},
+
+		async promoteJobs(domain: string) {
+			this.$root.api('admin/queue/promote', {
+				domain
+			}).then(() => {
+				this.$root.dialog({
+					type: 'success',
+					splash: true
+				});
+			}).catch((e: any) => {
 				this.$root.dialog({
 					type: 'error',
 					text: e.toString()
