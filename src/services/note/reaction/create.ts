@@ -15,28 +15,26 @@ import deleteReaction from './delete';
 export default async (user: IUser, note: INote, reaction: string) => {
 	reaction = await toDbReaction(reaction);
 
-	// Create reaction
-	try {
-		await NoteReaction.insert({
-			createdAt: new Date(),
-			noteId: note._id,
-			userId: user._id,
-			reaction
-		});
-	} catch (e) {
-		// duplicate key error
-		if (e.code === 11000) {
+	const exist = await NoteReaction.findOne({
+		noteId: note._id,
+		userId: user._id,
+		deletedAt: { $exists: false }
+	});
+
+	if (exist) {
+		if (exist.reaction !== reaction) {
 			await deleteReaction(user, note);
-			await NoteReaction.insert({
-				createdAt: new Date(),
-				noteId: note._id,
-				userId: user._id,
-				reaction
-			});
 		} else {
-			throw e;
+			return;
 		}
 	}
+
+	await NoteReaction.insert({
+		createdAt: new Date(),
+		noteId: note._id,
+		userId: user._id,
+		reaction
+	});
 
 	// Increment reactions count
 	await Note.update({ _id: note._id }, {
