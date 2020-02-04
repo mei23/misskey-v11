@@ -22,6 +22,7 @@ export function removeOrphanedBrackets(s: string): string {
 export const mfmLanguage = P.createLanguage({
 	root: r => P.alt(r.block, r.inline).atLeast(1),
 	plain: r => P.alt(r.emoji, r.text).atLeast(1),
+	plainX: r => P.alt(r.inline).atLeast(1),
 	block: r => P.alt(
 		r.title,
 		r.quote,
