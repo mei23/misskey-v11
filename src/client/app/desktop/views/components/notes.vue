@@ -155,6 +155,11 @@ export default Vue.extend({
 				for (let i = 0; i < 10; i++) {
 					if (!this.notes[i]) break;
 
+					// 引用投稿はスキップ
+					if (this.notes[i].renoteId && (this.notes[i].text || this.notes[i].poll || this.notes[i].fileIds?.length > 0)) {
+						continue;
+					}
+
 					const extId = this.notes[i].renoteId || this.notes[i].id;
 					const newId = note.renoteId || note.id;
 
