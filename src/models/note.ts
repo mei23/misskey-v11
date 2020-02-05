@@ -14,7 +14,6 @@ import Emoji from './emoji';
 import packEmojis from '../misc/pack-emojis';
 import { dbLogger } from '../db/logger';
 import { unique, concat } from '../prelude/array';
-import { nyaize } from '../misc/nyaize';
 
 const Note = db.get<INote>('notes');
 Note.createIndex('uri', { sparse: true, unique: true });
@@ -423,10 +422,6 @@ export const pack = async (
 
 	if (_note.name && _note.uri) {
 		_note.text = `【${_note.name}】\n${(_note.text || '').trim()}\n${_note.uri}`;
-	}
-
-	if (_note.user.isCat && _note.text) {
-		_note.text = nyaize(_note.text);
 	}
 
 	if (!opts.skipHide) {

@@ -10,6 +10,7 @@ import MkCode from './code.vue';
 import MkGoogle from './google.vue';
 import { host } from '../../../config';
 import { preorderF, countNodesF } from '../../../../../prelude/tree';
+import { nyaize } from '../../../../../misc/nyaize';
 
 function sumTextsLength(ts: MfmForest): number {
 	const textNodes = preorderF(ts).filter(n => n.type === 'text');
@@ -62,7 +63,11 @@ export default Vue.component('misskey-flavored-markdown', {
 		const genEl = (ast: MfmForest) => concat(ast.map((token): VNode[] => {
 			switch (token.node.type) {
 				case 'text': {
-					const text = token.node.props.text.replace(/(\r\n|\n|\r)/g, '\n');
+					let text = token.node.props.text.replace(/(\r\n|\n|\r)/g, '\n');
+
+					if (this.author?.isCat) {
+						text = nyaize(text);
+					}
 
 					if (!this.plain) {
 						const x = text.split('\n')

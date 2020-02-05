@@ -6,7 +6,6 @@ import { parse } from '../../../../mfm/parse';
 import i18n from '../../i18n';
 import { erase, unique, concat } from '../../../../prelude/array';
 import { faFish } from '@fortawesome/free-solid-svg-icons';
-import { nyaize } from '../../../../misc/nyaize';
 import { parseVisibility } from './parse-visibility';
 
 export default (opts) => ({
@@ -379,7 +378,7 @@ export default (opts) => ({
 					createdAt: new Date().toISOString(),
 					userId: this.$store.state.i.id,
 					user: this.$store.state.i,
-					text: this.text === '' ? undefined : this.$store.state.i.isCat ? nyaize(this.text.trim()) : this.text.trim(),
+					text: this.text === '' ? undefined : this.text.trim(),
 					visibility: this.visibility,
 					localOnly: this.localOnly,
 					copyOnce: this.copyOnce,
