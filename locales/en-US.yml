@@ -603,6 +603,7 @@ common/views/components/emoji-picker.vue:
   recent-emoji: "Recent Emoji"
   custom-emoji: "Custom Emoji"
   remote-emoji: "Remote Custom Emoji"
+  load-remote: "Load"
   no-category: "No category"
   people: "People"
   animals-and-nature: "Animals & Nature"

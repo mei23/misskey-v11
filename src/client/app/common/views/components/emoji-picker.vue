@@ -51,8 +51,8 @@
 				</div>
 			</div>
 
-			<header class="category" v-if="this.includeRemote"><fa :icon="faGlobe" fixed-width/> {{ $t('remote-emoji') }}</header>
-			<div class="list">
+			<header class="category" v-if="includeRemote"><fa :icon="faGlobe" fixed-width/> {{ $t('remote-emoji') }}</header>
+			<div class="list" v-if="remoteEmojis != null">
 				<button v-for="emoji in remoteEmojis"
 					:title="emoji.sources ? emoji.sources.map(x => `${x.name}@${x.host}`).join(',\n') : emoji.name"
 					@click="chosen(emoji)"
@@ -60,6 +60,11 @@
 				>
 					<img :src="$store.state.device.disableShowingAnimatedImages ? getStaticImageUrl(emoji.url) : emoji.url"/>
 				</button>
+			</div>
+			<div v-else-if="includeRemote" class="load-remote">
+				<ui-button @click="loadRemote()">
+					{{ $t('load-remote') }}
+				</ui-button>
 			</div>
 		</template>
 	</div>
@@ -91,7 +96,7 @@ export default Vue.extend({
 			emojilist,
 			getStaticImageUrl,
 			customEmojis: {},
-			remoteEmojis: [],
+			remoteEmojis: null,
 			faGlobe, faHistory,
 			categories: [{
 				text: this.$t('custom-emoji'),
@@ -146,20 +151,19 @@ export default Vue.extend({
 		local = groupBy(local, (x: any) => x.category || '');
 		this.customEmojis = local;
 
-		if (this.includeRemote) {
-			this.$root.api('emojis/recommendation', {
-				origin: 'remote',
-			}).then((emojis: any[]) => {
-				this.remoteEmojis = emojis;
-			});
-		}
-
 		if (this.$store.state.device.activeEmojiCategoryName) {
 			this.goCategory(this.$store.state.device.activeEmojiCategoryName);
 		}
 	},
 
 	methods: {
+		loadRemote() {
+			this.$root.api('emojis/recommendation', {
+				origin: 'remote',
+			}).then((emojis: any[]) => {
+				this.remoteEmojis = emojis;
+			});
+		},
 		go(category: any) {
 			this.goCategory(category.name);
 		},
@@ -267,5 +271,8 @@ export default Vue.extend({
 					font-size 28px
 					transition transform 0.2s ease
 					pointer-events none
+		
+		>>> div.load-remote
+			padding 0.5em
 
 </style>
