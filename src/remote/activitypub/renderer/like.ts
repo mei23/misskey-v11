@@ -1,13 +1,14 @@
 import config from '../../../config';
-import { ILocalUser } from '../../../models/user';
 import { INote } from '../../../models/note';
+import { INoteReaction } from '../../../models/note-reaction';
 
-export default (user: ILocalUser, note: INote, reaction: string) => {
-	if (generalMap[reaction]) reaction = generalMap[reaction];
+export const renderLike = (noteReaction: INoteReaction, note: INote) => {
+	const reaction = generalMap[noteReaction.reaction] || noteReaction.reaction;
 	return {
 		type: 'Like',
-		actor: `${config.url}/users/${user._id}`,
-		object: note.uri ? note.uri : `${config.url}/notes/${note._id}`,
+		id: `${config.url}/likes/${noteReaction._id}`,
+		actor: `${config.url}/users/${noteReaction.userId}`,
+		object: note.uri ? note.uri : `${config.url}/notes/${noteReaction.noteId}`,
 		content: reaction,
 		_misskey_reaction: reaction
 	};

@@ -5,7 +5,7 @@ import { publishNoteStream } from '../../stream';
 import notify from '../../create-notification';
 import NoteWatching from '../../../models/note-watching';
 import watch from '../watch';
-import renderLike from '../../../remote/activitypub/renderer/like';
+import { renderLike } from '../../../remote/activitypub/renderer/like';
 import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
 import { renderActivity } from '../../../remote/activitypub/renderer';
 import perUserReactionsChart from '../../../services/chart/per-user-reactions';
@@ -30,7 +30,7 @@ export default async (user: IUser, note: INote, reaction: string) => {
 		}
 	}
 
-	await NoteReaction.insert({
+	const inserted = await NoteReaction.insert({
 		createdAt: new Date(),
 		noteId: note._id,
 		userId: user._id,
@@ -86,7 +86,7 @@ export default async (user: IUser, note: INote, reaction: string) => {
 
 	//#region 配信
 	if (isLocalUser(user) && !note.localOnly && !user.noFederation) {
-		const content = renderActivity(renderLike(user, note, reaction));
+		const content = renderActivity(renderLike(inserted, note));
 		if (isRemoteUser(note._user)) deliverToUser(user, content, note._user);
 		deliverToFollowers(user, content, true);
 	}

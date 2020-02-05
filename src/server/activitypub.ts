@@ -17,6 +17,8 @@ import Following from './activitypub/following';
 import Featured from './activitypub/featured';
 import { inbox as processInbox } from '../queue';
 import { isSelfHost } from '../misc/convert-host';
+import NoteReaction from '../models/note-reaction';
+import { renderLike } from '../remote/activitypub/renderer/like';
 
 // Init router
 const router = new Router();
@@ -237,6 +239,31 @@ router.get('/emojis/:emoji', async ctx => {
 	}
 
 	ctx.body = renderActivity(await renderEmoji(emoji));
+	ctx.set('Cache-Control', 'public, max-age=180');
+	setResponseType(ctx);
+});
+
+// like
+router.get('/likes/:like', async ctx => {
+	if (!ObjectID.isValid(ctx.params.like)) {
+		ctx.status = 404;
+		return;
+	}
+
+	const reaction = await NoteReaction.findOne({
+		_id: new ObjectID(ctx.params.like)
+	});
+
+	if (reaction == null) {
+		ctx.status = 404;
+		return;
+	}
+
+	const note = await Note.findOne({
+		_id: reaction.noteId
+	});
+
+	ctx.body = renderActivity(await renderLike(reaction, note));
 	ctx.set('Cache-Control', 'public, max-age=180');
 	setResponseType(ctx);
 });

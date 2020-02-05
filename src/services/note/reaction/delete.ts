@@ -2,7 +2,7 @@ import { IUser, isLocalUser, isRemoteUser } from '../../../models/user';
 import Note, { INote } from '../../../models/note';
 import NoteReaction from '../../../models/note-reaction';
 import { publishNoteStream } from '../../stream';
-import renderLike from '../../../remote/activitypub/renderer/like';
+import { renderLike } from '../../../remote/activitypub/renderer/like';
 import renderUndo from '../../../remote/activitypub/renderer/undo';
 import { renderActivity } from '../../../remote/activitypub/renderer';
 import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
@@ -40,7 +40,7 @@ export default async (user: IUser, note: INote) => {
 
 	//#region 配信
 	if (isLocalUser(user) && !note.localOnly && !user.noFederation) {
-		const content = renderActivity(renderUndo(renderLike(user, note, exist.reaction), user));
+		const content = renderActivity(renderUndo(renderLike(exist, note), user));
 		if (isRemoteUser(note._user)) deliverToUser(user, content, note._user);
 		deliverToFollowers(user, content, true);
 	}
