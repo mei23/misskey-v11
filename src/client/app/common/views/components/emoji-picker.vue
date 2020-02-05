@@ -76,7 +76,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import { emojilist } from '../../../../../misc/emojilist';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
-import { faAsterisk, faLeaf, faUtensils, faFutbol, faCity, faDice, faGlobe, faHistory } from '@fortawesome/free-solid-svg-icons';
+import { faAsterisk, faUser, faLeaf, faUtensils, faFutbol, faCity, faDice, faGlobe, faHistory } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faFlag } from '@fortawesome/free-regular-svg-icons';
 import { groupBy } from '../../../../../prelude/array';
 
@@ -103,9 +103,14 @@ export default Vue.extend({
 				icon: faAsterisk,
 				isActive: true
 			}, {
+				name: 'face',
+				text: this.$t('face'),
+				icon: ['far', 'laugh'],
+				isActive: false
+			}, {
 				name: 'people',
 				text: this.$t('people'),
-				icon: ['far', 'laugh'],
+				icon: faUser,
 				isActive: false
 			}, {
 				name: 'animals_and_nature',

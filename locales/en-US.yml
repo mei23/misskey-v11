@@ -605,6 +605,7 @@ common/views/components/emoji-picker.vue:
   remote-emoji: "Remote Custom Emoji"
   load-remote: "Load"
   no-category: "No category"
+  face: "Face mark"
   people: "People"
   animals-and-nature: "Animals & Nature"
   food-and-drink: "Food & drink"
