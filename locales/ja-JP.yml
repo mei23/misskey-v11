@@ -646,7 +646,7 @@ common/views/components/emoji-picker.vue:
   recent-emoji: "最近使った絵文字"
   custom-emoji: "カスタム絵文字"
   remote-emoji: "リモートカスタム絵文字"
-  load-remote: "ロード"
+  load-remote: "読み込み"
   no-category: "カテゴリなし"
   face: "顔文字"
   people: "人"
