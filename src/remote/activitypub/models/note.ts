@@ -24,6 +24,7 @@ import { getApLock } from '../../../misc/app-lock';
 import { createMessage } from '../../../services/messages/create';
 import { isBlockedHost } from '../../../misc/instance-info';
 import { parseAudience } from '../audience';
+import MessagingMessage from '../../../models/messaging-message';
 
 const logger = apLogger;
 
@@ -131,6 +132,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 
 	const apHashtags = await extractHashtags(note.tag);
 
+	let isTalk = note._misskey_talk && visibility === 'specified';
+
 	// 添付ファイル
 	// Noteがsensitiveなら添付もsensitiveにする
 	const limit = promiseLimit(2);
@@ -144,12 +147,25 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 
 	// リプライ
 	const reply: INote = note.inReplyTo
-		? await resolveNote(getOneApId(note.inReplyTo), resolver).catch(e => {
-			// 4xxの場合はリプライしてないことにする
-			if (e.statusCode >= 400 && e.statusCode < 500) {
-				logger.warn(`Ignored inReplyTo ${note.inReplyTo} - ${e.statusCode} `);
-				return null;
+		? await resolveNote(getOneApId(note.inReplyTo), resolver).then(x => {
+			if (x == null) {
+				logger.warn(`Specified inReplyTo, but nout found`);
+				throw new Error('inReplyTo not found');
+			} else {
+				return x;
 			}
+		}).catch(async e => {
+			// トークだったらinReplyToのエラーは無視
+			const uri = getApId(getOneApId(note.inReplyTo));
+			if (uri.startsWith(config.url + '/')) {
+				const id = uri.split('/').pop();
+				const talk = await MessagingMessage.findOne({ _id: id });
+				if (talk) {
+					isTalk = true;
+					return null;
+				}
+			}
+
 			logger.warn(`Error in inReplyTo ${note.inReplyTo} - ${e.statusCode || e}`);
 			throw e;
 		})
@@ -242,7 +258,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 		updatePerson(actor.uri);
 	}
 
-	if (note._misskey_talk && visibility === 'specified') {
+	if (isTalk) {
 		for (const recipient of visibleUsers) {
 			return await createMessage(actor, recipient, text, (files && files.length > 0) ? files[0] : undefined, object.id);
 		}
