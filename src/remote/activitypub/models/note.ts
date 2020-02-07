@@ -112,9 +112,17 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	}
 
 	const noteAudience = await parseAudience(actor, note.to, note.cc);
-	const visibility = noteAudience.visibility;
+	let visibility = noteAudience.visibility;
 	const visibleUsers = noteAudience.visibleUsers;
 	const apMentions = noteAudience.mentionedUsers;
+
+	// Audience (to, cc) が指定されてなかった場合
+	if (visibility === 'specified' && visibleUsers.length === 0) {
+		if (typeof value === 'string') {	// 入力がstringならばresolverでGETが発生している
+			// こちらから匿名GET出来たものならばpublic
+			visibility = 'public';
+		}
+	}
 
 	const apHashtags = await extractHashtags(note.tag);
 
