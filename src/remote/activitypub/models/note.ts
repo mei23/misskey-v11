@@ -5,7 +5,7 @@ import config from '../../../config';
 import Resolver from '../resolver';
 import Note, { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IPost, IObject, getOneApId, getApId, isPost, isEmoji, ICreate, isCreate } from '../type';
+import { IPost, IObject, getOneApId, getApId, isPost, isEmoji } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
@@ -78,11 +78,10 @@ export async function fetchNote(value: string | IObject, resolver?: Resolver): P
 /**
  * Noteを作成します。
  */
-export async function createNote(value: string | IObject, resolver?: Resolver, silent = false, activity?: ICreate): Promise<INote> {
+export async function createNote(value: string | IObject, resolver?: Resolver, silent = false): Promise<INote> {
 	if (resolver == null) resolver = new Resolver();
 
 	const object = await resolver.resolve(value);
-	if (object && !object.attributedTo) object.attributedTo = activity?.actor;
 
 	const entryUri = getApId(value);
 
@@ -113,23 +112,9 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	}
 
 	const noteAudience = await parseAudience(actor, note.to, note.cc);
-	let visibility = noteAudience.visibility;
-	let visibleUsers = noteAudience.visibleUsers;
-	let apMentions = noteAudience.mentionedUsers;
-
-	// Audience (to, cc) が指定されてなかった場合
-	if (visibility === 'specified' && visibleUsers.length === 0) {
-		if (activity && isCreate(activity)) {
-			// Create 起因ならば Activity を見る
-			const activityAudience = await parseAudience(actor, activity.to, activity.cc);
-			visibility = activityAudience.visibility;
-			visibleUsers = activityAudience.visibleUsers;
-			apMentions = activityAudience.mentionedUsers;
-		} else if (typeof value === 'string') {	// 入力がstringならばresolverでGETが発生している
-			// こちらから匿名GET出来たものならばpublic
-			visibility = 'public';
-		}
-	}
+	const visibility = noteAudience.visibility;
+	const visibleUsers = noteAudience.visibleUsers;
+	const apMentions = noteAudience.mentionedUsers;
 
 	const apHashtags = await extractHashtags(note.tag);
 
