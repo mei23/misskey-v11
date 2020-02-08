@@ -92,12 +92,12 @@ export default Vue.extend({
 						? self.$t('replied')
 						: self.$t('posted'));
 			},
-			onFailure: ((self: any, e?: Error) => {
+			onFailure: (self: any, e?: Error) => {
 				self.$root.dialog({
 					type: 'error',
 					text: e.message || e
 				});
-			})
+			}
 		}),
 	],
 
