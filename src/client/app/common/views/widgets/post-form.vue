@@ -257,8 +257,12 @@ export default define({
 				copyOnce,
 			}).then(data => {
 				this.clear();
-			}).catch(err => {
-				alert('Something happened');
+			}).catch((e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e.message || e
+				});
+				throw e;
 			}).then(() => {
 				this.posting = false;
 				this.$nextTick(() => {

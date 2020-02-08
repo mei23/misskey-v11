@@ -92,13 +92,12 @@ export default Vue.extend({
 						? self.$t('replied')
 						: self.$t('posted'));
 			},
-			onFailure: self => {
-				self.$notify(self.renote
-					? self.$t('renote-failed')
-					: self.reply
-						? self.$t('reply-failed')
-						: self.$t('note-failed'));
-			}
+			onFailure: ((self: any, e?: Error) => {
+				self.$root.dialog({
+					type: 'error',
+					text: e.message || e
+				});
+			})
 		}),
 	],
 

@@ -434,7 +434,7 @@ export default (opts) => ({
 				this.$emit('posted');
 				if (opts.onSuccess) opts.onSuccess(this);
 			}).catch(err => {
-				if (opts.onSuccess) opts.onFailure(this);
+				if (opts.onFailure) opts.onFailure(this, err);
 			}).then(() => {
 				this.posting = false;
 			});

@@ -82,7 +82,10 @@ export default Vue.extend({
 
 	mixins: [
 		form({
-			mobile: true
+			mobile: true,
+			onFailure: ((self: any, e?: Error) => {
+				self.$notify(e.message || e)
+			})
 		}),
 	],
 
