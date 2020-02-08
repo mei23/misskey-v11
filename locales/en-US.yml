@@ -513,6 +513,7 @@ common/views/components/nav.vue:
   develop: "Developers"
   feedback: "Feedback"
 common/views/components/note-menu.vue:
+  air-reply: "Air reply"
   mention: "Mention"
   detail: "Details"
   go-timeline: "Go local TL"

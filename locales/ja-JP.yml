@@ -550,6 +550,7 @@ common/views/components/nav.vue:
   feedback: "フィードバック"
 
 common/views/components/note-menu.vue:
+  air-reply: "空リプ"
   mention: "メンション"
   detail: "詳細"
   go-timeline: "ローカルTLへ"

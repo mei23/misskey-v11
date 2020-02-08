@@ -16,6 +16,10 @@ export default (opts) => ({
 			type: Object,
 			required: false
 		},
+		airReply: {
+			type: Object,
+			required: false
+		},
 		renote: {
 			type: Object,
 			required: false

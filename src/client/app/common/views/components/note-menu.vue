@@ -10,7 +10,7 @@ import i18n from '../../../i18n';
 import { url } from '../../../config';
 import copyToClipboard from '../../../common/scripts/copy-to-clipboard';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
-import { faPlaneArrival, faPlaneDeparture, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import { faPlaneArrival, faPlaneDeparture, faUserFriends, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/note-menu.vue'),
@@ -23,6 +23,10 @@ export default Vue.extend({
 	computed: {
 		items(): any[] {
 			return [{
+				icon: faPaperPlane,
+				text: this.$t('air-reply'),
+				action: this.airReply
+			}, {
 				icon: 'at',
 				text: this.$t('mention'),
 				action: this.mention
@@ -110,6 +114,10 @@ export default Vue.extend({
 	},
 
 	methods: {
+		airReply() {
+			this.$post({ airReply: this.note });
+		},
+
 		mention() {
 			this.$post({ mention: this.note.user });
 		},

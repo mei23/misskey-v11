@@ -163,6 +163,15 @@ export default Vue.extend({
 			});
 		}
 
+		// 空リプ
+		if (this.airReply) {
+			this.localOnly = this.airReply.user.host == null;
+			this.visibility = this.airReply.visibility;
+			if (this.airReply.user.host != null && this.visibility === 'public') {
+				this.visibility = 'home';
+			}
+		}
+
 		this.$nextTick(() => {
 			// 書きかけの投稿を復元
 			if (!this.instant && !this.mention) {
