@@ -21,7 +21,7 @@
 					<mfm v-if="appearNote.cw != ''" class="text" :text="appearNote.cw" :author="appearNote.user" :i="$store.state.i" :custom-emojis="appearNote.emojis" />
 					<mk-cw-button v-model="showContent" :note="appearNote"/>
 				</p>
-				<div class="content" v-show="appearNote.cw == null || showContent">
+				<div class="content" v-show="appearNote.cw == null || showContent" @click="airReply()">
 					<div class="text" :class="{ scroll : true }">
 						<span v-if="appearNote.isHidden" style="opacity: 0.5">{{ $t('private') }}</span>
 						<a class="reply" v-if="appearNote.reply"><fa icon="reply"/></a>
@@ -162,6 +162,12 @@ export default Vue.extend({
 			}).then(conversation => {
 				this.conversation = conversation.reverse();
 			});
+		}
+	},
+
+	methods: {
+		airReply() {
+			this.$post({ airReply: this.appearNote });
 		}
 	}
 });
