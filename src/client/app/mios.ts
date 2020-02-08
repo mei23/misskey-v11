@@ -456,7 +456,7 @@ export default class MiOS extends EventEmitter {
 
 			// Send request
 			fetchPromise.then(async (res) => {
-				const body = res.status === 204 ? null : await res.json();
+				const body = res.status === 204 ? null : await res.json().catch(() => null);
 
 				if (this.debug) {
 					req.status = res.status;
@@ -468,7 +468,7 @@ export default class MiOS extends EventEmitter {
 				} else if (res.status === 204) {
 					resolve();
 				} else {
-					reject(body.error);
+					reject(body ? body.error : `${res.status} ${res.statusText}`);
 				}
 			}).catch(reject);
 		});
