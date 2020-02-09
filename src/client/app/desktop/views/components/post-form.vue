@@ -79,6 +79,7 @@ import form from '../../../common/scripts/post-form';
 import { toASCII } from 'punycode';
 import extractMentions from '../../../../../misc/extract-mentions';
 import { parse } from '../../../../../mfm/parse';
+import { host } from '../../../config';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/post-form.vue'),
