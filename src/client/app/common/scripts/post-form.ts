@@ -373,7 +373,7 @@ export default (opts) => ({
 						name: `${m2[1]}@${m2[2]}`,
 						host: m2[2],
 						url: `${config.url}/files/${m2[1]}@${m2[2]}/${Math.floor(Date.now() / 1000 / 3600)}.png`
-					}
+					};
 				});
 				const emojis = concat([localEmojis, remoteEmojis]);
 
