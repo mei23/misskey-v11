@@ -28,6 +28,7 @@
 		<div class="info">
 			<div class="description">
 				<mfm v-if="user.description" :text="user.description" :is-note="false" :author="user" :i="$store.state.i" :custom-emojis="user.emojis" :key="user.id"/>
+				<x-integrations :user="user" style="margin-right: -10px;"/>
 			</div>
 			<div class="fields" v-if="user.fields" :key="user.id">
 				<dl class="field" v-for="(field, i) in user.fields" :key="i">
@@ -72,12 +73,13 @@ import parseAcct from '../../../../../misc/acct/parse';
 import XColumn from './deck.column.vue';
 import XUserMenu from '../../../common/views/components/user-menu.vue';
 import XListMenu from '../../../common/views/components/list-menu.vue';
+import XIntegrations from '../../../common/views/components/integrations.vue';
 import ImageViewer from '../../../common/views/components/image-viewer.vue';
 
 export default Vue.extend({
 	i18n: i18n('deck/deck.user-column.vue'),
 	components: {
-		XColumn,
+		XColumn, XIntegrations
 	},
 
 	data() {
