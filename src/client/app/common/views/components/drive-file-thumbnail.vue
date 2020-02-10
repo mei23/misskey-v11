@@ -112,9 +112,7 @@ export default Vue.extend({
 				: false;
 		},
 		background(): string {
-			return this.file.properties.avgColor && this.file.properties.avgColor.length == 3
-				? `rgb(${this.file.properties.avgColor.join(',')})`
-				: 'transparent';
+			return 'transparent';
 		}
 	},
 	mounted() {
@@ -123,14 +121,6 @@ export default Vue.extend({
 	},
 	methods: {
 		onThumbnailLoaded() {
-			if (this.file.properties.avgColor && this.file.properties.avgColor.length == 3) {
-				anime({
-					targets: this.$refs.thumbnail,
-					backgroundColor: `rgba(${this.file.properties.avgColor.join(',')}, 0)`,
-					duration: 100,
-					easing: 'linear'
-				});
-			}
 		},
 		volumechange() {
 			const audioTag = this.$refs.volumectrl as HTMLAudioElement;

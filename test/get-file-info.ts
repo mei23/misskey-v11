@@ -27,7 +27,6 @@ describe('Get file info', () => {
 			},
 			width: undefined,
 			height: undefined,
-			avgColor: undefined
 		});
 	}));
 
@@ -44,7 +43,6 @@ describe('Get file info', () => {
 			},
 			width: 512,
 			height: 512,
-			avgColor: [ 181, 99, 106 ]
 		});
 	}));
 
@@ -61,7 +59,6 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: [ 249, 253, 250 ]
 		});
 	}));
 
@@ -78,7 +75,6 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: [ 249, 253, 250 ]
 		});
 	}));
 
@@ -95,7 +91,6 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: [ 26, 89, 103, 255 ]
 		});
 	}));
 
@@ -112,7 +107,6 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: undefined
 		});
 	}));
 
@@ -130,7 +124,6 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: undefined
 		});
 	}));
 
@@ -147,7 +140,6 @@ describe('Get file info', () => {
 			},
 			width: 25000,
 			height: 25000,
-			avgColor: undefined
 		});
 	}));
 });

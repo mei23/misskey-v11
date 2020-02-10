@@ -384,10 +384,6 @@ export async function addFile(
 		properties['height'] = info.height;
 	}
 
-	if (info.avgColor) {
-		properties['avgColor'] = info.avgColor;
-	}
-
 	const folder = await fetchFolder();
 
 	const metadata = {

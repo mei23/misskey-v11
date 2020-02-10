@@ -41,7 +41,7 @@ export default Vue.extend({
 			})`;
 
 			return {
-				'background-color': this.image.properties.avgColor && this.image.properties.avgColor.length == 3 ? `rgb(${this.image.properties.avgColor.join(',')}, 0.3)` : 'transparent',
+				'background-color': 'transparent',
 				'background-image': url
 			};
 		}

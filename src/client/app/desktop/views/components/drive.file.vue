@@ -151,14 +151,6 @@ export default Vue.extend({
 		},
 
 		onThumbnailLoaded() {
-			if (this.file.properties.avgColor && this.file.properties.avgColor.length == 3) {
-				anime({
-					targets: this.$refs.thumbnail,
-					backgroundColor: `rgba(${this.file.properties.avgColor.join(',')}, 0)`,
-					duration: 100,
-					easing: 'linear'
-				});
-			}
 		},
 
 		rename() {

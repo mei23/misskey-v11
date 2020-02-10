@@ -3,7 +3,6 @@ import * as crypto from 'crypto';
 import * as FileType from 'file-type';
 import isSvg from 'is-svg';
 import * as probeImageSize from 'probe-image-size';
-import * as sharp from 'sharp';
 
 export type FileInfo = {
 	size: number;
@@ -14,7 +13,6 @@ export type FileInfo = {
 	};
 	width?: number;
 	height?: number;
-	avgColor?: number[];
 	warnings: string[];
 };
 
@@ -67,23 +65,12 @@ export async function getFileInfo(path: string): Promise<FileInfo> {
 		}
 	}
 
-	// average color
-	let avgColor = undefined as number[];
-
-	if (['image/jpeg', 'image/gif', 'image/png', 'image/apng', 'image/webp'].includes(type.mime)) {
-		avgColor = await calcAvgColor(path).catch(e => {
-			warnings.push(`calcAvgColor failed: ${e}`);
-			return undefined;
-		});
-	}
-
 	return {
 		size,
 		md5,
 		type,
 		width,
 		height,
-		avgColor,
 		warnings: warnings,
 	};
 }
@@ -179,19 +166,4 @@ async function detectImageSize(path: string): Promise<{
 	const imageSize = await probeImageSize(readable);
 	readable.destroy();
 	return imageSize;
-}
-
-/**
- * Calculate average color of image
- */
-async function calcAvgColor(path: string): Promise<number[]> {
-	const img = sharp(path);
-
-	const info = await (img as any).stats();
-
-	const r = Math.round(info.channels[0].mean);
-	const g = Math.round(info.channels[1].mean);
-	const b = Math.round(info.channels[2].mean);
-
-	return info.isOpaque ? [r, g, b] : [r, g, b, 255];
 }
