@@ -26,7 +26,7 @@ export default Vue.extend({
 		XNav
 	},
 
-	props: ['title'],
+	props: ['title', 'openDrawer'],
 
 	data() {
 		return {
@@ -53,6 +53,10 @@ export default Vue.extend({
 	watch: {
 		'$store.state.uiHeaderHeight'() {
 			this.$el.style.paddingTop = this.$store.state.uiHeaderHeight + 'px';
+		},
+
+		openDrawer() {
+			this.isDrawerOpening = true;
 		}
 	},
 

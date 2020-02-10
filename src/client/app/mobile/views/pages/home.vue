@@ -1,5 +1,5 @@
 <template>
-<mk-ui>
+<mk-ui :openDrawer="openDrawer">
 	<template #header>
 		<span @click="showNav = true">
 			<span :class="$style.title">
@@ -60,6 +60,7 @@
 			<mk-user-list-timeline v-if="src == 'list'" ref="tl" :key="list.id" :list="list"/>
 		</div>
 
+		<button class="menu" @click="openDrawer = Math.random()"><fa :icon="faBars"/></button>
 		<button class="post" @click="post()"><fa :icon="faPencilAlt"/></button>
 	</main>
 </mk-ui>
@@ -70,7 +71,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import Progress from '../../../common/scripts/loading';
 import XTl from './home.timeline.vue';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faBars } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/pages/home.vue'),
@@ -88,7 +89,8 @@ export default Vue.extend({
 			showNav: false,
 			enableLocalTimeline: false,
 			enableGlobalTimeline: false,
-			faPencilAlt
+			openDrawer: false,
+			faPencilAlt, faBars
 		};
 	},
 
@@ -244,6 +246,18 @@ main
 						margin-left 6px
 						font-size 10px
 						color var(--notificationIndicator)
+	> .menu
+		position fixed
+		z-index 1000
+		bottom 32px
+		left 32px
+		width 64px
+		height 64px
+		border-radius 100%
+		box-shadow 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12)
+		font-size 22px
+		background var(--face)
+		color var(--primaryForeground)
 
 	> .post
 		position fixed
