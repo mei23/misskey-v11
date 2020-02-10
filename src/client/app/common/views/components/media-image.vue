@@ -41,7 +41,7 @@ export default Vue.extend({
 			})`;
 
 			return {
-				'background-color': 'transparent',
+				'background-color': `var(--face)`,
 				'background-image': url
 			};
 		}
