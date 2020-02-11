@@ -52,7 +52,7 @@ export default Vue.extend({
 		},
 		icon(): any {
 			return {
-				backgroundColor: `var(--face)`,
+				backgroundColor: `rgba(128, 128, 128, 0.3)`,
 				backgroundImage: `url(${this.url})`,
 				borderRadius: this.$store.state.settings.circleIcons ? '100%' : null
 			};
