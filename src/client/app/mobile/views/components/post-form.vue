@@ -38,8 +38,8 @@
 				<button class="upload" @click="chooseFile"><fa icon="upload"/></button>
 				<button class="drive" @click="chooseFileFromDrive"><fa icon="cloud"/></button>
 				<button class="kao" @click="kao"><fa :icon="faFish"/></button>
-				<button v-if="!inside" class="poll" @click="poll = true"><fa icon="chart-pie"/></button>
-				<button class="poll" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
+				<button v-if="!inside" class="poll" :class="{ enabled: !!poll }" @click="poll = !poll"><fa icon="chart-pie"/></button>
+				<button class="cw" :class="{ enabled: useCw }" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
 				<button class="visibility" @click="setVisibility" ref="visibilityButton">
 					<x-visibility-icon :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 				</button>
@@ -380,6 +380,12 @@ export default Vue.extend({
 					border-radius 0
 					box-shadow none
 					opacity 0.7
+
+				> .poll
+				> .cw
+					&.enabled
+						color var(--primary)
+						opacity 1
 
 				> .visibility > .localOnly
 					color var(--primary)
