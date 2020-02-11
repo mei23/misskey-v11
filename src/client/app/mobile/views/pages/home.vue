@@ -21,7 +21,7 @@
 	</template>
 
 	<template #func>
-		<button @click="fn"><fa :icon="faPencilAlt"/></button>
+		<button @click="fn"><fa icon="pencil-alt"/></button>
 	</template>
 
 	<main>
@@ -59,8 +59,6 @@
 			<x-tl v-if="src == 'tag'" ref="tl" key="tag" src="tag" :tag-tl="tagTl"/>
 			<mk-user-list-timeline v-if="src == 'list'" ref="tl" :key="list.id" :list="list"/>
 		</div>
-
-		<button class="post" @click="post()"><fa :icon="faPencilAlt"/></button>
 	</main>
 </mk-ui>
 </template>
@@ -70,7 +68,6 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import Progress from '../../../common/scripts/loading';
 import XTl from './home.timeline.vue';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/pages/home.vue'),
@@ -88,7 +85,6 @@ export default Vue.extend({
 			showNav: false,
 			enableLocalTimeline: false,
 			enableGlobalTimeline: false,
-			faPencilAlt
 		};
 	},
 
@@ -161,10 +157,6 @@ export default Vue.extend({
 				src: this.src,
 				arg: this.src == 'list' ? this.list : this.tagTl
 			});
-		},
-
-		post() {
-			this.$post();
 		},
 
 		warp() {
@@ -244,19 +236,6 @@ main
 						margin-left 6px
 						font-size 10px
 						color var(--notificationIndicator)
-
-	> .post
-		position fixed
-		z-index 1000
-		bottom 32px
-		right 32px
-		width 64px
-		height 64px
-		border-radius 100%
-		box-shadow 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12)
-		font-size 22px
-		background var(--primary)
-		color var(--primaryForeground)
 
 </style>
 
