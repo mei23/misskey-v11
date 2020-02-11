@@ -152,7 +152,7 @@ export default async function(ctx: Router.IRouterContext) {
 		});
 
 		if (web != null) {
-			ctx.set('Content-Type', file.contentType);
+			ctx.set('Content-Type', web.contentType || file.contentType);
 			ctx.set('Content-Disposition', contentDisposition('inline', `${rename(file.filename, { suffix: '-web' })}`));
 
 			const bucket = await getDriveFileWebpublicBucket();

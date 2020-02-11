@@ -1091,6 +1091,7 @@ desktop/views/components/post-form.vue:
   attach-media-from-drive: "ドライブからメディアを添付"
   insert-a-kao: "ﾌｸﾞﾊﾟﾝﾁガチャ"
   create-poll: "アンケートを作成"
+  use-jpeg: "アップロード時にJPEGに変換する"
   text-remain: "残り{}文字"
   recent-tags: "最近"
   click-to-tagging: "クリックでタグ付け"

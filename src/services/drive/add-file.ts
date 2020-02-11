@@ -29,6 +29,11 @@ import { genFid } from '../../misc/id/fid';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
+export type ProcessOptions = {
+	useJpegForWeb?: boolean;
+	webSize?: number;
+};
+
 /***
  * Save file
  * @param path Path for original
@@ -36,9 +41,9 @@ const logger = driveLogger.createSubLogger('register', 'yellow');
  * @param info FileInfo
  * @param metadata
  */
-async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig): Promise<IDriveFile> {
+async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig, prsOpts?: ProcessOptions): Promise<IDriveFile> {
 	// thunbnail, webpublic を必要なら生成
-	const alts = await generateAlts(path, info.type.mime, !metadata.uri).catch(err => {
+	const alts = await generateAlts(path, info.type.mime, !metadata.uri, prsOpts).catch(err => {
 		logger.error(err);
 
 		return {
@@ -80,7 +85,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			webpublicUrl = `${ baseUrl }/${ webpublicKey }`;
 
 			logger.info(`uploading webpublic: ${webpublicKey}`);
-			uploads.push(upload(webpublicKey, alts.webpublic.data, alts.webpublic.type, name, drive));
+			uploads.push(upload(webpublicKey, alts.webpublic.data, alts.webpublic.type, prsOpts?.useJpegForWeb ? null : name, drive));
 		}
 
 		if (alts.thumbnail) {
@@ -156,7 +161,10 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
  * @param type Content-Type for original
  * @param generateWeb Generate webpublic or not
  */
-export async function generateAlts(path: string, type: string, generateWeb: boolean) {
+export async function generateAlts(path: string, type: string, generateWeb: boolean, prsOpts?: ProcessOptions) {
+	let webSize = prsOpts?.webSize || 2048;
+	if (webSize > 16383) webSize = 16383;
+
 	const img = sharp(path);
 
 	// #region webpublic
@@ -165,12 +173,13 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	if (generateWeb) {
 		logger.debug(`creating web image`);
 
-		if (['image/jpeg'].includes(type)) {
-			webpublic = await ConvertSharpToJpeg(img, 8192, 8192);
+		if (['image/jpeg'].includes(type)
+			|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
+			webpublic = await ConvertSharpToJpeg(img, webSize, webSize);
 		} else if (['image/webp'].includes(type)) {
-			webpublic = await ConvertSharpToWebp(img, 8192, 8192);
+			webpublic = await ConvertSharpToWebp(img, webSize, webSize);
 		} else if (['image/png'].includes(type)) {
-			webpublic = await ConvertSharpToPng(img, 8192, 8192);
+			webpublic = await ConvertSharpToPng(img, webSize, webSize);
 		} else {
 			logger.debug(`web image not created (not an image)`);
 		}
@@ -182,7 +191,8 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	// #region thumbnail
 	let thumbnail: IImage;
 
-	if (['image/jpeg', 'image/webp'].includes(type)) {
+	if (['image/jpeg', 'image/webp'].includes(type)
+		|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
 		thumbnail = await ConvertSharpToJpeg(img, 498, 280);
 	} else if (['image/png'].includes(type)) {
 		thumbnail = await ConvertSharpToPng(img, 498, 280);
@@ -299,6 +309,7 @@ export async function addFile(
 	url: string = null,
 	uri: string = null,
 	sensitive: boolean = false,
+	prsOpts?: ProcessOptions,
 ): Promise<IDriveFile> {
 	const info = await getFileInfo(path);
 	logger.info(`${JSON.stringify(info)}`);
@@ -439,7 +450,7 @@ export async function addFile(
 		}
 	} else {
 		const drive = getDriveConfig(uri != null);
-		driveFile = await (save(path, detectedName, info, metadata, drive));
+		driveFile = await (save(path, detectedName, info, metadata, drive, prsOpts));
 	}
 
 	logger.succ(`drive file has been created ${driveFile._id}`);

@@ -38,7 +38,7 @@ export default Vue.extend({
 			});
 		},
 
-		upload(file: File, folder: any, name?: string) {
+		upload(file: File, folder: any, name?: string, useJpeg = false) {
 			if (folder && typeof folder == 'object') folder = folder.id;
 
 			const id = Math.random();
@@ -64,6 +64,7 @@ export default Vue.extend({
 					const data = new FormData();
 					data.append('i', this.$store.state.i.token);
 					data.append('force', 'true');
+					data.append('useJpegForWeb', `${useJpeg}`);
 					data.append('file', file);
 
 					if (folder) data.append('folderId', folder);

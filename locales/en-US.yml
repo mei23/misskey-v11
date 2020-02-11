@@ -995,6 +995,7 @@ desktop/views/components/post-form.vue:
   attach-media-from-drive: "Attach media from your Drive"
   insert-a-kao: "ﾌｸﾞﾊﾟﾝﾁ gacha"
   create-poll: "Create a poll"
+  use-jpeg: "Convert to JPEG when uploading"
   text-remain: "{} characters remaining"
   recent-tags: "Recent"
   click-to-tagging: "Click to tagging"

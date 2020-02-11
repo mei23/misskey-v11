@@ -36,9 +36,10 @@
 		<footer>
 			<button class="upload" :title="$t('attach-media-from-local')" @click="chooseFile"><fa icon="upload"/></button>
 			<button class="drive" :title="$t('attach-media-from-drive')" @click="chooseFileFromDrive"><fa icon="cloud"/></button>
+			<button class="jpeg" :class="{ enabled: useJpeg }" :title="$t('use-jpeg')" @click="useJpeg = !useJpeg"><fa :icon="faShareSquare"/></button>
 			<button class="kao" :title="$t('insert-a-kao')" @click="kao"><fa :icon="faFish"/></button>
-			<button class="poll" :title="$t('create-poll')" @click="poll = !poll"><fa icon="chart-pie"/></button>
-			<button class="cw" :title="$t('hide-contents')" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
+			<button class="poll" :class="{ enabled: !!poll }" :title="$t('create-poll')" @click="poll = !poll"><fa icon="chart-pie"/></button>
+			<button class="cw" :class="{ enabled: useCw }" :title="$t('hide-contents')" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
 			<button class="visibility" :title="$t('visibility')" @click="setVisibility" ref="visibilityButton">
 				<x-visibility-icon :v="visibility" :localOnly="localOnly" :copyOnce="copyOnce"/>
 			</button>
@@ -451,6 +452,7 @@ export default Vue.extend({
 
 		> .upload
 		> .drive
+		> .jpeg
 		> .kao
 		> .poll
 		> .cw
@@ -468,9 +470,12 @@ export default Vue.extend({
 			border-radius 4px
 			opacity 0.7
 
+			&.enabled
+				color var(--primary)
+				opacity 1
+
 			&:hover
-				color var(--textHighlighted)
-				opacity 1.0
+				opacity 1
 
 			&:focus
 				&:after

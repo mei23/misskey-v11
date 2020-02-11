@@ -2,7 +2,7 @@ import * as ms from 'ms';
 import $ from 'cafy';
 import ID, { transform } from '../../../../../misc/cafy-id';
 import { validateFileName, pack } from '../../../../../models/drive-file';
-import { addFile } from '../../../../../services/drive/add-file';
+import { addFile, ProcessOptions } from '../../../../../services/drive/add-file';
 import define from '../../../define';
 import { apiLogger } from '../../../logger';
 import { ApiError } from '../../../error';
@@ -61,7 +61,16 @@ export const meta = {
 			desc: {
 				'ja-JP': 'true にすると、同じハッシュを持つファイルが既にアップロードされていても強制的にファイルを作成します。',
 			}
-		}
+		},
+
+		useJpegForWeb: {
+			validator: $.optional.either($.bool, $.str),
+			default: false,
+			transform: (v: any): boolean => v === true || v === 'true',
+			desc: {
+				'ja-JP': 'Web公開用をJPEGにするか',
+			}
+		},
 	},
 
 	res: {
@@ -95,7 +104,11 @@ export default define(meta, async (ps, user, app, file, cleanup) => {
 
 	try {
 		// Create file
-		const driveFile = await addFile(user, file.path, name, null, ps.folderId, ps.force, false, null, null, ps.isSensitive);
+		const prsOpts = {
+			useJpegForWeb: ps.useJpegForWeb
+		} as ProcessOptions;
+
+		const driveFile = await addFile(user, file.path, name, null, ps.folderId, ps.force, false, null, null, ps.isSensitive, prsOpts);
 		return pack(driveFile, { self: true });
 	} catch (e) {
 		apiLogger.error(e);

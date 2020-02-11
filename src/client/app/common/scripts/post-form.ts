@@ -5,7 +5,7 @@ import getFace from './get-face';
 import { parse } from '../../../../mfm/parse';
 import i18n from '../../i18n';
 import { erase, unique, concat } from '../../../../prelude/array';
-import { faFish } from '@fortawesome/free-solid-svg-icons';
+import { faFish, faShareSquare } from '@fortawesome/free-solid-svg-icons';
 import { parseVisibility } from './parse-visibility';
 
 export default (opts) => ({
@@ -68,7 +68,8 @@ export default (opts) => ({
 			draghover: false,
 			recentHashtags: JSON.parse(localStorage.getItem('hashtags') || '[]'),
 			maxNoteTextLength: 1000,
-			faFish
+			useJpeg: false,
+			faFish, faShareSquare
 		};
 	},
 
@@ -180,7 +181,7 @@ export default (opts) => ({
 		},
 
 		upload(file: File, name?: string) {
-			(this.$refs.uploader as any).upload(file, null, name);
+			(this.$refs.uploader as any).upload(file, null, name, this.useJpeg);
 		},
 
 		onChangeUploadings(uploads) {
