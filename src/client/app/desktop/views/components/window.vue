@@ -68,7 +68,7 @@ export default Vue.extend({
 		},
 		width: {
 			type: String,
-			default: '530px'
+			default: '540px'
 		},
 		height: {
 			type: String,
