@@ -166,7 +166,7 @@ export default Vue.extend({
 
 		// 空リプ
 		if (this.airReply) {
-			this.localOnly = this.airReply.user.host == null && this.airReply.user.host === 'public';
+			this.localOnly = this.airReply.user.host == null && this.airReply.visibility === 'public';
 			this.visibility = this.airReply.visibility;
 			if (this.airReply.user.host != null && this.visibility === 'public') {
 				this.visibility = 'home';
