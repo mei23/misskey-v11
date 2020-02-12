@@ -85,3 +85,23 @@ export async function convertSharpToPng(sharp: sharp.Sharp, width: number, heigh
 		type: 'image/png'
 	};
 }
+
+/**
+ * Convert to PNG or JPEG
+ *   with resize, remove metadata, resolve orientation, stop animation
+ */
+export async function convertToPngOrJpeg(path: string, width: number, height: number): Promise<IImage> {
+	return convertSharpToPngOrJpeg(await sharp(path), width, height);
+}
+
+export async function convertSharpToPngOrJpeg(sharp: sharp.Sharp, width: number, height: number): Promise<IImage> {
+	const stats = await sharp.stats();
+	const metadata = await sharp.metadata();
+
+	// 不透明で300x300pxの範囲を超えていればJPEG
+	if (stats.isOpaque && (metadata.width >= 300 || metadata.height >= 300)) {
+		return await convertSharpToJpeg(sharp, width, height);
+	} else {
+		return await convertSharpToPng(sharp, width, height);
+	}
+}

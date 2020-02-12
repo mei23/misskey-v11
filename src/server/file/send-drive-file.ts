@@ -9,7 +9,7 @@ import DriveFileThumbnail, { getDriveFileThumbnailBucket } from '../../models/dr
 import DriveFileWebpublic, { getDriveFileWebpublicBucket } from '../../models/drive-file-webpublic';
 import { serverLogger } from '..';
 
-import { convertToJpeg, convertToPng } from '../../services/drive/image-processor';
+import { convertToJpeg, convertToPngOrJpeg } from '../../services/drive/image-processor';
 import { generateVideoThumbnail } from '../../services/drive/generate-video-thumbnail';
 import { contentDisposition } from '../../misc/content-disposition';
 import { detectType } from '../../misc/get-file-info';
@@ -64,7 +64,7 @@ export default async function(ctx: Router.IRouterContext) {
 					if (['image/jpg', 'image/webp'].includes(mime)) {
 						return await convertToJpeg(path, 498, 280);
 					} else if (['image/png'].includes(mime)) {
-						return await convertToPng(path, 498, 280);
+						return await convertToPngOrJpeg(path, 498, 280);
 					} else if (mime.startsWith('video/')) {
 						return await generateVideoThumbnail(path);
 					}

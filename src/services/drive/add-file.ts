@@ -16,7 +16,7 @@ import instanceChart from '../../services/chart/instance';
 import fetchMeta from '../../misc/fetch-meta';
 import { generateVideoThumbnail } from './generate-video-thumbnail';
 import { driveLogger } from './logger';
-import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng } from './image-processor';
+import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng, convertSharpToPngOrJpeg } from './image-processor';
 import Instance from '../../models/instance';
 import { contentDisposition } from '../../misc/content-disposition';
 import { getFileInfo, FileInfo } from '../../misc/get-file-info';
@@ -195,7 +195,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 		|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
 		thumbnail = await convertSharpToJpeg(img, 498, 280);
 	} else if (['image/png'].includes(type)) {
-		thumbnail = await convertSharpToPng(img, 498, 280);
+		thumbnail = await convertSharpToPngOrJpeg(img, 498, 280);
 	} else if (type.startsWith('video/')) {
 		try {
 			thumbnail = await generateVideoThumbnail(path);
