@@ -131,7 +131,7 @@ export default async function(ctx: Router.IRouterContext) {
 		});
 
 		if (thumb != null) {
-			ctx.set('Content-Type', 'image/jpeg');
+			ctx.set('Content-Type', thumb.contentType || 'image/jpeg');
 			ctx.set('Content-Disposition', contentDisposition('inline', `${rename(file.filename, { suffix: '-thumb', extname: '.jpeg' })}`));
 			const bucket = await getDriveFileThumbnailBucket();
 			ctx.body = bucket.openDownloadStream(thumb._id);
