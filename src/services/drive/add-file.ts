@@ -14,9 +14,9 @@ import driveChart from '../../services/chart/drive';
 import perUserDriveChart from '../../services/chart/per-user-drive';
 import instanceChart from '../../services/chart/instance';
 import fetchMeta from '../../misc/fetch-meta';
-import { GenerateVideoThumbnail } from './generate-video-thumbnail';
+import { generateVideoThumbnail } from './generate-video-thumbnail';
 import { driveLogger } from './logger';
-import { IImage, ConvertSharpToJpeg, ConvertSharpToWebp, ConvertSharpToPng } from './image-processor';
+import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng } from './image-processor';
 import Instance from '../../models/instance';
 import { contentDisposition } from '../../misc/content-disposition';
 import { getFileInfo, FileInfo } from '../../misc/get-file-info';
@@ -175,11 +175,11 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 
 		if (['image/jpeg'].includes(type)
 			|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
-			webpublic = await ConvertSharpToJpeg(img, webSize, webSize);
+			webpublic = await convertSharpToJpeg(img, webSize, webSize);
 		} else if (['image/webp'].includes(type)) {
-			webpublic = await ConvertSharpToWebp(img, webSize, webSize);
+			webpublic = await convertSharpToWebp(img, webSize, webSize);
 		} else if (['image/png'].includes(type)) {
-			webpublic = await ConvertSharpToPng(img, webSize, webSize);
+			webpublic = await convertSharpToPng(img, webSize, webSize);
 		} else {
 			logger.debug(`web image not created (not an image)`);
 		}
@@ -193,14 +193,14 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 
 	if (['image/jpeg', 'image/webp'].includes(type)
 		|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
-		thumbnail = await ConvertSharpToJpeg(img, 498, 280);
+		thumbnail = await convertSharpToJpeg(img, 498, 280);
 	} else if (['image/png'].includes(type)) {
-		thumbnail = await ConvertSharpToPng(img, 498, 280);
+		thumbnail = await convertSharpToPng(img, 498, 280);
 	} else if (type.startsWith('video/')) {
 		try {
-			thumbnail = await GenerateVideoThumbnail(path);
+			thumbnail = await generateVideoThumbnail(path);
 		} catch (e) {
-			logger.warn(`GenerateVideoThumbnail failed: ${e}`);
+			logger.warn(`generateVideoThumbnail failed: ${e}`);
 		}
 	}
 	// #endregion thumbnail
