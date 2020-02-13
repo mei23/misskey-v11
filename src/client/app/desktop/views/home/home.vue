@@ -63,7 +63,9 @@
 					<component v-for="widget in widgets[place]" :is="`mkw-${widget.name}`" :key="widget.id" :ref="widget.id" :widget="widget" platform="desktop"/>
 				</div>
 				<div class="main">
-					<router-view ref="content"></router-view>
+					<keep-alive :include="index"> 
+						<router-view ref="content"></router-view>
+					</keep-alive>
 				</div>
 			</template>
 		</div>
