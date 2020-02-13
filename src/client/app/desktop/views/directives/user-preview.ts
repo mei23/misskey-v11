@@ -32,6 +32,9 @@ export default {
 
 			const preview = self.tag.$el;
 			const rect = el.getBoundingClientRect();
+
+			if (rect.top === 0) return;
+
 			const x = rect.left + el.offsetWidth + window.pageXOffset;
 			const y = rect.top + window.pageYOffset;
 
