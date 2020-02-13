@@ -143,7 +143,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	const reply: INote = note.inReplyTo
 		? await resolveNote(getOneApId(note.inReplyTo), resolver).then(x => {
 			if (x == null) {
-				logger.warn(`Specified inReplyTo, but nout found`);
+				logger.warn(`Specified inReplyTo, but not found`);
 				throw new Error('inReplyTo not found');
 			} else {
 				return x;
@@ -158,6 +158,12 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 					isTalk = true;
 					return null;
 				}
+			}
+
+			// 4xxの場合はリプライしてないことにする
+			if (e.statusCode >= 400 && e.statusCode < 500) {
+				logger.warn(`Ignored inReplyTo ${note.inReplyTo} - ${e.statusCode} `);
+				return null;
 			}
 
 			logger.warn(`Error in inReplyTo ${note.inReplyTo} - ${e.statusCode || e}`);
