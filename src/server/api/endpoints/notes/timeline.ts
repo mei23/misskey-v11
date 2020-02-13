@@ -153,51 +153,37 @@ export default define(meta, async (ps, user) => {
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
 	const hideFromHomeHosts = concat<string>(hideFromHomeLists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
 
-	//#region 新規ユーザーの無駄クエリ抑制
-	// クエリに影響するフォローユーザー
-	const efectiveFollowings = followings.map(x => x.id)
-		.filter(x => x != user._id)
-		.filter(x => !hideUserIds.includes(x))
-		.filter(x => !hideFromHomeUsers.includes(x));
-
-	if (efectiveFollowings.length === 0) {
-		// フォローが0ならば期間制限
-		if (ps.sinceDate == null) {
-			ps.sinceDate = Date.now() - (1000 * 86400 * 2);
-		}
-	}
-	//#endregion
-
 	//#region Construct query
 	const sort = {
 		_id: -1
 	};
 
+	const followQuery = [{
+		userId: { $in: followings.map(f => f.id) }
+	}];
+
+	const visibleQuery = user == null ? [{
+		visibility: { $in: [ 'public', 'home' ] }
+	}] : [{
+		visibility: { $in: [ 'public', 'home', 'followers' ] }
+	}, {
+		// myself (for specified/private)
+		userId: user._id
+	}, {
+		// to me (for specified)
+		visibleUserIds: { $in: [ user._id ] }
+	}];
+
 	const query = {
 		$and: [{
 			deletedAt: null,
 
-			$or: [{
-				// フォローユーザーのリプライ以外かフォロワーへのリプライ
-				visibility: { $in: [ 'public', 'home', 'followers' ] },
-				userId: { $in: followings.map(f => f.id) },
-				$or: [{
-					'_reply.userId': null
-				}, {
-					'_reply.userId': { $in : followings.map(f => f.id) }
-				}]
+			$and: [{
+				// フォローしている人の投稿
+				$or: followQuery
 			}, {
-				// myself (for specified/private)
-				userId: user._id
-			}, {
-				// to me (for specified)
-				visibleUserIds: { $in: [ user._id ] }
-			}, {
-				// 自分の投稿へのリプライ
-				'_reply.userId': user._id
-			}, {
-				// 自分へのメンションが含まれている
-				mentions: { $in: [ user._id ] }
+				// visible for me
+				$or: visibleQuery
 			}],
 
 			// mute
