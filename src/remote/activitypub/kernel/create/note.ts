@@ -16,14 +16,14 @@ export default async function(resolver: Resolver, actor: IRemoteUser, note: IObj
 		const exist = await fetchNote(note);
 		if (exist) return 'skip: note exists';
 
-		await createNote(note, resolver, silent).catch(e => {
-			if (e.statusCode >= 400 && e.statusCode < 500) {
-				return `skip ${e.statusCode}`;
-			} else {
-				throw e;
-			}
-		});
+		await createNote(note, resolver, silent);
 		return 'ok';
+	} catch (e) {
+		if (e.statusCode >= 400 && e.statusCode < 500) {
+			return `skip ${e.statusCode}`;
+		} else {
+			throw e;
+		}
 	} finally {
 		unlock();
 	}
