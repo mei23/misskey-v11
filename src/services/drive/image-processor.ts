@@ -96,10 +96,9 @@ export async function convertToPngOrJpeg(path: string, width: number, height: nu
 
 export async function convertSharpToPngOrJpeg(sharp: sharp.Sharp, width: number, height: number): Promise<IImage> {
 	const stats = await sharp.stats();
-	const metadata = await sharp.metadata();
 
-	// 不透明で300x300pxの範囲を超えていればJPEG
-	if (stats.isOpaque && (metadata.width >= 300 || metadata.height >= 300)) {
+	// 不透明ならばJPEG
+	if (stats.isOpaque) {
 		return await convertSharpToJpeg(sharp, width, height);
 	} else {
 		return await convertSharpToPng(sharp, width, height);
