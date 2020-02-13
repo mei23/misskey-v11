@@ -42,6 +42,7 @@ export default Vue.extend({
 	},
 	methods: {
 		fetch() {
+			if (!this.$route.params.user) return;
 			this.fetching = true;
 			Progress.start();
 			this.$root.api('users/show', parseAcct(this.$route.params.user)).then(user => {

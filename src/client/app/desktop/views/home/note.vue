@@ -29,6 +29,7 @@ export default Vue.extend({
 	},
 	methods: {
 		fetch() {
+			if (!this.$route.params.note) return;
 			Progress.start();
 			this.fetching = true;
 
