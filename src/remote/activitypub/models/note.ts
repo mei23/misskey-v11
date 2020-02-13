@@ -160,12 +160,6 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 				}
 			}
 
-			// 4xxの場合はリプライしてないことにする
-			if (e.statusCode >= 400 && e.statusCode < 500) {
-				logger.warn(`Ignored inReplyTo ${note.inReplyTo} - ${e.statusCode} `);
-				return null;
-			}
-
 			logger.warn(`Error in inReplyTo ${note.inReplyTo} - ${e.statusCode || e}`);
 			throw e;
 		})
