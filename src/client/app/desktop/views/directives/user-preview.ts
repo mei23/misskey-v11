@@ -12,9 +12,13 @@ export default {
 		self.tag = null;
 		self.showTimer = null;
 		self.hideTimer = null;
+		self.checkTimer = null;
 
 		self.close = () => {
 			if (self.tag) {
+				clearInterval(self.checkTimer);
+				self.checkTimer = null;
+
 				self.tag.close();
 				self.tag = null;
 			}
@@ -33,7 +37,7 @@ export default {
 			const preview = self.tag.$el;
 			const rect = el.getBoundingClientRect();
 
-			if (rect.top === 0) return;
+			if (!rect.width) return;
 
 			const x = rect.left + el.offsetWidth + window.pageXOffset;
 			const y = rect.top + window.pageYOffset;
@@ -49,6 +53,12 @@ export default {
 				clearTimeout(self.showTimer);
 				self.hideTimer = setTimeout(self.close, 500);
 			});
+
+			self.checkTimer = setInterval(() => {
+				if (!el.getBoundingClientRect().width) {
+					self.close();
+				}
+			}, 1000);
 
 			document.body.appendChild(preview);
 		};
@@ -70,6 +80,7 @@ export default {
 		const self = el._userPreviewDirective_;
 		clearTimeout(self.showTimer);
 		clearTimeout(self.hideTimer);
+		clearInterval(self.checkTimer);
 		self.close();
 	}
 };
