@@ -31,12 +31,12 @@ server {
     ssl_session_cache shared:ssl_session_cache:10m;
 
     # To use Let's Encrypt certificate
-    ssl_certificate     /etc/letsencrypt/live/example.tld/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/example.tld/privkey.pem;
+    #ssl_certificate     /etc/letsencrypt/live/example.tld/fullchain.pem;
+    #ssl_certificate_key /etc/letsencrypt/live/example.tld/privkey.pem;
 
     # To use Debian/Ubuntu's self-signed certificate (For testing or before issuing a certificate)
-    #ssl_certificate     /etc/ssl/certs/ssl-cert-snakeoil.pem;
-    #ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+    ssl_certificate     /etc/ssl/certs/ssl-cert-snakeoil.pem;
+    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
 
     # SSL protocol settings
     ssl_protocols TLSv1.2;
