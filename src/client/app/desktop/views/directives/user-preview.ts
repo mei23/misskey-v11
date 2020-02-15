@@ -17,8 +17,6 @@ export default {
 		self.close = () => {
 			if (self.tag) {
 				clearInterval(self.checkTimer);
-				self.checkTimer = null;
-
 				self.tag.close();
 				self.tag = null;
 			}
