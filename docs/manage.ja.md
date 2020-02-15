@@ -1,8 +1,5 @@
 # 運営ガイド
 
-## ジョブキューの状態を調べる
-coming soon
-
 ## 管理者ユーザーを設定する
 ``` shell
 node cli/mark-admin (ユーザーID または ユーザー名)
