@@ -285,7 +285,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
  * Misskeyに対象のNoteが登録されていればそれを返し、そうでなければ
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
-export async function resolveNote(value: string | IObject, resolver?: Resolver): Promise<INote> {
+export async function resolveNote(value: string | IObject, resolver?: Resolver, timeline = false): Promise<INote> {
 	const uri = typeof value == 'string' ? value : value.id;
 
 	// ブロックしてたら中断
@@ -305,7 +305,7 @@ export async function resolveNote(value: string | IObject, resolver?: Resolver):
 		// リモートサーバーからフェッチしてきて登録
 		// ここでuriの代わりに添付されてきたNote Objectが指定されていると、サーバーフェッチを経ずにノートが生成されるが
 		// 添付されてきたNote Objectは偽装されている可能性があるため、常にuriを指定してサーバーフェッチを行う。
-		return await createNote(uri, resolver, true);
+		return await createNote(uri, resolver, !!timeline);
 	} finally {
 		unlock();
 	}
