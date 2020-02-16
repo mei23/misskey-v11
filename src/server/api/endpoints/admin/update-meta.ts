@@ -48,6 +48,13 @@ export const meta = {
 			}
 		},
 
+		featuredGlobal: {
+			validator: $.optional.nullable.bool,
+			desc: {
+				'ja-JP': 'featuredGlobal'
+			}
+		},
+
 		hidedTags: {
 			validator: $.optional.nullable.arr($.str),
 			desc: {
@@ -356,6 +363,10 @@ export default define(meta, async (ps) => {
 
 	if (typeof ps.disableGlobalTimeline === 'boolean') {
 		set.disableGlobalTimeline = ps.disableGlobalTimeline;
+	}
+
+	if (typeof ps.featuredGlobal === 'boolean') {
+		set.featuredGlobal = ps.featuredGlobal;
 	}
 
 	if (typeof ps.showReplayInPublicTimeline === 'boolean') {

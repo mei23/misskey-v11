@@ -46,7 +46,7 @@ export default Vue.extend({
 			sfwOnly: false,
 			nsfwOnly: false,
 			days: 2,
-			fetching: true,
+			fetching: false,
 			notes: [],
 			faNewspaper
 		};
@@ -69,13 +69,17 @@ export default Vue.extend({
 		},
 	},
 	created() {
-		this.fetch();
+		this.$root.getMeta().then((meta: any) => {
+			this.includeGlobal = !!meta?.featuredGlobal;
+			this.fetch();
+		});
 	},
 	mounted() {
 		document.title = this.$root.instanceName;
 	},
 	methods: {
 		fetch() {
+			if (this.fetching) return;
 			Progress.start();
 			this.fetching = true;
 
