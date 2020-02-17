@@ -424,7 +424,8 @@ async function renderNoteOrRenoteActivity(data: Option, note: INote, user: IUser
 function incRenoteCount(renote: INote) {
 	Note.update({ _id: renote._id }, {
 		$inc: {
-			renoteCount: 1
+			renoteCount: 1,
+			score: 1
 		}
 	});
 }
