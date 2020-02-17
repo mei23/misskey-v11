@@ -37,7 +37,7 @@ export default async function(resolver: Resolver, actor: IRemoteUser, activity: 
 		// Announce対象をresolve
 		let renote;
 		try {
-			renote = await resolveNote(targetUri);
+			renote = await resolveNote(targetUri, null, true);
 		} catch (e) {
 			// 対象が4xxならスキップ
 			if (e.statusCode >= 400 && e.statusCode < 500) {
