@@ -26,7 +26,6 @@
 			<ui-switch v-model="disableGlobalTimeline">{{ $t('disable-global-timeline') }}</ui-switch>
 			<ui-info>{{ $t('disabling-timelines-info') }}</ui-info>
 			<ui-switch v-model="showReplayInPublicTimeline">showReplayInPublicTimeline</ui-switch>
-			<ui-switch v-model="featuredGlobal">デフォルトでハイライトに連合を含める</ui-switch>
 		</section>
 		<section class="fit-bottom">
 			<header><fa icon="cloud"/> {{ $t('drive-config') }}</header>
@@ -158,7 +157,6 @@ export default Vue.extend({
 			disableLocalTimeline: false,
 			disableGlobalTimeline: false,
 			showReplayInPublicTimeline: false,
-			featuredGlobal: false,
 			mascotImageUrl: null,
 			bannerUrl: null,
 			errorImageUrl: null,
@@ -211,7 +209,6 @@ export default Vue.extend({
 			this.disableLocalTimeline = meta.disableLocalTimeline;
 			this.disableGlobalTimeline = meta.disableGlobalTimeline;
 			this.showReplayInPublicTimeline = meta.showReplayInPublicTimeline;
-			this.featuredGlobal = meta.featuredGlobal;
 			this.mascotImageUrl = meta.mascotImageUrl;
 			this.bannerUrl = meta.bannerUrl;
 			this.errorImageUrl = meta.errorImageUrl;
@@ -273,7 +270,6 @@ export default Vue.extend({
 				disableRegistration: this.disableRegistration,
 				disableLocalTimeline: this.disableLocalTimeline,
 				disableGlobalTimeline: this.disableGlobalTimeline,
-				featuredGlobal: this.featuredGlobal,
 				showReplayInPublicTimeline: this.showReplayInPublicTimeline,
 				mascotImageUrl: this.mascotImageUrl,
 				bannerUrl: this.bannerUrl,
