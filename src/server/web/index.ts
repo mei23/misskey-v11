@@ -24,6 +24,7 @@ import { getRSSFeed } from './feed/rss';
 import { getJSONFeed } from './feed/json';
 import { buildMeta } from '../../misc/build-meta';
 import Page, { packPage } from '../../models/page';
+import { fromHtml } from '../../mfm/fromHtml';
 const htmlescape = require('htmlescape');
 
 const env = process.env.NODE_ENV;
@@ -311,12 +312,18 @@ router.get('/reversi', async ctx => ctx.redirect(override(ctx.URL.pathname, 'gam
 router.get('*', async ctx => {
 	const meta = await fetchMeta();
 	const builded = await buildMeta(meta, false);
+
+	let desc = meta.description;
+	try {
+		desc = fromHtml(desc || '');
+	} catch { }
+
 	await ctx.render('base', {
 		initialMeta: htmlescape(builded),
 		img: meta.bannerUrl,
 		title: meta.name || 'Misskey',
 		instanceName: meta.name || 'Misskey',
-		desc: meta.description,
+		desc,
 		icon: meta.iconUrl
 	});
 	ctx.set('Cache-Control', 'public, max-age=300');
