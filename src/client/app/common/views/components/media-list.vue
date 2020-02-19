@@ -3,8 +3,8 @@
 	<template v-for="media in mediaList.filter(media => !previewable(media))">
 		<x-banner :media="media" :key="media.id"/>
 	</template>
-	<div v-if="previewables.length > 0" class="gird-container">
-		<div :data-count="previewables.length" ref="grid">
+	<div v-if="previewables.length > 0" class="gird-container" ref="gird-container">
+		<div :data-count="previewables.length" :style="gridInnerStyle">
 			<template v-for="(media, i) in previewables">
 				<mk-media-video :video="media" :key="media.id" v-if="media.type.startsWith('video')"/>
 				<x-image :image="media" :key="media.id" v-else-if="media.type.startsWith('image')" :hide="hide" 
@@ -34,12 +34,16 @@ export default Vue.extend({
 			type: Boolean,
 			required: false,
 			default: true
+		},
+		parentElement: {
+			type: Object
 		}
 	},
 	data() {
 		return {
 			index: null,
 			bgcolor: "rgba(51, 51, 51, .9)",
+			gridInnerStyle: {},
 		}
 	},
 	computed: {
@@ -62,13 +66,12 @@ export default Vue.extend({
 		}
 	},
 	mounted() {
-		//#region for Safari bug
-		if (this.$refs.grid) {
-			this.$refs.grid.style.height = this.$refs.grid.clientHeight ? `${this.$refs.grid.clientHeight}px`
-				: (this.$store.state.device.inDeckMode ? '128px' : this.$root.isMobile ? '173px' : '287px');
-		}
-		//#endregion
+		this.size();
+		window.addEventListener('resize', this.size);
 	},
+	beforeDestroy() {
+		 window.removeEventListener('resize', this.size);
+ 	},
 	methods: {
 		showImage(i: number) {
 			const viewer = this.$root.new(ImageViewer, {
@@ -87,6 +90,21 @@ export default Vue.extend({
 		},
 		previewable(file: { type: string }) {
 			return this.isImage(file) || this.isVideo(file);
+		},
+		size() {
+			// for Safari bug
+			if (this.$refs.gridOuter) {
+				let height = 287;
+				const parent = this.$props.parentElement || this.$parent.$el;
+				if (this.$refs.gridOuter.clientHeight) {
+					height = this.$refs.gridOuter.clientHeight;
+				} else if (parent) {
+					height = parent.getBoundingClientRect().width * 9 / 16;
+				}
+				this.gridInnerStyle = { height: `${height}px` };
+			} else {
+				this.gridInnerStyle = {};
+			}
 		},
 	}
 });
