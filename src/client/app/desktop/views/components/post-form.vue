@@ -94,10 +94,15 @@ export default Vue.extend({
 						? self.$t('replied')
 						: self.$t('posted'));
 			},
-			onFailure: (self: any, e?: Error) => {
+			onFailure: (self: any, e?: any) => {
+				let msg = e.message || e;
+				if (e?.id === '3d81ceae-475f-4600-b2a8-2bc116157532') {
+					msg = `Error in param '${e?.info?.param}'`;
+				}
+
 				self.$root.dialog({
 					type: 'error',
-					text: e.message || e
+					text: msg
 				});
 			}
 		}),
@@ -216,6 +221,8 @@ export default Vue.extend({
 					this.quoteId = init.renote ? init.renote.id : null;
 					if (!this.renote) this.renote = this.initialNote.renote;
 				}
+
+				this.focus();
 
 				this.$nextTick(() => this.watch());
 			});

@@ -86,12 +86,6 @@ export default Vue.extend({
 		},
 	},
 
-	mounted() {
-		this.$nextTick(() => {
-			(this.$refs.form as any).focus();
-		});
-	},
-
 	methods: {
 		onChangeUploadings(files) {
 			this.uploadings = files;

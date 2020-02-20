@@ -83,8 +83,12 @@ export default Vue.extend({
 	mixins: [
 		form({
 			mobile: true,
-			onFailure: (self: any, e?: Error) => {
-				self.$notify(e.message || e)
+			onFailure: (self: any, e?: any) => {
+				let msg = e.message || e;
+				if (e?.id === '3d81ceae-475f-4600-b2a8-2bc116157532') {
+					msg = `Error in param '${e?.info?.param}'`;
+				}
+				self.$notify(msg)
 			}
 		}),
 	],
