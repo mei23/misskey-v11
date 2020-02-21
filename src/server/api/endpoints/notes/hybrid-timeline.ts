@@ -169,36 +169,40 @@ export default define(meta, async (ps, user) => {
 	const sort = {
 		_id: -1
 	};
+	const followQuery = followings.map(f => ({
+		userId: f.id,
+	}));
+
+	const visibleQuery = user == null ? [{
+		visibility: { $in: ['public', 'home'] }
+	}] : [{
+		visibility: { $in: ['public', 'home', 'followers'] }
+	}, {
+		// myself (for specified/private)
+		userId: user._id
+	}, {
+		// to me (for specified)
+		visibleUserIds: { $in: [ user._id ] }
+	}];
 
 	const query = {
 		$and: [{
 			deletedAt: null,
 
 			$or: [{
-				visibility: 'public',
-				'_user.host': null,
-				'_reply.userId': null
-			}, {
-				// フォローユーザーのリプライ以外かフォロワーへのリプライ
-				visibility: { $in: [ 'public', 'home', 'followers' ] },
-				userId: { $in: followings.map(f => f.id) },
-				$or: [{
-					'_reply.userId': null
+				$and: [{
+					// フォローしている人の投稿
+					$or: followQuery
 				}, {
-					'_reply.userId': { $in : followings.map(f => f.id) }
+					// visible for me
+					$or: visibleQuery
 				}]
 			}, {
-				// myself (for specified/private)
-				userId: user._id
-			}, {
-				// to me (for specified)
-				visibleUserIds: { $in: [ user._id ] }
-			}, {
-				// 自分の投稿へのリプライ
-				'_reply.userId': user._id
-			}, {
-				// 自分へのメンションが含まれている
-				mentions: { $in: [ user._id ] }
+				// public only
+				visibility: 'public',
+
+				// local
+				'_user.host': null
 			}],
 
 			// hide

@@ -54,15 +54,10 @@ export default class extends Channel {
 
 	@autobind
 	private async onNote(note: any) {
-		// リプライじゃなければリプライ解決するまでもなく除外確定
-		if (!note.replyId) {
-			if (!(
-				oidEquals(note.userId, this.user._id) ||	// myself
-				oidIncludes(this.followingIds, note.userId) ||	// from followers
-				oidIncludes(note.mentions, this.user._id) ||	// mention to me
-				oidIncludes(note.visibleUserIds, this.user._id)	// direct to me
-			)) return;
-		}
+		if (!(
+			oidEquals(note.userId, this.user._id) ||	// myself
+			oidIncludes(this.followingIds, note.userId)	// from followers
+		)) return;
 
 		// フォロワー限定以下なら現在のユーザー情報で再度除外
 		if (['followers', 'specified'].includes(note.visibility)) {
@@ -86,21 +81,6 @@ export default class extends Channel {
 			note.renote = await pack(note.renoteId, this.user, {
 				detail: true
 			});
-		}
-
-		// リプライの場合リプライ情報を見て再度除外
-		if (note.replyId) {
-			if (!(
-				oidEquals(note.userId, this.user._id) ||	// myself
-				oidIncludes(this.followingIds, note.userId) ||	// from followers
-				oidIncludes(note.mentions, this.user._id) ||	// mention to me
-				oidIncludes(note.visibleUserIds, this.user._id) ||	// direct to me
-				oidEquals(note.reply.userId, this.user._id)	// reply to me
-			)) return;
-
-			// フォロワー から フォロワーor自分以外 へのリプライは表示しない
-			const followingOrMeIds = concat([[`${this.user._id}`], this.followingIds]);
-			if (oidIncludes(this.followingIds, note.userId) && !oidIncludes(followingOrMeIds, note.reply.userId) && !oidEquals(note.userId, this.user._id)) return;
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
