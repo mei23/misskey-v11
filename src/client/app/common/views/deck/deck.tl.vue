@@ -63,6 +63,7 @@ export default Vue.extend({
 				case 'home': return this.$root.stream.useSharedConnection('homeTimeline');
 				case 'local': return this.$root.stream.useSharedConnection('localTimeline');
 				case 'hybrid': return this.$root.stream.useSharedConnection('hybridTimeline');
+				case 'hot': return this.$root.stream.useSharedConnection('hotTimeline');
 				case 'global': return this.$root.stream.useSharedConnection('globalTimeline');
 			}
 		},
@@ -72,6 +73,7 @@ export default Vue.extend({
 				case 'home': return 'notes/timeline';
 				case 'local': return 'notes/local-timeline';
 				case 'hybrid': return 'notes/hybrid-timeline';
+				case 'hot': return 'notes/hot-timeline';
 				case 'global': return 'notes/global-timeline';
 			}
 		},

@@ -2,6 +2,7 @@ import main from './main';
 import homeTimeline from './home-timeline';
 import localTimeline from './local-timeline';
 import hybridTimeline from './hybrid-timeline';
+import hotTimeline from './hot-timeline';
 import globalTimeline from './global-timeline';
 import serverStats from './server-stats';
 import queueStats from './queue-stats';
@@ -20,6 +21,7 @@ export default {
 	homeTimeline,
 	localTimeline,
 	hybridTimeline,
+	hotTimeline,
 	globalTimeline,
 	serverStats,
 	queueStats,

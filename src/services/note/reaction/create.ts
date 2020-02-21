@@ -1,7 +1,7 @@
 import { IUser, isLocalUser, isRemoteUser } from '../../../models/user';
-import Note, { INote } from '../../../models/note';
+import Note, { INote, pack } from '../../../models/note';
 import NoteReaction from '../../../models/note-reaction';
-import { publishNoteStream } from '../../stream';
+import { publishNoteStream, publishHotStream } from '../../stream';
 import notify from '../../create-notification';
 import NoteWatching from '../../../models/note-watching';
 import watch from '../watch';
@@ -51,6 +51,13 @@ export default async (user: IUser, note: INote, reaction: string) => {
 		reaction: reaction,
 		userId: user._id
 	});
+
+	if (note.reactionCounts == null) {
+		(async () => {
+			const fresh = await Note.findOne({ _id: note._id });
+			publishHotStream(await pack(fresh));
+		})();
+	}
 
 	// リアクションされたユーザーがローカルユーザーなら通知を作成
 	if (isLocalUser(note._user)) {

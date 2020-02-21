@@ -69,6 +69,10 @@ class Publisher {
 		this.publish('notesStream', null, note);
 	}
 
+	public publishHotStream = (note: any): void => {
+		this.publish(`hotStream`, null, note);
+	}
+
 	public publishApLogStream = (log: any): void => {
 		this.publish('apLog', null, log);
 	}
@@ -87,6 +91,7 @@ export const publishDriveStream = publisher.publishDriveStream;
 export const publishNoteStream = publisher.publishNoteStream;
 export const publishNotesStream = publisher.publishNotesStream;
 export const publishUserListStream = publisher.publishUserListStream;
+export const publishHotStream = publisher.publishHotStream;
 export const publishMessagingStream = publisher.publishMessagingStream;
 export const publishMessagingIndexStream = publisher.publishMessagingIndexStream;
 export const publishReversiStream = publisher.publishReversiStream;

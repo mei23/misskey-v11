@@ -5,6 +5,7 @@
 		<fa v-if="column.type == 'local'" :icon="['far', 'comments']"/>
 		<fa v-if="column.type == 'hybrid'" icon="share-alt"/>
 		<fa v-if="column.type == 'global'" icon="globe"/>
+		<fa v-if="column.type == 'hot'" icon="star"/>
 		<fa v-if="column.type == 'list'" icon="list"/>
 		<fa v-if="column.type == 'hashtag'" icon="hashtag"/>
 		<span>{{ name }}</span>
@@ -88,6 +89,7 @@ export default Vue.extend({
 				case 'local': return this.$t('@deck.local');
 				case 'hybrid': return this.$t('@deck.hybrid');
 				case 'global': return this.$t('@deck.global');
+				case 'hot': return this.$t('@deck.hot');
 				case 'list': return this.column.list.title;
 				case 'hashtag': return this.$store.state.settings.tagTimelines.find(x => x.id == this.column.tagTlId).title;
 			}

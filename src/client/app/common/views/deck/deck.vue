@@ -163,6 +163,15 @@ export default Vue.extend({
 						});
 					}
 				}, {
+					icon: 'star',
+					text: this.$t('@deck.hot'),
+					action: () => {
+						this.$store.commit('device/addDeckColumn', {
+							id: uuid(),
+							type: 'hot'
+						});
+					}
+				}, {
 					icon: 'globe',
 					text: this.$t('@deck.global'),
 					action: () => {
@@ -312,7 +321,7 @@ export default Vue.extend({
 
 		isTlColumn(id) {
 			const column = this.columns.find(c => c.id === id);
-			return ['home', 'local', 'hybrid', 'global', 'list', 'hashtag', 'mentions', 'direct'].includes(column.type);
+			return ['home', 'local', 'hybrid', 'hot', 'global', 'list', 'hashtag', 'mentions', 'direct'].includes(column.type);
 		}
 	}
 });
