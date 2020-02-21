@@ -1112,6 +1112,7 @@ desktop/views/components/timeline.vue:
   hybrid: "Social"
   hybrid-desc: "Home+Local"
   global: "Global"
+  cool: "Cool"
   mentions: "Mentions"
   messages: "Direct posts"
   list: "Lists"
@@ -1668,6 +1669,7 @@ mobile/views/pages/home.vue:
   local: "Local"
   hybrid: "Social"
   global: "Global"
+  cool: "Cool"
   mentions: "Mentions"
   messages: "Direct posts"
 mobile/views/pages/tag.vue:
@@ -1725,6 +1727,7 @@ deck:
   hybrid: "Social"
   hashtag: "Hashtag"
   global: "Global"
+  cool: "Cool"
   mentions: "Mentions"
   direct: "Direct posts"
   notifications: "Notifications"

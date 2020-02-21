@@ -20,6 +20,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import XColumnCore from './deck.column-core.vue';
 import Menu from '../../../common/views/components/menu.vue';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 import { v4 as uuid } from 'uuid';
 
@@ -163,8 +164,8 @@ export default Vue.extend({
 						});
 					}
 				}, {
-					icon: 'star',
-					text: this.$t('@deck.hot'),
+					icon: faThumbsUp,
+					text: this.$t('@deck.cool'),
 					action: () => {
 						this.$store.commit('device/addDeckColumn', {
 							id: uuid(),
