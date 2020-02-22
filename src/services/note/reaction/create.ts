@@ -13,8 +13,8 @@ import { toDbReaction } from '../../../misc/reaction-lib';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 import deleteReaction from './delete';
 
-export default async (user: IUser, note: INote, reaction: string) => {
-	reaction = await toDbReaction(reaction);
+export default async (user: IUser, note: INote, _reaction: string) => {
+	const reaction = await toDbReaction(_reaction);
 
 	const exist = await NoteReaction.findOne({
 		noteId: note._id,
@@ -52,7 +52,8 @@ export default async (user: IUser, note: INote, reaction: string) => {
 		userId: user._id
 	});
 
-	if (note.reactionCounts == null) {
+	// 最初のリアクション かつ !ファボではない
+	if (note.reactionCounts == null && _reaction != null) {
 		(async () => {
 			const fresh = await Note.findOne({ _id: note._id });
 			publishHotStream(await pack(fresh));
