@@ -4,13 +4,14 @@
 		<summary>{{ $t('options') }}</summary>
 		<ui-select v-model="days" :disabled="fetching">
 			<template #label>{{ $t('days') }}</template>
-			<option value="0.125">3 {{ $t('hour') }}</option>
-			<option value="0.25">6 {{ $t('hour') }}</option>
 			<option value="0.5">12 {{ $t('hour') }}</option>
 			<option value="1">1 {{ $t('day') }}</option>
 			<option value="2">2 {{ $t('day') }}</option>
 			<option value="7">7 {{ $t('day') }}</option>
 			<option value="30">30 {{ $t('day') }}</option>
+			<option value="90">90 {{ $t('day') }}</option>
+			<option value="365">1 {{ $t('years') }}</option>
+			<option value="3650">10 {{ $t('years') }}</option>
 		</ui-select>
 		<div>
 			<ui-switch v-model="includeGlobal" :disabled="fetching">{{ $t('include-global') }}</ui-switch>

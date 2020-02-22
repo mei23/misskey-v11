@@ -1294,6 +1294,7 @@ desktop/views/home/featured.vue:
   days: "集計期間"
   hour: "時間"
   day: "日間"
+  years: "年間"
 
 admin/views/index.vue:
   dashboard: "ダッシュボード"
@@ -1843,6 +1844,7 @@ mobile/views/pages/featured.vue:
   days: "集計期間"
   hour: "時間"
   day: "日間"
+  years: "年間"
 
 mobile/views/pages/followers.vue:
   followers-of: "{name}のフォロワー"

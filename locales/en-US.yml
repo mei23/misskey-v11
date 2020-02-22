@@ -1166,6 +1166,7 @@ desktop/views/home/featured.vue:
   days: "Duration"
   hour: "hours"
   day: "days"
+  years: "years"
 admin/views/index.vue:
   dashboard: "Dashboard"
   instance: "Instance"
@@ -1660,6 +1661,7 @@ mobile/views/pages/featured.vue:
   days: "Duration"
   hour: "hours"
   day: "days"
+  years: "years"
 mobile/views/pages/followers.vue:
   followers-of: "{name}'s followers"
 mobile/views/pages/following.vue:
