@@ -91,7 +91,7 @@ export default Vue.extend({
 				case 'local': return this.$t('@deck.local');
 				case 'hybrid': return this.$t('@deck.hybrid');
 				case 'global': return this.$t('@deck.global');
-				case 'hot': return this.$t('@deck.cool');
+				case 'hot': return this.$t('@deck.reacted');
 				case 'list': return this.column.list.title;
 				case 'hashtag': return this.$store.state.settings.tagTimelines.find(x => x.id == this.column.tagTlId).title;
 			}

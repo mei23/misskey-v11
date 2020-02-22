@@ -165,7 +165,7 @@ export default Vue.extend({
 					}
 				}, {
 					icon: faThumbsUp,
-					text: this.$t('@deck.cool'),
+					text: this.$t('@deck.reacted'),
 					action: () => {
 						this.$store.commit('device/addDeckColumn', {
 							id: uuid(),

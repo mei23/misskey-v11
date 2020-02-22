@@ -7,7 +7,7 @@
 				<span v-if="src == 'local'"><fa :icon="['far', 'comments']"/>{{ $t('local') }}</span>
 				<span v-if="src == 'hybrid'"><fa icon="share-alt"/>{{ $t('hybrid') }}</span>
 				<span v-if="src == 'global'"><fa icon="globe"/>{{ $t('global') }}</span>
-				<span v-if="src == 'hot'"><fa :icon="faThumbsUp"/>{{ $t('cool') }}</span>
+				<span v-if="src == 'hot'"><fa :icon="faThumbsUp"/>{{ $t('reacted') }}</span>
 				<span v-if="src == 'mentions'"><fa icon="at"/>{{ $t('mentions') }}</span>
 				<span v-if="src == 'messages'"><fa :icon="['far', 'envelope']"/>{{ $t('messages') }}</span>
 				<span v-if="src == 'list'"><fa icon="list"/>{{ list.title }}</span>
@@ -36,7 +36,7 @@
 					<span :data-active="src == 'hybrid'" @click="src = 'hybrid'" v-if="enableLocalTimeline"><fa icon="share-alt"/> {{ $t('hybrid') }}</span>
 					<span :data-active="src == 'global'" @click="src = 'global'" v-if="enableGlobalTimeline"><fa icon="globe"/> {{ $t('global') }}</span>
 					<div class="hr"></div>
-					<span :data-active="src == 'hot'" @click="src = 'hot'" v-if="enableGlobalTimeline"><fa :icon="faThumbsUp"/> {{ $t('cool') }}</span>
+					<span :data-active="src == 'hot'" @click="src = 'hot'" v-if="enableGlobalTimeline"><fa :icon="faThumbsUp"/> {{ $t('reacted') }}</span>
 					<span :data-active="src == 'mentions'" @click="src = 'mentions'"><fa icon="at"/> {{ $t('mentions') }}<i class="badge" v-if="$store.state.i.hasUnreadMentions"><fa icon="circle"/></i></span>
 					<span :data-active="src == 'messages'" @click="src = 'messages'"><fa :icon="['far', 'envelope']"/> {{ $t('messages') }}<i class="badge" v-if="$store.state.i.hasUnreadSpecifiedNotes"><fa icon="circle"/></i></span>
 					<template v-if="lists">
