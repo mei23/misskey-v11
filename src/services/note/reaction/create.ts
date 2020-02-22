@@ -10,7 +10,6 @@ import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/d
 import { renderActivity } from '../../../remote/activitypub/renderer';
 import perUserReactionsChart from '../../../services/chart/per-user-reactions';
 import { toDbReaction } from '../../../misc/reaction-lib';
-import { IdentifiableError } from '../../../misc/identifiable-error';
 import deleteReaction from './delete';
 
 export default async (user: IUser, note: INote, reaction: string) => {
@@ -26,7 +25,7 @@ export default async (user: IUser, note: INote, reaction: string) => {
 		if (exist.reaction !== reaction) {
 			await deleteReaction(user, note);
 		} else {
-			throw new IdentifiableError('51c42bb4-931a-456b-bff7-e5a8a70dd298', 'already reacted');
+			return;
 		}
 	}
 
