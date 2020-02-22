@@ -34,7 +34,13 @@ export default class extends Channel {
 
 	@autobind
 	private async onNewNote(note: any) {
-		console.log(JSON.stringify(note, null, 2));
+		// reply除外
+		if (note.replyId != null) return;
+
+		// Renote除外
+		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
+			return;
+		}
 
 		// フォロワー限定以下なら現在のユーザー情報で再度除外
 		if (['followers', 'specified'].includes(note.visibility)) {
@@ -47,26 +53,8 @@ export default class extends Channel {
 			}
 		}
 
-		// リプライなら再pack
-		if (note.replyId != null) {
-			note.reply = await pack(note.replyId, this.user, {
-				detail: true
-			});
-		}
-		// Renoteなら再pack
-		if (note.renoteId != null) {
-			note.renote = await pack(note.renoteId, this.user, {
-				detail: true
-			});
-		}
-
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
 		if (shouldMuteThisNote(note, this.mutedUserIds)) return;
-
-		// Renote隠す
-		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
-			return;
-		}
 
 		this.send('note', note);
 	}
