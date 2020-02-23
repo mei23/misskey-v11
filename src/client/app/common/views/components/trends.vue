@@ -72,9 +72,6 @@ export default Vue.extend({
 			align-items center
 			padding 14px 16px
 
-			&:not(:last-child)
-				border-bottom solid 1px var(--faceDivider)
-
 			> .tag
 				flex 1
 				overflow hidden
