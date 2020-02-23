@@ -217,32 +217,32 @@ export function isValidBirthday(birthday: string): boolean {
 //#endregion
 
 export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
-	const [following1, following2, followReq1, followReq2, toBlocking, fromBlocked, mute, filter] = await Promise.all([
-		Following.findOne({
+	const [following, followed, followReqFromYou, followReqToYou, blocking, blocked, muted, filter] = await Promise.all([
+		Following.count({
 			followerId: me,
 			followeeId: target
 		}),
-		Following.findOne({
+		Following.count({
 			followerId: target,
 			followeeId: me
 		}),
-		FollowRequest.findOne({
+		FollowRequest.count({
 			followerId: me,
 			followeeId: target
 		}),
-		FollowRequest.findOne({
+		FollowRequest.count({
 			followerId: target,
 			followeeId: me
 		}),
-		Blocking.findOne({
+		Blocking.count({
 			blockerId: me,
 			blockeeId: target
 		}),
-		Blocking.findOne({
+		Blocking.count({
 			blockerId: target,
 			blockeeId: me
 		}),
-		Mute.findOne({
+		Mute.count({
 			muterId: me,
 			muteeId: target
 		}),
@@ -254,13 +254,13 @@ export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
 
 	return {
 		id: target,
-		isFollowing: following1 !== null,
-		hasPendingFollowRequestFromYou: followReq1 !== null,
-		hasPendingFollowRequestToYou: followReq2 !== null,
-		isFollowed: following2 !== null,
-		isBlocking: toBlocking !== null,
-		isBlocked: fromBlocked !== null,
-		isMuted: mute !== null,
+		isFollowing: following > 0,
+		isFollowed: followed > 0,
+		hasPendingFollowRequestFromYou: followReqFromYou > 0,
+		hasPendingFollowRequestToYou: followReqToYou > 0,
+		isBlocking: blocking > 0,
+		isBlocked: blocked > 0,
+		isMuted: muted > 0,
 		isHideRenoting: !!(filter?.hideRenote),
 	};
 }
