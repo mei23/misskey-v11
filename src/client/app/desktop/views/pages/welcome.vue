@@ -348,7 +348,6 @@ export default Vue.extend({
 				padding 0 16px
 				line-height 48px
 				background var(--faceHeader)
-				box-shadow 0 1px 0px rgba(0, 0, 0, 0.1)
 
 				& + div
 					max-height calc(100% - 48px)
@@ -366,6 +365,7 @@ export default Vue.extend({
 			> .main
 				grid-row 1
 				grid-column 1 / 3
+				border-radius 6px
 
 				> div
 					padding 32px
@@ -421,6 +421,7 @@ export default Vue.extend({
 			> .announcements
 				grid-row 2
 				grid-column 1
+				border-radius 6px
 
 				> div
 					padding 32px
@@ -437,6 +438,7 @@ export default Vue.extend({
 			> .photos
 				grid-row 2
 				grid-column 2
+				border-radius 6px
 
 				> div
 					display grid
@@ -454,6 +456,7 @@ export default Vue.extend({
 			> .tag-cloud
 				grid-row 3
 				grid-column 1 / 3
+				border-radius 6px
 
 				> div
 					height 256px
@@ -479,15 +482,18 @@ export default Vue.extend({
 					grid-row 1
 					grid-column 1
 					overflow auto
+					border-radius 6px
 
 				> .trends
 					grid-row 2
 					grid-column 1
 					padding 8px
+					border-radius 6px
 
 				> .info
 					grid-row 3
 					grid-column 1
+					border-radius 6px
 
 					> div
 						padding 16px

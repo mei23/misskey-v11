@@ -286,7 +286,6 @@ export default Vue.extend({
 			font-size 0.9em
 			color var(--dateDividerFg)
 			background var(--dateDividerBg)
-			border-bottom solid var(--lineWidth) var(--faceDivider)
 
 			span
 				margin 0 16px

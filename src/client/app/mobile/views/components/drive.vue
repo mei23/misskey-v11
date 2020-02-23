@@ -510,7 +510,6 @@ export default Vue.extend({
 		-webkit-backdrop-filter blur(12px)
 		backdrop-filter blur(12px)
 		background-color var(--mobileDriveNavBg)
-		border-bottom solid 1px rgba(#000, 0.13)
 
 		> p
 		> a
@@ -535,8 +534,6 @@ export default Vue.extend({
 			opacity 0.5
 
 		> .info
-			border-bottom solid 1px var(--faceDivider)
-
 			&:empty
 				display none
 
@@ -549,13 +546,8 @@ export default Vue.extend({
 				color var(--text)
 
 		> .folders
-			> .folder
-				border-bottom solid 1px var(--faceDivider)
 
 		> .files
-			> .file
-				border-bottom solid 1px var(--faceDivider)
-
 			> .more
 				display block
 				width 100%

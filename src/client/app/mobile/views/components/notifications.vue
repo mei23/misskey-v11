@@ -144,10 +144,6 @@ export default Vue.extend({
 			transition transform .3s ease, opacity .3s ease
 
 	> .notifications
-
-		> .mk-notification:not(:last-child)
-			border-bottom solid var(--lineWidth) var(--faceDivider)
-
 		> .date
 			display block
 			margin 0
@@ -156,7 +152,6 @@ export default Vue.extend({
 			font-size 0.8em
 			color var(--dateDividerFg)
 			background var(--dateDividerBg)
-			border-bottom solid var(--lineWidth) var(--faceDivider)
 
 			span
 				margin 0 16px

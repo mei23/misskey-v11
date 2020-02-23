@@ -324,7 +324,6 @@ export default Vue.extend({
 	background var(--face)
 	overflow hidden
 	border-radius 6px
-	box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
 
 	&.draghover
 		box-shadow 0 0 0 2px var(--primaryAlpha08)
@@ -378,7 +377,6 @@ export default Vue.extend({
 		font-size 14px
 		color var(--faceHeaderText)
 		background var(--faceHeader)
-		box-shadow 0 var(--lineWidth) rgba(#000, 0.15)
 		cursor pointer
 
 		&, *

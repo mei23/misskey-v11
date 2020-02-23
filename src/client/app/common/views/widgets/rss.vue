@@ -83,7 +83,6 @@ export default define({
 				display block
 				padding 4px 0
 				color var(--text)
-				border-bottom dashed var(--lineWidth) var(--faceDivider)
 				white-space nowrap
 				text-overflow ellipsis
 				overflow hidden

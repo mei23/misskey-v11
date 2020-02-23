@@ -63,6 +63,7 @@ export default Vue.extend({
 .jtivnzhfwquxpsfidertopbmwmchmnmo
 	height 100%
 	width 100%
+	overflow hidden
 
 	> .fetching
 	> .empty

@@ -143,7 +143,6 @@ export default Vue.extend({
 .note
 	overflow hidden
 	font-size 13px
-	border-bottom solid var(--lineWidth) var(--faceDivider)
 
 	&:last-of-type
 		border-bottom none
