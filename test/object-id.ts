@@ -25,6 +25,14 @@ describe('isObjectid', () => {
 	it('文字列だったらObjectIDではない', () => {
 		assert.strictEqual(isObjectid(id1), false);
 	});
+
+	it('他のObjectだったらObjectIDではない', () => {
+		assert.strictEqual(isObjectid({}), false);
+	});
+
+	it('ArrayだったらObjectIDではない', () => {
+		assert.strictEqual(isObjectid([]), false);
+	});
 });
 
 describe('transform', () => {
