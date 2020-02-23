@@ -318,7 +318,7 @@ import checkForUpdate from '../../../scripts/check-for-update';
 
 import { faSave, faEye } from '@fortawesome/free-regular-svg-icons';
 import { faUndoAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
-import { emojiRegex2 } from '../../../../../../misc/emoji-regex';
+import { emojiRegexWithCustom } from '../../../../../../misc/emoji-regex';
 
 export default Vue.extend({
 	i18n: i18n(),
@@ -361,7 +361,7 @@ export default Vue.extend({
 		},
 
 		splitedReactions(): any {
-			const emojis = this.reactions.match(emojiRegex2);
+			const emojis = this.reactions.match(emojiRegexWithCustom);
 			return emojis;
 		},
 
