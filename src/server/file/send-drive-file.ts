@@ -62,9 +62,9 @@ export default async function(ctx: Router.IRouterContext) {
 			const convertFile = async () => {
 				if ('thumbnail' in ctx.query) {
 					if (['image/jpg', 'image/webp'].includes(mime)) {
-						return await convertToJpeg(path, 530, 287);
+						return await convertToJpeg(path, 530, 255);
 					} else if (['image/png'].includes(mime)) {
-						return await convertToPngOrJpeg(path, 530, 287);
+						return await convertToPngOrJpeg(path, 530, 255);
 					} else if (mime.startsWith('video/')) {
 						return await generateVideoThumbnail(path);
 					}

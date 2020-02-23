@@ -193,9 +193,9 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 
 	if (['image/jpeg', 'image/webp'].includes(type)
 		|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
-		thumbnail = await convertSharpToJpeg(img, 530, 287);
+		thumbnail = await convertSharpToJpeg(img, 530, 255);
 	} else if (['image/png'].includes(type)) {
-		thumbnail = await convertSharpToPngOrJpeg(img, 530, 287);
+		thumbnail = await convertSharpToPngOrJpeg(img, 530, 255);
 	} else if (type.startsWith('video/')) {
 		try {
 			thumbnail = await generateVideoThumbnail(path);

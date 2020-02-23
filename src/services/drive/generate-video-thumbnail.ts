@@ -27,7 +27,7 @@ export async function generateVideoThumbnail(path: string): Promise<IImage> {
 
 	const outPath = `${outDir}/output.png`;
 
-	const thumbnail = await convertToJpeg(outPath, 530, 287);
+	const thumbnail = await convertToJpeg(outPath, 530, 255);
 
 	// cleanup
 	await fs.promises.unlink(outPath);
