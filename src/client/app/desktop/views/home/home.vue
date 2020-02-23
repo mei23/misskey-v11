@@ -163,7 +163,6 @@ export default Vue.extend({
 				left: [
 					'profile',
 					'calendar',
-					'activity',
 					'hashtags',
 					'rss',
 					'version'
