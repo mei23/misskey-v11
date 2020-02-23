@@ -1,8 +1,7 @@
-import User, { IUser, isRemoteUser, isLocalUser } from '../../models/user';
+import User, { IUser, isRemoteUser, isLocalUser, getMute } from '../../models/user';
 import { IDriveFile } from '../../models/drive-file';
 import { publishMessagingStream, publishMessagingIndexStream, publishMainStream } from '../stream';
 import MessagingMessage, { pack as packMessage } from '../../models/messaging-message';
-import Mute from '../../models/mute';
 import pushNotification from '../push-notification';
 import { INote } from '../../models/note';
 import renderNote from '../../remote/activitypub/renderer/note';
@@ -49,14 +48,8 @@ export async function createMessage(user: IUser, recipient: IUser, text: string,
 			if (freshMessage == null) return; // メッセージが削除されている場合もある
 			if (!freshMessage.isRead) {
 				//#region ただしミュートされているなら発行しない
-				const mute = await Mute.find({
-					muterId: recipient._id,
-					deletedAt: { $exists: false }
-				});
-				const mutedUserIds = mute.map(m => m.muteeId.toString());
-				if (mutedUserIds.indexOf(user._id.toString()) != -1) {
-					return;
-				}
+				const mute = await getMute(recipient._id, user._id);
+				if (mute) return;
 				//#endregion
 
 				publishMainStream(message.recipientId, 'unreadMessagingMessage', messageObj);

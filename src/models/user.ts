@@ -16,6 +16,7 @@ import { dbLogger } from '../db/logger';
 import DriveFile from './drive-file';
 import getDriveFileUrl from '../misc/get-drive-file-url';
 import UserFilter from './user-filter';
+import { transform } from '../misc/cafy-id';
 
 const User = db.get<IUser>('users');
 
@@ -215,6 +216,13 @@ export function isValidBirthday(birthday: string): boolean {
 	return typeof birthday == 'string' && /^([0-9]{4})\-([0-9]{2})-([0-9]{2})$/.test(birthday);
 }
 //#endregion
+
+export async function getMute(muterId: mongo.ObjectId | string, muteeId: mongo.ObjectId | string) {
+	return await Mute.findOne({
+		muterId: transform(muterId),
+		muteeId: transform(muteeId)
+	});
+}
 
 export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
 	const [following, followed, followReqFromYou, followReqToYou, blocking, blocked, muted, filter] = await Promise.all([

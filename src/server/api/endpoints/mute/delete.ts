@@ -4,6 +4,7 @@ import Mute from '../../../../models/mute';
 import define from '../../define';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
+import { getMute } from '../../../../models/user';
 
 export const meta = {
 	desc: {
@@ -64,10 +65,7 @@ export default define(meta, async (ps, user) => {
 	});
 
 	// Check not muting
-	const exist = await Mute.findOne({
-		muterId: muter._id,
-		muteeId: mutee._id
-	});
+	const exist = await getMute(muter._id, mutee._id);
 
 	if (exist === null) {
 		throw new ApiError(meta.errors.notMuting);

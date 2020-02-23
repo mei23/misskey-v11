@@ -1,9 +1,8 @@
 import * as mongo from 'mongodb';
 import Notification from '../models/notification';
-import Mute from '../models/mute';
 import { pack } from '../models/notification';
 import { publishMainStream } from './stream';
-import User from '../models/user';
+import User, { getMute } from '../models/user';
 import pushSw from './push-notification';
 
 export default (
@@ -37,14 +36,8 @@ export default (
 		const fresh = await Notification.findOne({ _id: notification._id }, { isRead: true });
 		if (!fresh.isRead) {
 			//#region ただしミュートしているユーザーからの通知なら無視
-			const mute = await Mute.find({
-				muterId: notifiee,
-				deletedAt: { $exists: false }
-			});
-			const mutedUserIds = mute.map(m => m.muteeId.toString());
-			if (mutedUserIds.indexOf(notifier.toString()) != -1) {
-				return;
-			}
+			const mute = await getMute(notifiee, notifier);
+			if (mute) return;
 			//#endregion
 
 			// Update flag

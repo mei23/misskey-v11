@@ -1,16 +1,12 @@
 import NoteUnread from '../../models/note-unread';
-import User, { IUser } from '../../models/user';
+import User, { IUser, getMute } from '../../models/user';
 import { INote } from '../../models/note';
-import Mute from '../../models/mute';
 import { publishMainStream } from '../stream';
 
 export default async function(user: IUser, note: INote, isSpecified = false) {
 	//#region ミュートしているなら無視
-	const mute = await Mute.find({
-		muterId: user._id
-	});
-	const mutedUserIds = mute.map(m => m.muteeId.toString());
-	if (mutedUserIds.includes(note.userId.toString())) return;
+	const mute = await getMute(user._id, note.userId);
+	if (mute) return;
 	//#endregion
 
 	const unread = await NoteUnread.insert({

@@ -1,6 +1,6 @@
 import es from '../../db/elasticsearch';
 import Note, { pack, INote, IChoice } from '../../models/note';
-import User, { isLocalUser, IUser, isRemoteUser, IRemoteUser, ILocalUser } from '../../models/user';
+import User, { isLocalUser, IUser, isRemoteUser, IRemoteUser, ILocalUser, getMute } from '../../models/user';
 import { publishMainStream, publishNotesStream } from '../stream';
 import { createDeleteNoteJob } from '../../queue';
 import renderNote from '../../remote/activitypub/renderer/note';
@@ -11,7 +11,6 @@ import DriveFile, { IDriveFile } from '../../models/drive-file';
 import notify from '../../services/create-notification';
 import NoteWatching from '../../models/note-watching';
 import watch from './watch';
-import Mute from '../../models/mute';
 import { parse } from '../../mfm/parse';
 import { IApp } from '../../models/app';
 import resolveUser from '../../remote/resolve-user';
@@ -72,19 +71,16 @@ class NotificationManager {
 
 	public async deliver() {
 		for (const x of this.queue) {
-			// ミュート情報を取得
-			const mentioneeMutes = await Mute.find({
-				muterId: x.target
-			});
-
-			const mentioneesMutedUserIds = mentioneeMutes.map(m => m.muteeId.toString());
-
-			// 通知される側のユーザーが通知する側のユーザーをミュートしていない限りは通知する
-			if (!mentioneesMutedUserIds.includes(this.notifier._id.toString())) {
-				notify(x.target, this.notifier._id, x.reason, {
-					noteId: this.note._id
-				});
+			// ミュートされてたらスキップ
+			const mute = await getMute(x.target, this.notifier._id);
+			if (mute) {
+				console.log(`ミュートされてたらスキップ`);
+				continue;
 			}
+
+			notify(x.target, this.notifier._id, x.reason, {
+				noteId: this.note._id
+			});
 		}
 	}
 }
