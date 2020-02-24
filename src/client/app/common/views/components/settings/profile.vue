@@ -1,136 +1,136 @@
 <template>
-<ui-card>
-	<template #title><fa icon="user"/> {{ $t('title') }}</template>
+<div>
+	<ui-card>
+		<template #title><fa icon="user"/> {{ $t('title') }}</template>
 
-	<section class="esokaraujimuwfttfzgocmutcihewscl">
-		<div class="header" :style="bannerStyle" @click.stop="updateBanner()" title="Update banner" style="cursor:pointer">
-			<mk-avatar class="avatar" :user="$store.state.i" :disable-preview="true" :disable-link="true" @click.stop="updateAvatar()" title="Update avatar" style="cursor:pointer"/>
-		</div>
-
-		<ui-form :disabled="saving">
-			<ui-input v-model="name" :max="30">
-				<span>{{ $t('name') }}</span>
-			</ui-input>
-
-			<ui-input v-model="username" readonly>
-				<span>{{ $t('account') }}</span>
-				<template #prefix>@</template>
-				<template #suffix>@{{ host }}</template>
-			</ui-input>
-
-			<ui-input v-model="location">
-				<span>{{ $t('location') }}</span>
-				<template #prefix><fa icon="map-marker-alt"/></template>
-			</ui-input>
-
-			<ui-input v-model="birthday" type="date">
-				<template #title>{{ $t('birthday') }}</template>
-				<template #prefix><fa icon="birthday-cake"/></template>
-			</ui-input>
-
-			<ui-textarea v-model="description" :max="500">
-				<span>{{ $t('description') }}</span>
-				<template #desc>{{ $t('you-can-include-hashtags') }}</template>
-			</ui-textarea>
-
-			<ui-input type="file" @change="onAvatarChange">
-				<span>{{ $t('avatar') }}</span>
-				<template #icon><fa icon="image"/></template>
-				<template #desc v-if="avatarUploading">{{ $t('uploading') }}<mk-ellipsis/></template>
-			</ui-input>
-
-			<ui-input type="file" @change="onBannerChange">
-				<span>{{ $t('banner') }}</span>
-				<template #icon><fa icon="image"/></template>
-				<template #desc v-if="bannerUploading">{{ $t('uploading') }}<mk-ellipsis/></template>
-			</ui-input>
-
-			<div class="fields">
-				<header>{{ $t('profile-metadata') }}</header>
-				<ui-horizon-group>
-					<ui-input v-model="fieldName0">{{ $t('metadata-label') }}</ui-input>
-					<ui-input v-model="fieldValue0">{{ $t('metadata-content') }}</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group>
-					<ui-input v-model="fieldName1">{{ $t('metadata-label') }}</ui-input>
-					<ui-input v-model="fieldValue1">{{ $t('metadata-content') }}</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group>
-					<ui-input v-model="fieldName2">{{ $t('metadata-label') }}</ui-input>
-					<ui-input v-model="fieldValue2">{{ $t('metadata-content') }}</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group>
-					<ui-input v-model="fieldName3">{{ $t('metadata-label') }}</ui-input>
-					<ui-input v-model="fieldValue3">{{ $t('metadata-content') }}</ui-input>
-				</ui-horizon-group>
+		<section class="esokaraujimuwfttfzgocmutcihewscl">
+			<div class="header" :style="bannerStyle" @click.stop="updateBanner()" title="Update banner" style="cursor:pointer">
+				<mk-avatar class="avatar" :user="$store.state.i" :disable-preview="true" :disable-link="true" @click.stop="updateAvatar()" title="Update avatar" style="cursor:pointer"/>
 			</div>
 
-			<ui-button primary @click="save(true)"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
-		</ui-form>
-	</section>
+			<ui-form :disabled="saving">
+				<ui-input v-model="name" :max="30">
+					<span>{{ $t('name') }}</span>
+				</ui-input>
 
-	<section>
-		<header><fa :icon="faCogs"/> {{ $t('advanced') }}</header>
+				<ui-textarea v-model="description" :max="500">
+					<span>{{ $t('description') }}</span>
+					<template #desc>{{ $t('you-can-include-hashtags') }}</template>
+				</ui-textarea>
 
-		<div>
-			<ui-switch v-model="isCat" @change="save(false)">{{ $t('is-cat') }}</ui-switch>
-			<ui-switch v-model="isBot" @change="save(false)">{{ $t('is-bot') }}</ui-switch>
-			<ui-switch v-model="alwaysMarkNsfw">{{ $t('@._settings.always-mark-nsfw') }}</ui-switch>
-		</div>
-	</section>
+				<ui-input v-model="location">
+					<span>{{ $t('location') }}</span>
+					<template #prefix><fa icon="map-marker-alt"/></template>
+				</ui-input>
 
-	<section>
-		<header><fa :icon="faUnlockAlt"/> {{ $t('privacy') }}</header>
+				<ui-input v-model="birthday" type="date">
+					<template #title>{{ $t('birthday') }}</template>
+					<template #prefix><fa icon="birthday-cake"/></template>
+				</ui-input>
 
-		<div>
-			<ui-switch v-model="isLocked" @change="save(false)">{{ $t('is-locked') }}</ui-switch>
-			<ui-switch v-model="carefulBot" :disabled="isLocked" @change="save(false)">{{ $t('careful-bot') }}</ui-switch>
-			<ui-switch v-model="carefulRemote" :disabled="isLocked" @change="save(false)">{{ $t('careful-remote') }}</ui-switch>
-			<ui-switch v-model="carefulMassive" :disabled="isLocked" @change="save(false)">{{ $t('careful-massive') }}</ui-switch>
-			<ui-switch v-model="autoAcceptFollowed" :disabled="!isLocked && !carefulBot && !carefulRemote && !carefulMassive" @change="save(false)">{{ $t('auto-accept-followed') }}</ui-switch>
-			<ui-switch v-model="avoidSearchIndex" @change="save(false)">{{ $t('avoid-search-index') }}</ui-switch>
-		</div>
-	</section>
+				<ui-horizon-group inputs>
+					<ui-input type="file" @change="onAvatarChange">
+						<span>{{ $t('avatar') }}</span>
+						<template #icon><fa icon="image"/></template>
+						<template #desc v-if="avatarUploading">{{ $t('uploading') }}<mk-ellipsis/></template>
+					</ui-input>
 
-	<section v-if="enableEmail">
-		<header><fa :icon="faEnvelope"/> {{ $t('email') }}</header>
+					<ui-input type="file" @change="onBannerChange">
+						<span>{{ $t('banner') }}</span>
+						<template #icon><fa icon="image"/></template>
+						<template #desc v-if="bannerUploading">{{ $t('uploading') }}<mk-ellipsis/></template>
+					</ui-input>
+				</ui-horizon-group>
 
-		<div>
-			<template v-if="$store.state.i.email != null">
-				<ui-info v-if="$store.state.i.emailVerified">{{ $t('email-verified') }}</ui-info>
-				<ui-info v-else warn>{{ $t('email-not-verified') }}</ui-info>
-			</template>
-			<ui-input v-model="email" type="email"><span>{{ $t('email-address') }}</span></ui-input>
-			<ui-button @click="updateEmail()"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
-		</div>
-	</section>
+				<details class="fields">
+					<summary>{{ $t('profile-metadata') }}</summary>
+					<ui-horizon-group>
+						<ui-input v-model="fieldName0">{{ $t('metadata-label') }}</ui-input>
+						<ui-input v-model="fieldValue0">{{ $t('metadata-content') }}</ui-input>
+					</ui-horizon-group>
+					<ui-horizon-group>
+						<ui-input v-model="fieldName1">{{ $t('metadata-label') }}</ui-input>
+						<ui-input v-model="fieldValue1">{{ $t('metadata-content') }}</ui-input>
+					</ui-horizon-group>
+					<ui-horizon-group>
+						<ui-input v-model="fieldName2">{{ $t('metadata-label') }}</ui-input>
+						<ui-input v-model="fieldValue2">{{ $t('metadata-content') }}</ui-input>
+					</ui-horizon-group>
+					<ui-horizon-group>
+						<ui-input v-model="fieldName3">{{ $t('metadata-label') }}</ui-input>
+						<ui-input v-model="fieldValue3">{{ $t('metadata-content') }}</ui-input>
+					</ui-horizon-group>
+				</details>
 
-	<section>
-		<header><fa :icon="faBoxes"/> {{ $t('export-and-import') }}</header>
+				<ui-button primary @click="save(true)"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			</ui-form>
+		</section>
+	</ui-card>
 
-		<div>
-			<ui-select v-model="exportTarget">
-				<option value="notes">{{ $t('export-targets.all-notes') }}</option>
-				<option value="following">{{ $t('export-targets.following-list') }}</option>
-				<option value="mute">{{ $t('export-targets.mute-list') }}</option>
-				<option value="blocking">{{ $t('export-targets.blocking-list') }}</option>
-				<option value="user-lists">{{ $t('export-targets.user-lists') }}</option>
-			</ui-select>
-			<ui-horizon-group class="fit-bottom">
-				<ui-button @click="doExport()"><fa :icon="faDownload"/> {{ $t('export') }}</ui-button>
-				<ui-button @click="doImport()" :disabled="!['following', 'user-lists'].includes(exportTarget)"><fa :icon="faUpload"/> {{ $t('import') }}</ui-button>
-			</ui-horizon-group>
-		</div>
-	</section>
+	<ui-card>
+		<template #title><fa :icon="faCogs"/> {{ $t('advanced') }}</template>
 
-	<section>
-		<details>
-			<summary>{{ $t('danger-zone') }}</summary>
-			<ui-button v-if="!noFederation" @click="disableFederation()">{{ $t('disable-federation') }}</ui-button>
-			<ui-button v-if="noFederation" @click="enableFederation()">{{ $t('enable-federation') }}</ui-button>
-		</details>
-	</section>
-</ui-card>
+		<section>
+			<div>
+				<ui-switch v-model="isCat" @change="save(false)">{{ $t('is-cat') }}</ui-switch>
+				<ui-switch v-model="isBot" @change="save(false)">{{ $t('is-bot') }}</ui-switch>
+				<ui-switch v-model="alwaysMarkNsfw">{{ $t('@._settings.always-mark-nsfw') }}</ui-switch>
+			</div>
+		</section>
+
+		<section>
+			<header><fa :icon="faUnlockAlt"/> {{ $t('privacy') }}</header>
+
+			<div>
+				<ui-switch v-model="isLocked" @change="save(false)">{{ $t('is-locked') }}</ui-switch>
+				<ui-switch v-model="carefulBot" :disabled="isLocked" @change="save(false)">{{ $t('careful-bot') }}</ui-switch>
+				<ui-switch v-model="carefulRemote" :disabled="isLocked" @change="save(false)">{{ $t('careful-remote') }}</ui-switch>
+				<ui-switch v-model="carefulMassive" :disabled="isLocked" @change="save(false)">{{ $t('careful-massive') }}</ui-switch>
+				<ui-switch v-model="autoAcceptFollowed" :disabled="!isLocked && !carefulBot && !carefulRemote && !carefulMassive" @change="save(false)">{{ $t('auto-accept-followed') }}</ui-switch>
+				<ui-switch v-model="avoidSearchIndex" @change="save(false)">{{ $t('avoid-search-index') }}</ui-switch>
+			</div>
+		</section>
+
+		<section v-if="enableEmail">
+			<header><fa :icon="faEnvelope"/> {{ $t('email') }}</header>
+
+			<div>
+				<template v-if="$store.state.i.email != null">
+					<ui-info v-if="$store.state.i.emailVerified">{{ $t('email-verified') }}</ui-info>
+					<ui-info v-else warn>{{ $t('email-not-verified') }}</ui-info>
+				</template>
+				<ui-input v-model="email" type="email"><span>{{ $t('email-address') }}</span></ui-input>
+				<ui-button @click="updateEmail()"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			</div>
+		</section>
+
+		<section>
+			<header><fa :icon="faBoxes"/> {{ $t('export-and-import') }}</header>
+
+			<div>
+				<ui-select v-model="exportTarget">
+					<option value="notes">{{ $t('export-targets.all-notes') }}</option>
+					<option value="following">{{ $t('export-targets.following-list') }}</option>
+					<option value="mute">{{ $t('export-targets.mute-list') }}</option>
+					<option value="blocking">{{ $t('export-targets.blocking-list') }}</option>
+					<option value="user-lists">{{ $t('export-targets.user-lists') }}</option>
+				</ui-select>
+				<ui-horizon-group class="fit-bottom">
+					<ui-button @click="doExport()"><fa :icon="faDownload"/> {{ $t('export') }}</ui-button>
+					<ui-button @click="doImport()" :disabled="!['following', 'user-lists'].includes(exportTarget)"><fa :icon="faUpload"/> {{ $t('import') }}</ui-button>
+				</ui-horizon-group>
+			</div>
+		</section>
+
+		<section>
+			<details>
+				<summary>{{ $t('danger-zone') }}</summary>
+				<ui-button v-if="!noFederation" @click="disableFederation()">{{ $t('disable-federation') }}</ui-button>
+				<ui-button v-if="noFederation" @click="enableFederation()">{{ $t('enable-federation') }}</ui-button>
+			</details>
+		</section>
+	</ui-card>
+</div>
 </template>
 
 <script lang="ts">
@@ -494,6 +494,12 @@ export default Vue.extend({
 			margin auto
 
 .fields
+	margin-bottom 2em
+
+	> summary
+		cursor pointer
+		font-size small
+
 	> header
 		padding 8px 0px
 		font-weight bold
