@@ -105,7 +105,6 @@ export default Vue.extend({
 	padding 0 8px
 	z-index 10
 	background var(--faceHeader)
-	box-shadow 0 1px var(--desktopTimelineHeaderShadow)
 
 	> span
 		display inline-block

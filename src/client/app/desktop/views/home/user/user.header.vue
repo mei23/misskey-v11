@@ -274,8 +274,6 @@ export default Vue.extend({
 
 		> .info
 			margin-top 16px
-			padding-top 16px
-			border-top solid 1px var(--faceDivider)
 			font-size 15px
 
 			&:empty
@@ -286,8 +284,6 @@ export default Vue.extend({
 
 		> .status
 			margin-top 16px
-			padding-top 16px
-			border-top solid 1px var(--faceDivider)
 			font-size 80%
 
 			> *
@@ -295,9 +291,6 @@ export default Vue.extend({
 				padding-right 16px
 				margin-right 16px
 				color inherit
-
-				&:not(:last-child)
-					border-right solid 1px var(--faceDivider)
 
 				&.clickable
 					cursor pointer
