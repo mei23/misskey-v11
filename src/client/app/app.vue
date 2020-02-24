@@ -11,7 +11,6 @@ export default Vue.extend({
 		keymap(): any {
 			return {
 				'h|slash': this.help,
-				'd': this.dark
 			};
 		}
 	},
@@ -20,13 +19,6 @@ export default Vue.extend({
 		help() {
 			window.open(`${url}/docs/ja-JP/keyboard-shortcut`, '_blank');
 		},
-
-		dark() {
-			this.$store.commit('device/set', {
-				key: 'darkmode',
-				value: !this.$store.state.device.darkmode
-			});
-		}
 	}
 });
 </script>

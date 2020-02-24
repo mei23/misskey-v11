@@ -39,22 +39,11 @@ export default (opts: Opts = {}) => ({
 				'q': () => this.renote(true),
 				'f|b': this.favorite,
 				'delete|ctrl+d': this.del,
-				'ctrl+q': this.renoteDirectly,
 				'up|k|shift+tab': this.focusBefore,
 				'down|j|tab': this.focusAfter,
 				//'esc': this.blur,
 				'm|o': () => this.menu(true),
 				's': this.toggleShowContent,
-				'1': () => this.reactDirectly('like'),
-				'2': () => this.reactDirectly('love'),
-				'3': () => this.reactDirectly('laugh'),
-				'4': () => this.reactDirectly('hmm'),
-				'5': () => this.reactDirectly('surprise'),
-				'6': () => this.reactDirectly('congrats'),
-				'7': () => this.reactDirectly('angry'),
-				'8': () => this.reactDirectly('confused'),
-				'9': () => this.reactDirectly('rip'),
-				'0': () => this.reactDirectly('pudding'),
 			};
 		},
 
@@ -137,12 +126,6 @@ export default (opts: Opts = {}) => ({
 			});
 		},
 
-		renoteDirectly() {
-			this.$root.api('notes/create', {
-				renoteId: this.appearNote.id
-			});
-		},
-
 		react(viaKeyboard = false) {
 			this.blur();
 			const w = this.$root.new(MkReactionPicker, {
@@ -159,13 +142,6 @@ export default (opts: Opts = {}) => ({
 				});
 			});
 			w.$once('closed', this.focus);
-		},
-
-		reactDirectly(reaction) {
-			(this.$root.api('notes/reactions/create', {
-				noteId: this.appearNote.id,
-				reaction: reaction
-			});
 		},
 
 		undoReact(note) {

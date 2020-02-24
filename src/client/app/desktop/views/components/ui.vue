@@ -44,7 +44,6 @@ export default Vue.extend({
 			return {
 				'p': this.post,
 				'n': this.post,
-				'z': this.toggleZenMode
 			};
 		}
 	},
@@ -69,15 +68,6 @@ export default Vue.extend({
 		post() {
 			this.$post();
 		},
-
-		toggleZenMode() {
-			this.zenMode = !this.zenMode;
-			this.$nextTick(() => {
-				if (this.$refs.header) {
-					this.$store.commit('setUiHeaderHeight', this.$refs.header.$el.offsetHeight);
-				}
-			});
-		}
 	}
 });
 </script>
