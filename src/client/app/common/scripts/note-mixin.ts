@@ -138,7 +138,7 @@ export default (opts: Opts = {}) => ({
 		},
 
 		renoteDirectly() {
-			(this as any).api('notes/create', {
+			this.$root.api('notes/create', {
 				renoteId: this.appearNote.id
 			});
 		},
