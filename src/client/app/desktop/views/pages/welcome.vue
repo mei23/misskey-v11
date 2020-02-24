@@ -7,8 +7,6 @@
 		<template v-else><fa :icon="['far', 'moon']"/></template>
 	</button>
 
-	<mk-forkit class="forkit"/>
-
 	<main>
 		<div class="body">
 			<div class="main block">
@@ -318,11 +316,6 @@ export default Vue.extend({
 			height 100px
 			background linear-gradient(transparent, var(--bg))
 
-	> .forkit
-		position absolute
-		top 0
-		right 0
-
 	> button
 		position fixed
 		z-index 1
@@ -469,6 +462,7 @@ export default Vue.extend({
 				grid-row 4
 				grid-column 1 / 3
 				font-size 14px
+				border-radius 6px
 
 			> .side
 				display grid
