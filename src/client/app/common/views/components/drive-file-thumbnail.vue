@@ -1,7 +1,7 @@
 <template>
 <div class="zdjebgpv" :class="{ detail }" ref="thumbnail" :style="`background-color: ${ background }`">
 	<img
-		:src="file.url"
+		:src="isThumbnailAvailable ? file.thumbnailUrl : file.url"
 		:alt="file.name"
 		:title="file.name"
 		@load="onThumbnailLoaded"
