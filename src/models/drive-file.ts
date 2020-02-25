@@ -230,6 +230,7 @@ export const pack = (
 	delete _target.attachedNoteIds;
 
 	if (opts.self) {
+		_target.webpublicUrl = _target.url;
 		_target.url = getOriginalUrl(_file);
 	}
 
