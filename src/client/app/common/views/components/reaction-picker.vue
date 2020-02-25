@@ -130,6 +130,20 @@ export default Vue.extend({
 
 		tryReactText() {
 			if (!this.text) return;
+
+			// 数字でリアクション
+			const d = this.text.match(/^[0-9]$/);
+			if (d) {
+				let i = Number(d[0]);
+				i--;
+				if (i === -1) i = 9;
+				const char = this.rs[i];
+				if (char) {
+					this.react(char);
+					return;
+				}
+			}
+
 			if (!this.text.match(emojiRegex)) return;
 			this.reactText();
 		},
