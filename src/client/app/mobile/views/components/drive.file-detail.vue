@@ -10,12 +10,6 @@
 				<span class="height">{{ file.properties.height }}</span>
 				<span class="px">px</span>
 			</span>
-			<span class="separator"></span>
-			<span class="aspect-ratio">
-				<span class="width">{{ file.properties.width / gcd(file.properties.width, file.properties.height) }}</span>
-				<span class="colon">:</span>
-				<span class="height">{{ file.properties.height / gcd(file.properties.width, file.properties.height) }}</span>
-			</span>
 		</footer>
 	</div>
 	<div class="info">
@@ -56,7 +50,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { gcd } from '../../../../../prelude/math';
 import XFileThumbnail from '../../../common/views/components/drive-file-thumbnail.vue';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -70,7 +63,6 @@ export default Vue.extend({
 
 	data() {
 		return {
-			gcd,
 			exif: null,
 			faExternalLinkAlt
 		};
@@ -174,16 +166,6 @@ export default Vue.extend({
 
 				.px
 					margin-left 4px
-
-			> .aspect-ratio
-				display inline
-				opacity 0.7
-
-				&:before
-					content "("
-
-				&:after
-					content ")"
 
 	> .info
 		padding 14px

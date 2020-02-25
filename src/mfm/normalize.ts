@@ -1,5 +1,5 @@
-import * as A from '../prelude/array';
-import * as S from '../prelude/string';
+import { concat } from '../prelude/array';
+import { EndoRelation } from '../prelude/relation';
 import { MfmForest, MfmTree } from './prelude';
 import { createTree, createLeaf } from '../prelude/tree';
 
@@ -8,7 +8,7 @@ function isEmptyTextTree(t: MfmTree): boolean {
 }
 
 function concatTextTrees(ts: MfmForest): MfmTree {
-	return createLeaf({ type: 'text', props: { text: S.concat(ts.map(x => x.node.props.text)) } });
+	return createLeaf({ type: 'text', props: { text: ts.map(x => x.node.props.text).join('') } });
 }
 
 function concatIfTextTrees(ts: MfmForest): MfmForest {
@@ -16,7 +16,7 @@ function concatIfTextTrees(ts: MfmForest): MfmForest {
 }
 
 function concatConsecutiveTextTrees(ts: MfmForest): MfmForest {
-	const us = A.concat(A.groupOn(t => t.node.type, ts).map(concatIfTextTrees));
+	const us = concat(groupOn(t => t.node.type, ts).map(concatIfTextTrees));
 	return us.map(t => createTree(t.node, concatConsecutiveTextTrees(t.children)));
 }
 
@@ -28,4 +28,28 @@ function removeEmptyTextNodes(ts: MfmForest): MfmForest {
 
 export function normalize(ts: MfmForest): MfmForest {
 	return removeEmptyTextNodes(concatConsecutiveTextTrees(ts));
+}
+
+/**
+ * Splits an array based on the equivalence relation.
+ * The concatenation of the result is equal to the argument.
+ */
+function _groupBy<T>(f: EndoRelation<T>, xs: T[]): T[][] {
+	const groups = [] as T[][];
+	for (const x of xs) {
+		if (groups.length !== 0 && f(groups[groups.length - 1][0], x)) {
+			groups[groups.length - 1].push(x);
+		} else {
+			groups.push([x]);
+		}
+	}
+	return groups;
+}
+
+/**
+ * Splits an array based on the equivalence relation induced by the function.
+ * The concatenation of the result is equal to the argument.
+ */
+function groupOn<T, S>(f: (x: T) => S, xs: T[]): T[][] {
+	return _groupBy((a, b) => f(a) === f(b), xs);
 }

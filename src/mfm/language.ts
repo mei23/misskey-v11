@@ -1,6 +1,6 @@
 import * as P from 'parsimmon';
 import { createLeaf, createTree, urlRegex } from './prelude';
-import { takeWhile, cumulativeSum } from '../prelude/array';
+import { Predicate } from '../prelude/relation';
 import parseAcct from '../misc/acct/parse';
 import { toUnicode } from 'punycode';
 import { emojiRegex } from '../misc/emoji-regex';
@@ -234,3 +234,24 @@ export const mfmLanguage = P.createLanguage({
 	},
 	text: () => P.any.map(x => createLeaf('text', { text: x }))
 });
+
+/**
+ * Returns the longest prefix of elements that satisfy the predicate
+ */
+function takeWhile<T>(f: Predicate<T>, xs: T[]): T[] {
+	const ys = [];
+	for (const x of xs) {
+		if (f(x)) {
+			ys.push(x);
+		} else {
+			break;
+		}
+	}
+	return ys;
+}
+
+function cumulativeSum(xs: number[]): number[] {
+	const ys = Array.from(xs); // deep copy
+	for (let i = 1; i < ys.length; i++) ys[i] += ys[i - 1];
+	return ys;
+}

@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 import config from '../config';
 import { INote } from '../models/note';
-import { intersperse } from '../prelude/array';
+import { concat } from '../prelude/array';
 import { MfmForest, MfmTree } from './prelude';
 
 export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentionedRemoteUsers'] = []) {
@@ -204,4 +204,12 @@ export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 	appendChildren(tokens, doc.body);
 
 	return `<p>${doc.body.innerHTML}</p>`;
+}
+
+/**
+ * Intersperse the element between the elements of the array
+ * @param sep The element to be interspersed
+ */
+function intersperse<T>(sep: T, xs: T[]): T[] {
+	return concat(xs.map(x => [sep, x])).slice(1);
 }
