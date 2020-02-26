@@ -26,6 +26,7 @@
 		<tr><td><kbd class="key">R</kbd></td><td>返信フォームを開く</td><td><b>R</b>eply</td></tr>
 		<tr><td><kbd class="key">Q</kbd></td><td>Renoteフォームを開く</td><td><b>Q</b>uote</td></tr>
 		<tr><td><kbd class="key">E</kbd>, <kbd class="key">A</kbd>, <kbd class="key">+</kbd></td><td>リアクションフォームを開く</td><td><b>E</b>mote, re<b>A</b>ction</td></tr>
+		<tr><td><kbd class="key">1</kbd>~<kbd class="key">9</kbd>, <kbd class="key">0</kbd></td><td>リアクションピッカーの位置に対応したリアクションをする</td><td>-</td></tr>
 		<tr><td><kbd class="key">F</kbd>, <kbd class="key">B</kbd></td><td>お気に入りに登録</td><td><b>F</b>avorite, <b>B</b>ookmark</td></tr>
 		<tr><td><kbd class="key">Del</kbd>, <kbd class="group"><kbd class="key">Ctrl</kbd> + <kbd class="key">D</kbd></kbd></td><td>投稿を削除</td><td><b>D</b>elete</tr>
 		<tr><td><kbd class="key">M</kbd>, <kbd class="key">O</kbd></td><td>投稿に対するメニューを開く</td><td><b>M</b>ore, <b>O</b>ther</td></tr>
