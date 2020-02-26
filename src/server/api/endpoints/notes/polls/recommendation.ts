@@ -50,6 +50,7 @@ export default define(meta, async (ps, user) => {
 	const hideUserIds = await getHideUserIds(user, true);
 
 	const notes = await Note.find({
+		'_user.host': null,
 		_id: {
 			$in: nonVoted
 		},
