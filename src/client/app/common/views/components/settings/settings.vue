@@ -95,11 +95,12 @@
 				</ui-horizon-group>
 			</section>
 
-			<section v-if="isAdvanced">
+			<section>
 				<header>{{ $t('@._settings.timeline') }}</header>
-				<ui-switch v-model="showMyRenotes">{{ $t('@._settings.show-my-renotes') }}</ui-switch>
-				<ui-switch v-model="showRenotedMyNotes">{{ $t('@._settings.show-renoted-my-notes') }}</ui-switch>
-				<ui-switch v-model="showLocalRenotes">{{ $t('@._settings.show-local-renotes') }}</ui-switch>
+				<ui-switch v-if="isAdvanced" v-model="showMyRenotes">{{ $t('@._settings.show-my-renotes') }}</ui-switch>
+				<ui-switch v-if="isAdvanced"  v-model="showRenotedMyNotes">{{ $t('@._settings.show-renoted-my-notes') }}</ui-switch>
+				<ui-switch v-if="isAdvanced"  v-model="showLocalRenotes">{{ $t('@._settings.show-local-renotes') }}</ui-switch>
+				<ui-switch v-model="excludeForeignReply">{{ $t('@._settings.excludeForeignReply') }}</ui-switch>
 			</section>
 
 			<section>
@@ -473,6 +474,11 @@ export default Vue.extend({
 		showLocalRenotes: {
 			get() { return this.$store.state.settings.showLocalRenotes; },
 			set(value) { this.$store.dispatch('settings/set', { key: 'showLocalRenotes', value }); }
+		},
+
+		excludeForeignReply: {
+			get() { return this.$store.state.settings.excludeForeignReply; },
+			set(value) { this.$store.dispatch('settings/set', { key: 'excludeForeignReply', value }); }
 		},
 
 		showPostFormOnTopOfTl: {

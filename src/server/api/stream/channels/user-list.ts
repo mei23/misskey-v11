@@ -6,7 +6,9 @@ import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import UserList, { IUserList } from '../../../../models/user-list';
 import config from '../../../../config';
 import UserFilter from '../../../../models/user-filter';
-import { oidIncludes } from '../../../../prelude/oid';
+import { oidIncludes, oidEquals } from '../../../../prelude/oid';
+import { ILocalUser } from '../../../../models/user';
+import Following from '../../../../models/following';
 
 export default class extends Channel {
 	public readonly chName = 'userList';
@@ -17,6 +19,8 @@ export default class extends Channel {
 
 	private mutedUserIds: string[] = [];
 	private hideRenoteUsers: string[] = [];
+	private followingIds: string[] = [];
+	private excludeForeignReply = false;
 
 	private refreshClock: NodeJS.Timer;
 
@@ -27,6 +31,15 @@ export default class extends Channel {
 		this.mutedUserIds = mute ? mute.map(m => m.muteeId.toString()) : [];
 
 		await this.refreshLists();
+
+		const followings = await Following.find({
+			followerId: this.user._id
+		});
+
+		this.followingIds = followings.map(x => `${x.followeeId}`);
+
+		// TODO: clientSettingsをサーバーで見るのはイレギュラーらしいが
+		this.excludeForeignReply = !!(this.user as ILocalUser).clientSettings?.excludeForeignReply;
 
 		// Subscribe stream
 		if (this.list) {
@@ -95,6 +108,13 @@ export default class extends Channel {
 		// Renoteを隠すユーザー
 		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
 			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
+		}
+
+		if (this.excludeForeignReply && note.replyId) {
+			if (!(
+				oidIncludes(this.followingIds, note.reply.userId)
+				|| oidEquals(this.user._id, note.reply.userId)
+			)) return;
 		}
 
 		this.send('note', note);

@@ -38,7 +38,8 @@ export default Vue.extend({
 			baseQuery: {
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
-				includeLocalRenotes: this.$store.state.settings.showLocalRenotes
+				includeLocalRenotes: this.$store.state.settings.showLocalRenotes,
+				excludeForeignReply: this.$store.state.settings.excludeForeignReply,
 			},
 			query: {},
 			endpoint: null,

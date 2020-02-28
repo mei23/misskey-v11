@@ -9,6 +9,7 @@ import { isSelfHost } from '../../../../misc/convert-host';
 import Following from '../../../../models/following';
 import { oidEquals, oidIncludes } from '../../../../prelude/oid';
 import UserFilter from '../../../../models/user-filter';
+import { ILocalUser } from '../../../../models/user';
 
 export default class extends Channel {
 	public readonly chName = 'homeTimeline';
@@ -20,6 +21,7 @@ export default class extends Channel {
 	private hideFromHosts: string[] = [];
 	private hideRenoteUsers: string[] = [];
 	private followingIds: string[] = [];
+	private excludeForeignReply = false;
 
 	@autobind
 	public async init(params: any) {
@@ -29,6 +31,9 @@ export default class extends Channel {
 		const followings = await Following.find({
 			followerId: this.user._id
 		});
+
+		// TODO: clientSettingsをサーバーで見るのはイレギュラーらしいが
+		this.excludeForeignReply = !!(this.user as ILocalUser).clientSettings?.excludeForeignReply;
 
 		this.followingIds = followings.map(x => `${x.followeeId}`);
 
@@ -89,6 +94,13 @@ export default class extends Channel {
 		// Renoteを隠すユーザー
 		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
 			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
+		}
+
+		if (this.excludeForeignReply && note.replyId) {
+			if (!(
+				oidIncludes(this.followingIds, note.reply.userId)
+				|| oidEquals(this.user._id, note.reply.userId)
+			)) return;
 		}
 
 		this.send('note', note);

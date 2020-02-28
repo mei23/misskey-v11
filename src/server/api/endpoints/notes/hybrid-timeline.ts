@@ -1,7 +1,7 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
 import Note from '../../../../models/note';
-import { getFriends } from '../../common/get-friends';
+import { getFriendIds } from '../../common/get-friends';
 import { packMany } from '../../../../models/note';
 import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
@@ -83,6 +83,14 @@ export const meta = {
 			}
 		},
 
+		excludeForeignReply: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': 'フォロー外リプライを含めない'
+			}
+		},
+
 		withFiles: {
 			validator: $.optional.bool,
 			desc: {
@@ -144,10 +152,10 @@ export default define(meta, async (ps, user) => {
 		throw new ApiError(meta.errors.stlDisabled);
 	}
 
-	const [followings, hideUserIds, hideFromHomeLists, hideRenoteUserIds] = await Promise.all([
+	const [followingIds, hideUserIds, hideFromHomeLists, hideRenoteUserIds] = await Promise.all([
 		// フォローを取得
 		// Fetch following
-		getFriends(user._id, true, false),
+		getFriendIds(user._id, true),
 
 		// 隠すユーザーを取得
 		getHideUserIds(user, true, false),
@@ -169,9 +177,9 @@ export default define(meta, async (ps, user) => {
 	const sort = {
 		_id: -1
 	};
-	const followQuery = followings.map(f => ({
-		userId: f.id,
-	}));
+	const followQuery = [{
+		userId: { $in: followingIds }
+	}];
 
 	const visibleQuery = user == null ? [{
 		visibility: { $in: ['public', 'home'] }
@@ -225,6 +233,15 @@ export default define(meta, async (ps, user) => {
 	// MongoDBではトップレベルで否定ができないため、De Morganの法則を利用してクエリします。
 	// つまり、「『自分の投稿かつRenote』ではない」を「『自分の投稿ではない』または『Renoteではない』」と表現します。
 	// for details: https://en.wikipedia.org/wiki/De_Morgan%27s_laws
+	if (ps.excludeForeignReply) {
+		query.$and.push({
+			$or: [{
+				'_reply.userId': null
+			}, {
+				'_reply.userId': { $in : concat([followingIds, [user._id]]) }
+			}]
+		});
+	}
 
 	if (hideRenoteUserIds.length > 0) {
 		query.$and.push({

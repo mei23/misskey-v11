@@ -7,7 +7,7 @@ import fetchMeta from '../../../../misc/fetch-meta';
 import UserList from '../../../../models/user-list';
 import { concat } from '../../../../prelude/array';
 import { isSelfHost } from '../../../../misc/convert-host';
-import User from '../../../../models/user';
+import User, { ILocalUser } from '../../../../models/user';
 import Following from '../../../../models/following';
 import { oidEquals, oidIncludes } from '../../../../prelude/oid';
 import UserFilter from '../../../../models/user-filter';
@@ -22,6 +22,7 @@ export default class extends Channel {
 	private hideFromHosts: string[] = [];
 	private hideRenoteUsers: string[] = [];
 	private followingIds: string[] = [];
+	private excludeForeignReply = false;
 
 	@autobind
 	public async init(params: any) {
@@ -36,6 +37,9 @@ export default class extends Channel {
 		});
 
 		this.followingIds = followings.map(x => `${x.followeeId}`);
+
+		// TODO: clientSettingsをサーバーで見るのはイレギュラーらしいが
+		this.excludeForeignReply = !!(this.user as ILocalUser).clientSettings?.excludeForeignReply;
 
 		const mute = await Mute.find({ muterId: this.user._id });
 		this.mutedUserIds = mute.map(m => m.muteeId.toString());
@@ -102,6 +106,13 @@ export default class extends Channel {
 		// Renoteを隠すユーザー
 		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
 			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
+		}
+
+		if (this.excludeForeignReply && note.replyId) {
+			if (!(
+				oidIncludes(this.followingIds, note.reply.userId)
+				|| oidEquals(this.user._id, note.reply.userId)
+			)) return;
 		}
 
 		this.send('note', note);

@@ -24,7 +24,8 @@ export default Vue.extend({
 				untilId: cursor ? cursor : undefined,
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
-				includeLocalRenotes: this.$store.state.settings.showLocalRenotes
+				includeLocalRenotes: this.$store.state.settings.showLocalRenotes,
+				excludeForeignReply: this.$store.state.settings.excludeForeignReply,
 			}).then(notes => {
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();

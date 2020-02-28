@@ -228,6 +228,7 @@ common:
     show-my-renotes: "自分の行ったRenoteをタイムラインに表示する"
     show-renoted-my-notes: "自分の投稿のRenoteをタイムラインに表示する"
     show-local-renotes: "ローカルの投稿のRenoteをタイムラインに表示する"
+    excludeForeignReply: "フォロー外へのリプライを隠す"
     sound: "サウンド"
     enable-sounds: "サウンドを有効にする"
     enable-sounds-desc: "投稿やメッセージを送受信したときなどにサウンドを再生します。この設定はブラウザに記憶されます。"
