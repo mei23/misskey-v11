@@ -128,7 +128,7 @@ export default Vue.extend({
 		}
 
 		this.$root.getMeta().then(meta => {
-			this.disabled = !this.$store.state.i.isModerator && !this.$store.state.i.isAdmin && (
+			this.disabled = (
 				meta.disableLocalTimeline && ['local', 'hybrid'].includes(this.src) ||
 				meta.disableGlobalTimeline && ['global'].includes(this.src));
 		});

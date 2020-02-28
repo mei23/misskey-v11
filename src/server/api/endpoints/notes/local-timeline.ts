@@ -97,9 +97,7 @@ export const meta = {
 export default define(meta, async (ps, user) => {
 	const m = await fetchMeta();
 	if (m.disableLocalTimeline) {
-		if (user == null || (!user.isAdmin && !user.isModerator)) {
-			throw new ApiError(meta.errors.ltlDisabled);
-		}
+		throw new ApiError(meta.errors.ltlDisabled);
 	}
 
 	// 隠すユーザーを取得

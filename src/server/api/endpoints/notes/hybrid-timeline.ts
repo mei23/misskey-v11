@@ -140,7 +140,7 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	const m = await fetchMeta();
-	if (m.disableLocalTimeline && !user.isAdmin && !user.isModerator) {
+	if (m.disableLocalTimeline) {
 		throw new ApiError(meta.errors.stlDisabled);
 	}
 
