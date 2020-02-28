@@ -4,7 +4,6 @@ import User, { pack, validateUsername, IUser } from '../../../../models/user';
 import define from '../../define';
 import { toDbHost, isSelfHost } from '../../../../misc/convert-host';
 import Instance from '../../../../models/instance';
-import { concat } from '../../../../prelude/array';
 
 export const meta = {
 	desc: {
@@ -85,7 +84,7 @@ export default define(meta, async (ps, me) => {
 
 	// 隠すホスト
 	const hideHosts = hideInstances.map(x => toDbHost(x.host));
-	const hideHostsForRemote = concat([hideHosts, [null]]);
+	const hideHostsForRemote = [hideHosts, null].flat();
 
 	// 表示名
 	if (isName) {
@@ -95,7 +94,7 @@ export default define(meta, async (ps, me) => {
 		users = await User
 			.find({
 				host: null,
-				name: new RegExp('^' + escapeRegexp(name), 'i'),
+				name: new RegExp(`^${escapeRegexp(name)}`, 'i'),
 				isSuspended: { $ne: true }
 			}, {
 				limit: ps.limit,
@@ -107,7 +106,7 @@ export default define(meta, async (ps, me) => {
 			const otherUsers = await User
 				.find({
 					host: { $nin: hideHostsForRemote },
-					name: new RegExp('^' + escapeRegexp(name), 'i'),
+					name: new RegExp(`^${escapeRegexp(name)}`, 'i'),
 					isSuspended: { $ne: true }
 				}, {
 					limit: ps.limit - users.length
@@ -139,7 +138,7 @@ export default define(meta, async (ps, me) => {
 				.find({
 					_id: { $nin: ids },
 					host: null,
-					usernameLower: new RegExp('^' + escapeRegexp(ps.query.replace('@', '').toLowerCase())),
+					usernameLower: new RegExp(`^${escapeRegexp(ps.query.replace('@', '').toLowerCase())}`),
 					isSuspended: { $ne: true }
 				}, {
 					limit: ps.limit - users.length,
@@ -155,7 +154,7 @@ export default define(meta, async (ps, me) => {
 				.find({
 					_id: { $nin: ids },
 					host: { $nin: hideHostsForRemote },
-					usernameLower: new RegExp('^' + escapeRegexp(ps.query.replace('@', '').toLowerCase())),
+					usernameLower: new RegExp(`^${escapeRegexp(ps.query.replace('@', '').toLowerCase())}`),
 					isSuspended: { $ne: true }
 				}, {
 					limit: ps.limit - users.length,
