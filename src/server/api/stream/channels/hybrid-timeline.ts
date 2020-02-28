@@ -112,6 +112,7 @@ export default class extends Channel {
 			if (!(
 				oidIncludes(this.followingIds, note.reply.userId)
 				|| oidEquals(this.user._id, note.reply.userId)
+				|| oidEquals(this.user._id, note.userId)
 			)) return;
 		}
 

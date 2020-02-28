@@ -221,6 +221,8 @@ export default define(meta, async (ps, user) => {
 				'_reply.userId': null
 			}, {
 				'_reply.userId': { $in : concat([followingIds, [user._id]]) }
+			}, {
+				userId: user._id
 			}]
 		});
 	}
