@@ -9,7 +9,10 @@
     "noFallthroughCasesInSwitch": true,
     "declaration": false,
     "sourceMap": true,
-    "target": "es2017",
+		"target": "ES2017",
+		"lib": [
+			"ES2019.Array"
+		],
     "module": "commonjs",
     "moduleResolution": "node",
     "removeComments": false,
