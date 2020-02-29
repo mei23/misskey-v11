@@ -157,7 +157,7 @@ export default Vue.extend({
 
 		> .article
 			@media (min-width 600px)
-				padding 32px 32px 22px
+				padding 24px 32px 18px
 
 			> .avatar
 				@media (min-width 350px)
@@ -172,10 +172,6 @@ export default Vue.extend({
 					border-radius 8px
 
 			> .main
-				> .header
-					@media (min-width 500px)
-						margin-bottom 2px
-
 				> .body
 					@media (min-width 700px)
 						font-size 1.1em
@@ -266,12 +262,12 @@ export default Vue.extend({
 						font-size 80%
 
 					> .renote
-						margin 8px 0
+						margin 0.3em 0.6em
+						opacity 0.9
 
 						> *
-							padding 16px
-							border dashed var(--lineWidth) var(--quoteBorder)
-							border-radius 8px
+							padding 0.7em
+							border-left 3px solid var(--mfmQuoteLine)
 
 				> .app
 					font-size 12px

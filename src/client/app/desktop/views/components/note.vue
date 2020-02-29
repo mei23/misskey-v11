@@ -213,7 +213,7 @@ export default Vue.extend({
 
 	> .article
 		display flex
-		padding 28px 32px 18px 32px
+		padding 22px 32px 14px 32px
 
 		&:hover
 			> .main > footer > button
@@ -233,9 +233,6 @@ export default Vue.extend({
 		> .main
 			flex 1
 			min-width 0
-
-			> .header
-				margin-bottom 4px
 
 			> .body
 
@@ -264,7 +261,7 @@ export default Vue.extend({
 						&.scroll
 							max-height 200px
 							overflow hidden auto
-							padding 0.5em 0em 0.5em 0.5em
+							padding-left 0.2em
 
 						> .reply
 							margin-right 8px
@@ -294,12 +291,12 @@ export default Vue.extend({
 						font-size 80%
 
 					> .renote
-						margin 8px 0
+						margin 0.3em 0.6em
+						opacity 0.9
 
 						> *
-							padding 16px
-							border dashed var(--lineWidth) var(--quoteBorder)
-							border-radius 8px
+							padding 0.7em
+							border-left 3px solid var(--mfmQuoteLine)
 
 			> .footer
 				> .time, .visibility-info, .app

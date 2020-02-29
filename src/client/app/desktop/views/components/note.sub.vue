@@ -75,9 +75,6 @@ export default Vue.extend({
 		flex 1
 		min-width 0
 
-		> .header
-			margin-bottom 2px
-
 		> .body
 
 			> .cw
@@ -102,8 +99,7 @@ export default Vue.extend({
 					&.scroll
 						max-height 180px
 						overflow hidden auto
-						padding 0.5em 0em 0.5em 0.5em
-
+						padding-left 0.2em
 					pre
 						max-height 120px
 						font-size 80%
