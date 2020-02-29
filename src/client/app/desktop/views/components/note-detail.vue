@@ -287,12 +287,12 @@ export default Vue.extend({
 					color var(--noteText)
 
 				> .renote
-					margin 8px 0
+					margin 0.3em 0.6em
+					opacity 0.9
 
 					> *
-						padding 16px
-						border dashed 1px var(--quoteBorder)
-						border-radius 8px
+						padding 0.7em
+						border-left 3px solid var(--mfmQuoteLine)
 
 				> .location
 					margin 4px 0

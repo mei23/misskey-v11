@@ -112,7 +112,6 @@ export default Vue.extend({
 				> header
 					display flex
 					align-items center
-					margin-bottom 4px
 					white-space nowrap
 
 					> .name
@@ -139,7 +138,7 @@ export default Vue.extend({
 					text-align left
 					max-height 120px
 					overflow auto
-					margin 8px
+					margin-left 0.2em
 				
 				> .reactions
 					pointer-events none
