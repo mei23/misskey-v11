@@ -14,7 +14,6 @@ import UserFilter from '../../../../models/user-filter';
 
 export default class extends Channel {
 	public readonly chName = 'hybridTimeline';
-	public static shouldShare = true;
 	public static requireCredential = true;
 
 	private mutedUserIds: string[] = [];

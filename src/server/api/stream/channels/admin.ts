@@ -3,7 +3,6 @@ import Channel from '../channel';
 
 export default class extends Channel {
 	public readonly chName = 'admin';
-	public static shouldShare = true;
 	public static requireCredential = true;
 
 	@autobind

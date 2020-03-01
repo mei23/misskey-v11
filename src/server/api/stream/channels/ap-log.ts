@@ -3,7 +3,6 @@ import Channel from '../channel';
 
 export default class extends Channel {
 	public readonly chName = 'apLog';
-	public static shouldShare = true;
 	public static requireCredential = false;
 
 	@autobind

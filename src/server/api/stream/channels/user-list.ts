@@ -11,7 +11,6 @@ import Following from '../../../../models/following';
 
 export default class extends Channel {
 	public readonly chName = 'userList';
-	public static shouldShare = false;
 	public static requireCredential = false;
 	private listId: string;
 	public list: IUserList = null;

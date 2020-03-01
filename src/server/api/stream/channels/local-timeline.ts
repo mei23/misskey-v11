@@ -8,7 +8,6 @@ import User from '../../../../models/user';
 
 export default class extends Channel {
 	public readonly chName = 'localTimeline';
-	public static shouldShare = true;
 	public static requireCredential = false;
 
 	private showReplayInPublicTimeline = false;

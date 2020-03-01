@@ -7,7 +7,6 @@ import User from '../../../../models/user';
 
 export default class extends Channel {
 	public readonly chName = 'hotTimeline';
-	public static shouldShare = true;
 	public static requireCredential = true;
 
 	private mutedUserIds: string[] = [];

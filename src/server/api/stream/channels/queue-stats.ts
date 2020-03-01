@@ -6,7 +6,6 @@ const ev = new Xev();
 
 export default class extends Channel {
 	public readonly chName = 'queueStats';
-	public static shouldShare = true;
 	public static requireCredential = false;
 
 	@autobind

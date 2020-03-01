@@ -175,11 +175,6 @@ export default class Connection {
 			return;
 		}
 
-		// 共有可能チャンネルに接続しようとしていて、かつそのチャンネルに既に接続していたら無意味なので無視
-		//if ((channels as any)[channel].shouldShare && this.channels.some(c => c.chName === channel)) {
-		//	return;
-		//}
-
 		const ch: Channel = new (channels as any)[channel](id, this);
 		this.channels.push(ch);
 		ch.init(params);

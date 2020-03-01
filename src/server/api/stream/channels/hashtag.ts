@@ -6,7 +6,6 @@ import Channel from '../channel';
 
 export default class extends Channel {
 	public readonly chName = 'hashtag';
-	public static shouldShare = false;
 	public static requireCredential = false;
 
 	@autobind
