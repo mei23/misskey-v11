@@ -196,7 +196,7 @@ export interface IApPerson extends IObject {
 	endpoints: any;
 }
 
-export const valiedActor = ['Person', 'Service', 'Group', 'Organization'];
+export const valiedActor = ['Person', 'Service', 'Group', 'Organization', 'Application'];
 
 export const isActor = (object: IObject): object is IApPerson =>
 	valiedActor.includes(object.type);
