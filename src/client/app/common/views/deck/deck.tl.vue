@@ -60,9 +60,9 @@ export default Vue.extend({
 	computed: {
 		stream(): any {
 			switch (this.src) {
-				case 'home': return this.$root.stream.useSharedConnection('homeTimeline');
+				case 'home': return this.$root.stream.connectToChannel('homeTimeline', { excludeForeignReply: this.$store.state.settings.excludeForeignReply });
 				case 'local': return this.$root.stream.useSharedConnection('localTimeline');
-				case 'hybrid': return this.$root.stream.useSharedConnection('hybridTimeline');
+				case 'hybrid': return this.$root.stream.connectToChannel('hybridTimeline', { excludeForeignReply: this.$store.state.settings.excludeForeignReply });
 				case 'hot': return this.$root.stream.useSharedConnection('hotTimeline');
 				case 'global': return this.$root.stream.useSharedConnection('globalTimeline');
 			}
