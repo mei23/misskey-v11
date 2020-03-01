@@ -155,6 +155,15 @@ export default Vue.extend({
 						});
 					}
 				}, {
+					icon: 'heart',
+					text: this.$t('@deck.locao'),
+					action: () => {
+						this.$store.commit('device/addDeckColumn', {
+							id: uuid(),
+							type: 'locao'
+						});
+					}
+				}, {
 					icon: 'share-alt',
 					text: this.$t('@deck.hybrid'),
 					action: () => {
@@ -322,7 +331,7 @@ export default Vue.extend({
 
 		isTlColumn(id) {
 			const column = this.columns.find(c => c.id === id);
-			return ['home', 'local', 'hybrid', 'hot', 'global', 'list', 'hashtag', 'mentions', 'direct'].includes(column.type);
+			return ['home', 'local', 'locao', 'hybrid', 'hot', 'global', 'list', 'hashtag', 'mentions', 'direct'].includes(column.type);
 		}
 	}
 });

@@ -3,6 +3,7 @@
 	<template #header>
 		<fa v-if="column.type == 'home'" icon="home"/>
 		<fa v-if="column.type == 'local'" :icon="['far', 'comments']"/>
+		<fa v-if="column.type == 'locao'" icon="heart"/>
 		<fa v-if="column.type == 'hybrid'" icon="share-alt"/>
 		<fa v-if="column.type == 'global'" icon="globe"/>
 		<fa v-if="column.type == 'hot'" :icon="faThumbsUp"/>
@@ -89,6 +90,7 @@ export default Vue.extend({
 			switch (this.column.type) {
 				case 'home': return this.$t('@deck.home');
 				case 'local': return this.$t('@deck.local');
+				case 'locao': return this.$t('@deck.locao');
 				case 'hybrid': return this.$t('@deck.hybrid');
 				case 'global': return this.$t('@deck.global');
 				case 'hot': return this.$t('@deck.reacted');

@@ -1223,6 +1223,7 @@ desktop/views/components/settings.tags.vue:
 desktop/views/components/timeline.vue:
   home: "ホーム"
   local: "ローカル"
+  locao: "ローカオ"
   hybrid: "ソーシャル"
   hybrid-desc: "ホーム+ローカル"
   global: "グローバル"
@@ -1856,6 +1857,7 @@ mobile/views/pages/following.vue:
 mobile/views/pages/home.vue:
   home: "ホーム"
   local: "ローカル"
+  locao: "ローカオ"
   hybrid: "ソーシャル"
   global: "グローバル"
   reacted: "リアクション"
@@ -1927,6 +1929,7 @@ deck:
   widgets: "ウィジェット"
   home: "ホーム"
   local: "ローカル"
+  locao: "ローカオ"
   hybrid: "ソーシャル"
   hashtag: "ハッシュタグ"
   global: "グローバル"

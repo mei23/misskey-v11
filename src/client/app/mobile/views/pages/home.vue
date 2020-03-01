@@ -5,6 +5,7 @@
 			<span :class="$style.title">
 				<span v-if="src == 'home'"><fa icon="home"/>{{ $t('home') }}</span>
 				<span v-if="src == 'local'"><fa :icon="['far', 'comments']"/>{{ $t('local') }}</span>
+				<span v-if="src == 'locao'"><fa icon="heart"/>{{ $t('locao') }}</span>
 				<span v-if="src == 'hybrid'"><fa icon="share-alt"/>{{ $t('hybrid') }}</span>
 				<span v-if="src == 'global'"><fa icon="globe"/>{{ $t('global') }}</span>
 				<span v-if="src == 'hot'"><fa :icon="faThumbsUp"/>{{ $t('reacted') }}</span>
@@ -33,6 +34,7 @@
 				<div>
 					<span :data-active="src == 'home'" @click="src = 'home'"><fa icon="home"/> {{ $t('home') }}</span>
 					<span :data-active="src == 'local'" @click="src = 'local'" v-if="enableLocalTimeline"><fa :icon="['far', 'comments']"/> {{ $t('local') }}</span>
+					<span :data-active="src == 'locao'" @click="src = 'locao'" v-if="enableLocalTimeline"><fa icon="heart"/> {{ $t('locao') }}</span>
 					<span :data-active="src == 'hybrid'" @click="src = 'hybrid'" v-if="enableLocalTimeline"><fa icon="share-alt"/> {{ $t('hybrid') }}</span>
 					<span :data-active="src == 'global'" @click="src = 'global'" v-if="enableGlobalTimeline"><fa icon="globe"/> {{ $t('global') }}</span>
 					<div class="hr"></div>
@@ -54,6 +56,7 @@
 		<div class="tl">
 			<x-tl v-if="src == 'home'" ref="tl" key="home" src="home"/>
 			<x-tl v-if="src == 'local'" ref="tl" key="local" src="local"/>
+			<x-tl v-if="src == 'locao'" ref="tl" key="locao" src="locao"/>
 			<x-tl v-if="src == 'hybrid'" ref="tl" key="hybrid" src="hybrid"/>
 			<x-tl v-if="src == 'global'" ref="tl" key="global" src="global"/>
 			<x-tl v-if="src == 'hot'" ref="tl" key="hot" src="hot"/>

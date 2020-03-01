@@ -79,6 +79,10 @@ export default Vue.extend({
 			this.endpoint = 'notes/local-timeline';
 			this.connection = this.$root.stream.useSharedConnection('localTimeline');
 			this.connection.on('note', prepend);
+		} else if (this.src == 'locao') {
+			this.endpoint = 'notes/locao-timeline';
+			this.connection = this.$root.stream.useSharedConnection('locaoTimeline');
+			this.connection.on('note', prepend);
 		} else if (this.src == 'hybrid') {
 			this.endpoint = 'notes/hybrid-timeline';
 			this.connection = this.$root.stream.connectToChannel('hybridTimeline', { excludeForeignReply: this.$store.state.settings.excludeForeignReply });

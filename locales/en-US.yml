@@ -1109,6 +1109,7 @@ desktop/views/components/settings.tags.vue:
 desktop/views/components/timeline.vue:
   home: "Home"
   local: "Local"
+  locao: "Locao"
   hybrid: "Social"
   hybrid-desc: "Home+Local"
   global: "Global"
@@ -1669,6 +1670,7 @@ mobile/views/pages/following.vue:
 mobile/views/pages/home.vue:
   home: "Home"
   local: "Local"
+  locao: "Locao"
   hybrid: "Social"
   global: "Global"
   reacted: "Reacted"
@@ -1726,6 +1728,7 @@ deck:
   widgets: "Widgets"
   home: "Home"
   local: "Local"
+  locao: "Locao"
   hybrid: "Social"
   hashtag: "Hashtag"
   global: "Global"

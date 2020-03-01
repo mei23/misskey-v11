@@ -62,6 +62,7 @@ export default Vue.extend({
 			switch (this.src) {
 				case 'home': return this.$root.stream.connectToChannel('homeTimeline', { excludeForeignReply: this.$store.state.settings.excludeForeignReply });
 				case 'local': return this.$root.stream.useSharedConnection('localTimeline');
+				case 'locao': return this.$root.stream.useSharedConnection('locaoTimeline');
 				case 'hybrid': return this.$root.stream.connectToChannel('hybridTimeline', { excludeForeignReply: this.$store.state.settings.excludeForeignReply });
 				case 'hot': return this.$root.stream.useSharedConnection('hotTimeline');
 				case 'global': return this.$root.stream.useSharedConnection('globalTimeline');
@@ -72,6 +73,7 @@ export default Vue.extend({
 			switch (this.src) {
 				case 'home': return 'notes/timeline';
 				case 'local': return 'notes/local-timeline';
+				case 'locao': return 'notes/locao-timeline';
 				case 'hybrid': return 'notes/hybrid-timeline';
 				case 'hot': return 'notes/hot-timeline';
 				case 'global': return 'notes/global-timeline';
