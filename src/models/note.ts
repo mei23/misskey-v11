@@ -33,7 +33,7 @@ Note.createIndex({ '_user.host': 1, replyId: 1, _id: -1 });
 export default Note;
 
 export function isValidCw(text: string): boolean {
-	return length(text.trim()) <= 100;
+	return length(text.trim()) <= 500;
 }
 
 export type INote = {
