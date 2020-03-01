@@ -122,6 +122,18 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 		data.visibleUsers = erase(null, data.visibleUsers);
 	}
 
+	// 本文/CW/投票のハードリミット
+	// サロゲートペアは2文字扱い/合字は複数文字扱いでかける
+	if (data.text && data.text.length > 16384) {
+		return rej('text limit exceeded');
+	}
+	if (data.cw && data.cw.length > 16384) {
+		return rej('cw limit exceeded');
+	}
+	if (data.poll && JSON.stringify(data.poll).length > 16384) {
+		return rej('poll limit exceeded');
+	}
+
 	// リプライ対象が削除された投稿だったらreject
 	if (data.reply && data.reply.deletedAt != null) {
 		return rej('Reply target has been deleted');
