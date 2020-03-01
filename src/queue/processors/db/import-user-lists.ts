@@ -61,11 +61,12 @@ export async function importUserLists(job: Bull.Job, done: any): Promise<void> {
 			});
 
 			if (host == null && target == null) continue;
-			if (list.userIds.some(id => id.equals(target._id))) continue;
 
 			if (target == null) {
 				target = await resolveUser(username, host);
 			}
+
+			if (list.userIds.some(id => id.equals(target._id))) continue;
 
 			pushUserToUserList(target, list);
 		} catch (e) {
