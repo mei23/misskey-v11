@@ -157,7 +157,7 @@ export default Vue.extend({
 
 		> .article
 			@media (min-width 600px)
-				padding 24px 32px 18px
+				padding 16px 32px
 
 			> .avatar
 				@media (min-width 350px)
@@ -227,7 +227,7 @@ export default Vue.extend({
 						color var(--noteText)
 						max-height 200px
 						overflow auto
-						font-size 0.9em
+						font-size 1em
 
 						> .reply
 							margin-right 8px

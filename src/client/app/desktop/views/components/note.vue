@@ -213,7 +213,7 @@ export default Vue.extend({
 
 	> .article
 		display flex
-		padding 22px 32px 14px 32px
+		padding 16px 32px
 
 		&:hover
 			> .main > footer > button
@@ -256,7 +256,7 @@ export default Vue.extend({
 						padding 0
 						overflow-wrap break-word
 						color var(--noteText)
-						font-size 0.9em
+						font-size 1m
 
 						&.scroll
 							max-height 200px
