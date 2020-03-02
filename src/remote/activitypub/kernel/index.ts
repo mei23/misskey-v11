@@ -1,4 +1,4 @@
-import { isCreate, isDelete, isUpdate, isRead, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isCollectionOrOrderedCollection, isCollection, IObject } from '../type';
+import { isCreate, isDelete, isUpdate, isRead, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isFlag, isCollectionOrOrderedCollection, isCollection, IObject } from '../type';
 import { IRemoteUser } from '../../../models/user';
 import create from './create';
 import performDeleteActivity from './delete';
@@ -13,6 +13,7 @@ import reject from './reject';
 import add from './add';
 import remove from './remove';
 import block from './block';
+import flag from './flag';
 import { apLogger } from '../logger';
 import Resolver from '../resolver';
 import { toArray } from '../../../prelude/array';
@@ -64,6 +65,8 @@ export async function performOneActivity(actor: IRemoteUser, activity: IObject) 
 		return await undo(actor, activity);
 	} else if (isBlock(activity)) {
 		return await block(actor, activity);
+	} else if (isFlag(activity)) {
+		return await flag(actor, activity);
 	} else {
 		return `skip: unknown activity type: ${(activity as any).type}`;
 	}
