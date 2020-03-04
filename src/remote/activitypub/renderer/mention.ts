@@ -3,6 +3,6 @@ import config from '../../../config';
 
 export default (mention: IUser) => ({
 	type: 'Mention',
-	href: isRemoteUser(mention) ? mention.uri : `${config.url}/@${mention.username}`,
+	href: isRemoteUser(mention) ? mention.uri : `${config.url}/users/${mention._id}`,
 	name: isRemoteUser(mention) ? `@${mention.username}@${mention.host}` : `@${mention.username}`,
 });

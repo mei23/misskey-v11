@@ -27,6 +27,7 @@ export interface IObject {
 	sensitive?: boolean;
 	movedTo?: ApObject;
 	alsoKnownAs?: ApObject;
+	href?: string;
 }
 
 /**
@@ -164,6 +165,7 @@ export const isImage = (object: IObject): object is IApImage =>
 export interface IApPropertyValue extends IObject {
 	type: 'PropertyValue';
 	identifier: IApPropertyValue;
+	name: string;
 	value: string;
 }
 
@@ -173,8 +175,18 @@ export const isPropertyValue = (object: IObject): object is IApPropertyValue =>
 	typeof object.name === 'string' &&
 	typeof (object as any).value === 'string';
 
+export interface IApMention extends IObject {
+	type: 'Mention';
+	href: string;
+}
+
+export const isMention = (object: IObject): object is IApMention =>
+	object.type === 'Mention' &&
+	typeof object.href === 'string';
+
 export interface IApHashtag extends IObject {
 	type: 'Hashtag';
+	name: string;
 }
 
 export const isHashtag = (object: IObject): object is IApHashtag =>
@@ -203,7 +215,6 @@ export const isActor = (object: IObject): object is IApPerson =>
 
 export interface IApEmoji extends IObject {
 	type: 'Emoji';
-	name: string;
 	updated: Date;
 }
 

@@ -18,7 +18,7 @@ import { registerOrFetchInstanceDoc } from '../../../services/register-or-fetch-
 import Instance from '../../../models/instance';
 import getDriveFileUrl from '../../../misc/get-drive-file-url';
 import { IEmoji } from '../../../models/emoji';
-import { extractHashtags } from './tag';
+import { extractApHashtags } from './tag';
 import Following from '../../../models/following';
 import { apLogger } from '../logger';
 import { INote } from '../../../models/note';
@@ -135,7 +135,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 
 	const { fields, services } = analyzeAttachments(person.attachment);
 
-	const tags = extractHashtags(person.tag).map(tag => tag.toLowerCase()).splice(0, 64);
+	const tags = extractApHashtags(person.tag).map(tag => tag.toLowerCase()).splice(0, 64);
 
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
 	// const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);
@@ -182,11 +182,13 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 	} catch (e) {
 		// duplicate key error
 		if (e.code === 11000) {
-			throw new Error(`Person already registered: ${person.preferredUsername}@${host} (${uri})`);
+			user = await User.findOne({
+				uri: person.id
+			});
+		} else {
+			logger.error(e);
+			throw e;
 		}
-
-		logger.error(e);
-		throw e;
 	}
 
 	// Register host
@@ -337,7 +339,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 
 	const { fields, services } = analyzeAttachments(person.attachment);
 
-	const tags = extractHashtags(person.tag).map(tag => tag.toLowerCase()).splice(0, 64);
+	const tags = extractApHashtags(person.tag).map(tag => tag.toLowerCase()).splice(0, 64);
 
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
 	const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);

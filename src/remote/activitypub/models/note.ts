@@ -11,7 +11,8 @@ import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
 import { fromHtml } from '../../../mfm/fromHtml';
 import Emoji, { IEmoji } from '../../../models/emoji';
-import { extractHashtags } from './tag';
+import { extractApMentions } from './mention';
+import { extractApHashtags } from './tag';
 import { toUnicode } from 'punycode';
 import { unique, toArray, toSingle } from '../../../prelude/array';
 import { extractPollFromQuestion } from './question';
@@ -114,7 +115,6 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	const noteAudience = await parseAudience(actor, note.to, note.cc);
 	let visibility = noteAudience.visibility;
 	const visibleUsers = noteAudience.visibleUsers;
-	const apMentions = noteAudience.mentionedUsers;
 
 	// Audience (to, cc) が指定されてなかった場合
 	if (visibility === 'specified' && visibleUsers.length === 0) {
@@ -124,7 +124,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 		}
 	}
 
-	const apHashtags = await extractHashtags(note.tag);
+	const apMentions = await extractApMentions(note.tag);
+	const apHashtags = await extractApHashtags(note.tag);
 
 	let isTalk = note._misskey_talk && visibility === 'specified';
 

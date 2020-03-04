@@ -1,7 +1,9 @@
 import { toArray } from '../../../prelude/array';
 import { IObject, isHashtag } from '../type';
 
-export function extractHashtags(tags: IObject | IObject[]) {
+export function extractApHashtags(tags: IObject | IObject[] | null | undefined) {
+	if (tags == null) return [];
+
 	const hashtags = toArray(tags).filter(isHashtag);
 
 	return hashtags.map(tag => {
