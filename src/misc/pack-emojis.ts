@@ -86,7 +86,7 @@ export async function packAvatarEmojis(emojis: string[], ownerHost: string, fore
 
 		const profileEmoji = {
 			name: key.emoji,
-			url: (user && user.avatarId) ? getDriveFileUrl(await DriveFile.findOne({ _id: user.avatarId }), true, true) : `${config.driveUrl}/default-avatar.jpg`,
+			url: (user && user.avatarId) ? getDriveFileUrl(await DriveFile.findOne({ _id: user.avatarId }), true, false) : `${config.driveUrl}/default-avatar.jpg`,
 			host: key.host,
 			resolvable: key.resolvable,
 		} as IREmoji;

@@ -391,11 +391,11 @@ export const pack = (
 
 	_user.avatarUrl = DriveFile.findOne({
 		_id: _user.avatarId
-	}).then(file => getDriveFileUrl(file, true, true) || `${config.driveUrl}/default-avatar.jpg`);
+	}).then(file => getDriveFileUrl(file, true, false) || `${config.driveUrl}/default-avatar.jpg`);
 
 	_user.bannerUrl = DriveFile.findOne({
 		_id: _user.bannerId
-	}).then(file => getDriveFileUrl(file, false, true) || undefined);
+	}).then(file => getDriveFileUrl(file, false, false) || undefined);
 
 	if (!meId || !meId.equals(_user.id) || !opts.detail) {
 		delete _user.avatarId;
