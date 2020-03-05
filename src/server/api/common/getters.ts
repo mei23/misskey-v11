@@ -1,12 +1,12 @@
 import * as mongo from 'mongodb';
-import Note from '../../../models/note';
-import User, { isRemoteUser, isLocalUser } from '../../../models/user';
+import Note, { pack } from '../../../models/note';
+import User, { isRemoteUser, isLocalUser, ILocalUser } from '../../../models/user';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 
 /**
  * Get note for API processing
  */
-export async function getNote(noteId: mongo.ObjectID) {
+export async function getNote(noteId: mongo.ObjectID, user?: ILocalUser, visibleOnly = false) {
 	const note = await Note.findOne({
 		_id: noteId,
 		deletedAt: { $exists: false }
@@ -14,6 +14,11 @@ export async function getNote(noteId: mongo.ObjectID) {
 
 	if (note === null) {
 		throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
+	}
+
+	if (user && visibleOnly && note.visibility !== 'public' && note.visibility !== 'home') {
+		const packed = await pack(note, user);
+		if (packed.isHidden) throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
 	}
 
 	return note;
