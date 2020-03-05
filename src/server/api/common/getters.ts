@@ -16,7 +16,8 @@ export async function getNote(noteId: mongo.ObjectID, user?: ILocalUser, visible
 		throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
 	}
 
-	if (user && visibleOnly && note.visibility !== 'public' && note.visibility !== 'home') {
+	if (visibleOnly && note.visibility !== 'public' && note.visibility !== 'home') {
+		if (!user) throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
 		const packed = await pack(note, user);
 		if (packed.isHidden) throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
 	}
