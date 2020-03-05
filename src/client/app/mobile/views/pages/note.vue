@@ -44,6 +44,12 @@ export default Vue.extend({
 				noteId: this.$route.params.note
 			}).then(note => {
 				this.note = note;
+			}).catch((e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e?.message || `Error`
+				});
+			}).finally(() => {
 				this.fetching = false;
 
 				Progress.done();
