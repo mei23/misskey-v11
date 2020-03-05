@@ -175,6 +175,15 @@ export const hideNote = async (packedNote: any, meId: mongo.ObjectID) => {
 	if (hide) {
 		packedNote.fileIds = [];
 		packedNote.files = [];
+		packedNote.mediaIds = [];
+		packedNote.media = [];
+		packedNote.replyId = null;
+		packedNote.reply = [];
+		packedNote.appId = null;
+		packedNote.visibleUserIds = null;
+		packedNote.reactionCounts = {};
+		packedNote.renoteCount = 0;
+		packedNote.repliesCount = 0;
 		packedNote.text = null;
 		packedNote.poll = null;
 		packedNote.cw = null;
