@@ -4,7 +4,7 @@ import config from '../../../../config';
 import accept from '../../../../services/following/requests/accept';
 import { IFollow } from '../../type';
 
-export default async (actor: IRemoteUser, activity: IFollow): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IFollow): Promise<string> => {
 	const id = typeof activity.actor == 'string' ? activity.actor : activity.actor.id;
 
 	if (!id.startsWith(config.url + '/')) {
@@ -16,7 +16,7 @@ export default async (actor: IRemoteUser, activity: IFollow): Promise<void> => {
 	});
 
 	if (follower === null) {
-		throw new Error('follower not found');
+		return `skip: follower not found`;
 	}
 
 	if (follower.host != null) {
@@ -24,4 +24,5 @@ export default async (actor: IRemoteUser, activity: IFollow): Promise<void> => {
 	}
 
 	await accept(actor, follower);
+	return `ok`;
 };

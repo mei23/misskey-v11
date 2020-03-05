@@ -6,7 +6,7 @@ import { fetchNote } from '../../models/note';
 /**
  * Process Undo.Like activity
  */
-export default async (actor: IRemoteUser, activity: ILike) => {
+export default async (actor: IRemoteUser, activity: ILike): Promise<string> => {
 	const targetUri = getApId(activity.object);
 
 	const note = await fetchNote(targetUri);

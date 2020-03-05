@@ -8,9 +8,9 @@ import { updatePerson } from '../../models/person';
 /**
  * Updateアクティビティを捌きます
  */
-export default async (actor: IRemoteUser, activity: IUpdate): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IUpdate): Promise<string> => {
 	if ('actor' in activity && actor.uri !== activity.actor) {
-		throw new Error('invalid actor');
+		return `skip: invalid actor`;
 	}
 
 	apLogger.debug('Update');
@@ -24,9 +24,11 @@ export default async (actor: IRemoteUser, activity: IUpdate): Promise<void> => {
 
 	if (isActor(object)) {
 		await updatePerson(actor.uri, resolver, object);
+		return `ok: Person updated`;
 	} else if (object.type === 'Question') {
 		await updateQuestion(object).catch(e => console.log(e));
+		return `ok: Question updated`;
 	} else {
-		apLogger.warn(`Unknown type: ${object.type}`);
+		return `skip: Unknown type: ${object.type}`;
 	}
 };

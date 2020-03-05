@@ -3,20 +3,20 @@ import { IAdd } from '../../type';
 import { resolveNote } from '../../models/note';
 import { addPinned } from '../../../../services/i/pin';
 
-export default async (actor: IRemoteUser, activity: IAdd): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IAdd): Promise<string> => {
 	if ('actor' in activity && actor.uri !== activity.actor) {
-		throw new Error('invalid actor');
+		return `skip: invalid actor`;
 	}
 
 	if (activity.target == null) {
-		throw new Error('target is null');
+		return `skip: target is null`;
 	}
 
 	if (activity.target === actor.featured) {
 		const note = await resolveNote(activity.object);
 		await addPinned(actor, note._id);
-		return;
+		return `ok`;
 	}
 
-	throw new Error(`unknown target: ${activity.target}`);
+	return `skip: unknown target: ${activity.target}`;
 };

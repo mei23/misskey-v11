@@ -9,9 +9,9 @@ import { undoAnnounce } from './announce';
 
 const logger = apLogger;
 
-export default async (actor: IRemoteUser, activity: IUndo): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IUndo): Promise<string> => {
 	if ('actor' in activity && actor.uri !== activity.actor) {
-		throw new Error('invalid actor');
+		return `skip: invalid actor`;
 	}
 
 	const uri = activity.id || activity;
@@ -25,26 +25,21 @@ export default async (actor: IRemoteUser, activity: IUndo): Promise<void> => {
 	try {
 		object = await resolver.resolve(activity.object);
 	} catch (e) {
-		logger.error(`Resolution failed: ${e}`);
-		throw e;
+		return `skip: Resolution failed: ${e}`;
 	}
 
 	switch (object.type) {
 		case 'Follow':
-			unfollow(actor, object as IFollow);
-			break;
+			return await unfollow(actor, object as IFollow);
 		case 'Block':
-			unblock(actor, object as IBlock);
-			break;
+			return await unblock(actor, object as IBlock);
 		case 'Like':
 		case 'EmojiReaction':
 		case 'EmojiReact':
-			undoLike(actor, object as ILike);
-			break;
+			return await undoLike(actor, object as ILike);
 		case 'Announce':
-			undoAnnounce(actor, object as IAnnounce);
-			break;
-		}
-
-	return null;
+			return await undoAnnounce(actor, object as IAnnounce);
+		default:
+			return `skip: unknown object type ${object.type}`;
+	}
 };

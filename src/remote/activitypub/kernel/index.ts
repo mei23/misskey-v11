@@ -18,7 +18,7 @@ import { apLogger } from '../logger';
 import Resolver from '../resolver';
 import { toArray } from '../../../prelude/array';
 
-export async function performActivity(actor: IRemoteUser, activity: IObject) {
+export async function performActivity(actor: IRemoteUser, activity: IObject): Promise<string> {
 	if (isCollectionOrOrderedCollection(activity)) {
 		const resolver = new Resolver();
 		for (const item of toArray(isCollection(activity) ? activity.items : activity.orderedItems)) {
@@ -31,12 +31,13 @@ export async function performActivity(actor: IRemoteUser, activity: IObject) {
 				continue;
 			}
 		}
+		return `ok: collection activity completed`;
 	} else {
 		return await performOneActivity(actor, activity);
 	}
 }
 
-export async function performOneActivity(actor: IRemoteUser, activity: IObject) {
+export async function performOneActivity(actor: IRemoteUser, activity: IObject): Promise<string> {
 	if (actor.isSuspended) return 'skip: actor is suspended';
 
 	if (isCreate(activity)) {
@@ -54,9 +55,9 @@ export async function performOneActivity(actor: IRemoteUser, activity: IObject) 
 	} else if (isReject(activity)) {
 		return await reject(actor, activity);
 	} else if (isAdd(activity)) {
-		return await add(actor, activity).catch(err => apLogger.error(err));
+		return await add(actor, activity);
 	} else if (isRemove(activity)) {
-		return await remove(actor, activity).catch(err => apLogger.error(err));
+		return await remove(actor, activity);
 	} else if (isAnnounce(activity)) {
 		return await announce(actor, activity);
 	} else if (isLike(activity)) {

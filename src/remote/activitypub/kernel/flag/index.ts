@@ -6,7 +6,7 @@ import AbuseUserReport from '../../../../models/abuse-user-report';
 
 //const logger = apLogger;
 
-export default async (actor: IRemoteUser, activity: IFlag) => {
+export default async (actor: IRemoteUser, activity: IFlag): Promise<string> => {
 	const objects = activity.object as ApObject;
 
 	const uris = getApIds(objects);

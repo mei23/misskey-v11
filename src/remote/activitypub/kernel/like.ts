@@ -3,7 +3,7 @@ import { ILike, getApId } from '../type';
 import create from '../../../services/note/reaction/create';
 import { resolveNote } from '../models/note';
 
-export default async (actor: IRemoteUser, activity: ILike) => {
+export default async (actor: IRemoteUser, activity: ILike): Promise<string> => {
 	const targetUri = getApId(activity.object);
 
 	const note = await resolveNote(targetUri, null, true).catch(() => null);

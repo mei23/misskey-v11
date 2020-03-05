@@ -6,7 +6,7 @@ import { apLogger } from '../../logger';
 
 const logger = apLogger;
 
-export default async (actor: IRemoteUser, activity: IReject): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IReject): Promise<string> => {
 	const uri = activity.id || activity;
 
 	logger.info(`Reject: ${uri}`);
@@ -18,17 +18,14 @@ export default async (actor: IRemoteUser, activity: IReject): Promise<void> => {
 	try {
 		object = await resolver.resolve(activity.object);
 	} catch (e) {
-		logger.error(`Resolution failed: ${e}`);
-		throw e;
+		throw `Resolution failed: ${e}`;
 	}
 
 	switch (object.type) {
 	case 'Follow':
-		rejectFollow(actor, object as IFollow);
-		break;
+		return await rejectFollow(actor, object as IFollow);
 
 	default:
-		logger.warn(`Unknown reject type: ${object.type}`);
-		break;
+		return `skip: Unknown reject type: ${object.type}`;
 	}
 };

@@ -7,7 +7,7 @@ import { apLogger } from '../../logger';
 
 const logger = apLogger;
 
-export default async (actor: IRemoteUser, activity: IBlock): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IBlock): Promise<string> => {
 	const id = getApId(activity.object);
 
 	const uri = getApId(activity);
@@ -15,7 +15,7 @@ export default async (actor: IRemoteUser, activity: IBlock): Promise<void> => {
 	logger.info(`Block: ${uri}`);
 
 	if (!id.startsWith(config.url + '/')) {
-		return null;
+		return `skip: blockee is not a local user`;
 	}
 
 	const blockee = await User.findOne({
@@ -23,12 +23,13 @@ export default async (actor: IRemoteUser, activity: IBlock): Promise<void> => {
 	});
 
 	if (blockee === null) {
-		throw new Error('blockee not found');
+		return `skip: blockee not found`;
 	}
 
 	if (blockee.host != null) {
-		throw new Error('ブロックしようとしているユーザーはローカルユーザーではありません');
+		return `skip: ブロックしようとしているユーザーはローカルユーザーではありません`;
 	}
 
-	block(actor, blockee);
+	await block(actor, blockee);
+	return `ok`;
 };

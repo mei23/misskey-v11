@@ -7,11 +7,11 @@ import { IFollow } from '../../type';
 import FollowRequest from '../../../../models/follow-request';
 import Following from '../../../../models/following';
 
-export default async (actor: IRemoteUser, activity: IFollow): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IFollow): Promise<string> => {
 	const id = typeof activity.object == 'string' ? activity.object : activity.object.id;
 
 	if (!id.startsWith(config.url + '/')) {
-		return null;
+		return `skip: invalid target`;
 	}
 
 	const followee = await User.findOne({
@@ -19,11 +19,11 @@ export default async (actor: IRemoteUser, activity: IFollow): Promise<void> => {
 	});
 
 	if (followee === null) {
-		throw new Error('followee not found');
+		return `skip: followee not found`;
 	}
 
 	if (followee.host != null) {
-		throw new Error('フォロー解除しようとしているユーザーはローカルユーザーではありません');
+		return `skip: フォロー解除しようとしているユーザーはローカルユーザーではありません`;
 	}
 
 	const req = await FollowRequest.findOne({
@@ -38,9 +38,13 @@ export default async (actor: IRemoteUser, activity: IFollow): Promise<void> => {
 
 	if (req) {
 		await cancelRequest(followee, actor);
+		return `ok: follow request canceled`;
 	}
 
 	if (following) {
 		await unfollow(actor, followee);
+		return `ok: unfollowed`;
 	}
+
+	return `skip: リクエストもフォローもされていない`;
 };

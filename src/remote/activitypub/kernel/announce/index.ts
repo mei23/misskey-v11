@@ -6,7 +6,7 @@ import { apLogger } from '../../logger';
 
 const logger = apLogger;
 
-export default async (actor: IRemoteUser, activity: IAnnounce): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IAnnounce): Promise<string> => {
 	const uri = getApId(activity);
 
 	logger.info(`Announce: ${uri}`);
@@ -15,5 +15,5 @@ export default async (actor: IRemoteUser, activity: IAnnounce): Promise<void> =>
 
 	const targetUri = getApId(activity.object);
 
-	announceNote(resolver, actor, activity, targetUri);
+	return await announceNote(resolver, actor, activity, targetUri);
 };

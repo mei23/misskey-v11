@@ -5,7 +5,7 @@ import { IAnnounce } from '../../type';
 import deleteNote from '../../../../services/note/delete';
 import Note, { INote } from '../../../../models/note';
 
-export const undoAnnounce = async (actor: IRemoteUser, activity: IAnnounce): Promise<void> => {
+export const undoAnnounce = async (actor: IRemoteUser, activity: IAnnounce): Promise<string> => {
 	const targetUri = typeof activity.object == 'string' ? activity.object : activity.object.id;
 
 	let note: INote;
@@ -20,7 +20,7 @@ export const undoAnnounce = async (actor: IRemoteUser, activity: IAnnounce): Pro
 		});
 
 		if (!note) {
-			return null;
+			return `skip: target renote is not found`;
 		}
 	} else {
 		// 対象がリモートの場合
@@ -29,7 +29,7 @@ export const undoAnnounce = async (actor: IRemoteUser, activity: IAnnounce): Pro
 		});
 
 		if (!targetNote) {
-			return null;
+			return `skip: target note is not found`;
 		}
 
 		note = await Note.findOne({
@@ -39,9 +39,10 @@ export const undoAnnounce = async (actor: IRemoteUser, activity: IAnnounce): Pro
 		});
 
 		if (!note) {
-			return null;
+			return `skip: target renote is not found`;
 		}
 	}
 
 	await deleteNote(actor, note);
+	return `ok`;
 };

@@ -6,7 +6,7 @@ import { apLogger } from '../../logger';
 
 const logger = apLogger;
 
-export default async (actor: IRemoteUser, activity: IAccept): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IAccept): Promise<string> => {
 	const uri = activity.id || activity;
 
 	logger.info(`Accept: ${uri}`);
@@ -24,11 +24,9 @@ export default async (actor: IRemoteUser, activity: IAccept): Promise<void> => {
 
 	switch (object.type) {
 	case 'Follow':
-		acceptFollow(actor, object as IFollow);
-		break;
+		return await acceptFollow(actor, object as IFollow);
 
 	default:
-		logger.warn(`Unknown accept type: ${object.type}`);
-		break;
+		return `skip: Unknown accept type: ${object.type}`;
 	}
 };

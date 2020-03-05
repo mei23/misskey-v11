@@ -4,11 +4,11 @@ import config from '../../../config';
 import follow from '../../../services/following/create';
 import { IFollow } from '../type';
 
-export default async (actor: IRemoteUser, activity: IFollow): Promise<void> => {
+export default async (actor: IRemoteUser, activity: IFollow): Promise<string> => {
 	const id = typeof activity.object == 'string' ? activity.object : activity.object.id;
 
 	if (!id.startsWith(config.url + '/')) {
-		return null;
+		return `skip: invalid target`;
 	}
 
 	const followee = await User.findOne({
@@ -16,12 +16,13 @@ export default async (actor: IRemoteUser, activity: IFollow): Promise<void> => {
 	});
 
 	if (followee === null) {
-		throw new Error('followee not found');
+		return `skip: followee not found`;
 	}
 
 	if (followee.host != null) {
-		throw new Error('フォローしようとしているユーザーはローカルユーザーではありません');
+		return `skip: フォローしようとしているユーザーはローカルユーザーではありません`;
 	}
 
 	await follow(actor, followee, activity.id);
+	return `ok`;
 };
