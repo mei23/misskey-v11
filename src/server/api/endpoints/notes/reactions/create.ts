@@ -4,6 +4,7 @@ import createReaction from '../../../../../services/note/reaction/create';
 import define from '../../../define';
 import { getNote } from '../../../common/getters';
 import { ApiError } from '../../../error';
+import { pack as packNote } from '../../../../../models/note';
 
 export const meta = {
 	stability: 'stable',
@@ -62,6 +63,12 @@ export default define(meta, async (ps, user) => {
 		if (e.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') throw new ApiError(meta.errors.noSuchNote);
 		throw e;
 	});
+
+	// 閲覧出来ないNoteにはリアクションできないように
+	if (note.visibility !== 'public' && note.visibility !== 'home') {
+		const packed = await packNote(note, user);
+		if (packed.isHidden) throw new ApiError(meta.errors.noSuchNote);
+	}
 
 	await createReaction(user, note, ps.reaction).catch(e => {
 		if (e.id === '2d8e7297-1873-4c00-8404-792c68d7bef0') throw new ApiError(meta.errors.isMyNote);
