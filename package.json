@@ -23,7 +23,8 @@
 		"format": "gulp format"
 	},
 	"resolutions": {
-		"dot-prop": "5.2.0"
+		"lodash": "^4.17.13",
+		"dot-prop": "^5.2.0"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "1.2.27",
