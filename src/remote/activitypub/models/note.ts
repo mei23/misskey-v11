@@ -162,7 +162,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 			}
 
 			logger.warn(`Error in inReplyTo ${note.inReplyTo} - ${e.statusCode || e}`);
-			throw e;
+			//throw e;
+			return null;
 		})
 		: null;
 
