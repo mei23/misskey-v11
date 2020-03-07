@@ -177,48 +177,26 @@ export default Vue.extend({
 			}
 
 			if (this.type == 'user') {
-				const cacheKey = `autocomplete:user:${this.q}`;
-				const cache = sessionStorage.getItem(cacheKey);
-				if (cache) {
-					const users = JSON.parse(cache);
+				this.$root.api('users/search', {
+					query: this.q,
+					limit: 20,
+					detail: false
+				}, false, true).then(users => {
 					this.users = users;
 					this.fetching = false;
-				} else {
-					this.$root.api('users/search', {
-						query: this.q,
-						limit: 20,
-						detail: false
-					}).then(users => {
-						this.users = users;
-						this.fetching = false;
-
-						// キャッシュ
-						sessionStorage.setItem(cacheKey, JSON.stringify(users));
-					});
-				}
+				});
 			} else if (this.type == 'hashtag') {
 				if (this.q == null || this.q == '') {
 					this.hashtags = JSON.parse(localStorage.getItem('hashtags') || '[]');
 					this.fetching = false;
 				} else {
-					const cacheKey = `autocomplete:hashtag:${this.q}`;
-					const cache = sessionStorage.getItem(cacheKey);
-					if (cache) {
-						const hashtags = JSON.parse(cache);
+					this.$root.api('hashtags/search', {
+						query: this.q,
+						limit: 30
+					}, false, true).then(hashtags => {
 						this.hashtags = hashtags;
 						this.fetching = false;
-					} else {
-						this.$root.api('hashtags/search', {
-							query: this.q,
-							limit: 30
-						}).then(hashtags => {
-							this.hashtags = hashtags;
-							this.fetching = false;
-
-							// キャッシュ
-							sessionStorage.setItem(cacheKey, JSON.stringify(hashtags));
-						});
-					}
+					});
 				}
 			} else if (this.type == 'emoji') {
 				if (this.q == null || this.q == '') {

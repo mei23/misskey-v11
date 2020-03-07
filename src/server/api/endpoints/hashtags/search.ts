@@ -12,10 +12,14 @@ export const meta = {
 
 	requireCredential: false,
 
+	allowGet: true,
+	cacheSec: 300,
+
 	params: {
 		limit: {
-			validator: $.optional.num.range(1, 100),
+			validator: $.optional.either($.optional.num.range(1, 100), $.str.pipe(v => 1 <= Number(v) && Number(v) <= 100)),
 			default: 10,
+			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': '最大数'
 			}
@@ -29,8 +33,9 @@ export const meta = {
 		},
 
 		offset: {
-			validator: $.optional.num.min(0),
+			validator: $.optional.either($.optional.num.min(0), $.str.pipe(v => 0 <= Number(v))),
 			default: 0,
+			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': 'オフセット'
 			}

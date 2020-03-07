@@ -1,6 +1,6 @@
 import $ from 'cafy';
 import * as escapeRegexp from 'escape-regexp';
-import User, { pack, validateUsername, IUser } from '../../../../models/user';
+import User, { pack, IUser } from '../../../../models/user';
 import define from '../../define';
 import { toDbHost, isSelfHost } from '../../../../misc/convert-host';
 import Instance from '../../../../models/instance';
@@ -15,6 +15,9 @@ export const meta = {
 
 	requireCredential: false,
 
+	allowGet: true,
+	cacheSec: 300,
+
 	params: {
 		query: {
 			validator: $.str,
@@ -24,32 +27,36 @@ export const meta = {
 		},
 
 		offset: {
-			validator: $.optional.num.min(0),
+			validator: $.optional.either($.optional.num.min(0), $.str.pipe(v => 0 <= Number(v))),
 			default: 0,
+			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': 'オフセット'
 			}
 		},
 
 		limit: {
-			validator: $.optional.num.range(1, 100),
+			validator: $.optional.either($.optional.num.range(1, 100), $.str.pipe(v => 1 <= Number(v) && Number(v) <= 100)),
 			default: 10,
+			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': '取得する数'
 			}
 		},
 
 		localOnly: {
-			validator: $.optional.bool,
+			validator: $.optional.either($.boolean, $.str.or(['true', 'false'])),
 			default: false,
+			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': 'ローカルユーザーのみ検索対象にするか否か'
 			}
 		},
 
 		detail: {
-			validator: $.optional.bool,
+			validator: $.optional.either($.boolean, $.str.or(['true', 'false'])),
 			default: true,
+			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': '詳細なユーザー情報を含めるか否か'
 			}
@@ -66,7 +73,7 @@ export const meta = {
 
 export default define(meta, async (ps, me) => {
 	const isName = ps.query.replace('@', '').match(/^[\W-]/) != null;
-	const isUsername = validateUsername(ps.query.replace('@', ''), !ps.localOnly);
+	const isUsername = ps.query.replace('@', '').match(/^\w([\w-]*\w)?$/);
 	const isHostname = ps.query.replace('@', '').match(/\./) != null;
 
 	let users: IUser[] = [];
