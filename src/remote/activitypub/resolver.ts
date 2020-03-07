@@ -51,7 +51,6 @@ export default class Resolver {
 				'User-Agent': config.userAgent,
 				Accept: 'application/activity+json, application/ld+json'
 			},
-			followRedirect: false,
 			json: true
 		}).catch(e => {
 			const message = `${e.name}: ${e.message ? e.message.substr(0, 200) : undefined}, url=${value}`;
