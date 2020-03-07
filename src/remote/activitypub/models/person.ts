@@ -503,7 +503,7 @@ export async function updateFeatured(userId: mongo.ObjectID) {
 	const items = await Promise.all(toArray(unresolvedItems).map(x => resolver.resolve(x)));
 
 	// Resolve and regist Notes
-	const limit = promiseLimit(2);
+	const limit = promiseLimit(4);
 	const featuredNotes = await Promise.all(items
 		.filter(item => item.type === 'Note')
 		.slice(0, 20)
