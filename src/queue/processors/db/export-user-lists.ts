@@ -12,7 +12,7 @@ import { getFullApAccount } from '../../../misc/convert-host';
 
 const logger = queueLogger.createSubLogger('export-user-lists');
 
-export async function exportUserLists(job: Bull.Job, done: any): Promise<void> {
+export async function exportUserLists(job: Bull.Job): Promise<string> {
 	logger.info(`Exporting user lists of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({
@@ -67,7 +67,6 @@ export async function exportUserLists(job: Bull.Job, done: any): Promise<void> {
 	const fileName = 'user-lists-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.csv';
 	const driveFile = await addFile(user, path, fileName, null, null, true);
 
-	logger.succ(`Exported to: ${driveFile._id}`);
 	cleanup();
-	done();
+	return `Exported to: ${driveFile._id}`;
 }

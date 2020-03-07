@@ -13,7 +13,7 @@ import { isSelfHost, toDbHost } from '../../../misc/convert-host';
 
 const logger = queueLogger.createSubLogger('import-following');
 
-export async function importFollowing(job: Bull.Job, done: any): Promise<void> {
+export async function importFollowing(job: Bull.Job): Promise<string> {
 	logger.info(`Importing following of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({
@@ -66,6 +66,5 @@ export async function importFollowing(job: Bull.Job, done: any): Promise<void> {
 		}
 	}
 
-	logger.succ('Imported');
-	done();
+	return `ok: Imported`;
 }

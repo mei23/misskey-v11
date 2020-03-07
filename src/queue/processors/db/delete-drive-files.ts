@@ -8,7 +8,7 @@ import deleteFile from '../../../services/drive/delete-file';
 
 const logger = queueLogger.createSubLogger('delete-drive-files');
 
-export async function deleteDriveFiles(job: Bull.Job, done: any): Promise<void> {
+export async function deleteDriveFiles(job: Bull.Job): Promise<string> {
 	logger.info(`Deleting drive files of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({
@@ -17,6 +17,10 @@ export async function deleteDriveFiles(job: Bull.Job, done: any): Promise<void> 
 
 	let deletedCount = 0;
 	let cursor: any = null;
+
+	const total = await DriveFile.count({
+		userId: user._id,
+	});
 
 	while (true) {
 		const files = await DriveFile.find({
@@ -41,13 +45,8 @@ export async function deleteDriveFiles(job: Bull.Job, done: any): Promise<void> 
 			deletedCount++;
 		}
 
-		const total = await DriveFile.count({
-			userId: user._id,
-		});
-
 		job.progress(deletedCount / total);
 	}
 
-	logger.succ(`All drive files (${deletedCount}) of ${user._id} has been deleted.`);
-	done();
+	return `ok: All drive files (${deletedCount}) of ${user._id} has been deleted.`;
 }

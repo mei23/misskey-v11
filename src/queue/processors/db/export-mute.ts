@@ -12,7 +12,7 @@ import { getFullApAccount } from '../../../misc/convert-host';
 
 const logger = queueLogger.createSubLogger('export-mute');
 
-export async function exportMute(job: Bull.Job, done: any): Promise<void> {
+export async function exportMute(job: Bull.Job): Promise<string> {
 	logger.info(`Exporting mute of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({
@@ -33,6 +33,10 @@ export async function exportMute(job: Bull.Job, done: any): Promise<void> {
 
 	let exportedCount = 0;
 	let cursor: any = null;
+
+	const total = await Mute.count({
+		muterId: user._id,
+	});
 
 	while (true) {
 		const mutes = await Mute.find({
@@ -68,10 +72,6 @@ export async function exportMute(job: Bull.Job, done: any): Promise<void> {
 			exportedCount++;
 		}
 
-		const total = await Mute.count({
-			muterId: user._id,
-		});
-
 		job.progress(exportedCount / total);
 	}
 
@@ -81,7 +81,6 @@ export async function exportMute(job: Bull.Job, done: any): Promise<void> {
 	const fileName = 'mute-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.csv';
 	const driveFile = await addFile(user, path, fileName, null, null, true);
 
-	logger.succ(`Exported to: ${driveFile._id}`);
 	cleanup();
-	done();
+	return `Exported to: ${driveFile._id}`;
 }

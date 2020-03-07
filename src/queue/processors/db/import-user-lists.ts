@@ -14,7 +14,7 @@ import { isSelfHost, toDbHost } from '../../../misc/convert-host';
 
 const logger = queueLogger.createSubLogger('import-user-lists');
 
-export async function importUserLists(job: Bull.Job, done: any): Promise<void> {
+export async function importUserLists(job: Bull.Job): Promise<string> {
 	logger.info(`Importing user lists of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({
@@ -74,6 +74,5 @@ export async function importUserLists(job: Bull.Job, done: any): Promise<void> {
 		}
 	}
 
-	logger.succ('Imported');
-	done();
+	return `ok: Imported`;
 }

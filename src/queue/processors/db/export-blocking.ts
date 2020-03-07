@@ -12,7 +12,7 @@ import { getFullApAccount } from '../../../misc/convert-host';
 
 const logger = queueLogger.createSubLogger('export-blocking');
 
-export async function exportBlocking(job: Bull.Job, done: any): Promise<void> {
+export async function exportBlocking(job: Bull.Job): Promise<string> {
 	logger.info(`Exporting blocking of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({
@@ -33,6 +33,10 @@ export async function exportBlocking(job: Bull.Job, done: any): Promise<void> {
 
 	let exportedCount = 0;
 	let cursor: any = null;
+
+	const total = await Blocking.count({
+		blockerId: user._id,
+	});
 
 	while (true) {
 		const blockings = await Blocking.find({
@@ -68,10 +72,6 @@ export async function exportBlocking(job: Bull.Job, done: any): Promise<void> {
 			exportedCount++;
 		}
 
-		const total = await Blocking.count({
-			blockerId: user._id,
-		});
-
 		job.progress(exportedCount / total);
 	}
 
@@ -81,7 +81,6 @@ export async function exportBlocking(job: Bull.Job, done: any): Promise<void> {
 	const fileName = 'blocking-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.csv';
 	const driveFile = await addFile(user, path, fileName, null, null, true);
 
-	logger.succ(`Exported to: ${driveFile._id}`);
 	cleanup();
-	done();
+	return `ok: Exported to: ${driveFile._id}`;
 }

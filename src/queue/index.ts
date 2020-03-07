@@ -35,6 +35,7 @@ export const dbQueue = initializeQueue('db');
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const inboxLogger = queueLogger.createSubLogger('inbox');
+const dbLogger = queueLogger.createSubLogger('db');
 
 deliverQueue
 	.on('waiting', (jobId) => deliverLogger.debug(`waiting id=${jobId}`))
@@ -51,6 +52,14 @@ inboxQueue
 	.on('failed', (job, err) => inboxLogger.warn(`failed(${err}) ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`))
 	.on('error', (error) => inboxLogger.error(`error ${error}`))
 	.on('stalled', (job) => inboxLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
+
+dbQueue
+	.on('waiting', (jobId) => dbLogger.debug(`waiting id=${jobId}`))
+	.on('active', (job) => dbLogger.info(`${job.name} active ${getJobInfo(job, true)}`))
+	.on('completed', (job, result) => dbLogger.info(`${job.name} completed(${result}) ${getJobInfo(job, true)}`))
+	.on('failed', (job, err) => dbLogger.warn(`${job.name} failed(${err}) ${getJobInfo(job)}`))
+	.on('error', (error) => dbLogger.error(`error ${error}`))
+	.on('stalled', (job) => dbLogger.warn(`${job.name} stalled ${getJobInfo(job)}`));
 
 export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = false) {
 	const attempts = lowSeverity ? 2 : (config.deliverJobMaxAttempts || 12);

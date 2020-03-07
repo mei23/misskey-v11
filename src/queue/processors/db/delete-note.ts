@@ -6,23 +6,20 @@ import del from '../../../services/note/delete';
 
 const logger = queueLogger.createSubLogger('delete-note');
 
-export async function deleteNote(job: Bull.Job, done: any): Promise<void> {
+export async function deleteNote(job: Bull.Job): Promise<string> {
 	logger.info(`deleting note ${job.data.noteId} ...`);
 
 	const note = await Note.findOne(job.data.noteId);
 	if (note == null) {
-		done();
-		return;
+		return `skip: note not found (${job.data.noteId})`;
 	}
 
 	const user = await User.findOne(note.userId);
 	if (user == null) {
-		done();
-		return;
+		return `skip: note user not found (${note.userId})`;
 	}
 
 	await del(user, note);
 
-	logger.succ(`deleted note: ${note._id}`);
-	done();
+	return `ok: deleted note: ${note._id}`;
 }

@@ -11,7 +11,7 @@ import dateFormat = require('dateformat');
 
 const logger = queueLogger.createSubLogger('export-notes');
 
-export async function exportNotes(job: Bull.Job, done: any): Promise<void> {
+export async function exportNotes(job: Bull.Job): Promise<string> {
 	logger.info(`Exporting notes of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({
@@ -43,6 +43,10 @@ export async function exportNotes(job: Bull.Job, done: any): Promise<void> {
 
 	let exportedNotesCount = 0;
 	let cursor: any = null;
+
+	const total = await Note.count({
+		userId: user._id,
+	});
 
 	while (true) {
 		const notes = await Note.find({
@@ -77,10 +81,6 @@ export async function exportNotes(job: Bull.Job, done: any): Promise<void> {
 			exportedNotesCount++;
 		}
 
-		const total = await Note.count({
-			userId: user._id,
-		});
-
 		job.progress(exportedNotesCount / total);
 	}
 
@@ -101,9 +101,8 @@ export async function exportNotes(job: Bull.Job, done: any): Promise<void> {
 	const fileName = 'notes-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.json';
 	const driveFile = await addFile(user, path, fileName, null, null, true);
 
-	logger.succ(`Exported to: ${driveFile._id}`);
 	cleanup();
-	done();
+	return `Exported to: ${driveFile._id}`;
 }
 
 function serialize(note: INote): any {
