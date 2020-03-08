@@ -66,41 +66,24 @@ drive:
 #    accessKey:
 #    secretKey:
 
-# S3/GCS example
+# * endpoint
+#     S3: Leave empty
+#     GCS: 'storage.googleapis.com'
+#     Minio: 'your-minio-server:port'
+#     Other cloud services: Your endpoint
 #
-# * Replace <endpoint> to
+# * region
 #     S3: see https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
-#     GCS: use 'storage.googleapis.com'
+#     Other services:
+#       Specify a region such like 'xx-east-1'.
+#       If your service is region independent (eg: GCS/Minio) leave empty or specify 'us-east-1'
 #
-# * Replace <region> to
-#     S3: see https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
-#     GCS: not needed (just delete the region line)
-#
-#drive:
-#  storage: 'minio'
-#  bucket: bucket-name
-#  prefix: files
-#  baseUrl: https://bucket-name.<endpoint>
-#  config:
-#    endPoint: <endpoint>
-#    region: <region>
-#    useSSL: true
-#    accessKey: XXX
-#    secretKey: YYY
+# * baseurl
+#     If using Proxy or CDN, its URL. (eg: https://media.example.com)
+#     S3: https://<bucket>.s3.amazonaws.com
+#     GCS: https://storage.googleapis.com/<bucket>
+#     Other services: https://s3.example.com/<bucket>
 
-# S3/GCS example (with CDN, custom domain)
-#
-#drive:
-#  storage: 'minio'
-#  bucket: drive.example.com
-#  prefix: files
-#  baseUrl: https://drive.example.com
-#  config:
-#    endPoint: <endpoint>
-#    region: <region>
-#    useSSL: true
-#    accessKey: XXX
-#    secretKey: YYY
 
 # If enabled:
 #  The first account created is automatically marked as Admin.

@@ -12,10 +12,10 @@ const httpsAgent = config.proxy
 
 export function getS3(drive: DriveConfig) {
 	const conf = {
-		endpoint: drive.config.endPoint,
+		endpoint: drive.config.endPoint?.length ? drive.config.endPoint : undefined,
 		accessKeyId: drive.config.accessKey,
 		secretAccessKey: drive.config.secretKey,
-		region: drive.config.region,
+		region: drive.config.region?.length ? drive.config.region : undefined,
 		sslEnabled: drive.config.useSSL,
 		s3ForcePathStyle: true,
 		httpOptions: {
