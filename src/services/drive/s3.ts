@@ -1,11 +1,11 @@
 import * as S3 from 'aws-sdk/clients/s3';
 import { DriveConfig } from '../../config/types';
 import config from '../../config';
-import * as httpsProxyAgent from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 import * as agentkeepalive from 'agentkeepalive';
 
 const httpsAgent = config.proxy
-	? new httpsProxyAgent(config.proxy)
+	? new HttpsProxyAgent(config.proxy)
 	: new agentkeepalive.HttpsAgent({
 			freeSocketTimeout: 30 * 1000
 		});
