@@ -17,7 +17,7 @@ export function getS3(drive: DriveConfig) {
 		secretAccessKey: drive.config.secretKey,
 		region: drive.config.region || undefined,
 		sslEnabled: drive.config.useSSL,
-		s3ForcePathStyle: true,
+		s3ForcePathStyle: !!drive.config.endPoint,
 		httpOptions: {
 		}
 	} as S3.ClientConfiguration;
