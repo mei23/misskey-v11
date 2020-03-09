@@ -131,7 +131,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 
 	// 添付ファイル
 	// Noteがsensitiveなら添付もsensitiveにする
-	const limit = promiseLimit(4);
+	const limit = promiseLimit(2);
 
 	note.attachment = toArray(note.attachment);
 	const files = note.attachment
