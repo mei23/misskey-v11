@@ -180,19 +180,23 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 
 	// Parse MFM if needed
 	if (parseEmojisInToken || !tags || !emojis || !mentionedUsers) {
-		const tokens = data.text ? parse(data.text) : [];
-		const cwTokens = data.cw ? parse(data.cw) : [];
-		const choiceTokens = data.poll && data.poll.choices
-			? concat((data.poll.choices as IChoice[]).map(choice => parse(choice.text)))
-			: [];
+		try {
+			const tokens = data.text ? parse(data.text) : [];
+			const cwTokens = data.cw ? parse(data.cw) : [];
+			const choiceTokens = data.poll && data.poll.choices
+				? concat((data.poll.choices as IChoice[]).map(choice => parse(choice.text)))
+				: [];
 
-		const combinedTokens = tokens.concat(cwTokens).concat(choiceTokens);
+			const combinedTokens = tokens.concat(cwTokens).concat(choiceTokens);
 
-		tags = data.apHashtags || extractHashtags(combinedTokens);
+			tags = data.apHashtags || extractHashtags(combinedTokens);
 
-		emojis = unique(concat([data.apEmojis || [], extractEmojis(combinedTokens)]));
+			emojis = unique(concat([data.apEmojis || [], extractEmojis(combinedTokens)]));
 
-		mentionedUsers = data.apMentions || await extractMentionedUsers(user, combinedTokens);
+			mentionedUsers = data.apMentions || await extractMentionedUsers(user, combinedTokens);
+		} catch (e) {
+			return rej(e);
+		}
 	}
 
 	tags = tags.filter(tag => Array.from(tag || '').length <= 128).splice(0, 64);
@@ -223,7 +227,12 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 		}
 	}
 
-	const note = await insertNote(user, data, tags, emojis, mentionedUsers);
+	let note: INote;
+	try {
+		note = await insertNote(user, data, tags, emojis, mentionedUsers);
+	} catch (e) {
+		return rej(e);
+	}
 
 	res(note);
 
