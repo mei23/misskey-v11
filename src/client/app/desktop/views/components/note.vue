@@ -172,12 +172,13 @@ export default Vue.extend({
 	margin 0
 	padding 0
 	overflow hidden
+	box-shadow 0 1px 8px rgba(0, 0, 0, 0.2)
 
 	&.mini
 		font-size 13px
 
 		> .renote
-			padding 8px 16px 0 16px
+			padding 6px 16px 2px
 
 			.avatar
 				width 20px
@@ -213,7 +214,7 @@ export default Vue.extend({
 
 	> .article
 		display flex
-		padding 16px 32px
+		padding 16px 32px 8px 32px
 
 		&:hover
 			> .main > footer > button

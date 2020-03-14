@@ -48,15 +48,6 @@ export default Vue.extend({
 	color var(--renoteText)
 	background linear-gradient(to bottom, var(--renoteGradient) 0%, var(--face) 100%)
 
-	&:not(.mini)
-		padding 8px 16px
-
-		@media (min-width 500px)
-			padding 8px 16px
-
-		@media (min-width 600px)
-			padding 16px 32px 8px 32px
-
 	> .avatar
 		flex-shrink 0
 		display inline-block
