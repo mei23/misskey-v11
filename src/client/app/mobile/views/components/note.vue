@@ -158,7 +158,7 @@ export default Vue.extend({
 
 		> .article
 			@media (min-width 600px)
-				padding 16px 32px 8px 32px
+				padding 16px 32px
 
 			> .avatar
 				@media (min-width 350px)
@@ -189,7 +189,7 @@ export default Vue.extend({
 
 	> .article
 		display flex
-		padding 16px 32px 8px 32px
+		padding 12px 12px 6px
 
 		> .avatar
 			flex-shrink 0

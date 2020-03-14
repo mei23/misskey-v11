@@ -42,7 +42,7 @@ export default Vue.extend({
 .puqkfets
 	display flex
 	align-items center
-	padding 8px 16px
+	padding 0.3em 1em
 	line-height 28px
 	white-space pre
 	color var(--renoteText)
