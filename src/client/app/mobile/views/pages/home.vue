@@ -34,11 +34,11 @@
 				<div>
 					<span :data-active="src == 'home'" @click="src = 'home'"><fa icon="home"/> {{ $t('home') }}</span>
 					<span :data-active="src == 'local'" @click="src = 'local'" v-if="enableLocalTimeline"><fa :icon="['far', 'comments']"/> {{ $t('local') }}</span>
-					<span :data-active="src == 'locao'" @click="src = 'locao'" v-if="enableLocalTimeline"><fa icon="heart"/> {{ $t('locao') }}</span>
 					<span :data-active="src == 'hybrid'" @click="src = 'hybrid'" v-if="enableLocalTimeline"><fa icon="share-alt"/> {{ $t('hybrid') }}</span>
 					<span :data-active="src == 'global'" @click="src = 'global'" v-if="enableGlobalTimeline"><fa icon="globe"/> {{ $t('global') }}</span>
 					<div class="hr"></div>
 					<span :data-active="src == 'hot'" @click="src = 'hot'" v-if="enableGlobalTimeline"><fa :icon="faThumbsUp"/> {{ $t('reacted') }}</span>
+					<span :data-active="src == 'locao'" @click="src = 'locao'" v-if="enableLocalTimeline"><fa icon="heart"/> {{ $t('locao') }}</span>
 					<span :data-active="src == 'mentions'" @click="src = 'mentions'"><fa icon="at"/> {{ $t('mentions') }}<i class="badge" v-if="$store.state.i.hasUnreadMentions"><fa icon="circle"/></i></span>
 					<span :data-active="src == 'messages'" @click="src = 'messages'"><fa :icon="['far', 'envelope']"/> {{ $t('messages') }}<i class="badge" v-if="$store.state.i.hasUnreadSpecifiedNotes"><fa icon="circle"/></i></span>
 					<template v-if="lists">

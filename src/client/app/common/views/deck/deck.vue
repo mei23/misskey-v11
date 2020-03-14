@@ -155,21 +155,21 @@ export default Vue.extend({
 						});
 					}
 				}, {
-					icon: 'heart',
-					text: this.$t('@deck.locao'),
-					action: () => {
-						this.$store.commit('device/addDeckColumn', {
-							id: uuid(),
-							type: 'locao'
-						});
-					}
-				}, {
 					icon: 'share-alt',
 					text: this.$t('@deck.hybrid'),
 					action: () => {
 						this.$store.commit('device/addDeckColumn', {
 							id: uuid(),
 							type: 'hybrid'
+						});
+					}
+				}, {
+					icon: 'globe',
+					text: this.$t('@deck.global'),
+					action: () => {
+						this.$store.commit('device/addDeckColumn', {
+							id: uuid(),
+							type: 'global'
 						});
 					}
 				}, {
@@ -182,12 +182,12 @@ export default Vue.extend({
 						});
 					}
 				}, {
-					icon: 'globe',
-					text: this.$t('@deck.global'),
+					icon: 'heart',
+					text: this.$t('@deck.locao'),
 					action: () => {
 						this.$store.commit('device/addDeckColumn', {
 							id: uuid(),
-							type: 'global'
+							type: 'locao'
 						});
 					}
 				}, {
