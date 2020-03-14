@@ -14,7 +14,6 @@
 		"debug": "DEBUG=misskey:* node ./index.js",
 		"build": "webpack && gulp build",
 		"webpack": "webpack",
-		"watch": "webpack --watch",
 		"gulp": "gulp build",
 		"clean": "gulp clean",
 		"cleanall": "gulp cleanall",
