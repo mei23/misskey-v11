@@ -95,7 +95,7 @@ router.get('/signin/twitter', async ctx => {
 
 	redis.set(sessid, JSON.stringify(twCtx));
 
-	ctx.cookies.set('signin_with_twitter_session_id', sessid, {
+	ctx.cookies.set('signin_with_twitter_sid', sessid, {
 		path: '/',
 		secure: config.url.startsWith('https'),
 		httpOnly: true
@@ -110,7 +110,7 @@ router.get('/tw/cb', async ctx => {
 	const twAuth = await getTwAuth();
 
 	if (userToken == null) {
-		const sessid = ctx.cookies.get('signin_with_twitter_session_id');
+		const sessid = ctx.cookies.get('signin_with_twitter_sid');
 
 		if (sessid == null) {
 			ctx.throw(400, 'invalid session');

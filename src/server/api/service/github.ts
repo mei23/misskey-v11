@@ -104,7 +104,7 @@ router.get('/signin/github', async ctx => {
 		state: uuid()
 	};
 
-	ctx.cookies.set('signin_with_github_session_id', sessid, {
+	ctx.cookies.set('signin_with_github_sid', sessid, {
 		path: '/',
 		secure: config.url.startsWith('https'),
 		httpOnly: true
@@ -122,7 +122,7 @@ router.get('/gh/cb', async ctx => {
 	const oauth2 = await getOath2();
 
 	if (!userToken) {
-		const sessid = ctx.cookies.get('signin_with_github_session_id');
+		const sessid = ctx.cookies.get('signin_with_github_sid');
 
 		if (!sessid) {
 			ctx.throw(400, 'invalid session');

@@ -106,7 +106,7 @@ router.get('/signin/discord', async ctx => {
 		response_type: 'code'
 	};
 
-	ctx.cookies.set('signin_with_discord_session_id', sessid, {
+	ctx.cookies.set('signin_with_discord_sid', sessid, {
 		path: '/',
 		secure: config.url.startsWith('https'),
 		httpOnly: true
@@ -124,7 +124,7 @@ router.get('/dc/cb', async ctx => {
 	const oauth2 = await getOAuth2();
 
 	if (!userToken) {
-		const sessid = ctx.cookies.get('signin_with_discord_session_id');
+		const sessid = ctx.cookies.get('signin_with_discord_sid');
 
 		if (!sessid) {
 			ctx.throw(400, 'invalid session');
