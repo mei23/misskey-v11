@@ -54,7 +54,7 @@ export default Vue.extend({
 	},
 
 	mounted() {
-		document.cookie = `i=${this.$store.state.i.token}`;
+		document.cookie = `i=${this.$store.state.i.token};path=/;${(document.location.protocol.startsWith('https') ? ' secure' : '')}`;
 		this.$watch('$store.state.i', () => {
 			if (this.$store.state.i.twitter) {
 				if (this.twitterForm) this.twitterForm.close();
