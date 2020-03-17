@@ -104,14 +104,10 @@ router.get('/signin/github', async ctx => {
 		state: uuid()
 	};
 
-	const expires = 1000 * 60 * 60; // 1h
 	ctx.cookies.set('signin_with_github_session_id', sessid, {
 		path: '/',
-		domain: config.host,
 		secure: config.url.startsWith('https'),
-		httpOnly: true,
-		expires: new Date(Date.now() + expires),
-		maxAge: expires
+		httpOnly: true
 	});
 
 	redis.set(sessid, JSON.stringify(params));
