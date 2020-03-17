@@ -139,8 +139,7 @@ export default (os: MiOS) => new Vuex.Store({
 
 		logout(ctx) {
 			ctx.commit('updateI', null);
-			document.cookie = 'i=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-			document.cookie = `i=; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=${document.location.hostname}`;	// バグで発行したのを飛ばす
+			document.cookie = 'i=;';
 			localStorage.removeItem('i');
 		},
 
