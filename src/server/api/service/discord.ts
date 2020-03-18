@@ -204,6 +204,7 @@ router.get('/dc/cb', async ctx => {
 		}, {
 			$set: {
 				discord: {
+					id,
 					accessToken,
 					refreshToken,
 					expiresDate,
