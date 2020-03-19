@@ -1,6 +1,6 @@
 <template>
 <section class="sdgxphyu">
-	<component :is="'h' + h">{{ value.title }}</component>
+	<component :is="'h' + h"><mfm :text="value.title" :key="Math.random()" :plain="true" :nowrap="true" :is-note="false" :i="$store.state.i" /></component>
 
 	<div class="children">
 		<x-block v-for="child in value.children" :value="child" :page="page" :script="script" :key="child.id" :h="h + 1"/>

@@ -1,6 +1,6 @@
 <template>
 <div>
-	<ui-button class="llumlmnx" @click="click()">{{ script.interpolate(value.text) }}</ui-button>
+	<ui-button class="llumlmnx" @click="click()"><mfm :text="script.interpolate(value.text)" :key="Math.random()" :plain="true" :nowrap="true" :is-note="false" :i="$store.state.i" /></ui-button>
 </div>
 </template>
 

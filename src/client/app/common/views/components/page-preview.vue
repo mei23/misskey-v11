@@ -3,9 +3,9 @@
 	<div class="thumbnail" v-if="page.eyeCatchingImage" :style="`background-image: url('${page.eyeCatchingImage.thumbnailUrl}')`"></div>
 	<article>
 		<header>
-			<h1 :title="page.title">{{ page.title }}</h1>
+			<h1 :title="page.title"><mfm :text="page.title" :key="page.title" :plain="true" :nowrap="true" :is-note="false" :i="$store.state.i" /></h1>
 		</header>
-		<p v-if="page.summary" :title="page.summary">{{ page.summary.length > 85 ? page.summary.slice(0, 85) + '…' : page.summary }}</p>
+		<p v-if="page.summary" :title="page.summary"><mfm :text="page.summary" :key="page.summary" :plain="true" :nowrap="true" :is-note="false" :i="$store.state.i" /></p>
 		<footer>
 			<img class="icon" :src="page.user.avatarUrl"/>
 			<p>{{ page.user | userName }}</p>
@@ -72,11 +72,15 @@ export default Vue.extend({
 				margin 0
 				font-size 1em
 				color var(--urlPreviewTitle)
+				overflow hidden
+				text-overflow ellipsis
 
 		> p
 			margin 0
 			color var(--urlPreviewText)
 			font-size 0.8em
+			overflow hidden
+			text-overflow ellipsis
 
 		> footer
 			margin-top 8px

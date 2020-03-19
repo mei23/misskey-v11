@@ -1,6 +1,6 @@
 <template>
 <div class="hkcxmtwj">
-	<ui-switch v-model="v">{{ script.interpolate(value.text) }}</ui-switch>
+	<ui-switch v-model="v"><mfm :text="script.interpolate(value.text)" :key="Math.random()" :plain="true" :nowrap="true" :is-note="false" :i="$store.state.i" /></ui-switch>
 </div>
 </template>
 

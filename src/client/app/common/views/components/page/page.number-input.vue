@@ -1,6 +1,6 @@
 <template>
 <div>
-	<ui-input class="kudkigyw" v-model="v" type="number">{{ script.interpolate(value.text) }}</ui-input>
+	<ui-input class="kudkigyw" v-model="v" type="number"><mfm :text="script.interpolate(value.text)" :key="Math.random()" :plain="true" :nowrap="true" :is-note="false" :i="$store.state.i" /></ui-input>
 </div>
 </template>
 

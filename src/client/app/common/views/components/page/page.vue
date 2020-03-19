@@ -1,7 +1,7 @@
 <template>
 <div class="iroscrza" :class="{ center: page.alignCenter, serif: page.font === 'serif' }">
 	<header v-if="showTitle">
-		<div class="title">{{ page.title }}</div>
+		<div class="title"><mfm :text="page.title" :key="page.title" :plain="true" :nowrap="true" :is-note="false" :i="$store.state.i" /></div>
 	</header>
 
 	<div v-if="script">
@@ -156,6 +156,8 @@ export default Vue.extend({
 			font-weight bold
 			color var(--text)
 			box-shadow 0 var(--lineWidth) rgba(#000, 0.07)
+			overflow hidden
+			text-overflow ellipsis
 
 			@media (max-width 600px)
 				padding 16px 32px
