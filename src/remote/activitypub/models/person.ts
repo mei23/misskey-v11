@@ -10,7 +10,7 @@ import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IOb
 import { IDriveFile } from '../../../models/drive-file';
 import Meta from '../../../models/meta';
 import { fromHtml } from '../../../mfm/fromHtml';
-import { apHtmlToMfm } from '../misc/html-to-mfm';
+import { htmlToMfm } from '../misc/html-to-mfm';
 import usersChart from '../../../services/chart/users';
 import instanceChart from '../../../services/chart/instance';
 import { URL } from 'url';
@@ -150,7 +150,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 			bannerId: null,
 			createdAt: new Date(),
 			lastFetchedAt: new Date(),
-			description: apHtmlToMfm(person.summary, person.tag),
+			description: htmlToMfm(person.summary, person.tag),
 			followersCount,
 			followingCount,
 			notesCount,
@@ -352,7 +352,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 		outbox: person.outbox,
 		featured: person.featured,
 		emojis: emojiNames,
-		description: apHtmlToMfm(person.summary, person.tag),
+		description: htmlToMfm(person.summary, person.tag),
 		followersCount,
 		followingCount,
 		notesCount,

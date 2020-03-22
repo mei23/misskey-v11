@@ -36,13 +36,14 @@ export function fromHtml(html: string, mentionHrefs?: string[], hashtagHrefs?: s
 
 			case 'a':
 				const txt = getText(node);
+				const rel = node.attrs.find((x: any) => x.name == 'rel');
 				const href = node.attrs.find((x: any) => x.name == 'href');
 
 				// ハッシュタグ
-				if (hashtagHrefs && href && hashtagHrefs.includes(href.value)) {
+				if (hashtagHrefs && href && hashtagHrefs.map(x => x.toLowerCase()).includes((href.value as string).toLowerCase())) {
 					text += txt;
 				// メンション
-				} else if (mentionHrefs && href && mentionHrefs.includes(href.value)) {
+				} else if (txt.startsWith('@') && !(rel && rel.value.match(/^me /))) {
 					const part = txt.split('@');
 
 					if (part.length == 2) {
@@ -55,7 +56,7 @@ export function fromHtml(html: string, mentionHrefs?: string[], hashtagHrefs?: s
 					}
 				// その他
 				} else {
-					text += (href && txt === href.value) ? `<${txt}>` : `[${txt}](${href.value})`;
+					text += (!href || txt === href.value) ? `<${txt}>` : `[${txt}](${href.value})`;
 				}
 				break;
 
