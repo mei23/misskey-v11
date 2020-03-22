@@ -9,7 +9,7 @@ import { IPost, IObject, getOneApId, getApId, isPost, isEmoji } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
-import { fromHtml } from '../../../mfm/fromHtml';
+import { apHtmlToMfm } from '../misc/html-to-mfm';
 import Emoji, { IEmoji } from '../../../models/emoji';
 import { extractApMentions } from './mention';
 import { extractApHashtags } from './tag';
@@ -209,7 +209,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	const cw = note.summary === '' ? null : note.summary;
 
 	// テキストのパース
-	const text = note._misskey_content || fromHtml(note.content);
+	const text = note._misskey_content || apHtmlToMfm(note.content, note.tag);
 
 	// vote
 	if (reply && reply.poll) {
