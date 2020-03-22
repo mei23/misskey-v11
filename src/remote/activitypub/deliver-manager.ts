@@ -1,6 +1,6 @@
 import { isRemoteUser, IRemoteUser, isLocalUser, ILocalUser } from '../../models/user';
 import Following from '../../models/following';
-import { deliver } from '../../queue';
+import { deliver, InboxInfo } from '../../queue';
 
 //#region types
 interface IRecipe {
@@ -76,7 +76,7 @@ export default class DeliverManager {
 	public async execute(lowSeverity = false) {
 		if (!isLocalUser(this.actor)) return;
 
-		const inboxes: string[] = [];
+		const inboxes: InboxInfo[] = [];
 
 		// build inbox list
 		for (const recipe of this.recipes) {
@@ -90,20 +90,33 @@ export default class DeliverManager {
 					const follower = following._follower;
 
 					if (isRemoteUser(follower)) {
-						const inbox = follower.sharedInbox || follower.inbox;
-						if (!inboxes.includes(inbox)) inboxes.push(inbox);
+						const inbox: InboxInfo = follower.sharedInbox ? {
+							origin: 'sharedInbox',
+							url: follower.sharedInbox
+						} : {
+							origin: 'inbox',
+							url: follower.inbox,
+							userId: `${follower._id}`
+						};
+
+						if (!inboxes.map(x => x.url).includes(inbox.url)) inboxes.push(inbox);
 					}
 				}
 			} else if (isDirect(recipe)) {
 				// direct deliver
-				const inbox = recipe.to.inbox;
-				if (!inboxes.includes(inbox)) inboxes.push(inbox);
+				const inbox: InboxInfo = {
+					origin: 'inbox',
+					url: recipe.to.inbox,
+					userId: `${recipe.to._id}`
+				};
+
+				if (!inboxes.map(x => x.url).includes(inbox.url)) inboxes.push(inbox);
 			}
 		}
 
 		// deliver
 		for (const inbox of inboxes) {
-			deliver(this.actor, this.activity, inbox, lowSeverity);
+			deliver(this.actor, this.activity, inbox.url, lowSeverity, inbox);
 		}
 	}
 }

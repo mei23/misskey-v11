@@ -13,8 +13,8 @@ import { IDriveFile } from '../models/drive-file';
 import { INote } from '../models/note';
 import { getJobInfo } from './get-job-info';
 
-function initializeQueue(name: string, limitPerSec = -1) {
-	return new Queue(name, config.redis != null ? {
+function initializeQueue<T>(name: string, limitPerSec = -1) {
+	return new Queue<T>(name, config.redis != null ? {
 		redis: {
 			port: config.redis.port,
 			host: config.redis.host,
@@ -29,9 +29,44 @@ function initializeQueue(name: string, limitPerSec = -1) {
 	} : null);
 }
 
-export const deliverQueue = initializeQueue('deliver', config.deliverJobPerSec || 128);
-export const inboxQueue = initializeQueue('inbox', config.inboxJobPerSec || 16);
-export const dbQueue = initializeQueue('db');
+//#region job data types
+/**
+ * Data type for deliver job
+ */
+export type DeliverJobData = {
+	/** Actor */
+	user: ILocalUser;
+	/** Activity */
+	content: any;
+	/** inbox URL to deliver */
+	to: string;
+	/** Detail information of inbox */
+	inboxInfo?: InboxInfo;
+};
+
+export type InboxInfo = {
+	/** kind of inbox */
+	origin: 'inbox' | 'sharedInbox';
+	/** inbox or sharedInbox URL to deliver */
+	url: string;
+	/** userId (in case of origin=inbox) */
+	userId?: string;
+};
+
+/**
+ * Data type for inbox job
+ */
+export type InboxJobData = {
+	/** Activity */
+	activity: any,
+	/** Signature */
+	signature: httpSignature.IParsedSignature
+};
+//#endregion
+
+export const deliverQueue = initializeQueue<DeliverJobData>('deliver', config.deliverJobPerSec || 128);
+export const inboxQueue = initializeQueue<InboxJobData>('inbox', config.inboxJobPerSec || 16);
+export const dbQueue = initializeQueue<any>('db');
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const inboxLogger = queueLogger.createSubLogger('inbox');
@@ -61,7 +96,15 @@ dbQueue
 	.on('error', (error) => dbLogger.error(`error ${error}`))
 	.on('stalled', (job) => dbLogger.warn(`${job.name} stalled ${getJobInfo(job)}`));
 
-export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = false) {
+/**
+ * Queue deliver job
+ * @param user Actor
+ * @param content Activity
+ * @param to URL to deliver
+ * @param lowSeverity Reduce retry count
+ * @param inboxInfo Detail information of inbox
+ */
+export function deliver(user: ILocalUser, content: any, to: string, lowSeverity = false, inboxInfo?: InboxInfo) {
 	const attempts = lowSeverity ? 2 : (config.deliverJobMaxAttempts || 12);
 
 	if (content == null) return null;
@@ -69,7 +112,8 @@ export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = f
 	const data = {
 		user,
 		content,
-		to
+		to,
+		inboxInfo
 	};
 
 	return deliverQueue.add(data, {
@@ -83,6 +127,11 @@ export function deliver(user: ILocalUser, content: any, to: any, lowSeverity = f
 	});
 }
 
+/**
+ * Queue inbox job
+ * @param activity Activity
+ * @param signature Signature
+ */
 export function inbox(activity: any, signature: httpSignature.IParsedSignature) {
 	const data = {
 		activity: activity,

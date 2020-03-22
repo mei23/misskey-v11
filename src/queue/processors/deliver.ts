@@ -6,12 +6,13 @@ import instanceChart from '../../services/chart/instance';
 import Logger from '../../services/logger';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost, isClosedHost } from '../../misc/instance-info';
+import { DeliverJobData } from '..';
 
 const logger = new Logger('deliver');
 
 let latest: string = null;
 
-export default async (job: Bull.Job) => {
+export default async (job: Bull.Job<DeliverJobData>) => {
 	const { protocol, host } = new URL(job.data.to);
 
 	if (protocol !== 'https:') return 'skip (invalied protocol)';
