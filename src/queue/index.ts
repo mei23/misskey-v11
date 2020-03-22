@@ -12,6 +12,7 @@ import { queueLogger } from './logger';
 import { IDriveFile } from '../models/drive-file';
 import { INote } from '../models/note';
 import { getJobInfo } from './get-job-info';
+import { IActivity } from '../remote/activitypub/type';
 
 function initializeQueue<T>(name: string, limitPerSec = -1) {
 	return new Queue<T>(name, config.redis != null ? {
@@ -30,9 +31,6 @@ function initializeQueue<T>(name: string, limitPerSec = -1) {
 }
 
 //#region job data types
-/**
- * Data type for deliver job
- */
 export type DeliverJobData = {
 	/** Actor */
 	user: ILocalUser;
@@ -53,13 +51,8 @@ export type InboxInfo = {
 	userId?: string;
 };
 
-/**
- * Data type for inbox job
- */
 export type InboxJobData = {
-	/** Activity */
-	activity: any,
-	/** Signature */
+	activity: IActivity,
 	signature: httpSignature.IParsedSignature
 };
 //#endregion
@@ -132,9 +125,9 @@ export function deliver(user: ILocalUser, content: any, to: string, lowSeverity 
  * @param activity Activity
  * @param signature Signature
  */
-export function inbox(activity: any, signature: httpSignature.IParsedSignature) {
+export function inbox(activity: IActivity, signature: httpSignature.IParsedSignature) {
 	const data = {
-		activity: activity,
+		activity,
 		signature
 	};
 

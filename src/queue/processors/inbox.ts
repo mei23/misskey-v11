@@ -11,7 +11,7 @@ import Logger from '../../services/logger';
 import { registerOrFetchInstanceDoc } from '../../services/register-or-fetch-instance-doc';
 import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
-import { IActivity, getApId } from '../../remote/activitypub/type';
+import { getApId } from '../../remote/activitypub/type';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost } from '../../misc/instance-info';
 import { InboxJobData } from '..';
@@ -20,8 +20,8 @@ const logger = new Logger('inbox');
 
 // ユーザーのinboxにアクティビティが届いた時の処理
 export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
-	const signature = job.data.signature as httpSignature.IParsedSignature;
-	const activity = job.data.activity as IActivity;
+	const signature = job.data.signature;
+	const activity = job.data.activity;
 
 	//#region Log
 	const info = Object.assign({}, activity);
