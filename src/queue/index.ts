@@ -1,3 +1,4 @@
+import { ObjectID } from 'mongodb';
 import * as Queue from 'bull';
 import * as httpSignature from 'http-signature';
 
@@ -55,11 +56,26 @@ export type InboxJobData = {
 	activity: IActivity,
 	signature: httpSignature.IParsedSignature
 };
+
+export type DbJobData = DbUserJobData | DbUserImportJobData | DeleteNoteJobData;
+
+export type DbUserJobData = {
+	user: ILocalUser;
+};
+
+export type DbUserImportJobData = {
+	user: ILocalUser;
+	fileId: ObjectID;
+};
+
+export type DeleteNoteJobData = {
+	noteId: ObjectID;
+};
 //#endregion
 
 export const deliverQueue = initializeQueue<DeliverJobData>('deliver', config.deliverJobPerSec || 128);
 export const inboxQueue = initializeQueue<InboxJobData>('inbox', config.inboxJobPerSec || 16);
-export const dbQueue = initializeQueue<any>('db');
+export const dbQueue = initializeQueue<DbJobData>('db');
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const inboxLogger = queueLogger.createSubLogger('inbox');

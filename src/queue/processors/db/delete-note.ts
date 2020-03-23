@@ -3,10 +3,11 @@ import { queueLogger } from '../../logger';
 import Note from '../../../models/note';
 import User from '../../../models/user';
 import del from '../../../services/note/delete';
+import { DeleteNoteJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('delete-note');
 
-export async function deleteNote(job: Bull.Job): Promise<string> {
+export async function deleteNote(job: Bull.Job<DeleteNoteJobData>): Promise<string> {
 	logger.info(`deleting note ${job.data.noteId} ...`);
 
 	const note = await Note.findOne(job.data.noteId);

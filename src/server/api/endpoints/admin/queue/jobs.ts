@@ -1,6 +1,7 @@
 import $ from 'cafy';
 import define from '../../../define';
 import { deliverQueue, inboxQueue } from '../../../../../queue';
+import * as Bull from 'bull';
 
 export const meta = {
 	tags: ['admin'],
@@ -30,7 +31,7 @@ export default define(meta, async (ps) => {
 		ps.domain === 'inbox' ? inboxQueue :
 		null;
 
-	const jobs = await queue.getJobs([ps.state], 0, ps.limit);
+	const jobs = await (queue as Bull.Queue<any>).getJobs([ps.state], 0, ps.limit);
 
 	return jobs.map(job => {
 		const data = job.data;

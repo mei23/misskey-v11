@@ -10,10 +10,11 @@ import parseAcct from '../../../misc/acct/parse';
 import resolveUser from '../../../remote/resolve-user';
 import { downloadTextFile } from '../../../misc/download-text-file';
 import { isSelfHost, toDbHost } from '../../../misc/convert-host';
+import { DbUserImportJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('import-following');
 
-export async function importFollowing(job: Bull.Job): Promise<string> {
+export async function importFollowing(job: Bull.Job<DbUserImportJobData>): Promise<string> {
 	logger.info(`Importing following of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({

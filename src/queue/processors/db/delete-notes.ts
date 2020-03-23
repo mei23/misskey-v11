@@ -5,10 +5,11 @@ import { queueLogger } from '../../logger';
 import Note from '../../../models/note';
 import deleteNote from '../../../services/note/delete';
 import User from '../../../models/user';
+import { DbUserJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('delete-notes');
 
-export async function deleteNotes(job: Bull.Job): Promise<string> {
+export async function deleteNotes(job: Bull.Job<DbUserJobData>): Promise<string> {
 	logger.info(`Deleting notes of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({

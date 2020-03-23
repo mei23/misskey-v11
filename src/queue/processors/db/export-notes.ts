@@ -8,10 +8,11 @@ import Note, { INote } from '../../../models/note';
 import { addFile } from '../../../services/drive/add-file';
 import User from '../../../models/user';
 import dateFormat = require('dateformat');
+import { DbUserJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('export-notes');
 
-export async function exportNotes(job: Bull.Job): Promise<string> {
+export async function exportNotes(job: Bull.Job<DbUserJobData>): Promise<string> {
 	logger.info(`Exporting notes of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({

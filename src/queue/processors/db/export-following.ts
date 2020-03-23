@@ -9,10 +9,11 @@ import User from '../../../models/user';
 import dateFormat = require('dateformat');
 import Following from '../../../models/following';
 import { getFullApAccount } from '../../../misc/convert-host';
+import { DbUserJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('export-following');
 
-export async function exportFollowing(job: Bull.Job): Promise<string> {
+export async function exportFollowing(job: Bull.Job<DbUserJobData>): Promise<string> {
 	logger.info(`Exporting following of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({

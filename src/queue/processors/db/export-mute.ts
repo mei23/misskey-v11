@@ -9,10 +9,11 @@ import User from '../../../models/user';
 import dateFormat = require('dateformat');
 import Mute from '../../../models/mute';
 import { getFullApAccount } from '../../../misc/convert-host';
+import { DbUserJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('export-mute');
 
-export async function exportMute(job: Bull.Job): Promise<string> {
+export async function exportMute(job: Bull.Job<DbUserJobData>): Promise<string> {
 	logger.info(`Exporting mute of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({

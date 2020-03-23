@@ -11,10 +11,11 @@ import resolveUser from '../../../remote/resolve-user';
 import { pushUserToUserList } from '../../../services/user-list/push';
 import { downloadTextFile } from '../../../misc/download-text-file';
 import { isSelfHost, toDbHost } from '../../../misc/convert-host';
+import { DbUserImportJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('import-user-lists');
 
-export async function importUserLists(job: Bull.Job): Promise<string> {
+export async function importUserLists(job: Bull.Job<DbUserImportJobData>): Promise<string> {
 	logger.info(`Importing user lists of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({

@@ -9,10 +9,11 @@ import User from '../../../models/user';
 import dateFormat = require('dateformat');
 import UserList from '../../../models/user-list';
 import { getFullApAccount } from '../../../misc/convert-host';
+import { DbUserJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('export-user-lists');
 
-export async function exportUserLists(job: Bull.Job): Promise<string> {
+export async function exportUserLists(job: Bull.Job<DbUserJobData>): Promise<string> {
 	logger.info(`Exporting user lists of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({

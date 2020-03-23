@@ -9,10 +9,11 @@ import User from '../../../models/user';
 import dateFormat = require('dateformat');
 import Blocking from '../../../models/blocking';
 import { getFullApAccount } from '../../../misc/convert-host';
+import { DbUserJobData } from '../..';
 
 const logger = queueLogger.createSubLogger('export-blocking');
 
-export async function exportBlocking(job: Bull.Job): Promise<string> {
+export async function exportBlocking(job: Bull.Job<DbUserJobData>): Promise<string> {
 	logger.info(`Exporting blocking of ${job.data.user._id} ...`);
 
 	const user = await User.findOne({
