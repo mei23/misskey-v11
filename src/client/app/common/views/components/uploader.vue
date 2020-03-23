@@ -42,8 +42,8 @@ export default Vue.extend({
 			if ((file.type === 'image/jpeg' && clientResize && !this.$store.state.settings.disableClientImageResizing) || (useJpeg && file.type === 'image/png')) {
 				const config = {
 					quality: 0.85,
-					maxWidth: 200,
-					maxHeight: 200,
+					maxWidth: 2048,
+					maxHeight: 2048,
 					autoRotate: true,
 					debug: true
 				};
