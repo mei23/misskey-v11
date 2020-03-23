@@ -33,63 +33,66 @@ export default Vue.extend({
 		};
 	},
 	methods: {
-		upload(file: File, folder: any, name?: string, useJpeg = false) {
+		async upload(file: File, folder: any, name?: string, useJpeg = false) {
 			if (folder && typeof folder == 'object') folder = folder.id;
 			const id = Math.random();
 			name = name || file.name || 'untitled';
 
 			console.log(`origin type: ${file.type}`);
 
-			const config = {
-				quality: 0.5,
-				maxWidth: 200,
-				maxHeight: 200,
-				autoRotate: true,
-				debug: true
+			let resizedImage: any;
+			if (file.type === 'image/jpeg') {
+				const config = {
+					quality: 0.85,
+					maxWidth: 200,
+					maxHeight: 200,
+					autoRotate: true,
+					debug: true
+				};
+				resizedImage = await readAndCompressImage(file, config)
+			}
+
+			const ctx = {
+				id,
+				name,
+				progress: undefined,
+				img: window.URL.createObjectURL(file)
 			};
 
-			// TODO: 画像じゃなかったら
-			readAndCompressImage(file, config).then(resizedImage  => {
-				const ctx = {
-					id,
-					name,
-					progress: undefined,
-					img: window.URL.createObjectURL(file)
-				};
+			this.uploads.push(ctx);
+			this.$emit('change', this.uploads);
 
-				this.uploads.push(ctx);
+			const data = new FormData();
+			data.append('i', this.$store.state.i.token);
+			data.append('force', 'true');
+			data.append('useJpegForWeb', `${useJpeg}`);
+			data.append('isWebpublic', `${!!resizedImage}`);
+			data.append('file', resizedImage || file);
+
+			if (folder) data.append('folderId', folder);
+			if (name) data.append('name', name);
+
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', apiUrl + '/drive/files/create', true);
+			xhr.onload = (e: any) => {
+				const driveFile = JSON.parse(e.target.response);
+
+				this.$emit('uploaded', driveFile);
+
+				this.uploads = this.uploads.filter(x => x.id != id);
 				this.$emit('change', this.uploads);
+			};
 
-				const data = new FormData();
-				data.append('i', this.$store.state.i.token);
-				data.append('force', 'true');
-				data.append('useJpegForWeb', `${useJpeg}`);
-				data.append('file', resizedImage);
+			xhr.upload.onprogress = e => {
+				if (e.lengthComputable) {
+					if (ctx.progress == undefined) ctx.progress = {};
+					ctx.progress.max = e.total;
+					ctx.progress.value = e.loaded;
+				}
+			};
 
-				if (folder) data.append('folderId', folder);
-				if (name) data.append('name', name);
+			xhr.send(data);
 
-				const xhr = new XMLHttpRequest();
-				xhr.open('POST', apiUrl + '/drive/files/create', true);
-				xhr.onload = (e: any) => {
-					const driveFile = JSON.parse(e.target.response);
-
-					this.$emit('uploaded', driveFile);
-
-					this.uploads = this.uploads.filter(x => x.id != id);
-					this.$emit('change', this.uploads);
-				};
-
-				xhr.upload.onprogress = e => {
-					if (e.lengthComputable) {
-						if (ctx.progress == undefined) ctx.progress = {};
-						ctx.progress.max = e.total;
-						ctx.progress.value = e.loaded;
-					}
-				};
-
-				xhr.send(data);
-			})
 
 		}
 	}
