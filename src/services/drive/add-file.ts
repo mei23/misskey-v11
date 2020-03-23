@@ -30,6 +30,7 @@ import { genFid } from '../../misc/id/fid';
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
 export type ProcessOptions = {
+	isWebpublic?: boolean;
 	useJpegForWeb?: boolean;
 	webSize?: number;
 };
@@ -170,7 +171,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	// #region webpublic
 	let webpublic: IImage;
 
-	if (generateWeb) {
+	if (generateWeb && !prsOpts.isWebpublic) {
 		logger.debug(`creating web image`);
 
 		if (['image/jpeg'].includes(type)
@@ -184,7 +185,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 			logger.debug(`web image not created (not an image)`);
 		}
 	} else {
-		logger.debug(`web image not created (from remote)`);
+		logger.debug(`web image not created (from remote or resized)`);
 	}
 	// #endregion webpublic
 

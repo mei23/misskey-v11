@@ -63,6 +63,15 @@ export const meta = {
 			}
 		},
 
+		isWebpublic: {
+			validator: $.optional.either($.bool, $.str),
+			default: false,
+			transform: (v: any): boolean => v === true || v === 'true',
+			desc: {
+				'ja-JP': 'Web公開用画像か (EXIF除去/リサイズ等は不要か)',
+			}
+		},
+
 		useJpegForWeb: {
 			validator: $.optional.either($.bool, $.str),
 			default: false,
@@ -105,7 +114,8 @@ export default define(meta, async (ps, user, app, file, cleanup) => {
 	try {
 		// Create file
 		const prsOpts = {
-			useJpegForWeb: ps.useJpegForWeb
+			isWebpublic: ps.isWebpublic,
+			useJpegForWeb: ps.useJpegForWeb,
 		} as ProcessOptions;
 
 		const driveFile = await addFile(user, file.path, name, null, ps.folderId, ps.force, false, null, null, ps.isSensitive, prsOpts);
