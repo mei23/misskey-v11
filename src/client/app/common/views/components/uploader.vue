@@ -33,13 +33,13 @@ export default Vue.extend({
 		};
 	},
 	methods: {
-		async upload(file: File, folder: any, name?: string, useJpeg = false) {
+		async upload(file: File, folder: any, name?: string, useJpeg = false, clientResize = false) {
 			if (folder && typeof folder == 'object') folder = folder.id;
 			const id = Math.random();
 			name = name || file.name || 'untitled';
 
 			let resizedImage: any;
-			if (file.type === 'image/jpeg' || (useJpeg && file.type === 'image/png')) {
+			if ((file.type === 'image/jpeg' && clientResize && !this.$store.state.settings.disableClientImageResizing) || (useJpeg && file.type === 'image/png')) {
 				const config = {
 					quality: 0.85,
 					maxWidth: 200,

@@ -181,7 +181,7 @@ export default (opts) => ({
 		},
 
 		upload(file: File, name?: string) {
-			(this.$refs.uploader as any).upload(file, null, name, this.useJpeg);
+			(this.$refs.uploader as any).upload(file, null, name, this.useJpeg, true);
 		},
 
 		onChangeUploadings(uploads) {

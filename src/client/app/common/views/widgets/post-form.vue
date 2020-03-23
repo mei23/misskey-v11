@@ -161,7 +161,7 @@ export default define({
 		},
 
 		upload(file: File, name?: string) {
-			(this.$refs.uploader as any).upload(file, null, name);
+			(this.$refs.uploader as any).upload(file, null, name, false, true);
 		},
 
 		onDragover(e) {

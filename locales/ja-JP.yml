@@ -196,6 +196,8 @@ common:
     reactions-description: "リアクションピッカーに表示する絵文字を入力します。"
     fetch-on-scroll: "スクロールで自動読み込み"
     fetch-on-scroll-desc: "ページを下までスクロールしたときに自動で追加のコンテンツを読み込みます。"
+    disableClientImageResizing: "アップロード前に画像のリサイズを行わない"
+    disableClientImageResizing-desc: "デフォルトでは投稿フォームからJPEG画像を添付した場合、アップロード前に画像のリサイズが行われます。この挙動を無効にします。"
     note-visibility: "投稿の公開範囲"
     default-note-visibility: "デフォルトの公開範囲"
     secondary-note-visibility: "セカンダリ投稿ボタンの公開範囲"
