@@ -489,6 +489,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.3.tgz#6356df2647de9eac569f9a52eda3480fa9e70b4d"
   integrity sha512-01s+ac4qerwd6RHD+mVbOEsraDHSgUaefQlEdBbUolnQFjKwCr7luvAlEwW1RFojh67u0z4OUTjPn9LEl4zIkA==
 
+"@types/node@^10.12.18":
+  version "10.17.17"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.17.tgz#7a183163a9e6ff720d86502db23ba4aade5999b8"
+  integrity sha512-gpNnRnZP3VWzzj5k3qrpRC6Rk3H/uclhAVo1aIvwzK5p5cOrs9yEyQ8H/HBsBY0u5rrWxXEiVPQ0dEB6pkjE8Q==
+
 "@types/nodemailer@6.4.0":
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.0.tgz#d8c039be3ed685c4719a026455555be82c124b74"
@@ -1694,6 +1699,13 @@ brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
+
+browser-image-resizer@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/browser-image-resizer/-/browser-image-resizer-2.1.0.tgz#6d8f6bf05a2acb915be4b0ce1222ab001d07dd55"
+  integrity sha512-GaOoylh2JM0c8BXoTgWykayDqw9xYHN3sE/oPwpRpl6CyZTKKcWTZ4apE/uTnA+xj/k4wB4EgxXAeCMjYiVotw==
+  dependencies:
+    exifreader "^2.8.3"
 
 browser-process-hrtime@^1.0.0:
   version "1.0.0"
@@ -3677,6 +3689,14 @@ execa@^2.0.4:
     p-finally "^2.0.0"
     signal-exit "^3.0.2"
     strip-final-newline "^2.0.0"
+
+exifreader@^2.8.3:
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/exifreader/-/exifreader-2.13.1.tgz#a4a9f26c200691066781c2b4b2fb29f3dd2a0434"
+  integrity sha512-THuBOtlVMiakbzZuvGrrl0mwawEKd4D9k9R9ve1dop9DbD3RlbtSu/4AmY1BH0G+FKfgCLBhyy8tBTnUuYCRrg==
+  dependencies:
+    "@types/node" "^10.12.18"
+    xmldom "^0.1.27"
 
 exit-on-epipe@~1.0.1:
   version "1.0.1"
@@ -10786,6 +10806,11 @@ xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/xmlchars/-/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
+
+xmldom@^0.1.27:
+  version "0.1.31"
+  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.31.tgz#b76c9a1bd9f0a9737e5a72dc37231cf38375e2ff"
+  integrity sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==
 
 xtend@^4.0.0, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
