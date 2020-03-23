@@ -38,10 +38,8 @@ export default Vue.extend({
 			const id = Math.random();
 			name = name || file.name || 'untitled';
 
-			console.log(`origin type: ${file.type}`);
-
 			let resizedImage: any;
-			if (file.type === 'image/jpeg') {
+			if (file.type === 'image/jpeg' || (useJpeg && file.type === 'image/png')) {
 				const config = {
 					quality: 0.85,
 					maxWidth: 200,
@@ -50,6 +48,8 @@ export default Vue.extend({
 					debug: true
 				};
 				resizedImage = await readAndCompressImage(file, config)
+
+				name = name.replace(/\.png/, '.jpg');
 			}
 
 			const ctx = {
@@ -65,7 +65,6 @@ export default Vue.extend({
 			const data = new FormData();
 			data.append('i', this.$store.state.i.token);
 			data.append('force', 'true');
-			data.append('useJpegForWeb', `${useJpeg}`);
 			data.append('isWebpublic', `${!!resizedImage}`);
 			data.append('file', resizedImage || file);
 
