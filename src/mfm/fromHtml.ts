@@ -57,7 +57,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 					}
 				// その他
 				} else {
-					text += (!href || (txt === href.value && txt.match(urlRegex)) ? txt : `[${txt}](${href.value})`;
+					text += (!href || (txt === href.value && txt.match(urlRegex))) ? txt : `[${txt}](${href.value})`;
 				}
 				break;
 
