@@ -1,5 +1,6 @@
 import { parseFragment, DefaultTreeDocumentFragment } from 'parse5';
 import { URL } from 'url';
+import { urlRegex } from './prelude';
 
 export function fromHtml(html: string, hashtagNames?: string[]): string {
 	if (html == null) return null;
@@ -56,7 +57,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 					}
 				// その他
 				} else {
-					text += (!href || txt === href.value) ? `<${txt}>` : `[${txt}](${href.value})`;
+					text += (!href || (txt === href.value && txt.match(urlRegex)) ? txt : `[${txt}](${href.value})`;
 				}
 				break;
 
