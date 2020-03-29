@@ -1,8 +1,8 @@
-import rndstr from 'rndstr';
 import $ from 'cafy';
 import App, { pack } from '../../../../models/app';
 import define from '../../define';
 import { unique } from '../../../../prelude/array';
+import { secureRndstr } from '../../../../misc/secure-rndstr';
 
 export const meta = {
 	tags: ['app'],
@@ -32,7 +32,7 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	// Generate secret
-	const secret = rndstr('a-zA-Z0-9', 32);
+	const secret = secureRndstr(32, true);
 
 	let p = ps.permission;
 

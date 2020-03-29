@@ -1,4 +1,3 @@
-import rndstr from 'rndstr';
 import * as crypto from 'crypto';
 import $ from 'cafy';
 import App from '../../../../models/app';
@@ -6,6 +5,7 @@ import AuthSess from '../../../../models/auth-session';
 import AccessToken from '../../../../models/access-token';
 import define from '../../define';
 import { ApiError } from '../../error';
+import { secureRndstr } from '../../../../misc/secure-rndstr';
 
 export const meta = {
 	tags: ['auth'],
@@ -39,7 +39,7 @@ export default define(meta, async (ps, user) => {
 	}
 
 	// Generate access token
-	const accessToken = rndstr('a-zA-Z0-9', 32);
+	const accessToken = secureRndstr(32, true);
 
 	// Fetch exist access token
 	const exist = await AccessToken.findOne({
