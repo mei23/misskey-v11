@@ -2,9 +2,8 @@ import endpoints from '../endpoints';
 import { Context } from 'cafy';
 import config from '../../../config';
 import { errors as basicErrors } from './errors';
-import { schemas } from './schemas';
-import { description } from './description';
-import { convertOpenApiSchema } from '../../../misc/schema';
+import { schemas, convertSchemaToOpenApiSchema } from './schemas';
+import { getDescription } from './description';
 import { repositoryUrl } from '../../../const.json';
 
 export function genOpenapiSpec(lang = 'ja-JP') {
@@ -14,7 +13,7 @@ export function genOpenapiSpec(lang = 'ja-JP') {
 		info: {
 			version: 'v1',
 			title: 'Misskey API',
-			description: '**Misskey is a decentralized microblogging platform.**\n\n' + description,
+			description: getDescription(lang),
 			'x-logo': { url: '/assets/api-doc.png' }
 		},
 
@@ -107,11 +106,37 @@ export function genOpenapiSpec(lang = 'ja-JP') {
 
 		const required = endpoint.meta.params ? Object.entries(endpoint.meta.params).filter(([k, v]) => !v.validator.isOptional).map(([k, v]) => k) : [];
 
-		const resSchema = endpoint.meta.res ? convertOpenApiSchema(endpoint.meta.res) : {};
+		const schema = {
+			type: 'object',
+			...(required.length > 0 ? { required } : {}),
+			properties: endpoint.meta.params ? genProps(porops) : {}
+		};
+
+		const resSchema = endpoint.meta.res ? convertSchemaToOpenApiSchema(endpoint.meta.res) : {};
 
 		let desc = (endpoint.meta.desc ? endpoint.meta.desc[lang] : 'No description provided.') + '\n\n';
 		desc += `**Credential required**: *${endpoint.meta.requireCredential ? 'Yes' : 'No'}*`;
-		if (endpoint.meta.kind) desc += ` / **Permission**: *${endpoint.meta.kind}*`;
+
+		if (endpoint.meta.kind) {
+			const kind = endpoint.meta.kind;
+			desc += ` / **Permission**: *${kind}*`;
+		}
+
+		if (endpoint.meta.requireAdmin) {
+			desc += ' / Require admin';
+		}
+
+		if (endpoint.meta.requireModerator) {
+			desc += ' / Require moderator';
+		}
+
+		if (endpoint.meta.allowGet) {
+			desc += ' / GET Supported';
+		}
+
+		if (endpoint.meta.secure) {
+			desc += ' / Secure';
+		}
 
 		const info = {
 			operationId: endpoint.name,
@@ -131,14 +156,10 @@ export function genOpenapiSpec(lang = 'ja-JP') {
 			} : {}),
 			requestBody: {
 				required: true,
-				content: {
-					'application/json': {
-						schema: {
-							type: 'object',
-							...(required.length > 0 ? { required } : {}),
-							properties: endpoint.meta.params ? genProps(porops) : {}
-						}
-					}
+				content: endpoint.meta.requireFile ? {
+					'multipart/form-data': { schema }
+				} : {
+					'application/json': { schema }
 				}
 			},
 			responses: {
