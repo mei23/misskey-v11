@@ -2,7 +2,7 @@
 <div class="root">
 	<ui-info v-if="!fetching && apps.length == 0">{{ $t('no-apps') }}</ui-info>
 	<div class="apps" v-if="apps.length != 0">
-		<div v-for="app in apps">
+		<div class="app" v-for="app in apps" :key="app.id">
 			<p><b>{{ app.name }}</b></p>
 			<p>{{ app.description }}</p>
 		</div>
@@ -22,7 +22,7 @@ export default Vue.extend({
 		};
 	},
 	mounted() {
-		this.$root.api('i/authorized_apps').then(apps => {
+		this.$root.api('i/apps').then((apps: object[]) => {
 			this.apps = apps;
 			this.fetching = false;
 		});
