@@ -2,7 +2,8 @@ import endpoints from '../endpoints';
 import { Context } from 'cafy';
 import config from '../../../config';
 import { errors as basicErrors } from './errors';
-import { schemas, convertSchemaToOpenApiSchema } from './schemas';
+import { schemas } from './schemas';
+import { convertOpenApiSchema } from '../../../misc/schema';
 import { getDescription } from './description';
 import { repositoryUrl } from '../../../const.json';
 
@@ -112,7 +113,7 @@ export function genOpenapiSpec(lang = 'ja-JP') {
 			properties: endpoint.meta.params ? genProps(porops) : {}
 		};
 
-		const resSchema = endpoint.meta.res ? convertSchemaToOpenApiSchema(endpoint.meta.res) : {};
+		const resSchema = endpoint.meta.res ? convertOpenApiSchema(endpoint.meta.res) : {};
 
 		let desc = (endpoint.meta.desc ? endpoint.meta.desc[lang] : 'No description provided.') + '\n\n';
 		desc += `**Credential required**: *${endpoint.meta.requireCredential ? 'Yes' : 'No'}*`;

@@ -51,3 +51,20 @@ export type SchemaType<p extends Schema> =
 	p['type'] extends 'object' ? NullOrUndefined<p, ObjType<NonNullable<p['properties']>>> :
 	p['type'] extends 'any' ? NullOrUndefined<p, any> :
 	any;
+
+export function convertOpenApiSchema(schema: Schema) {
+	const x = JSON.parse(JSON.stringify(schema)); // copy
+	if (!['string', 'number', 'boolean', 'array', 'object'].includes(x.type)) {
+		x['$ref'] = `#/components/schemas/${x.type}`;
+	}
+	if (x.type === 'array' && x.items) {
+		x.items = convertOpenApiSchema(x.items);
+	}
+	if (x.type === 'object' && x.properties) {
+		x.required = Object.entries(x.properties).filter(([k, v]: any) => !v.isOptional).map(([k, v]: any) => k);
+		for (const k of Object.keys(x.properties)) {
+			x.properties[k] = convertOpenApiSchema(x.properties[k]);
+		}
+	}
+	return x;
+}
