@@ -3,6 +3,8 @@ import define from '../../define';
 import Room from '../../../../models/room';
 
 export const meta = {
+	tags: ['room'],
+
 	requireCredential: true,
 
 	params: {
