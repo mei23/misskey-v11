@@ -148,7 +148,7 @@ export function genOpenapiSpec(lang = 'ja-JP') {
 				url: `${repositoryUrl}/src/server/api/endpoints/${endpoint.name}.ts`
 			},
 			...(endpoint.meta.tags ? {
-				tags: endpoint.meta.tags
+				tags: [endpoint.meta.tags[0]]
 			} : {}),
 			...(endpoint.meta.requireCredential ? {
 				security: [{
