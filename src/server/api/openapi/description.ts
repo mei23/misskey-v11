@@ -23,13 +23,13 @@ export function kinds() {
 
 	const errors = [] as string[][];
 
-	for (const endpoint of endpoints) {
+	for (const endpoint of endpoints.filter(ep => !ep.meta.secure && !ep.name.startsWith('admin/'))) {
 		if (endpoint.meta.secure) {
-			kinds['_secure_'].endpoints.push(endpoint.name);
+			//kinds['_secure_'].endpoints.push(endpoint.name);
 		} else if (endpoint.meta.requireAdmin) {
-			kinds['_admin_'].endpoints.push(endpoint.name);
+			//kinds['_admin_'].endpoints.push(endpoint.name);
 		} else if (endpoint.meta.requireModerator) {
-			kinds['_moderator_'].endpoints.push(endpoint.name);
+			//kinds['_moderator_'].endpoints.push(endpoint.name);
 		} else if (endpoint.meta.kind) {
 			const kind = endpoint.meta.kind;
 			if (kind in kinds) kinds[kind].endpoints.push(endpoint.name);

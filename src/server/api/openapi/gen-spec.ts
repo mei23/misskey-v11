@@ -81,7 +81,7 @@ export function genOpenapiSpec(lang = 'ja-JP') {
 		};
 	}
 
-	for (const endpoint of endpoints.filter(ep => !ep.meta.secure)) {
+	for (const endpoint of endpoints.filter(ep => !ep.meta.secure && !ep.name.startsWith('admin/'))) {
 		const porops = {} as any;
 		const errors = {} as any;
 

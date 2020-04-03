@@ -16,7 +16,7 @@ export const kinds = [
 	'reaction-write',
 	'vote-write',
 	'_unspecified_',
-	'_admin_',
-	'_moderator_',
-	'_secure_',
+	//'_admin_',
+	//'_moderator_',
+	//'_secure_',
 ];
