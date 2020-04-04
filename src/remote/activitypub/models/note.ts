@@ -277,7 +277,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 		apHashtags,
 		apEmojis,
 		poll,
-		uri: note.id
+		uri: note.id,
+		url: note.url,
 	}, silent);
 }
 

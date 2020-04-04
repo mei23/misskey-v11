@@ -54,11 +54,11 @@ export default Vue.extend({
 				icon: 'link',
 				text: this.$t('copy-link'),
 				action: this.copyLink
-			}, this.note.uri ? {
+			}, (this.note.url || this.note.uri) ? {
 				icon: 'external-link-square-alt',
 				text: this.$t('remote'),
 				action: () => {
-					window.open(this.note.uri, '_blank');
+					window.open(this.note.url || this.note.uri, '_blank');
 				}
 			} : undefined,
 			null,

@@ -104,6 +104,7 @@ type Option = {
 	apHashtags?: string[];
 	apEmojis?: string[];
 	uri?: string;
+	url?: string;
 	app?: IApp;
 	preview?: boolean;
 };
@@ -496,6 +497,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 	};
 
 	if (data.uri != null) insert.uri = data.uri;
+	if (data.url != null) insert.url = data.url;
 
 	// Append mentions data
 	if (mentionedUsers.length > 0) {

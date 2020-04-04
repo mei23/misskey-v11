@@ -86,7 +86,15 @@ export type INote = {
 		speed: number;
 	};
 
-	uri: string;
+	/**
+	 * AP Object ID
+	 */
+	uri?: string;
+
+	/**
+	 * AP url
+	 */
+	url?: string;
 
 	/**
 	 * 人気の投稿度合いを表すスコア
@@ -429,8 +437,8 @@ export const pack = async (
 	}
 	//#endregion
 
-	if (_note.name && _note.uri) {
-		_note.text = `【${_note.name}】\n${(_note.text || '').trim()}\n${_note.uri}`;
+	if (_note.name && (_note.url || _note.uri)) {
+		_note.text = `【${_note.name}】\n${(_note.text || '').trim()}\n\n${_note.url || _note.uri}`;
 	}
 
 	if (!opts.skipHide) {
