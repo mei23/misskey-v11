@@ -1,5 +1,5 @@
 <template>
-<mk-emoji :emoji="str.startsWith(':') ? null : str" :name="str.startsWith(':') ? str.substr(1, str.length - 2) : null" :is-reaction="true" :custom-emojis="customEmojis" :normal="true"/>
+<mk-emoji :emoji="str.startsWith(':') ? null : str" :name="str.startsWith(':') ? str.substr(1, str.length - 2) : null" :is-reaction="true" :custom-emojis="ce" :normal="true" :key="Math.random()"/>
 </template>
 
 <script lang="ts">
@@ -19,16 +19,18 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			localEmojis: []
 		};
 	},
 	created() {
-		if (!this.customEmojis) {
-			this.$root.getMeta().then(meta => {
-				if (meta && meta.emojis) this.customEmojis = meta.emojis;
-			});
-		}
+		this.$root.getMeta().then(meta => {
+			if (meta && meta.emojis) this.localEmojis = meta.emojis;
+		});
 	},
 	computed: {
+		ce(): any[] {
+			return this.localEmojis.concat(this.customEmojis);
+		},
 		str(): any {
 			switch (this.reaction) {
 				case 'like': return '👍';

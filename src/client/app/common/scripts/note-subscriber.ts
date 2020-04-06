@@ -101,6 +101,12 @@ export default prop => ({
 					if (body.userId == this.$store.state.i.id) {
 						Vue.set(this.$_ns_target, 'myReaction', reaction);
 					}
+
+					if (body.emoji) {
+						const emojis = this.$_ns_target.emojis || [];
+						emojis.push(body.emoji);
+						Vue.set(this.$_ns_target, 'emojis', emojis);
+					}
 					break;
 				}
 

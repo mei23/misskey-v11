@@ -57,7 +57,6 @@ export async function toDbReaction(reaction: string, enableEmoji = true, reacter
 			const encodedHost = reacterHost ? toApHost(reacterHost).replace(/\./g, '_') : reacterHost;
 
 			const encodedReaction = encodedHost ? `:${name}@${encodedHost}:` : `:${name}:`;
-			console.log(`encodedReaction: ${encodedReaction}`);
 			return encodedReaction;
 		}
 	}

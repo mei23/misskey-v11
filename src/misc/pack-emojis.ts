@@ -45,7 +45,7 @@ type EmojiOptions = {
  * @param ownerHost 投稿またはプロフィール所有者のホスト
  * @param opt オプション
  */
-export default async function(emojis: string[], ownerHost: string, opt: EmojiOptions) {
+export default async function(emojis: string[], ownerHost: string, opt: EmojiOptions = { custom: true, avatar: true, foreign: true }) {
 	const [custom, avatar] = await Promise.all([
 		opt.custom ? packCustomEmojis(emojis, ownerHost, opt.foreign) : [],
 		opt.avatar ? packAvatarEmojis(emojis, ownerHost, opt.foreign) : []
