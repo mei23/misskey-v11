@@ -1,6 +1,5 @@
-import * as request from 'request-promise-native';
+import { getJson } from '../../misc/fetch';
 import { IObject, isCollection, isOrderedCollection, isCollectionPage, isOrderedCollectionPage } from './type';
-import config from '../../config';
 
 export default class Resolver {
 	private history: Set<string>;
@@ -42,24 +41,8 @@ export default class Resolver {
 		this.history.add(value);
 
 		console.log(`ResolveRequest: ${value}`);
-		const object = await request({
-			url: value,
-			proxy: config.proxy,
-			timeout: this.timeout,
-			forever: true,
-			headers: {
-				'User-Agent': config.userAgent,
-				Accept: 'application/activity+json, application/ld+json'
-			},
-			json: true
-		}).catch(e => {
-			const message = `${e.name}: ${e.message ? e.message.substr(0, 200) : undefined}, url=${value}`;
-			throw {
-				name: e.name,
-				statusCode: e.statusCode,
-				message,
-			};
-		});
+
+		const object = await getJson(value, 'application/activity+json, application/ld+json');
 
 		if (object === null || (
 			Array.isArray(object['@context']) ?

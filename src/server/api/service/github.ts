@@ -1,5 +1,4 @@
 import * as Router from 'koa-router';
-import * as request from 'request';
 import { OAuth2 } from 'oauth';
 import User, { pack, ILocalUser } from '../../../models/user';
 import config from '../../../config';
@@ -8,6 +7,7 @@ import redis from '../../../db/redis';
 import { v4 as uuid } from 'uuid';
 import signin from '../common/signin';
 import fetchMeta from '../../../misc/fetch-meta';
+import { getJson } from '../../../misc/fetch';
 
 function getUserToken(ctx: Router.IRouterContext) {
 	return ((ctx.headers['cookie'] || '').match(/i=(!\w+)/) || [null, null])[1];
@@ -160,21 +160,9 @@ router.get('/gh/cb', async ctx => {
 						res({ accessToken });
 				}));
 
-		const { login, id } = await new Promise<any>((res, rej) =>
-			request({
-				url: 'https://api.github.com/user',
-				headers: {
-					'Accept': 'application/vnd.github.v3+json',
-					'Authorization': `bearer ${accessToken}`,
-					'User-Agent': config.userAgent
-				}
-			}, (err, response, body) => {
-				if (err)
-					rej(err);
-				else
-					res(JSON.parse(body));
-			}));
-
+		const { login, id } = await getJson('https://api.github.com/user', 'application/vnd.github.v3+json', 10 * 1000, {
+			'Authorization': `bearer ${accessToken}`
+		});
 		if (!login || !id) {
 			ctx.throw(400, 'invalid session');
 			return;
@@ -223,20 +211,9 @@ router.get('/gh/cb', async ctx => {
 						res({ accessToken });
 				}));
 
-		const { login, id } = await new Promise<any>((res, rej) =>
-			request({
-				url: 'https://api.github.com/user',
-				headers: {
-					'Accept': 'application/vnd.github.v3+json',
-					'Authorization': `bearer ${accessToken}`,
-					'User-Agent': config.userAgent
-				}
-			}, (err, response, body) => {
-				if (err)
-					rej(err);
-				else
-					res(JSON.parse(body));
-			}));
+		const { login, id } = await getJson('https://api.github.com/user', 'application/vnd.github.v3+json', 10 * 1000, {
+			'Authorization': `bearer ${accessToken}`
+		});
 
 		if (!login || !id) {
 			ctx.throw(400, 'invalid session');

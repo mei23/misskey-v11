@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as URL from 'url';
-import * as request from 'request';
+import fetch from 'node-fetch';
+import { httpAgent, httpsAgent } from './fetch';
 import config from '../config';
 import * as chalk from 'chalk';
 import Logger from '../services/logger';
@@ -8,10 +9,36 @@ import Logger from '../services/logger';
 export async function downloadUrl(url: string, path: string) {
 	const logger = new Logger('download-url');
 
-	await new Promise((res, rej) => {
-		logger.info(`Downloading ${chalk.cyan(url)} ...`);
+	const requestUrl = URL.parse(url).pathname.match(/[^\u0021-\u00ff]/) ? encodeURI(url) : url;
 
+	logger.info(`Downloading ${chalk.cyan(url)} ...`);
+
+	const response = await fetch(requestUrl, {
+		headers: {
+			'User-Agent': config.userAgent
+		},
+		timeout: 10 * 1000,
+		agent: u => u.protocol == 'http:' ? httpAgent : httpsAgent,
+	}).then(response => {
+		if (!response.ok) {
+			logger.error(`Got ${response.status} (${url})`);
+			throw response.status;
+		} else {
+			return response;
+		}
+	});
+
+	await new Promise((res, rej) => {
 		const writable = fs.createWriteStream(path);
+
+		response.body.on('error', (error: any) => {
+			logger.error(`Failed to start download: ${chalk.cyan(url)}: ${error}`, {
+				url: url,
+				e: error
+			});
+			writable.close();
+			rej(error);
+		});
 
 		writable.on('finish', () => {
 			logger.succ(`Download finished: ${chalk.cyan(url)}`);
@@ -26,37 +53,6 @@ export async function downloadUrl(url: string, path: string) {
 			rej(error);
 		});
 
-		const requestUrl = URL.parse(url).pathname.match(/[^\u0021-\u00ff]/) ? encodeURI(url) : url;
-
-		const req = request({
-			url: requestUrl,
-			proxy: config.proxy,
-			timeout: 30 * 1000,
-			forever: true,
-			headers: {
-				'User-Agent': config.userAgent
-			}
-		});
-
-		req.pipe(writable);
-
-		req.on('response', response => {
-			if (response.statusCode !== 200) {
-				logger.error(`Got ${response.statusCode} (${url})`);
-				writable.close();
-				rej(response.statusCode);
-			}
-		});
-
-		req.on('error', error => {
-			logger.error(`Failed to start download: ${chalk.cyan(url)}: ${error}`, {
-				url: url,
-				e: error
-			});
-			writable.close();
-			rej(error);
-		});
-
-		logger.succ(`Downloaded to: ${path}`);
+		response.body.pipe(writable);
 	});
 }

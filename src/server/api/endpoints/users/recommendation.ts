@@ -1,7 +1,5 @@
 import $ from 'cafy';
 import { pack, ILocalUser, IUser } from '../../../../models/user';
-import * as request from 'request-promise-native';
-import config from '../../../../config';
 import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
 import resolveUser from '../../../../remote/resolve-user';
@@ -54,30 +52,7 @@ export default define(meta, async (ps, me) => {
 	const instance = await fetchMeta();
 
 	if (instance.enableExternalUserRecommendation) {
-		const userName = me.username;
-		const hostName = config.hostname;
-		const limit = ps.limit;
-		const offset = ps.offset;
-		const timeout = instance.externalUserRecommendationTimeout;
-		const engine = instance.externalUserRecommendationEngine;
-		const url = engine
-			.replace('{{host}}', hostName)
-			.replace('{{user}}', userName)
-			.replace('{{limit}}', limit.toString())
-			.replace('{{offset}}', offset.toString());
-
-		const users = await request({
-			url: url,
-			proxy: config.proxy,
-			timeout: timeout,
-			forever: true,
-			json: true,
-			followRedirect: true,
-			followAllRedirects: true
-		})
-		.then(body => convertUsers(body, me));
-
-		return users;
+		throw '廃止';
 	} else {
 		// 隠すユーザーを取得
 		const hideUserIds = await getHideUserIds(me);

@@ -1,5 +1,5 @@
 import * as Router from 'koa-router';
-import * as request from 'request-promise-native';
+import { getJson } from '../../misc/fetch';
 import summaly from 'summaly';
 import fetchMeta from '../../misc/fetch-meta';
 import Logger from '../../services/logger';
@@ -16,15 +16,10 @@ module.exports = async (ctx: Router.IRouterContext) => {
 		: `Getting preview of ${ctx.query.url}@${ctx.query.lang} ...`);
 
 	try {
-		const summary = meta.summalyProxy ? await request.get({
-			url: meta.summalyProxy,
-			qs: {
-				url: ctx.query.url,
-				lang: ctx.query.lang || 'ja-JP'
-			},
-			json: true,
-			forever: true,
-		}) : await summaly(ctx.query.url, {
+		const summary = meta.summalyProxy ? await getJson(`${meta.summalyProxy}?${query({
+			url: ctx.query.url,
+			lang: ctx.query.lang || 'ja-JP'
+		})}`) : await summaly(ctx.query.url, {
 			followRedirects: false,
 			lang: ctx.query.lang || 'ja-JP'
 		});

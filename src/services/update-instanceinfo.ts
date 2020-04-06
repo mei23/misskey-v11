@@ -1,5 +1,4 @@
-import * as request from 'request-promise-native';
-import config from '../config';
+import { getJson } from '../misc/fetch';
 import Instance, { IInstance } from '../models/instance';
 import { toApHost } from '../misc/convert-host';
 import Logger from './logger';
@@ -99,7 +98,7 @@ export async function fetchInstanceinfo(host: string) {
 
 export async function fetchNodeinfo(host: string) {
 	const wellKnownUrl = `https://${host}/.well-known/nodeinfo`;
-	const wellKnown = (await fetchJson(wellKnownUrl)) as {
+	const wellKnown = (await getJson(wellKnownUrl)) as {
 		links: {
 			rel: string;
 			href: string;
@@ -114,37 +113,19 @@ export async function fetchNodeinfo(host: string) {
 
 	if (!link) throw 'supported nodeinfo is not found';
 
-	const nodeinfo = (await fetchJson(link.href)) as Nodeinfo;
+	const nodeinfo = (await getJson(link.href)) as Nodeinfo;
 
 	return nodeinfo;
 }
 
 async function fetchMastodonInstance(host: string) {
-	const json = (await fetchJson(`https://${host}/api/v1/instance`)) as {
+	const json = (await getJson(`https://${host}/api/v1/instance`)) as {
 		version: string;
 		title: string;
 		short_description: string;
 		description: string;
 		email: string;
 	};
-
-	return json;
-}
-
-async function fetchJson(url: string) {
-	const json = await request({
-		url,
-		proxy: config.proxy,
-		timeout: 1000 * 10,
-		forever: true,
-		headers: {
-			'User-Agent': config.userAgent,
-			Accept: 'application/json, */*'
-		},
-		json: true
-	}).catch(e => {
-		throw e.statusCode || e.message;
-	});
 
 	return json;
 }
