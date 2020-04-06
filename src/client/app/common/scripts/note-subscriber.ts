@@ -102,11 +102,6 @@ export default prop => ({
 						Vue.set(this.$_ns_target, 'myReaction', reaction);
 					}
 
-					if (body.emoji) {
-						const emojis = this.$_ns_target.emojis || [];
-						emojis.push(body.emoji);
-						Vue.set(this.$_ns_target, 'emojis', emojis);
-					}
 					break;
 				}
 
