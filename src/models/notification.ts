@@ -5,6 +5,7 @@ import isObjectId from '../misc/is-objectid';
 import { IUser, pack as packUser } from './user';
 import { pack as packNote } from './note';
 import { dbLogger } from '../db/logger';
+import { decodeReaction } from '../misc/reaction-lib';
 
 const Notification = db.get<INotification>('notifications');
 Notification.createIndex('notifieeId');
@@ -116,6 +117,8 @@ export const pack = (notification: any) => new Promise<any>(async (resolve, reje
 			dbLogger.error(`Unknown type: ${_notification.type}`);
 			break;
 	}
+
+	if (_notification.reaction) _notification.reaction = decodeReaction(_notification.reaction, _notification.note?.user?.host);
 
 	resolve(_notification);
 });

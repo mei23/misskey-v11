@@ -4,7 +4,7 @@
 		<mk-avatar class="avatar" :user="notification.user"/>
 		<div>
 			<header>
-				<mk-reaction-icon :reaction="notification.reaction"/>
+				<mk-reaction-icon :reaction="notification.reaction" :custom-emojis="notification.note.emojis"/>
 				<router-link class="name" :to="notification.user | userPage"><mk-user-name :user="notification.user"/></router-link>
 				<mk-time :time="notification.createdAt"/>
 			</header>

@@ -1,5 +1,6 @@
 import Emoji from '../models/emoji';
 import { emojiRegex } from './emoji-regex';
+import { toApHost, toDbHost } from './convert-host';
 
 const basic10: Record<string, string> = {
 	'👍': 'like',
@@ -16,7 +17,7 @@ const basic10: Record<string, string> = {
 
 const REACTION_STAR = '⭐';
 
-export async function toDbReaction(reaction: string, enableEmoji = true): Promise<string> {
+export async function toDbReaction(reaction: string, enableEmoji = true, reacterHost?: string | null): Promise<string> {
 	if (reaction == null) return REACTION_STAR;
 
 	// 既存の文字列リアクションはそのまま
@@ -46,12 +47,45 @@ export async function toDbReaction(reaction: string, enableEmoji = true): Promis
 	const custom = reaction.match(/^:([\w+-]+):$/);
 	if (custom) {
 		const emoji = await Emoji.findOne({
-			host: null,
+			host: reacterHost ? toDbHost(reacterHost) : reacterHost,
 			name: custom[1],
 		});
 
-		if (emoji) return reaction;
+		if (emoji) {
+			const name = custom[1];
+			// MongoDBのKeyに.が使えないので . => _ に変換する
+			const encodedHost = reacterHost ? toApHost(reacterHost).replace(/\./g, '_') : reacterHost;
+
+			const encodedReaction = encodedHost ? `:${name}@${encodedHost}:` : `:${name}:`;
+			console.log(`encodedReaction: ${encodedReaction}`);
+			return encodedReaction;
+		}
 	}
 
 	return REACTION_STAR;
+}
+
+export function decodeReaction(str: string, noteOwnerHost: string) {
+	const custom = str.match(/^:([\w+-]+)(?:@([\w.-]+))?:$/);
+
+	if (custom) {
+		const name = custom[1];
+		const reacterHost = custom[2]?.replace(/_/g, '.') || null;
+
+		// リアクションした人のホスト基準で格納されているので、Note所有者のホスト基準に変換する
+		const host = toApHost(reacterHost) === toApHost(noteOwnerHost) ? null : reacterHost;
+		return host ? `:${name}@${host}:` : `:${name}:`;
+	}
+
+	return str;
+}
+
+export function decodeReactionCounts(reactions: Record<string, number>, noteOwnerHost: string) {
+	const _reactions = {} as Record<string, number>;
+
+	for (const reaction of Object.keys(reactions)) {
+		_reactions[decodeReaction(reaction, noteOwnerHost)] = reactions[reaction];
+	}
+
+	return _reactions;
 }

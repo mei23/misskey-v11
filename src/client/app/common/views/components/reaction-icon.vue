@@ -12,16 +12,21 @@ export default Vue.extend({
 			type: String,
 			required: true
 		},
+		customEmojis: {
+			required: false,
+			default: () => undefined as any[]
+		},
 	},
 	data() {
 		return {
-			customEmojis: []
 		};
 	},
 	created() {
-		this.$root.getMeta().then(meta => {
-			if (meta && meta.emojis) this.customEmojis = meta.emojis;
-		});
+		if (!this.customEmojis) {
+			this.$root.getMeta().then(meta => {
+				if (meta && meta.emojis) this.customEmojis = meta.emojis;
+			});
+		}
 	},
 	computed: {
 		str(): any {

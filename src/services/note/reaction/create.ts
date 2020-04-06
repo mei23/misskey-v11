@@ -13,7 +13,7 @@ import { toDbReaction } from '../../../misc/reaction-lib';
 import deleteReaction from './delete';
 
 export default async (user: IUser, note: INote, reaction: string) => {
-	reaction = await toDbReaction(reaction);
+	reaction = await toDbReaction(reaction, true, user.host);
 
 	const exist = await NoteReaction.findOne({
 		noteId: note._id,

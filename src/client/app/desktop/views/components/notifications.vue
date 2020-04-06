@@ -16,7 +16,7 @@
 						<mk-avatar class="avatar" :user="notification.user"/>
 						<div class="text">
 							<header>
-								<mk-reaction-icon :reaction="notification.reaction" class="icon"/>
+								<mk-reaction-icon :reaction="notification.reaction" :custom-emojis="notification.note.emojis" class="icon"/>
 								<router-link :to="notification.user | userPage" v-user-preview="notification.user.id" class="name">
 									<mk-user-name :user="notification.user"/>
 								</router-link>

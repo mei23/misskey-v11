@@ -5,7 +5,7 @@
 	@click="toggleReaction(reaction)"
 	v-if="count > 0"
 >
-	<mk-reaction-icon :reaction="reaction" ref="icon"/>
+	<mk-reaction-icon :reaction="reaction" :customEmojis="note.emojis" ref="icon"/>
 	<span>{{ count }}</span>
 </span>
 </template>

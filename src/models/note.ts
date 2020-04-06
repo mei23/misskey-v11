@@ -14,6 +14,7 @@ import Emoji from './emoji';
 import packEmojis from '../misc/pack-emojis';
 import { dbLogger } from '../db/logger';
 import { unique, concat } from '../prelude/array';
+import { decodeReaction, decodeReactionCounts } from '../misc/reaction-lib';
 
 const Note = db.get<INote>('notes');
 Note.createIndex('uri', { sparse: true, unique: true });
@@ -270,7 +271,7 @@ export const pack = async (
 	// Some counts
 	_note.renoteCount = _note.renoteCount || 0;
 	_note.repliesCount = _note.repliesCount || 0;
-	_note.reactionCounts = _note.reactionCounts || {};
+	_note.reactionCounts = _note.reactionCounts ? decodeReactionCounts(_note.reactionCounts, _note._user.host) : {};
 
 	// _note._userを消す前か、_note.userを解決した後でないとホストがわからない
 	if (_note._user) {
@@ -283,7 +284,7 @@ export const pack = async (
 				fields: { _id: false }
 			});
 		} else {
-			_note.emojis = unique(concat([_note.emojis, Object.keys(_note.reactionCounts).map(x => x.replace(/:/g, ''))]));
+			_note.emojis = unique(concat([_note.emojis, Object.keys(_note.reactionCounts).map(x => decodeReaction(x, host)).map(x => x.replace(/:/g, ''))]));
 
 			_note.emojis = packEmojis(_note.emojis, host, {
 				custom: true,
