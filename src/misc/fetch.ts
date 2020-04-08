@@ -9,8 +9,9 @@ import config from '../config';
 export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: HeadersInit) {
 	const res = await fetch(url, {
 		headers: Object.assign({
+			'Accept': accept,
+			'Accept-Encoding': 'gzip, deflate, br',
 			'User-Agent': config.userAgent,
-			Accept: accept
 		}, headers || {}),
 		timeout,
 		agent: u => u.protocol == 'http:' ? httpAgent : httpsAgent,
