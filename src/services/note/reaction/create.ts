@@ -47,11 +47,11 @@ export default async (user: IUser, note: INote, reaction: string) => {
 
 	perUserReactionsChart.update(user, note);
 
-	const decodedReaction = decodeReaction(reaction, note._user.host).replace(/:/g, '');
-	const emoji = (await packEmojis([decodedReaction], note._user.host))[0];
+	const decodedReaction = decodeReaction(reaction, note._user.host);	// :name@noteOwnerHost:
+	const emoji = (await packEmojis([decodedReaction.replace(/:/g, '')], note._user.host))[0];
 
 	publishNoteStream(note._id, 'reacted', {
-		reaction: reaction,
+		reaction: decodedReaction,
 		emoji: emoji,
 		userId: user._id
 	});
