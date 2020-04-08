@@ -1,5 +1,9 @@
 <template>
-<mk-emoji :emoji="str.startsWith(':') ? null : str" :name="str.startsWith(':') ? str.substr(1, str.length - 2) : null" :is-reaction="true" :custom-emojis="ce" :normal="true" :key="Math.random()"/>
+<mk-emoji 
+	:emoji="str.startsWith(':') ? null : str"
+	:name="str.startsWith(':') ? str.substr(1, str.length - 2) : null" 
+	:is-reaction="true" :custom-emojis="ce" :normal="true"
+/>
 </template>
 
 <script lang="ts">
