@@ -11,7 +11,7 @@ import { getFriendIds } from '../server/api/common/get-friends';
 import config from '../config';
 import FollowRequest from './follow-request';
 import fetchMeta from '../misc/fetch-meta';
-import packEmojis from '../misc/pack-emojis';
+import { packEmojis } from '../misc/pack-emojis';
 import { dbLogger } from '../db/logger';
 import DriveFile from './drive-file';
 import getDriveFileUrl from '../misc/get-drive-file-url';
@@ -450,11 +450,7 @@ export const pack = (
 
 	// カスタム絵文字添付
 	if (_user.emojis) {
-		_user.emojis = packEmojis(_user.emojis, _user.host, {
-			custom: true,
-			avatar: true,
-			foreign: true
-		}).catch(e => {
+		_user.emojis = packEmojis(_user.emojis, _user.host).catch(e => {
 			console.warn(e);
 			return [];
 		});

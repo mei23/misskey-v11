@@ -11,7 +11,7 @@ import NoteReaction from './note-reaction';
 import { packMany as packFileMany, IDriveFile } from './drive-file';
 import Following from './following';
 import Emoji from './emoji';
-import packEmojis from '../misc/pack-emojis';
+import { packEmojis } from '../misc/pack-emojis';
 import { dbLogger } from '../db/logger';
 import { decodeReaction, decodeReactionCounts } from '../misc/reaction-lib';
 
@@ -283,7 +283,7 @@ export const pack = async (
 				fields: { _id: false }
 			});
 		} else {
-			_note.emojis = packEmojis(_note.emojis, host, { custom: true, avatar: true, foreign: true },
+			_note.emojis = packEmojis(_note.emojis, host,
 				Object.keys(_note.reactionCounts)
 					.map(x => decodeReaction(x, host))
 					.map(x => x.replace(/:/g, '')))

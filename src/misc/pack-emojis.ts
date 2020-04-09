@@ -20,35 +20,15 @@ type IREmoji = {
 };
 
 /**
- * 絵文字クエリオプション
- */
-type EmojiOptions = {
-	/**
-	 * カスタム絵文字を許可する
-	 */
-	custom: boolean;
-
-	/**
-	 * アバター絵文字を許可する
-	 */
-	avatar: boolean;
-
-	/**
-	 * 外部ホスト指定を許可する
-	 */
-	foreign: boolean;
-};
-
-/**
  * 絵文字クエリ
  * @param emojis 絵文字名一覧
  * @param ownerHost 投稿またはプロフィール所有者のホスト
- * @param opt オプション
+ * @param reactionEmojis リアクションの絵文字名一覧
  */
-export default async function(emojis: string[], ownerHost: string, opt: EmojiOptions = { custom: true, avatar: true, foreign: true }, reactionEmojis = [] as string[]) {
+export async function packEmojis(emojis: string[], ownerHost: string, reactionEmojis = [] as string[]) {
 	const [custom, avatar] = await Promise.all([
-		opt.custom ? packCustomEmojis(emojis, ownerHost, opt.foreign, reactionEmojis) : [],
-		opt.avatar ? packAvatarEmojis(emojis, ownerHost, opt.foreign) : []
+		packCustomEmojis(emojis, ownerHost, true, reactionEmojis),
+		packAvatarEmojis(emojis, ownerHost, true)
 	]);
 
 	return custom.concat(avatar);

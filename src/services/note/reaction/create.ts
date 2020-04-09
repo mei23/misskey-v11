@@ -11,7 +11,7 @@ import { renderActivity } from '../../../remote/activitypub/renderer';
 import perUserReactionsChart from '../../../services/chart/per-user-reactions';
 import { toDbReaction, decodeReaction } from '../../../misc/reaction-lib';
 import deleteReaction from './delete';
-import packEmojis from '../../../misc/pack-emojis';
+import { packEmojis } from '../../../misc/pack-emojis';
 
 export default async (user: IUser, note: INote, reaction: string) => {
 	reaction = await toDbReaction(reaction, true, user.host);
