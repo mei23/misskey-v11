@@ -19,6 +19,8 @@ type IREmoji = {
 	resolvable: string,
 };
 
+const SELF_HOST: string = null;
+
 /**
  * 絵文字クエリ
  * @param emojis 絵文字名一覧
@@ -46,8 +48,8 @@ export async function packAvatarEmojis(emojis: string[], ownerHost: string, fore
 			const match = foreign ? name.match(/^@([\w-]+)(?:@([\w.-]+))?$/) : name.match(/^@([\w-]+)$/);
 			if (!match) return null;
 
-			let queryHost = foreign ? match[2] || ownerHost || null : null;
-			if (isSelfHost(queryHost)) queryHost = null;
+			let queryHost = foreign ? match[2] || (ownerHost || SELF_HOST) : SELF_HOST;
+			if (isSelfHost(queryHost)) queryHost = SELF_HOST;
 
 			return {
 				emoji: match[0],
@@ -78,8 +80,6 @@ export async function packAvatarEmojis(emojis: string[], ownerHost: string, fore
 
 	return avatarEmojis;
 }
-
-const SELF_HOST: string = null;
 
 /**
  * Pack custom emojis
