@@ -142,8 +142,8 @@ export async function getFileSize(path: string): Promise<number> {
  */
 export async function calcHash(path: string): Promise<string> {
 	const hash = crypto.createHash('md5');
-	await pipeline(fs.createReadStream(path), hash);
-	return hash.digest('hex');
+	await pipeline(fs.createReadStream(path), hash.setEncoding('hex'));
+	return hash.read();
 }
 
 /**
