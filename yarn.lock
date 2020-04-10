@@ -492,10 +492,10 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@13.11.0":
-  version "13.11.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.11.0.tgz#390ea202539c61c8fa6ba4428b57e05bc36dc47b"
-  integrity sha512-uM4mnmsIIPK/yeO+42F2RQhGUIs39K2RFmugcJANppXe6J1nvH87PvzPZYpza7Xhhs8Yn9yIAVdLZ84z61+0xQ==
+"@types/node@*", "@types/node@13.11.1":
+  version "13.11.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.11.1.tgz#49a2a83df9d26daacead30d0ccc8762b128d53c7"
+  integrity sha512-eWQGP3qtxwL8FGneRrC5DwrJLGN4/dH1clNTuLfN81HCrxVtxRjygDTUoZJ5ASlDEeo0ppYFQjQIlXhtXpOn6g==
 
 "@types/node@^10.12.18":
   version "10.17.17"
@@ -1477,10 +1477,10 @@ autwh@0.1.0:
   dependencies:
     oauth "0.9.15"
 
-aws-sdk@2.655.0:
-  version "2.655.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.655.0.tgz#e95da28e66f02a4bfc0eab46731e2140364b3ea2"
-  integrity sha512-ywXbaPSwQ+YGo7ZGx7KnmoMO0O7fiEL+rttZIsx6AymLZUohfZ7GlRjG8z93jHa+22qWPMEJ+5UC05/PXWbf7Q==
+aws-sdk@2.656.0:
+  version "2.656.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.656.0.tgz#0d74664ddbf30701073be9f9913ee7266afef3b4"
+  integrity sha512-UzqDvvt6i7gpuzEdK0GT/JOfBJcsCPranzZWdQ9HR4+5E0m5kf5gybZ6OX+UseIAE2/WND6Dv0aHgiI21AKenw==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -9577,10 +9577,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@*, systeminformation@4.23.1:
-  version "4.23.1"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.23.1.tgz#03dcc16570adfa1e0b6ceb871aad8f34c9ae8014"
-  integrity sha512-gtqfvz5jUIMqWn0kkdkV4G8uiLmJckQ+z6aKy1uyE0OPU/6tStubahtZDiF0ajSRVJht+Vd4pX5DDwQLhAapww==
+systeminformation@*, systeminformation@4.23.2:
+  version "4.23.2"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.23.2.tgz#ec85aeffa316a4154fa2901dd82ea45438b15c5a"
+  integrity sha512-eKaZ/oy5sC4gaF47lw8jIs1vPpzc736bqa2eRH1aLHJOE/DPnaaUP0h4wirIoTgwF7+tqSTV3f5QzA9w1dYPsw==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
@@ -10191,10 +10191,10 @@ urix@^0.1.0:
   resolved "https://registry.yarnpkg.com/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
   integrity sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
 
-url-loader@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/url-loader/-/url-loader-4.0.0.tgz#946719464089e35804009270339f21124e8dd27e"
-  integrity sha512-sPsoBs8NkSJt9k/2zLUMDAf0rYaG00EtrFQpHRIphKrR6stGsO92LUJf/uUeQNKEoxqoJ4R4qDLqHl+AOEqolA==
+url-loader@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/url-loader/-/url-loader-4.1.0.tgz#c7d6b0d6b0fccd51ab3ffc58a78d32b8d89a7be2"
+  integrity sha512-IzgAAIC8wRrg6NYkFIJY09vtktQcsvU8V6HhtQj9PTefbYImzLB1hufqo4m+RyM5N3mLx5BqJKccgxJS+W3kqw==
   dependencies:
     loader-utils "^2.0.0"
     mime-types "^2.1.26"
@@ -10837,10 +10837,10 @@ xml2js@0.4.19:
     sax ">=0.6.0"
     xmlbuilder "~9.0.1"
 
-xmlbuilder@15.1.0:
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-15.1.0.tgz#4c4c9109180937baeb839978b590250be09a4aef"
-  integrity sha512-xae5hmPQnmSFhpiuV3NGXq+FWGOvWy/rIzxVLnRtSSABbPZWltTQCe6WlHDpCq5pGvnGwNsWnS1FdkW7Tx9FNQ==
+xmlbuilder@15.1.1:
+  version "15.1.1"
+  resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-15.1.1.tgz#9dcdce49eea66d8d10b42cae94a79c3c8d0c2ec5"
+  integrity sha512-yMqGBqtXyeN1e3TGYvgNgDVZ3j84W4cwkOXQswghol6APgZWaff9lnbvN7MHYJOiXsvGPXtjTYJEiC9J2wv9Eg==
 
 xmlbuilder@~9.0.1:
   version "9.0.7"
