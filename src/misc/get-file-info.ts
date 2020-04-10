@@ -129,12 +129,8 @@ export async function checkSvg(path: string) {
  * Get file size
  */
 export async function getFileSize(path: string): Promise<number> {
-	return new Promise<number>((res, rej) => {
-		fs.stat(path, (err, stats) => {
-			if (err) return rej(err);
-			res(stats.size);
-		});
-	});
+	const getStat = util.promisify(fs.stat);
+	return (await getStat(path)).size;
 }
 
 /**
