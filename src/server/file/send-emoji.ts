@@ -3,9 +3,8 @@ import * as tmp from 'tmp';
 import * as fs from 'fs';
 import { serverLogger } from '..';
 import Emoji from '../../models/emoji';
-import { detectType } from '../../misc/get-file-info';
+import { detectType, calcHash } from '../../misc/get-file-info';
 import { downloadUrl } from '../../misc/donwload-url';
-import { calcHash } from '../../misc/calc-hash';
 
 export default async function(ctx: Router.IRouterContext) {
 	const emoji = await Emoji.findOne({
