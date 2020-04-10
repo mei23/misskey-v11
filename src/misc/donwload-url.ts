@@ -27,6 +27,7 @@ export async function downloadUrl(url: string, path: string) {
 
 	if (!response.ok) {
 		logger.error(`Got ${response.status} (${url})`);
+		throw `${response.status}`;
 	}
 
 	await pipeline(response.body, fs.createWriteStream(path));
