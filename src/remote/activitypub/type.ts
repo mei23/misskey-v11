@@ -22,7 +22,7 @@ export interface IObject {
 	endTime?: Date;
 	icon?: IApImage | IApImage[];
 	image?: IApImage | IApImage[];
-	url?: string;
+	url?: ApObject;
 	tag?: IObject | IObject[];
 	sensitive?: boolean;
 	movedTo?: ApObject;
@@ -54,6 +54,17 @@ export function getApId(value: string | IObject): string {
 	if (typeof value === 'string') return value;
 	if (typeof value.id === 'string') return value.id;
 	throw new Error(`cannot detemine id`);
+}
+
+export function getOneApHrefNullable(value: ApObject | undefined): string | undefined {
+	const firstOne = Array.isArray(value) ? value[0] : value;
+	return getApHrefNullable(firstOne);
+}
+
+export function getApHrefNullable(value: string | IObject | undefined): string | undefined {
+	if (typeof value === 'string') return value;
+	if (typeof value?.href === 'string') return value.href;
+	return undefined;
 }
 
 export interface IActivity extends IObject {

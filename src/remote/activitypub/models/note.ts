@@ -5,7 +5,7 @@ import config from '../../../config';
 import Resolver from '../resolver';
 import Note, { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IPost, IObject, getOneApId, getApId, isPost, isEmoji } from '../type';
+import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
@@ -278,7 +278,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 		apEmojis,
 		poll,
 		uri: note.id,
-		url: note.url,
+		url: getOneApHrefNullable(note.url),
 	}, silent);
 }
 

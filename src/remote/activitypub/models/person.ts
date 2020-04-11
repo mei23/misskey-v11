@@ -6,7 +6,7 @@ import config from '../../../config';
 import User, { validateUsername, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
-import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isActor, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, isOrderedCollectionPage, isCreate, isPost } from '../type';
+import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isActor, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, getOneApHrefNullable, isOrderedCollectionPage, isCreate, isPost } from '../type';
 import { IDriveFile } from '../../../models/drive-file';
 import Meta from '../../../models/meta';
 import { fromHtml } from '../../../mfm/fromHtml';
@@ -171,7 +171,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 			uri: person.id,
 			movedToUserId,
 			alsoKnownAsUserIds,
-			url: person.url,
+			url: getOneApHrefNullable(person.url),
 			fields,
 			...services,
 			tags,
@@ -359,7 +359,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 		name: person.name,
 		movedToUserId,
 		alsoKnownAsUserIds,
-		url: person.url,
+		url: getOneApHrefNullable(person.url),
 		endpoints: person.endpoints,
 		fields,
 		...services,
