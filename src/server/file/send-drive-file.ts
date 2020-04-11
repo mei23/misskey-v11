@@ -13,7 +13,7 @@ import { convertToJpeg, convertToPngOrJpeg } from '../../services/drive/image-pr
 import { generateVideoThumbnail } from '../../services/drive/generate-video-thumbnail';
 import { contentDisposition } from '../../misc/content-disposition';
 import { detectType } from '../../misc/get-file-info';
-import { downloadUrl } from '../../misc/donwload-url';
+import { downloadUrl } from '../../misc/download-url';
 
 const assets = `${__dirname}/../../server/file/assets/`;
 

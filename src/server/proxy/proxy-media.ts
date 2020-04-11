@@ -3,7 +3,7 @@ import * as Router from 'koa-router';
 import { serverLogger } from '..';
 import { IImage, convertToPng, convertToJpeg } from '../../services/drive/image-processor';
 import { createTemp } from '../../misc/create-temp';
-import { downloadUrl } from '../../misc/donwload-url';
+import { downloadUrl } from '../../misc/download-url';
 import { detectType } from '../../misc/get-file-info';
 
 export async function proxyMedia(ctx: Router.IRouterContext) {

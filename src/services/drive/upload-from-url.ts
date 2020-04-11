@@ -6,7 +6,7 @@ import { IUser } from '../../models/user';
 import * as mongodb from 'mongodb';
 import { driveLogger } from './logger';
 import { createTemp } from '../../misc/create-temp';
-import { downloadUrl } from '../../misc/donwload-url';
+import { downloadUrl } from '../../misc/download-url';
 
 const logger = driveLogger.createSubLogger('downloader');
 

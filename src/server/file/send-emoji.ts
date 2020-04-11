@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { serverLogger } from '..';
 import Emoji from '../../models/emoji';
 import { detectType, calcHash } from '../../misc/get-file-info';
-import { downloadUrl } from '../../misc/donwload-url';
+import { downloadUrl } from '../../misc/download-url';
 
 export default async function(ctx: Router.IRouterContext) {
 	const emoji = await Emoji.findOne({
