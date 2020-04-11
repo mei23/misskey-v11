@@ -1,17 +1,31 @@
 import config from '../../../config';
 import { INote } from '../../../models/note';
 import { INoteReaction } from '../../../models/note-reaction';
+import Emoji from '../../../models/emoji';
+import renderEmoji from './emoji';
 
-export const renderLike = (noteReaction: INoteReaction, note: INote) => {
+export const renderLike = async (noteReaction: INoteReaction, note: INote) => {
 	const reaction = generalMap[noteReaction.reaction] || noteReaction.reaction;
-	return {
+	const object =  {
 		type: 'Like',
 		id: `${config.url}/likes/${noteReaction._id}`,
 		actor: `${config.url}/users/${noteReaction.userId}`,
 		object: note.uri ? note.uri : `${config.url}/notes/${noteReaction.noteId}`,
 		content: reaction,
 		_misskey_reaction: reaction
-	};
+	} as any;
+
+	if (reaction.startsWith(':')) {
+		const name = reaction.replace(/:/g, '');
+		const emoji = await Emoji.findOne({
+			name,
+			host: null
+		});
+
+		if (emoji) object.tag = [ renderEmoji(emoji) ];
+	}
+
+	return object;
 };
 
 const generalMap: Record<string, string> = {
