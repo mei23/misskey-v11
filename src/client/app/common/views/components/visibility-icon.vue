@@ -24,6 +24,10 @@
 			<div><fa icon="lock"/></div>
 			<div class="localOnly"><fa icon="heart"/></div>
 		</div>
+		<div class="wrap" v-else-if="visibility == 'local-specified'" :title="$t('@.note-visibility.local-specified')">
+			<div><fa icon="envelope"/></div>
+			<div class="localOnly"><fa icon="heart"/></div>
+		</div>
 		<div class="wrap" v-if="visibility == 'once-public'" :title="$t('@.note-visibility.once-public')">
 			<fa :icon="faHandHoldingHeart"/>
 		</div>
