@@ -37,7 +37,18 @@ export async function downloadUrl(url: string, path: string) {
 		throw response.status;
 	}
 
+	// Content-Lengthがあればとっておく
+	const contentLength = response.headers.get('content-length');
+	const expectedLength = contentLength != null ? Number(contentLength) : null;
+
 	await pipeline(response.body, fs.createWriteStream(path));
+
+	// 可能ならばサイズ比較
+	const actualLength = (await util.promisify(fs.stat)(path)).size;
+
+	if (response.headers.get('accept-encoding') == null && expectedLength != null && expectedLength !== actualLength) {
+		throw `size error: expected: ${expectedLength}, but got ${actualLength}`;
+	}
 
 	logger.succ(`Download finished: ${chalk.cyan(url)}`);
 }
