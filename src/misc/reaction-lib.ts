@@ -64,26 +64,24 @@ export async function toDbReaction(reaction: string, enableEmoji = true, reacter
 	return REACTION_STAR;
 }
 
-export function decodeReaction(str: string, noteOwnerHost: string) {
+export function decodeReaction(str: string) {
 	const custom = str.match(/^:([\w+-]+)(?:@([\w.-]+))?:$/);
 
 	if (custom) {
 		const name = custom[1];
-		const reacterHost = custom[2]?.replace(/_/g, '.') || null;
+		const host = custom[2]?.replace(/_/g, '.') || '.';	// ローカルは.
 
-		// リアクションした人のホスト基準で格納されているので、Note所有者のホスト基準に変換する
-		const host = toApHost(reacterHost) === toApHost(noteOwnerHost) ? null : reacterHost;
-		return host ? `:${name}@${host}:` : `:${name}:`;
+		return `:${name}@${host}:`;
 	}
 
 	return str;
 }
 
-export function decodeReactionCounts(reactions: Record<string, number>, noteOwnerHost: string) {
+export function decodeReactionCounts(reactions: Record<string, number>) {
 	const _reactions = {} as Record<string, number>;
 
 	for (const reaction of Object.keys(reactions)) {
-		_reactions[decodeReaction(reaction, noteOwnerHost)] = reactions[reaction];
+		_reactions[decodeReaction(reaction)] = reactions[reaction];
 	}
 
 	return _reactions;

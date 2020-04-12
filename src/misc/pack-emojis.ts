@@ -96,7 +96,7 @@ export async function packCustomEmojis(emojis: string[], ownerHost: string, fore
 			let queryHost = foreign
 				? match[2] || (ownerHost || SELF_HOST)	// 通常のカスタム絵文字の場合、絶対指定ならそれ || なければNote所有者のホスト
 				: SELF_HOST;	// 外部参照を許可しない場合は常に自分のホスト
-			if (isSelfHost(queryHost)) queryHost = null;
+			if (isSelfHost(queryHost)) queryHost = SELF_HOST;
 
 			return {
 				emoji: match[0],
@@ -108,23 +108,25 @@ export async function packCustomEmojis(emojis: string[], ownerHost: string, fore
 		.filter(x => x != null);
 
 	const reactionKeys = reactionEmojis
-	.map(name => {
-		const match = foreign ? name.match(/^(\w+)(?:@([\w.-]+))?$/) : name.match(/^(\w+)$/);
-		if (!match) return null;
+		.map(name => {
+			const match = foreign ? name.match(/^(\w+)(?:@([\w.-]+))?$/) : name.match(/^(\w+)$/);
+			if (!match) return null;
 
-		let queryHost = foreign
-			? match[2] || SELF_HOST	// リアクションカスタム絵文字の場合、絶対指定ならそれ || なければノート所有者の概念はないので自ホスト
-			: SELF_HOST;
-		if (isSelfHost(queryHost)) queryHost = null;
+			// リアクションカスタム絵文字のクエリに使うホスト
+			let queryHost = foreign
+				? match[2] || SELF_HOST	// 絶対指定ならそれ、なければローカルホスト
+				: SELF_HOST;
+			// ローカルホストはおそらく.
+			if (isSelfHost(queryHost) || queryHost === '.') queryHost = SELF_HOST;
 
-		return {
-			emoji: match[0],
-			name: match[1],
-			host: normalizeHost(queryHost),
-			resolvable: `${match[1]}` + (queryHost ? `@${normalizeAsciiHost(queryHost)}` : ''),
-		};
-	})
-	.filter(x => x != null);
+			return {
+				emoji: match[0],
+				name: match[1],
+				host: normalizeHost(queryHost),
+				resolvable: `${match[1]}` + (queryHost ? `@${normalizeAsciiHost(queryHost)}` : ''),
+			};
+		})
+		.filter(x => x != null);
 
 	const keys = customKeys.concat(reactionKeys);
 
@@ -141,7 +143,7 @@ export async function packCustomEmojis(emojis: string[], ownerHost: string, fore
 		const customEmoji = {
 			name: key.emoji,
 			url: key.host ? `${config.url}/files/${emoji.name}@${emoji.host}/${emoji.updatedAt ? emoji.updatedAt.getTime().toString(16) : '0'}.png` : emoji.url,
-			host: key.host,
+			//host: key.host,
 			resolvable: key.resolvable,
 		} as IREmoji;
 

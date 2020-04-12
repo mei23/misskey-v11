@@ -118,7 +118,7 @@ export const pack = (notification: any) => new Promise<any>(async (resolve, reje
 			break;
 	}
 
-	if (_notification.reaction) _notification.reaction = decodeReaction(_notification.reaction, _notification.note?.user?.host);
+	if (_notification.reaction) _notification.reaction = decodeReaction(_notification.reaction);
 
 	resolve(_notification);
 });

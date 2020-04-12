@@ -47,8 +47,8 @@ export default async (user: IUser, note: INote, reaction: string) => {
 
 	perUserReactionsChart.update(user, note);
 
-	const decodedReaction = decodeReaction(reaction, note._user.host);	// :name@noteOwnerHost:
-	const emoji = (await packEmojis([decodedReaction.replace(/:/g, '')], note._user.host))[0];
+	const decodedReaction = decodeReaction(reaction);
+	const emoji = (await packEmojis([], note._user.host, [decodedReaction.replace(/:/g, '')]))[0];
 
 	publishNoteStream(note._id, 'reacted', {
 		reaction: decodedReaction,

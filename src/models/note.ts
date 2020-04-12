@@ -270,7 +270,7 @@ export const pack = async (
 	// Some counts
 	_note.renoteCount = _note.renoteCount || 0;
 	_note.repliesCount = _note.repliesCount || 0;
-	_note.reactionCounts = _note.reactionCounts ? decodeReactionCounts(_note.reactionCounts, _note._user.host) : {};
+	_note.reactionCounts = _note.reactionCounts ? decodeReactionCounts(_note.reactionCounts) : {};
 
 	// _note._userを消す前か、_note.userを解決した後でないとホストがわからない
 	if (_note._user) {
@@ -285,7 +285,7 @@ export const pack = async (
 		} else {
 			_note.emojis = packEmojis(_note.emojis, host,
 				Object.keys(_note.reactionCounts)
-					.map(x => decodeReaction(x, host))
+					.map(x => decodeReaction(x))
 					.map(x => x.replace(/:/g, '')))
 			.catch(e => {
 				console.warn(e);
