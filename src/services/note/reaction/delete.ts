@@ -21,9 +21,13 @@ export default async (user: IUser, note: INote) => {
 	}
 
 	// Delete reaction
-	await NoteReaction.remove({
+	const result = await NoteReaction.remove({
 		_id: exist._id
 	});
+
+	if (result.deletedCount !== 1) {
+		throw new IdentifiableError('60527ec9-b4cb-4a88-a6bd-32d3ad26817d', 'not reacted');
+	}
 
 	const dec: any = {};
 	dec[`reactionCounts.${exist.reaction}`] = -1;
