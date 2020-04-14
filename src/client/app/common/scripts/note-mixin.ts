@@ -25,7 +25,7 @@ export default (opts: Opts = {}) => ({
 
 	data() {
 		return {
-			showContent: false,
+			showContent: this.$store.state.device.alwaysOpenCw,
 			hideThisNote: false,
 			openingMenu: false
 		};

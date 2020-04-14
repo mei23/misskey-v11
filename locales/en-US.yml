@@ -196,6 +196,7 @@ common:
     disable-showing-animated-images: "Do not play animated images"
     suggest-recent-hashtags: "Show recent popular hashtags on the post form"
     always-show-nsfw: "Always show NSFW contents"
+    alwaysOpenCw: "Show CW content from the beginning"
     always-mark-nsfw: "Always mark posts with media attachments as NSFW"
     show-full-acct: "Do not omit the hostname from the username"
     show-via: "Show via"
