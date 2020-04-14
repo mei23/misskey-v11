@@ -1,7 +1,7 @@
 <template>
 <span
 	class="reaction"
-	:class="{ reacted: note.myReaction == reaction }"
+	:class="{ reacted: note.myReaction == reaction, canToggle }"
 	@click="toggleReaction(reaction)"
 	v-if="count > 0"
 >
@@ -29,15 +29,15 @@ export default Vue.extend({
 			type: Object,
 			required: true,
 		},
-		canToggle: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
 	},
 	watch: {
 		count() {
 			this.anime();
+		},
+	},
+	computed: {
+		canToggle(): boolean {
+			return !this.reaction.match(/@\w/);
 		},
 	},
 	methods: {
@@ -112,24 +112,25 @@ export default Vue.extend({
 	margin 2px
 	padding 0 6px
 	border-radius 4px
-	cursor pointer
 
 	*
 		user-select none
 		-moz-user-select none
 		pointer-events none
 
-	&.reacted
-		background var(--primary)
-
-		> span
-			color var(--primaryForeground)
-
-	&:not(.reacted)
+	&.canToggle
 		background var(--reactionViewerButtonBg)
+		cursor pointer
 
 		&:hover
 			background var(--reactionViewerButtonHoverBg)
+
+	&.reacted
+		background var(--primary)
+		cursor pointer
+
+		> span
+			color var(--primaryForeground)
 
 	> span
 		font-size 1.1em
