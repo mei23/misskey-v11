@@ -389,7 +389,7 @@ export const pack = async (
 					});
 
 				if (reaction) {
-					return reaction.reaction;
+					return decodeReaction(reaction.reaction);
 				}
 
 				return null;

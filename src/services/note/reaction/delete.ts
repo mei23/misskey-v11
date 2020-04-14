@@ -7,6 +7,7 @@ import renderUndo from '../../../remote/activitypub/renderer/undo';
 import { renderActivity } from '../../../remote/activitypub/renderer';
 import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
 import { IdentifiableError } from '../../../misc/identifiable-error';
+import { decodeReaction } from '../../../misc/reaction-lib';
 
 export default async (user: IUser, note: INote) => {
 	// if already unreacted
@@ -38,7 +39,7 @@ export default async (user: IUser, note: INote) => {
 	});
 
 	publishNoteStream(note._id, 'unreacted', {
-		reaction: exist.reaction,
+		reaction: decodeReaction(exist.reaction),
 		userId: user._id
 	});
 
