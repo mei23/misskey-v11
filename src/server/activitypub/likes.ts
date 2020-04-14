@@ -57,6 +57,8 @@ export default async (ctx: Router.IRouterContext) => {
 	const limit = 20;
 	const partOf = `${config.url}/notes/${note._id}/likes`;
 
+	const totalItems = note.reactionCounts ? Object.values(note.reactionCounts).reduce((a, c) => a + c, 0) : 0;
+
 	if (page) {
 		const query = {
 			noteId: note._id
@@ -93,7 +95,7 @@ export default async (ctx: Router.IRouterContext) => {
 				until_id: untilId
 			})}`,
 			// totalItems
-			reactions.length,
+			totalItems,
 			// items
 			activities,
 			// partOf
@@ -115,8 +117,6 @@ export default async (ctx: Router.IRouterContext) => {
 		setResponseType(ctx);
 	} else {
 		// index page
-		const totalItems = note.reactionCounts ? Object.values(note.reactionCounts).reduce((a, c) => a + c, 0) : 0;
-
 		const rendered = renderOrderedCollection(
 			partOf,	// id
 			totalItems,	// totalItems
