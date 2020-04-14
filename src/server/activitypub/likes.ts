@@ -49,6 +49,11 @@ export default async (ctx: Router.IRouterContext) => {
 		copyOnce: { $ne: true }
 	});
 
+	if (note == null) {
+		ctx.status = 404;
+		return;
+	}
+
 	const limit = 20;
 	const partOf = `${config.url}/notes/${note._id}/likes`;
 
