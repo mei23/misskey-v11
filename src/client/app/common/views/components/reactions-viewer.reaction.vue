@@ -78,7 +78,8 @@ export default Vue.extend({
 				const icon = new Icon({
 					parent: this,
 					propsData: {
-						reaction: this.reaction
+						reaction: this.reaction,
+						customEmojis: this.note.emojis
 					}
 				}).$mount();
 
