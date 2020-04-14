@@ -214,7 +214,7 @@ common:
     disable-showing-animated-images: "アニメーション画像を再生しない"
     suggest-recent-hashtags: "最近のハッシュタグを投稿フォームに表示する"
     always-show-nsfw: "常に閲覧注意のメディアを表示する"
-    alwaysOpenCw: "最初からCW内のコンテンツを表示する"
+    alwaysOpenCw: "最初からCW/閲覧注意のコンテンツを表示する"
     always-mark-nsfw: "常にメディアを閲覧注意として投稿"
     show-full-acct: "ユーザー名のホストを省略しない"
     show-via: "viaを表示する"
