@@ -12,7 +12,6 @@ import renderKey from '../remote/activitypub/renderer/key';
 import renderPerson from '../remote/activitypub/renderer/person';
 import renderEmoji from '../remote/activitypub/renderer/emoji';
 import Outbox, { packActivity } from './activitypub/outbox';
-import Likes from './activitypub/likes';
 import Followers from './activitypub/followers';
 import Following from './activitypub/following';
 import Featured from './activitypub/featured';
@@ -135,8 +134,6 @@ router.get('/notes/:note/activity', async ctx => {
 	ctx.set('Cache-Control', 'public, max-age=180');
 	setResponseType(ctx);
 });
-
-router.get('/notes/:note/likes', Likes);
 
 // outbox
 router.get('/users/:user/outbox', Outbox);
