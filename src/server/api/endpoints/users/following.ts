@@ -7,6 +7,7 @@ import { getFriendIds } from '../../common/get-friends';
 import define from '../../define';
 import { ApiError } from '../../error';
 import { getFollowerIds } from '../../common/get-followers';
+import { canShowFollows } from '../../common/can-show-follows';
 
 export const meta = {
 	desc: {
@@ -93,6 +94,13 @@ export default define(meta, async (ps, me) => {
 		: { usernameLower: ps.username.toLowerCase(), host: ps.host };
 
 	const user = await User.findOne(q);
+
+	if (!await canShowFollows(me, user)) {
+		return {
+			users: [],
+			next: null,
+		};
+	}
 
 	if (user === null) {
 		throw new ApiError(meta.errors.noSuchUser);

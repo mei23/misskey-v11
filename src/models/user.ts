@@ -101,6 +101,8 @@ type IUserBase = {
 
 	avoidSearchIndex?: boolean;
 
+	hideFollows?: '' | 'follower' | 'always';
+
 	noFederation?: boolean;
 
 	/**
@@ -306,6 +308,7 @@ export const pack = (
 		bannerId: true,
 		emojis: true,
 		avoidSearchIndex: true,
+		hideFollows: true,
 		isCat: true,
 		isBot: true,
 		isOrganization: true,

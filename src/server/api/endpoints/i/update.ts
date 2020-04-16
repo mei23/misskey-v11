@@ -122,6 +122,13 @@ export const meta = {
 			}
 		},
 
+		hideFollows: {
+			validator: $.optional.nullable.str.or(['', 'follower', 'always']),
+			desc: {
+				'ja-JP': 'hide Follow/Follower list'
+			}
+		},
+
 		noFederation: {
 			validator: $.optional.bool,
 			desc: {
@@ -211,6 +218,7 @@ export default define(meta, async (ps, user, app) => {
 	if (typeof ps.carefulMassive == 'boolean') updates.carefulMassive = ps.carefulMassive;
 	if (typeof ps.autoAcceptFollowed == 'boolean') updates.autoAcceptFollowed = ps.autoAcceptFollowed;
 	if (typeof ps.avoidSearchIndex == 'boolean') updates.avoidSearchIndex = ps.avoidSearchIndex;
+	if (ps.hideFollows !== undefined) updates.hideFollows = ps.hideFollows;
 	if (typeof ps.noFederation == 'boolean') updates.noFederation = ps.noFederation;
 	if (typeof ps.isCat == 'boolean') updates.isCat = ps.isCat;
 	if (typeof ps.autoWatch == 'boolean') updates['settings.autoWatch'] = ps.autoWatch;

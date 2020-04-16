@@ -63,7 +63,7 @@ export default async (ctx: Router.IRouterContext) => {
 		}
 
 		// Get followers
-		const followings = await Following
+		const followings = user.hideFollows ? [] : await Following
 			.find(query, {
 				limit: limit + 1,
 				sort: { _id: -1 }
@@ -91,7 +91,7 @@ export default async (ctx: Router.IRouterContext) => {
 		setResponseType(ctx);
 	} else {
 		// index page
-		const rendered = renderOrderedCollection(partOf, user.followersCount, `${partOf}?page=true`, null);
+		const rendered = renderOrderedCollection(partOf, user.followersCount, user.hideFollows ? null : `${partOf}?page=true`, null);
 		ctx.body = renderActivity(rendered);
 		ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
 		setResponseType(ctx);
