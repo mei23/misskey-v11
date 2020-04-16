@@ -90,8 +90,14 @@ type IUserBase = {
 	 */
 	carefulBot: boolean;
 
+	/**
+	 * リモートからのフォローを承認制にするか
+	 */
 	carefulRemote: boolean;
 
+	/**
+	 * 大量フォローユーザーのフォローを承認制にするか
+	 */
 	carefulMassive?: boolean;
 
 	/**
@@ -99,10 +105,19 @@ type IUserBase = {
 	 */
 	autoAcceptFollowed: boolean;
 
+	/**
+	 * 検索エンジンのインデックスを拒否するか
+	 */
 	avoidSearchIndex?: boolean;
 
+	/**
+	 * フォローフォロー一覧を隠すか
+	 */
 	hideFollows?: '' | 'follower' | 'always';
 
+	/**
+	 * 連合を無効にするか
+	 */
 	noFederation?: boolean;
 
 	/**
