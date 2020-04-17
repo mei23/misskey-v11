@@ -1,7 +1,8 @@
 <template>
 <img v-if="customEmoji" class="fvgwvorwhxigeolkkrcderjzcawqrscl custom" :class="{ normal: normal }" :src="url" :alt="alt" :title="title"/>
 <img v-else-if="char" class="fvgwvorwhxigeolkkrcderjzcawqrscl" :src="url" :alt="alt" :title="alt"/>
-<span v-else>❔</span>
+<span v-else-if="isReaction">❔</span>
+<span v-else>:{{ name }}:</span>
 </template>
 
 <script lang="ts">
