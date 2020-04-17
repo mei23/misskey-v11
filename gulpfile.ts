@@ -115,7 +115,7 @@ gulp.task('copy:client', () =>
 			'./src/client/app/*/assets/**/*'
 		])
 			.pipe(rename(path => {
-				path.dirname = path.dirname.replace('assets', '.');
+				path.dirname = path.dirname!.replace('assets', '.');
 			}))
 			.pipe(gulp.dest('./built/client/assets/'))
 );
