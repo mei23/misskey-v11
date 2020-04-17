@@ -1,5 +1,5 @@
 import { ObjectID } from 'mongodb';
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 import * as json from 'koa-json-body';
 import * as httpSignature from 'http-signature';
 
@@ -25,7 +25,7 @@ const router = new Router();
 
 //#region Routing
 
-function inbox(ctx: Router.IRouterContext) {
+function inbox(ctx: Router.RouterContext) {
 	let signature;
 
 	try {
@@ -43,7 +43,7 @@ function inbox(ctx: Router.IRouterContext) {
 const ACTIVITY_JSON = 'application/activity+json; charset=utf-8';
 const LD_JSON = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"; charset=utf-8';
 
-function isActivityPubReq(ctx: Router.IRouterContext) {
+function isActivityPubReq(ctx: Router.RouterContext) {
 	ctx.response.vary('Accept');
 	const accepted = ctx.accepts('html', ACTIVITY_JSON, LD_JSON);
 	return typeof accepted === 'string' && !accepted.match(/html/);
@@ -179,7 +179,7 @@ router.get('/users/:user/publickey', async ctx => {
 });
 
 // user
-async function userInfo(ctx: Router.IRouterContext, user: IUser) {
+async function userInfo(ctx: Router.RouterContext, user: IUser) {
 	if (user === null) {
 		ctx.status = 404;
 		return;

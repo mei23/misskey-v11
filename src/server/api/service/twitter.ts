@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 import { v4 as uuid } from 'uuid';
 import autwh from 'autwh';
 import redis from '../../../db/redis';
@@ -8,11 +8,11 @@ import config from '../../../config';
 import signin from '../common/signin';
 import fetchMeta from '../../../misc/fetch-meta';
 
-function getUserToken(ctx: Router.IRouterContext) {
+function getUserToken(ctx: Router.RouterContext) {
 	return ((ctx.headers['cookie'] || '').match(/i=(!\w+)/) || [null, null])[1];
 }
 
-function compareOrigin(ctx: Router.IRouterContext) {
+function compareOrigin(ctx: Router.RouterContext) {
 	function normalizeUrl(url: string) {
 		return url.endsWith('/') ? url.substr(0, url.length - 1) : url;
 	}

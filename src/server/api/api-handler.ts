@@ -1,14 +1,12 @@
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 
 import { IEndpoint } from './endpoints';
 import authenticate from './authenticate';
 import call from './call';
 import { ApiError } from './error';
 
-export default (endpoint: IEndpoint, ctx: Router.IRouterContext) => new Promise((res) => {
-	const body = ctx.is('multipart/form-data') ? (ctx.req as any).body
-		: ctx.method === 'GET' ? ctx.query
-		: ctx.request.body;
+export default (endpoint: IEndpoint, ctx: Router.RouterContext) => new Promise((res) => {
+	const body = ctx.method === 'GET' ? ctx.query : ctx.request.body;
 
 	const reply = (x?: any, y?: ApiError) => {
 		if (x == null) {
@@ -33,7 +31,7 @@ export default (endpoint: IEndpoint, ctx: Router.IRouterContext) => new Promise(
 	// Authentication
 	authenticate(body['i']).then(([user, app]) => {
 		// API invoking
-		call(endpoint.name, user, app, body, (ctx.req as any).file).then(res => {
+		call(endpoint.name, user, app, body, (ctx as any).file).then((res: any) => {
 			if (ctx.method === 'GET' && endpoint.meta.cacheSec && !body['i'] && !user) {
 				ctx.set('Cache-Control', `public, max-age=${endpoint.meta.cacheSec}`);
 			}

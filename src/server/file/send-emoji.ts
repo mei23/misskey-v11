@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 import * as tmp from 'tmp';
 import * as fs from 'fs';
 import { serverLogger } from '..';
@@ -6,7 +6,7 @@ import Emoji from '../../models/emoji';
 import { detectType, calcHash } from '../../misc/get-file-info';
 import { downloadUrl } from '../../misc/download-url';
 
-export default async function(ctx: Router.IRouterContext) {
+export default async function(ctx: Router.RouterContext) {
 	const emoji = await Emoji.findOne({
 		name: ctx.params.name,
 		host: ctx.params.host,

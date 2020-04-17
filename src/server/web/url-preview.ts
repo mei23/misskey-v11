@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 import { getJson } from '../../misc/fetch';
 import summaly from 'summaly';
 import fetchMeta from '../../misc/fetch-meta';
@@ -8,7 +8,7 @@ import { query } from '../../prelude/url';
 
 const logger = new Logger('url-preview');
 
-module.exports = async (ctx: Router.IRouterContext) => {
+module.exports = async (ctx: Router.RouterContext) => {
 	const meta = await fetchMeta();
 
 	logger.info(meta.summalyProxy

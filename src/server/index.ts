@@ -7,7 +7,7 @@ import * as http from 'http';
 import * as http2 from 'http2';
 import * as https from 'https';
 import * as Koa from 'koa';
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 import * as mount from 'koa-mount';
 import * as koaLogger from 'koa-logger';
 import * as requestStats from 'request-stats';

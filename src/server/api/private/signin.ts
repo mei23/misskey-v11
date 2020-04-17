@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 import * as bcrypt from 'bcryptjs';
 import * as speakeasy from 'speakeasy';
 import User, { ILocalUser } from '../../../models/user';
@@ -7,7 +7,7 @@ import { publishMainStream } from '../../../services/stream';
 import signin from '../common/signin';
 import config from '../../../config';
 
-export default async (ctx: Router.IRouterContext) => {
+export default async (ctx: Router.RouterContext) => {
 	ctx.set('Access-Control-Allow-Origin', config.url);
 	ctx.set('Access-Control-Allow-Credentials', 'true');
 

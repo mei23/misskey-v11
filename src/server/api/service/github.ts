@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import * as Router from '@koa/router';
 import { OAuth2 } from 'oauth';
 import User, { pack, ILocalUser } from '../../../models/user';
 import config from '../../../config';
@@ -9,11 +9,11 @@ import signin from '../common/signin';
 import fetchMeta from '../../../misc/fetch-meta';
 import { getJson } from '../../../misc/fetch';
 
-function getUserToken(ctx: Router.IRouterContext) {
+function getUserToken(ctx: Router.RouterContext) {
 	return ((ctx.headers['cookie'] || '').match(/i=(!\w+)/) || [null, null])[1];
 }
 
-function compareOrigin(ctx: Router.IRouterContext) {
+function compareOrigin(ctx: Router.RouterContext) {
 	function normalizeUrl(url: string) {
 		return url ? url.endsWith('/') ? url.substr(0, url.length - 1) : url : '';
 	}
