@@ -7,7 +7,7 @@ import isObjectId from './is-objectid';
  */
 const isValidId = (x: any) => mongo.ObjectID.isValid(x);
 
-export const transform = (x: string | mongo.ObjectID): mongo.ObjectID => {
+export const transform = (x: string | mongo.ObjectID | null | undefined): mongo.ObjectID | null | undefined => {
 	if (x === undefined) return undefined;
 	if (x === null) return null;
 
@@ -17,7 +17,7 @@ export const transform = (x: string | mongo.ObjectID): mongo.ObjectID => {
 		return x as mongo.ObjectID;
 	}
 };
-export const transformMany = (xs: (string | mongo.ObjectID)[]): mongo.ObjectID[] => {
+export const transformMany = (xs: (string | mongo.ObjectID)[]): (mongo.ObjectID | null | undefined)[] | null => {
 	if (xs == null) return null;
 
 	return xs.map(x => transform(x));

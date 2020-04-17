@@ -22,7 +22,7 @@ export type FileInfo = {
 
 const TYPE_OCTET_STREAM = {
 	mime: 'application/octet-stream',
-	ext: null as string
+	ext: null
 };
 
 const TYPE_SVG = {
@@ -42,8 +42,8 @@ export async function getFileInfo(path: string): Promise<FileInfo> {
 	let type = await detectType(path);
 
 	// image dimensions
-	let width = undefined as number;
-	let height = undefined as number;
+	let width: number | undefined;
+	let height: number | undefined;
 
 	if (['image/jpeg', 'image/gif', 'image/png', 'image/apng', 'image/webp', 'image/bmp', 'image/tiff', 'image/svg+xml', 'image/vnd.adobe.photoshop'].includes(type.mime)) {
 		const imageSize = await detectImageSize(path).catch(e => {

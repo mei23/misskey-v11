@@ -29,7 +29,7 @@ export default function load() {
 
 	config.url = normalizeUrl(config.url);
 
-	config.port = config.port || parseInt(process.env.PORT, 10);
+	config.port = config.port || parseInt(process.env.PORT || '', 10);
 
 	mixin.version = meta.version;
 	mixin.host = url.host;

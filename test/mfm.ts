@@ -1297,13 +1297,13 @@ describe('MFM', () => {
 		it('br', () => {
 			const input = 'foo\nbar\nbaz';
 			const output = '<p><span>foo<br>bar<br>baz</span></p>';
-			assert.equal(toHtml(parse(input)), output);
+			assert.equal(toHtml(parse(input)!), output);
 		});
 
 		it('br alt', () => {
 			const input = 'foo\r\nbar\rbaz';
 			const output = '<p><span>foo<br>bar<br>baz</span></p>';
-			assert.equal(toHtml(parse(input)), output);
+			assert.equal(toHtml(parse(input)!), output);
 		});
 	});
 

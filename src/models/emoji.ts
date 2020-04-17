@@ -42,11 +42,11 @@ export async function packXEmoji(emoji: any): Promise<IXEmoji> {
 	if (isObjectid(emoji)) {
 		_emoji = await Emoji.findOne({
 			_id: emoji
-		});
+		}) as IEmoji;
 	} else if (typeof emoji === 'string') {
 		_emoji = await Emoji.findOne({
 			_id: new mongo.ObjectID(emoji)
-		});
+		}) as IEmoji;
 	} else {
 		_emoji = deepcopy(emoji);
 	}

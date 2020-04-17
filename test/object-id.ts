@@ -39,13 +39,13 @@ describe('transform', () => {
 	it('from string', () => {
 		const expect = new ObjectID(id1);
 		const actual = transform(id1);
-		assert.strictEqual(expect.toHexString(), actual.toHexString());
+		assert.strictEqual(expect.toHexString(), actual!.toHexString());
 	});
 
 	it('from ObjectID', () => {
 		const expect = new ObjectID(id1);
 		const actual = transform(new ObjectID(id1));
-		assert.strictEqual(expect.toHexString(), actual.toHexString());
+		assert.strictEqual(expect.toHexString(), actual!.toHexString());
 	});
 
 	it('null to null', () => {
