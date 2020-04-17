@@ -6486,10 +6486,10 @@ monk-middleware-wait-for-connection@^0.2.0:
   resolved "https://registry.yarnpkg.com/monk-middleware-wait-for-connection/-/monk-middleware-wait-for-connection-0.2.0.tgz#312958d30e588b57d09754dd7c97b4843316835a"
   integrity sha1-MSlY0w5Yi1fQl1TdfJe0hDMWg1o=
 
-monk@7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/monk/-/monk-7.1.2.tgz#df60149b6e5aef56583cbaf992cd2ecf7d28121c"
-  integrity sha512-wyO1wW2lVlVChJXtNIyJ/ZSlBg/wQ/XTsWzfhuV19pl47/44nxR1KhXKxTnSB1hx08xuTMF3QodvaFBuRWPUjQ==
+monk@7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/monk/-/monk-7.2.0.tgz#6dec7ee7477cd2f4df0558a53edfbb8463afe595"
+  integrity sha512-PdCTlPhmUH5ULg80CS0Dgn9LQ7omldNQg+kVn7wtQF1cA/me/Kd5YmiRDxUeTUukpNFkrM3qEYP5oC5AqVjSgw==
   dependencies:
     debug "*"
     mongodb "^3.2.3"
