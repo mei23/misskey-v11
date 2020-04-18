@@ -1,28 +1,20 @@
-import * as mongo from 'mongodb';
-import User, { IRemoteUser } from '../../../../models/user';
-import config from '../../../../config';
+import { IRemoteUser, isLocalUser } from '../../../../models/user';
 import unfollow from '../../../../services/following/delete';
 import cancelRequest from '../../../../services/following/requests/cancel';
 import { IFollow } from '../../type';
 import FollowRequest from '../../../../models/follow-request';
 import Following from '../../../../models/following';
+import ApResolver from '../../ap-resolver';
 
 export default async (actor: IRemoteUser, activity: IFollow): Promise<string> => {
-	const id = typeof activity.object == 'string' ? activity.object : activity.object.id;
+	const apResolver = new ApResolver();
 
-	if (!id.startsWith(config.url + '/')) {
-		return `skip: invalid target`;
-	}
-
-	const followee = await User.findOne({
-		_id: new mongo.ObjectID(id.split('/').pop())
-	});
-
-	if (followee === null) {
+	const followee = await apResolver.getUserFromObject(activity.object);
+	if (followee == null) {
 		return `skip: followee not found`;
 	}
 
-	if (followee.host != null) {
+	if (!isLocalUser(followee)) {
 		return `skip: フォロー解除しようとしているユーザーはローカルユーザーではありません`;
 	}
 

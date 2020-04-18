@@ -1,7 +1,6 @@
 import * as Bull from 'bull';
 import * as httpSignature from 'http-signature';
-import parseAcct from '../../misc/acct/parse';
-import User, { IRemoteUser } from '../../models/user';
+import { IRemoteUser } from '../../models/user';
 import perform from '../../remote/activitypub/perform';
 import { resolvePerson } from '../../remote/activitypub/models/person';
 import { toUnicode } from 'punycode';
@@ -15,6 +14,7 @@ import { getApId } from '../../remote/activitypub/type';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost } from '../../misc/instance-info';
 import { InboxJobData } from '..';
+import ApResolver from '../../remote/activitypub/ap-resolver';
 
 const logger = new Logger('inbox');
 
@@ -22,6 +22,8 @@ const logger = new Logger('inbox');
 export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	const signature = job.data.signature;
 	const activity = job.data.activity;
+
+	const apResolver = new ApResolver();
 
 	//#region Log
 	const info = Object.assign({}, activity);
@@ -31,27 +33,10 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	//#endregion
 
 	const keyIdLower = signature.keyId.toLowerCase();
-	let user: IRemoteUser;
+	let user: IRemoteUser | null;
 
 	if (keyIdLower.startsWith('acct:')) {
-		const { username, host } = parseAcct(keyIdLower.slice('acct:'.length));
-		if (host === null) {
-			return `skip: request was made by local user: @${username}`;
-		}
-
-		// アクティビティ内のホストの検証
-		try {
-			ValidateActivity(activity, host);
-		} catch (e) {
-			return `skip: host validation failed ${e.message}`;
-		}
-
-		// ブロックしてたら中断
-		if (await isBlockedHost(host)) {
-			return `skip: Blocked instance: ${host}`;
-		}
-
-		user = await User.findOne({ usernameLower: username, host: host.toLowerCase() }) as IRemoteUser;
+		return `skip: acct keyId is no longer supported`;
 	} else {
 		// アクティビティ内のホストの検証
 		const host = toUnicode(new URL(signature.keyId).hostname.toLowerCase());
@@ -66,10 +51,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			return `skip: Blocked instance: ${host}`;
 		}
 
-		user = await User.findOne({
-			host: { $ne: null },
-			'publicKey.id': signature.keyId
-		}) as IRemoteUser;
+		user = await apResolver.getRemoteUserFromKeyId(signature.keyId);
 	}
 
 	// アクティビティを送信してきたユーザーがまだMisskeyサーバーに登録されていなかったら登録する

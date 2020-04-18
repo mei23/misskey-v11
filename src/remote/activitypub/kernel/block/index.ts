@@ -1,32 +1,19 @@
-import * as mongo from 'mongodb';
-import User, { IRemoteUser } from '../../../../models/user';
-import config from '../../../../config';
-import { IBlock, getApId } from '../../type';
+import { IRemoteUser, isLocalUser } from '../../../../models/user';
+import { IBlock } from '../../type';
 import block from '../../../../services/blocking/create';
-import { apLogger } from '../../logger';
-
-const logger = apLogger;
+import ApResolver from '../../ap-resolver';
 
 export default async (actor: IRemoteUser, activity: IBlock): Promise<string> => {
-	const id = getApId(activity.object);
+	// ※ activity.objectにブロック対象があり、それは存在するローカルユーザーのはず
 
-	const uri = getApId(activity);
+	const apResolver = new ApResolver();
+	const blockee = await apResolver.getUserFromObject(activity.object);
 
-	logger.info(`Block: ${uri}`);
-
-	if (!id.startsWith(config.url + '/')) {
-		return `skip: blockee is not a local user`;
-	}
-
-	const blockee = await User.findOne({
-		_id: new mongo.ObjectID(id.split('/').pop())
-	});
-
-	if (blockee === null) {
+	if (blockee == null) {
 		return `skip: blockee not found`;
 	}
 
-	if (blockee.host != null) {
+	if (!isLocalUser(blockee)) {
 		return `skip: ブロックしようとしているユーザーはローカルユーザーではありません`;
 	}
 

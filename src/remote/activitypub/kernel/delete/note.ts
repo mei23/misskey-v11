@@ -1,8 +1,8 @@
-import Note from '../../../../models/note';
 import { IRemoteUser } from '../../../../models/user';
 import deleteNode from '../../../../services/note/delete';
 import { apLogger } from '../../logger';
 import { getApLock } from '../../../../misc/app-lock';
+import ApResolver from '../../ap-resolver';
 
 const logger = apLogger;
 
@@ -12,7 +12,8 @@ export default async function(actor: IRemoteUser, uri: string): Promise<string> 
 	const unlock = await getApLock(uri);
 
 	try {
-		const note = await Note.findOne({ uri });
+		const apResolver = new ApResolver();
+		const note = await apResolver.getNoteFromObject(uri);
 
 		if (note == null) {
 			return 'note not found';
