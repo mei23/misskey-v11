@@ -30,7 +30,7 @@ export const serverLogger = new Logger('server', 'gray', false);
 const app = new Koa();
 app.proxy = true;
 
-if (!['production', 'test'].includes(process.env.NODE_ENV)) {
+if (!['production', 'test'].includes(process.env.NODE_ENV || 'development')) {
 	// Logger
 	app.use(koaLogger(str => {
 		serverLogger.info(str);
@@ -53,7 +53,7 @@ if (config.url.startsWith('https') && !config.disableHsts) {
 	});
 }
 
-app.use(mount('/api', apiServer));
+app.use(mount('/api', apiServer as any));
 app.use(mount('/files', require('./file')));
 app.use(mount('/proxy', require('./proxy')));
 

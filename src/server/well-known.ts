@@ -51,7 +51,7 @@ router.get(webFingerPath, async ctx => {
 		resource.startsWith(`${config.url.toLowerCase()}/users/`) ?
 			fromId(new mongo.ObjectID(resource.split('/').pop())) :
 			fromAcct(parseAcct(
-				resource.startsWith(`${config.url.toLowerCase()}/@`) ? resource.split('/').pop() :
+				resource.startsWith(`${config.url.toLowerCase()}/@`) ? resource.split('/').pop()! :
 				resource.startsWith('acct:') ? resource.slice('acct:'.length) :
 				resource));
 
@@ -86,7 +86,7 @@ router.get(webFingerPath, async ctx => {
 
 	const user = await User.findOne(query);
 
-	if (user === null) {
+	if (user == null) {
 		ctx.status = 404;
 		return;
 	}

@@ -59,8 +59,8 @@ export function setResponseType(ctx: Router.RouterContext) {
 }
 
 // inbox
-router.post('/inbox', json(), inbox);
-router.post('/users/:user/inbox', json(), inbox);
+router.post('/inbox', json() as any, inbox);
+router.post('/users/:user/inbox', json() as any, inbox);
 
 const isNoteUserAvailable = async (note: INote) => {
 	const user = await User.findOne({
@@ -179,8 +179,8 @@ router.get('/users/:user/publickey', async ctx => {
 });
 
 // user
-async function userInfo(ctx: Router.RouterContext, user: IUser) {
-	if (user === null) {
+async function userInfo(ctx: Router.RouterContext, user?: IUser | null) {
+	if (user == null) {
 		ctx.status = 404;
 		return;
 	}
@@ -233,7 +233,7 @@ router.get('/emojis/:emoji', async ctx => {
 		name: ctx.params.emoji
 	});
 
-	if (emoji === null) {
+	if (emoji == null) {
 		ctx.status = 404;
 		return;
 	}
@@ -262,6 +262,11 @@ router.get('/likes/:like', async ctx => {
 	const note = await Note.findOne({
 		_id: reaction.noteId
 	});
+
+	if (note == null) {
+		ctx.status = 404;
+		return;
+	}
 
 	ctx.body = renderActivity(await renderLike(reaction, note));
 	ctx.set('Cache-Control', 'public, max-age=180');

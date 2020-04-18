@@ -16,7 +16,7 @@ export default (object: any, note: INote) => {
 	} else if (note.visibility == 'followers') {
 		to = [`${attributedTo}/followers`];
 	} else {
-		return null;
+		throw new Error(`非公開なAnnounceをAPで処理しようとしているのでおそらくバグ`);
 	}
 
 	return {

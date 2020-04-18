@@ -42,7 +42,7 @@ export default async (ctx: Router.RouterContext) => {
 		host: null
 	});
 
-	if (user === null) {
+	if (user == null) {
 		ctx.status = 404;
 		return;
 	}
