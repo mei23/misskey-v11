@@ -4,7 +4,6 @@ import User, { IUser, IRemoteUser } from '../../models/user';
 import Note, { INote } from '../../models/note';
 import { IObject, getApId } from './type';
 import * as escapeRegexp from 'escape-regexp';
-import { inspect } from 'util';
 
 export default class ApResolver {
 	constructor() {
@@ -51,7 +50,6 @@ export default class ApResolver {
 	public async getUserFromObject(object: string | IObject): Promise<IUser | null> {
 		const parsed = this.parseObjectUri(object);
 
-		console.log(inspect(parsed));
 		if (parsed.id) {
 			return (await User.findOne({
 				_id: new mongo.ObjectID(parsed.id),
