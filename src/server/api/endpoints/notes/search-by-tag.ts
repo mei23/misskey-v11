@@ -165,14 +165,16 @@ export default define(meta, async (ps, me) => {
 				continue;
 			}
 		}
-	} else {
+	} else if (ps.query) {
 		push({
-			$or: ps.query.map(tags => ({
-				$and: tags.map(t => ({
+			$or: ps.query.map((tags: string[]) => ({
+				$and: tags.map((t: string) => ({
 					tagsLower: t.toLowerCase()
 				}))
 			}))
 		});
+	} else {
+		throw 'tag or query required';	// TODO
 	}
 
 	if (ps.following != null && me != null) {
