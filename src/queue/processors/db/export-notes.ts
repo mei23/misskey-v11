@@ -19,6 +19,10 @@ export async function exportNotes(job: Bull.Job<DbUserJobData>): Promise<string>
 		_id: new mongo.ObjectID(job.data.user._id.toString())
 	});
 
+	if (user == null) {
+		return `skip: user not found`;
+	}
+
 	// Create temp file
 	const [path, cleanup] = await new Promise<[string, any]>((res, rej) => {
 		tmp.file((e, path, fd, cleanup) => {
@@ -100,7 +104,7 @@ export async function exportNotes(job: Bull.Job<DbUserJobData>): Promise<string>
 	logger.succ(`Exported to: ${path}`);
 
 	const fileName = 'notes-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.json';
-	const driveFile = await addFile(user, path, fileName, null, null, true);
+	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
 
 	cleanup();
 	return `Exported to: ${driveFile._id}`;

@@ -2,11 +2,11 @@ import config from '../config';
 import { toUnicode, toASCII } from 'punycode';
 import { URL } from 'url';
 
-export function getFullApAccount(username: string, host: string) {
+export function getFullApAccount(username: string, host: string | null) {
 	return host ? `${username}@${toApHost(host)}` : `${username}@${toApHost(config.host)}`;
 }
 
-export function isSelfHost(host: string) {
+export function isSelfHost(host: string | null) {
 	if (host == null) return true;
 	return toApHost(config.host) === toApHost(host);
 }
@@ -21,12 +21,12 @@ export function extractApHost(uri: string) {
 	return toApHost(url.hostname);
 }
 
-export function toDbHost(host: string) {
+export function toDbHost(host: string | null) {
 	if (host == null) return null;
 	return toUnicode(host.toLowerCase());
 }
 
-export function toApHost(host: string) {
+export function toApHost(host: string | null) {
 	if (host == null) return null;
 	return toASCII(host.toLowerCase());
 }

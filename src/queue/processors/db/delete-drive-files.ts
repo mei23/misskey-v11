@@ -16,6 +16,10 @@ export async function deleteDriveFiles(job: Bull.Job<DbUserJobData>): Promise<st
 		_id: new mongo.ObjectID(job.data.user._id.toString())
 	});
 
+	if (user == null) {
+		return `skip: user not found`;
+	}
+
 	let deletedCount = 0;
 	let cursor: any = null;
 

@@ -20,6 +20,10 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>): Promise<str
 		_id: new mongo.ObjectID(job.data.user._id.toString())
 	});
 
+	if (user == null) {
+		return `skip: user not found`;
+	}
+
 	// Create temp file
 	const [path, cleanup] = await new Promise<[string, any]>((res, rej) => {
 		tmp.file((e, path, fd, cleanup) => {
@@ -59,6 +63,7 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>): Promise<str
 
 		for (const following of followings) {
 			const u = await User.findOne({ _id: following.followeeId }, { fields: { username: true, host: true } });
+			if (u == null) continue;	// DB blocken ?
 			const content = getFullApAccount(u.username, u.host);
 			await new Promise((res, rej) => {
 				stream.write(content + '\n', err => {
@@ -80,7 +85,7 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>): Promise<str
 	logger.succ(`Exported to: ${path}`);
 
 	const fileName = 'following-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.csv';
-	const driveFile = await addFile(user, path, fileName, null, null, true);
+	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
 
 	cleanup();
 	return `Exported to: ${driveFile._id}`;

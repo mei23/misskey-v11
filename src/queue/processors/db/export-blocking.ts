@@ -20,6 +20,10 @@ export async function exportBlocking(job: Bull.Job<DbUserJobData>): Promise<stri
 		_id: new mongo.ObjectID(job.data.user._id.toString())
 	});
 
+	if (user == null) {
+		return `skip: user not found`;
+	}
+
 	// Create temp file
 	const [path, cleanup] = await new Promise<[string, any]>((res, rej) => {
 		tmp.file((e, path, fd, cleanup) => {
@@ -59,6 +63,7 @@ export async function exportBlocking(job: Bull.Job<DbUserJobData>): Promise<stri
 
 		for (const block of blockings) {
 			const u = await User.findOne({ _id: block.blockeeId }, { fields: { username: true, host: true } });
+			if (u == null) continue;	// DB blocken ?
 			const content = getFullApAccount(u.username, u.host);
 			await new Promise((res, rej) => {
 				stream.write(content + '\n', err => {
@@ -80,7 +85,7 @@ export async function exportBlocking(job: Bull.Job<DbUserJobData>): Promise<stri
 	logger.succ(`Exported to: ${path}`);
 
 	const fileName = 'blocking-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.csv';
-	const driveFile = await addFile(user, path, fileName, null, null, true);
+	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
 
 	cleanup();
 	return `ok: Exported to: ${driveFile._id}`;

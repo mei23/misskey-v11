@@ -42,7 +42,7 @@ export type ProcessOptions = {
  * @param info FileInfo
  * @param metadata
  */
-async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig, prsOpts?: ProcessOptions): Promise<IDriveFile> {
+async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig, prsOpts: ProcessOptions = {}): Promise<IDriveFile> {
 	// thunbnail, webpublic を必要なら生成
 	const alts = await generateAlts(path, info.type.mime, !metadata.uri, prsOpts).catch(err => {
 		logger.error(err);
@@ -171,7 +171,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	// #region webpublic
 	let webpublic: IImage;
 
-	if (generateWeb && !prsOpts.isWebpublic) {
+	if (generateWeb && !prsOpts?.isWebpublic) {
 		logger.debug(`creating web image`);
 
 		if (['image/jpeg'].includes(type)

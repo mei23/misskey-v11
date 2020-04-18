@@ -22,9 +22,17 @@ export async function importUserLists(job: Bull.Job<DbUserImportJobData>): Promi
 		_id: new mongo.ObjectID(job.data.user._id.toString())
 	});
 
+	if (user == null) {
+		return `skip: user not found`;
+	}
+
 	const file = await DriveFile.findOne({
 		_id: new mongo.ObjectID(job.data.fileId.toString())
 	});
+
+	if (file == null) {
+		return `skip: file not found`;
+	}
 
 	const url = getOriginalUrl(file);
 
@@ -50,7 +58,7 @@ export async function importUserLists(job: Bull.Job<DbUserImportJobData>): Promi
 					userId: user._id,
 					title: listName,
 					userIds: []
-				});
+				})!;
 			}
 
 			let target = isSelfHost(host) ? await User.findOne({

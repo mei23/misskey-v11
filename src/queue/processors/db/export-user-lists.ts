@@ -20,6 +20,10 @@ export async function exportUserLists(job: Bull.Job<DbUserJobData>): Promise<str
 		_id: new mongo.ObjectID(job.data.user._id.toString())
 	});
 
+	if (user == null) {
+		return `skip: user not found`;
+	}
+
 	const lists = await UserList.find({
 		userId: user._id
 	});
@@ -66,7 +70,7 @@ export async function exportUserLists(job: Bull.Job<DbUserJobData>): Promise<str
 	logger.succ(`Exported to: ${path}`);
 
 	const fileName = 'user-lists-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.csv';
-	const driveFile = await addFile(user, path, fileName, null, null, true);
+	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
 
 	cleanup();
 	return `Exported to: ${driveFile._id}`;
