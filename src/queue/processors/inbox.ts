@@ -15,6 +15,7 @@ import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost } from '../../misc/instance-info';
 import { InboxJobData } from '..';
 import ApResolver from '../../remote/activitypub/ap-resolver';
+import { inspect } from 'util';
 
 const logger = new Logger('inbox');
 
@@ -28,34 +29,23 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	//#region Log
 	const info = Object.assign({}, activity);
 	delete info['@context'];
-	delete info['signature'];
-	logger.debug(JSON.stringify(info, null, 2));
+	logger.debug(inspect(info));
 	//#endregion
 
-	const keyIdLower = signature.keyId.toLowerCase();
-	let user: IRemoteUser | null;
+	const host = toUnicode(new URL(signature.keyId).hostname.toLowerCase());
 
-	if (keyIdLower.startsWith('acct:')) {
-		return `skip: acct keyId is no longer supported`;
-	} else {
-		// アクティビティ内のホストの検証
-		const host = toUnicode(new URL(signature.keyId).hostname.toLowerCase());
-		try {
-			ValidateActivity(activity, host);
-		} catch (e) {
-			return `skip: host validation failed ${e.message}`;
-		}
-
-		// ブロックしてたら中断
-		if (await isBlockedHost(host)) {
-			return `skip: Blocked instance: ${host}`;
-		}
-
-		user = await apResolver.getRemoteUserFromKeyId(signature.keyId);
+	// ブロックしてたら中断
+	if (await isBlockedHost(host)) {
+		return `skip: Blocked instance: ${host}`;
 	}
 
-	// アクティビティを送信してきたユーザーがまだMisskeyサーバーに登録されていなかったら登録する
-	if (user === null) {
+	let user: IRemoteUser | null;
+
+	// keyIdを元にDBから取得
+	user = await apResolver.getRemoteUserFromKeyId(signature.keyId);
+
+	// uriを元にDBから取得、なければリモートから取得
+	if (user == null) {
 		try {
 			user = await resolvePerson(getApId(activity.actor)) as IRemoteUser;
 		} catch (e) {
@@ -63,27 +53,33 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			if (e.statusCode >= 400 && e.statusCode < 500) {
 				return `skip: Ignored actor ${activity.actor} - ${e.statusCode}`;
 			}
-			logger.error(`Error in actor ${activity.actor} - ${e.statusCode || e}`);
-			throw e;
+			throw `Error in actor ${activity.actor} - ${e.statusCode || e}`;
 		}
 	}
 
-	if (user === null) {
+	if (user == null) {
 		throw new Error('failed to resolve user');
 	}
 
+	// keyId
 	if (!httpSignature.verifySignature(signature, user.publicKey.publicKeyPem)) {
 		return `skip: signature verification failed`;
 	}
 
-	//#region Log
+	// アクティビティ内のホストの検証
+	try {
+		ValidateActivity(activity, host);
+	} catch (e) {
+		return `skip: host validation failed ${e.message}`;
+	}
+
+	//#region Log/stats
 	publishApLogStream({
 		direction: 'in',
 		activity: activity.type,
 		host: user.host,
 		actor: user.username
 	});
-	//#endregion
 
 	// Update stats
 	registerOrFetchInstanceDoc(user.host).then(i => {
@@ -101,6 +97,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 		instanceChart.requestReceived(i.host);
 	});
+	//#endregion
 
 	// アクティビティを処理
 	return (await perform(user, activity)) || 'ok';
@@ -117,7 +114,7 @@ function ValidateActivity(activity: any, host: string) {
 		const uriHost = toUnicode(new URL(activity.id).hostname.toLowerCase());
 		if (host !== uriHost) {
 			const diag = activity.signature ? '. Has LD-Signature. Forwarded?' : '';
-			throw new Error(`activity.id(${activity.id}) has different host(${host})${diag}`);
+			throw new Error(`activity.id(${activity.id}) has different host(${host})${diag}\n${inspect(activity)}}`);
 		}
 	}
 

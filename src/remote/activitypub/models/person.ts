@@ -27,6 +27,7 @@ import { updateUsertags } from '../../../services/update-hashtag';
 import { toArray, toSingle } from '../../../prelude/array';
 import { UpdateInstanceinfo } from '../../../services/update-instanceinfo';
 import { extractDbHost } from '../../../misc/convert-host';
+import ApResolver from '../ap-resolver';
 const logger = apLogger;
 
 /**
@@ -83,24 +84,11 @@ function toPerson(x: IObject, uri: string): IApPerson {
  *
  * Misskeyに対象のPersonが登録されていればそれを返します。
  */
-export async function fetchPerson(uri: string, resolver?: Resolver): Promise<IUser> {
+export async function fetchPerson(uri: string): Promise<IUser | null> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
-	// URIがこのサーバーを指しているならデータベースからフェッチ
-	if (uri.startsWith(config.url + '/')) {
-		const id = new mongo.ObjectID(uri.split('/').pop());
-		return await User.findOne({ _id: id });
-	}
-
-	//#region このサーバーに既に登録されていたらそれを返す
-	const exist = await User.findOne({ uri });
-
-	if (exist) {
-		return exist;
-	}
-	//#endregion
-
-	return null;
+	const apResolver = new ApResolver();
+	return await apResolver.getUserFromObject(uri);
 }
 
 /**
