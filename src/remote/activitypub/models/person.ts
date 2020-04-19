@@ -88,7 +88,7 @@ export async function fetchPerson(uri: string): Promise<IUser | null> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
 	const apResolver = new ApResolver();
-	return await apResolver.getUserFromObject(uri);
+	return await apResolver.getUserFromApId(uri);
 }
 
 /**

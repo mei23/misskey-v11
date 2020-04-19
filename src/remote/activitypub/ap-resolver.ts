@@ -11,10 +11,9 @@ export default class ApResolver {
 
 	/**
 	 * AP Note => Misskey Note in DB
-	 * @param object AP object
 	 */
-	public async getNoteFromObject(object: string | IObject): Promise<INote | null> {
-		const parsed = this.parseObjectUri(object);
+	public async getNoteFromApId(value: string | IObject): Promise<INote | null> {
+		const parsed = this.parseUri(value);
 
 		if (parsed.id) {
 			return (await Note.findOne({
@@ -45,10 +44,9 @@ export default class ApResolver {
 
 	/**
 	 * AP Person => Misskey User in DB
-	 * @param object AP Object
 	 */
-	public async getUserFromObject(object: string | IObject): Promise<IUser | null> {
-		const parsed = this.parseObjectUri(object);
+	public async getUserFromApId(value: string | IObject): Promise<IUser | null> {
+		const parsed = this.parseUri(value);
 
 		if (parsed.id) {
 			return (await User.findOne({
@@ -67,8 +65,8 @@ export default class ApResolver {
 		return null;
 	}
 
-	public parseObjectUri(object: string | IObject): UriParseResult {
-		const uri = getApId(object);
+	public parseUri(value: string | IObject): UriParseResult {
+		const uri = getApId(value);
 
 		const localRegex = new RegExp('^' + escapeRegexp(config.url) + '/' + '(\\w+)' + '/' + '(\\w+)');
 		const matchLocal = uri.match(localRegex);

@@ -13,7 +13,7 @@ export default async function(actor: IRemoteUser, uri: string): Promise<string> 
 
 	try {
 		const apResolver = new ApResolver();
-		const note = await apResolver.getNoteFromObject(uri);
+		const note = await apResolver.getNoteFromApId(uri);
 
 		if (note == null) {
 			return 'note not found';

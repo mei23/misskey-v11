@@ -58,7 +58,7 @@ function toNote(object: IObject, uri: string): IPost {
  */
 export async function fetchNote(object: string | IObject): Promise<INote | null> {
 	const apResolver = new ApResolver();
-	return await apResolver.getNoteFromObject(object);
+	return await apResolver.getNoteFromApId(object);
 }
 
 /**

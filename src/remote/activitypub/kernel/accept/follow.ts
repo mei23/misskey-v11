@@ -7,7 +7,7 @@ export default async (actor: IRemoteUser, activity: IFollow): Promise<string> =>
 	// ※ activityはこっちから投げたフォローリクエストなので、activity.actorは存在するローカルユーザーである必要がある
 
 	const apResolver = new ApResolver();
-	const follower = await apResolver.getUserFromObject(activity.actor);
+	const follower = await apResolver.getUserFromApId(activity.actor);
 
 	if (follower == null) {
 		return `skip: follower not found`;
