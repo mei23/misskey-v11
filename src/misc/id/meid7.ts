@@ -31,5 +31,6 @@ function getRandom() {
 }
 
 export function genMeid7(date: Date): string {
+	if (date.toString() === 'Invalid Date') throw 'Invalid Date';
 	return '7' + getTime(date.getTime()) + getRandom();
 }
