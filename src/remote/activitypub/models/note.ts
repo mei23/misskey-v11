@@ -246,7 +246,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	}
 
 	return await post(actor, {
-		createdAt: new Date(note.published),
+		createdAt: note.published ? new Date(note.published) : undefined,
 		files,
 		reply,
 		renote: quote,
