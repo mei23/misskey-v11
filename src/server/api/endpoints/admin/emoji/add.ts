@@ -34,7 +34,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps) => {
-	const type = await detectUrlMime(ps.url);
+	const { mime, md5 } = await detectUrlMime(ps.url);
 
 	const emoji = await Emoji.insert({
 		updatedAt: new Date(),
@@ -43,7 +43,8 @@ export default define(meta, async (ps) => {
 		host: null,
 		aliases: ps.aliases,
 		url: ps.url,
-		type,
+		type: mime,
+		md5,
 	});
 
 	return {

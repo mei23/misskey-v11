@@ -44,7 +44,7 @@ export default define(meta, async (ps) => {
 
 	if (emoji == null) throw new Error('emoji not found');
 
-	const type = await detectUrlMime(ps.url);
+	const { mime, md5 } = await detectUrlMime(ps.url);
 
 	await Emoji.update({ _id: emoji._id }, {
 		$set: {
@@ -53,7 +53,8 @@ export default define(meta, async (ps) => {
 			category: ps.category,
 			aliases: ps.aliases,
 			url: ps.url,
-			type,
+			type: mime,
+			md5,
 		}
 	});
 
