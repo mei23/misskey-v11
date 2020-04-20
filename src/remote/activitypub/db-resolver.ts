@@ -5,7 +5,7 @@ import Note, { INote } from '../../models/note';
 import { IObject, getApId } from './type';
 import * as escapeRegexp from 'escape-regexp';
 
-export default class ApResolver {
+export default class DbResolver {
 	constructor() {
 	}
 

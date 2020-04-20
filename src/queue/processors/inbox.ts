@@ -14,7 +14,7 @@ import { getApId } from '../../remote/activitypub/type';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost } from '../../misc/instance-info';
 import { InboxJobData } from '..';
-import ApResolver from '../../remote/activitypub/ap-resolver';
+import DbResolver from '../../remote/activitypub/db-resolver';
 import { inspect } from 'util';
 import { extractApHost } from '../../misc/convert-host';
 import { verifyRsaSignature2017 } from '../../remote/activitypub/misc/ld-signature';
@@ -26,7 +26,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	const signature = job.data.signature;
 	const activity = job.data.activity;
 
-	const apResolver = new ApResolver();
+	const dbResolver = new DbResolver();
 
 	//#region Log
 	const info = Object.assign({}, activity);
@@ -45,7 +45,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	let user: IRemoteUser | null;
 
 	// keyIdを元にDBから取得
-	user = await apResolver.getRemoteUserFromKeyId(signature.keyId);
+	user = await dbResolver.getRemoteUserFromKeyId(signature.keyId);
 
 	// || activity.actorを元にDBから取得 || activity.actorを元にリモートから取得
 	if (user == null) {
@@ -89,7 +89,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			}
 
 			// LD-Signatureのユーザー
-			user = await apResolver.getRemoteUserFromKeyId(activity.signature.creator);
+			user = await dbResolver.getRemoteUserFromKeyId(activity.signature.creator);
 
 			if (user == null) {
 				return `skip: LD-Signatureのユーザーが取得できませんでした`;

@@ -25,7 +25,7 @@ import { createMessage } from '../../../services/messages/create';
 import { isBlockedHost } from '../../../misc/instance-info';
 import { parseAudience } from '../audience';
 import MessagingMessage from '../../../models/messaging-message';
-import ApResolver from '../ap-resolver';
+import DbResolver from '../db-resolver';
 
 const logger = apLogger;
 
@@ -57,8 +57,8 @@ function toNote(object: IObject, uri: string): IPost {
  * Misskeyに対象のNoteが登録されていればそれを返します。
  */
 export async function fetchNote(object: string | IObject): Promise<INote | null> {
-	const apResolver = new ApResolver();
-	return await apResolver.getNoteFromApId(object);
+	const dbResolver = new DbResolver();
+	return await dbResolver.getNoteFromApId(object);
 }
 
 /**

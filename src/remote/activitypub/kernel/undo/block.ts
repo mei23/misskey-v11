@@ -1,11 +1,11 @@
 import { IRemoteUser, isLocalUser } from '../../../../models/user';
 import { IBlock } from '../../type';
 import unblock from '../../../../services/blocking/delete';
-import ApResolver from '../../ap-resolver';
+import DbResolver from '../../db-resolver';
 
 export default async (actor: IRemoteUser, activity: IBlock): Promise<string> => {
-	const apResolver = new ApResolver();
-	const blockee = await apResolver.getUserFromApId(activity.object);
+	const dbResolver = new DbResolver();
+	const blockee = await dbResolver.getUserFromApId(activity.object);
 
 	if (blockee == null) {
 		return `skip: blockee not found`;

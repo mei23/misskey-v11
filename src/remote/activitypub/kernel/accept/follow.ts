@@ -1,13 +1,13 @@
 import { IRemoteUser, isLocalUser } from '../../../../models/user';
 import accept from '../../../../services/following/requests/accept';
 import { IFollow } from '../../type';
-import ApResolver from '../../ap-resolver';
+import DbResolver from '../../db-resolver';
 
 export default async (actor: IRemoteUser, activity: IFollow): Promise<string> => {
 	// ※ activityはこっちから投げたフォローリクエストなので、activity.actorは存在するローカルユーザーである必要がある
 
-	const apResolver = new ApResolver();
-	const follower = await apResolver.getUserFromApId(activity.actor);
+	const dbResolver = new DbResolver();
+	const follower = await dbResolver.getUserFromApId(activity.actor);
 
 	if (follower == null) {
 		return `skip: follower not found`;

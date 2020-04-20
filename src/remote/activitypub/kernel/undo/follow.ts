@@ -4,12 +4,12 @@ import cancelRequest from '../../../../services/following/requests/cancel';
 import { IFollow } from '../../type';
 import FollowRequest from '../../../../models/follow-request';
 import Following from '../../../../models/following';
-import ApResolver from '../../ap-resolver';
+import DbResolver from '../../db-resolver';
 
 export default async (actor: IRemoteUser, activity: IFollow): Promise<string> => {
-	const apResolver = new ApResolver();
+	const dbResolver = new DbResolver();
 
-	const followee = await apResolver.getUserFromApId(activity.object);
+	const followee = await dbResolver.getUserFromApId(activity.object);
 	if (followee == null) {
 		return `skip: followee not found`;
 	}

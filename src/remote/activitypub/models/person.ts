@@ -27,7 +27,7 @@ import { updateUsertags } from '../../../services/update-hashtag';
 import { toArray, toSingle } from '../../../prelude/array';
 import { UpdateInstanceinfo } from '../../../services/update-instanceinfo';
 import { extractDbHost } from '../../../misc/convert-host';
-import ApResolver from '../ap-resolver';
+import DbResolver from '../db-resolver';
 const logger = apLogger;
 
 /**
@@ -87,8 +87,8 @@ function toPerson(x: IObject, uri: string): IApPerson {
 export async function fetchPerson(uri: string): Promise<IUser | null> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
-	const apResolver = new ApResolver();
-	return await apResolver.getUserFromApId(uri);
+	const dbResolver = new DbResolver();
+	return await dbResolver.getUserFromApId(uri);
 }
 
 /**
