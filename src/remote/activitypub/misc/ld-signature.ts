@@ -1,24 +1,8 @@
 import * as crypto from 'crypto';
-import * as util from 'util';
 import * as jsonld from 'jsonld';
+import { CONTEXTS } from './contexts';
 
-export async function genKeyPair() {
-	return await util.promisify(crypto.generateKeyPair)('rsa', {
-		modulusLength: 2048,
-		publicKeyEncoding: {
-			type: 'spki',
-			format: 'pem'
-		},
-		privateKeyEncoding: {
-			type: 'pkcs8',
-			format: 'pem',
-			cipher: undefined,
-			passphrase: undefined
-		}
-	});
-}
-
-// RsaSignature2017 codes from https://github.com/transmute-industries/RsaSignature2017
+// RsaSignature2017 based from https://github.com/transmute-industries/RsaSignature2017
 
 export async function signRsaSignature2017(data: any, privateKey: string, creator: string, domain?: string, created?: Date): Promise<any> {
 	const options = {
@@ -71,14 +55,36 @@ async function createVerifyData(data: any, options: any) {
 	delete transformedOptions['type'];
 	delete transformedOptions['id'];
 	delete transformedOptions['signatureValue'];
-	const canonizedOptions = await jsonld.normalize(transformedOptions);
+	const canonizedOptions = await normalize(transformedOptions);
 	const optionsHash = sha256(canonizedOptions);
 	const transformedData = { ...data };
 	delete transformedData['signature'];
-	const cannonidedData = await jsonld.normalize(transformedData);
+	const cannonidedData = await normalize(transformedData);
 	const documentHash = sha256(cannonidedData);
 	const verifyData = `${optionsHash}${documentHash}`;
 	return verifyData;
+}
+
+async function normalize(data: any) {
+	return await jsonld.normalize(data, {
+		documentLoader: getLoader()
+	});
+}
+
+function getLoader(): (url: string) => Promise<any> {
+	return async (url) => {
+		if (url in CONTEXTS) {
+			//console.log(`HIT: ${url}`);
+			return {
+				contextUrl: null,
+				document: CONTEXTS[url],
+				documentUrl: url
+			};
+		}
+
+		//console.log(`MISS: ${url}`);
+		throw `Remote resolve disabled for ${url}`;
+	};
 }
 
 function sha256(data: string): string {

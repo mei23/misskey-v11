@@ -95,7 +95,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 				return `skip: LD-Signatureのユーザーが取得できませんでした`;
 			}
 
-			const verified = await verifyRsaSignature2017(activity, user?.publicKey.publicKeyPem);
+			const verified = await verifyRsaSignature2017(activity, user?.publicKey.publicKeyPem).catch(() => false);
 
 			if (!verified) {
 				return `skip: LD-Signatureの検証に失敗しました`;
