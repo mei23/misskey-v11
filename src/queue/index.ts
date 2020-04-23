@@ -25,10 +25,10 @@ function initializeQueue<T>(name: string, limitPerSec = -1) {
 		},
 		prefix: config.redis.prefix ? `${config.redis.prefix}:queue` : 'queue',
 		limiter: limitPerSec > 0 ? {
-			max: limitPerSec * 5,
-			duration: 5000
+			max: limitPerSec,
+			duration: 1000
 		} : undefined
-	} : null);
+	} : undefined);
 }
 
 //#region job data types
