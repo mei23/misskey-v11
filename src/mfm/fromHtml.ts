@@ -2,7 +2,7 @@ import { parseFragment, DefaultTreeDocumentFragment } from 'parse5';
 import { URL } from 'url';
 import { urlRegex } from './prelude';
 
-export function fromHtml(html: string, hashtagNames?: string[]): string {
+export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 	if (html == null) return null;
 
 	const dom = parseFragment(html) as DefaultTreeDocumentFragment;
