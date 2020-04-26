@@ -17,7 +17,7 @@ import { InboxJobData } from '..';
 import DbResolver from '../../remote/activitypub/db-resolver';
 import { inspect } from 'util';
 import { extractApHost } from '../../misc/convert-host';
-import { verifyRsaSignature2017 } from '../../remote/activitypub/misc/ld-signature';
+import { LdSignature } from '../../remote/activitypub/misc/ld-signature';
 
 const logger = new Logger('inbox');
 
@@ -95,7 +95,8 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			}
 
 			// LD-Signature検証
-			const verified = await verifyRsaSignature2017(activity, user?.publicKey.publicKeyPem).catch(() => false);
+			const ldSignature = new LdSignature();
+			const verified = await ldSignature.verifyRsaSignature2017(activity, user?.publicKey.publicKeyPem).catch(() => false);
 			if (!verified) {
 				return `skip: LD-Signatureの検証に失敗しました`;
 			}
