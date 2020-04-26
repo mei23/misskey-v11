@@ -88,17 +88,21 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 				await resolvePerson(candicate).catch(() => null);
 			}
 
-			// LD-Signatureのユーザー
+			// keyIdからLD-Signatureのユーザーを取得
 			user = await dbResolver.getRemoteUserFromKeyId(activity.signature.creator);
-
 			if (user == null) {
 				return `skip: LD-Signatureのユーザーが取得できませんでした`;
 			}
 
+			// LD-Signature検証
 			const verified = await verifyRsaSignature2017(activity, user?.publicKey.publicKeyPem).catch(() => false);
-
 			if (!verified) {
 				return `skip: LD-Signatureの検証に失敗しました`;
+			}
+
+			// もう一度actorチェック
+			if (user.uri !== activity.actor) {
+				return `skip: LD-Signature user(${user.uri}) !== activity.actor(${activity.actor})`;
 			}
 		}
 	}
