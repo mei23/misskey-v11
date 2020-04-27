@@ -271,6 +271,7 @@ export const pack = async (
 	_note.renoteCount = _note.renoteCount || 0;
 	_note.repliesCount = _note.repliesCount || 0;
 	_note.reactionCounts = _note.reactionCounts ? decodeReactionCounts(_note.reactionCounts) : {};
+	_note.reactions = _note.reactionCounts;
 
 	// _note._userを消す前か、_note.userを解決した後でないとホストがわからない
 	if (_note._user) {

@@ -15,6 +15,20 @@ const basic10: Record<string, string> = {
 	'🍮': 'pudding',
 };
 
+const normalizeMap: Record<string, string> = {
+	'like': '👍',
+	'love': '❤',
+	'laugh': '😆',
+	'hmm': '🤔',
+	'surprise': '😮',
+	'congrats': '🎉',
+	'angry': '💢',
+	'confused': '😥',
+	'rip': '😇',
+	'pudding': '🍮',
+	'star': '⭐'
+};
+
 const REACTION_STAR = '⭐';
 
 export async function toDbReaction(reaction: string | undefined | null, enableEmoji = true, reacterHost?: string | null): Promise<string> {
@@ -88,7 +102,7 @@ export function decodeReaction(str: string) {
 		return `:${name}@${host}:`;
 	}
 
-	return str;
+	return normalizeMap[str] || str;
 }
 
 export function decodeReactionCounts(reactions: Record<string, number>) {
