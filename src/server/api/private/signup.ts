@@ -125,6 +125,7 @@ export default async (ctx: Router.RouterContext) => {
 		password: hash,
 		isAdmin: config.autoAdmin && usersCount === 0,
 		carefulMassive: true,
+		refuseFollow: false,
 		autoAcceptFollowed: true,
 		profile: {
 			bio: null,

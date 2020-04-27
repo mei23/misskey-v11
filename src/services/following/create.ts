@@ -140,7 +140,21 @@ export default async function(follower: IUser, followee: IUser, requestId?: stri
 		})
 	]);
 
-	if (isRemoteUser(follower) && isLocalUser(followee) && blocked) {
+	// このアカウントはフォローできないオプション
+	let userRefused = false;
+
+	if (isLocalUser(followee) && followee.refuseFollow) {	// このアカウントはフォローできない
+		userRefused = true;
+		if (followee.autoAcceptFollowed) {	// フォロー済み自動フォロー許可
+			const followed = await Following.findOne({
+				followerId: followee._id,
+				followeeId: follower._id
+			});
+			if (followed) userRefused = false;
+		}
+	}
+
+	if (isRemoteUser(follower) && isLocalUser(followee) && (blocked || userRefused)) {
 		// リモートフォローを受けてブロックしていた場合は、エラーにするのではなくRejectを送り返しておしまい。
 		const content = renderActivity(renderReject(renderFollow(follower, followee, requestId), followee));
 		deliver(followee , content, follower.inbox);
@@ -153,7 +167,7 @@ export default async function(follower: IUser, followee: IUser, requestId?: stri
 	} else {
 		// それ以外は単純に例外
 		if (blocking != null) throw new IdentifiableError('710e8fb0-b8c3-4922-be49-d5d93d8e6a6e', 'blocking');
-		if (blocked != null) throw new IdentifiableError('3338392a-f764-498d-8855-db939dcf8c48', 'blocked');
+		if (blocked || userRefused) throw new IdentifiableError('3338392a-f764-498d-8855-db939dcf8c48', 'blocked');
 	}
 
 	// フォロー対象が鍵アカウントである or

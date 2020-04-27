@@ -792,6 +792,7 @@ common/views/components/profile-editor.vue:
   is-cat: "このアカウントはCatです"
   is-bot: "このアカウントはBotです"
   is-locked: "フォローを承認制にする"
+  refuseFollow: "フォローを許可しない"
   careful-bot: "Botからのフォローは承認制にする"
   careful-remote: "リモートからのフォローは承認制にする"
   careful-massive: "大量フォローユーザーのフォローは承認制にする"

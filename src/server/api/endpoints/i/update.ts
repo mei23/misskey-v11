@@ -115,6 +115,13 @@ export const meta = {
 			}
 		},
 
+		refuseFollow: {
+			validator: $.optional.bool,
+			desc: {
+				'ja-JP': 'refuseFollow'
+			}
+		},
+
 		avoidSearchIndex: {
 			validator: $.optional.bool,
 			desc: {
@@ -216,6 +223,7 @@ export default define(meta, async (ps, user, app) => {
 	if (typeof ps.carefulBot == 'boolean') updates.carefulBot = ps.carefulBot;
 	if (typeof ps.carefulRemote == 'boolean') updates.carefulRemote = ps.carefulRemote;
 	if (typeof ps.carefulMassive == 'boolean') updates.carefulMassive = ps.carefulMassive;
+	if (typeof ps.refuseFollow == 'boolean') updates.refuseFollow = ps.refuseFollow;
 	if (typeof ps.autoAcceptFollowed == 'boolean') updates.autoAcceptFollowed = ps.autoAcceptFollowed;
 	if (typeof ps.avoidSearchIndex == 'boolean') updates.avoidSearchIndex = ps.avoidSearchIndex;
 	if (ps.hideFollows !== undefined) updates.hideFollows = ps.hideFollows;

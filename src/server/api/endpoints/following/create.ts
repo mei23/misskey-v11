@@ -64,7 +64,7 @@ export const meta = {
 		},
 
 		blocked: {
-			message: 'You are blocked by that user.',
+			message: 'This account cannot be followed.',
 			code: 'BLOCKED',
 			id: 'c4ab57cc-4e41-45e9-bfd9-584f61e35ce0'
 		},

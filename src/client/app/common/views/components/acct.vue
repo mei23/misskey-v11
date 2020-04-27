@@ -3,6 +3,7 @@
 	<span class="name">@{{ user.username }}</span>
 	<span class="host" v-if="user.host || detail || $store.state.settings.showFullAcct">@{{ user.host || host }}</span>
 	<fa v-if="user.isLocked == true" class="locked" icon="lock" fixed-width/>
+	<fa v-if="user.refuseFollow == true" class="refuseFollow" icon="ban" fixed-width/>
 	<fa v-if="user.noFederation == true" class="no-federation" icon="heart" title="No federation" fixed-width/>
 </span>
 </template>
@@ -25,7 +26,7 @@ export default Vue.extend({
 .mk-acct
 	opacity 0.5
 
-	> .locked, .no-federation
+	> .locked, .refuseFollow, .no-federation
 		opacity 0.8
 		margin-left 0.5em
 </style>

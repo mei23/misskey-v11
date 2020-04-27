@@ -128,7 +128,7 @@ type IUserBase = {
 	movedToUserId?: mongo.ObjectID;
 	alsoKnownAsUserIds?: mongo.ObjectID[];
 
-	host: string;
+	host: string | null;
 };
 
 export interface ILocalUser extends IUserBase {
@@ -171,6 +171,7 @@ export interface ILocalUser extends IUserBase {
 	isAdmin?: boolean;
 	isModerator?: boolean;
 	isVerified?: boolean;
+	refuseFollow?: boolean;
 	twoFactorSecret: string;
 	twoFactorEnabled: boolean;
 	twoFactorTempSecret?: string;

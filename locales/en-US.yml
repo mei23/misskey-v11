@@ -729,6 +729,7 @@ common/views/components/profile-editor.vue:
   is-cat: "This account is a Cat"
   is-bot: "This account is a Bot"
   is-locked: "Follower requests require approval"
+  refuseFollow: "Do not allow follow"
   careful-bot: "Follower requests from bots require approval"
   careful-remote: "Follower requests from remote require approval"
   careful-massive: "Massive follow requests pending approval"
