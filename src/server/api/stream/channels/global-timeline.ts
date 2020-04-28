@@ -1,17 +1,14 @@
 import autobind from 'autobind-decorator';
-import Mute from '../../../../models/mute';
 import { pack } from '../../../../models/note';
 import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import Channel from '../channel';
 import fetchMeta from '../../../../misc/fetch-meta';
-import User from '../../../../models/user';
 
 export default class extends Channel {
 	public readonly chName = 'globalTimeline';
 	public static requireCredential = false;
 
 	private showReplayInPublicTimeline = false;
-	private mutedUserIds: string[] = [];
 
 	@autobind
 	public async init(params: any) {
@@ -23,16 +20,6 @@ export default class extends Channel {
 
 		// Subscribe events
 		this.subscriber.on('notesStream', this.onNote);
-
-		const mute = await Mute.find({ muterId: this.user._id });
-		this.mutedUserIds = mute.map(m => m.muteeId.toString());
-
-		const silences = await User.find({
-			isSilenced: true,
-			_id: { $nin: this.user ? [ this.user._id ] : [] }
-		});
-
-		this.mutedUserIds = this.mutedUserIds.concat(silences.map(x => x._id.toString()));
 	}
 
 	@autobind

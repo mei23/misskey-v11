@@ -1,7 +1,6 @@
 import autobind from 'autobind-decorator';
 import Channel from '../channel';
 import { pack } from '../../../../models/note';
-import Mute from '../../../../models/mute';
 import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import UserList, { IUserList } from '../../../../models/user-list';
 import config from '../../../../config';
@@ -15,7 +14,6 @@ export default class extends Channel {
 	private listId: string;
 	public list: IUserList = null;
 
-	private mutedUserIds: string[] = [];
 	private hideRenoteUsers: string[] = [];
 	private followingIds: string[] = [];
 	private excludeForeignReply = false;
@@ -25,8 +23,6 @@ export default class extends Channel {
 	@autobind
 	public async init(params: any) {
 		this.listId = params.listId;
-		const mute = this.user ? await Mute.find({ muterId: this.user._id }) : null;
-		this.mutedUserIds = mute ? mute.map(m => m.muteeId.toString()) : [];
 
 		await this.refreshLists();
 

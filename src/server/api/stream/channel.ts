@@ -14,6 +14,10 @@ export default abstract class Channel {
 		return this.connection.user;
 	}
 
+	protected get mutedUserIds() {
+		return this.connection.muting;
+	}
+
 	protected get subscriber() {
 		return this.connection.subscriber;
 	}

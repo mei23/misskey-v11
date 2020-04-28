@@ -1,5 +1,4 @@
 import autobind from 'autobind-decorator';
-import Mute from '../../../../models/mute';
 import { pack } from '../../../../models/note';
 import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import Channel from '../channel';
@@ -10,9 +9,6 @@ export default class extends Channel {
 
 	@autobind
 	public async init(params: any) {
-		const mute = this.user ? await Mute.find({ muterId: this.user._id }) : null;
-		const mutedUserIds = mute ? mute.map(m => m.muteeId.toString()) : [];
-
 		const q: string[][] = params.q;
 
 		if (q == null) return;
