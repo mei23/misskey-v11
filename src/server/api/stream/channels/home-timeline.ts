@@ -33,9 +33,6 @@ export default class extends Channel {
 
 		this.followingIds = followings.map(x => `${x.followeeId}`);
 
-		const mute = await Mute.find({ muterId: this.user._id });
-		this.mutedUserIds = mute.map(m => m.muteeId.toString());
-
 		// Homeから隠すリストユーザー
 		const lists = await UserList.find({
 			userId: this.user._id,

@@ -13,12 +13,12 @@ export default class extends Channel {
 
 			switch (type) {
 				case 'notification': {
-					if (mutedUserIds.includes(body.userId)) return;
+					if (this.mutedUserIds.includes(body.userId)) return;
 					if (body.note && body.note.isHidden) return;
 					break;
 				}
 				case 'mention': {
-					if (mutedUserIds.includes(body.userId)) return;
+					if (this.mutedUserIds.includes(body.userId)) return;
 					if (body.isHidden) return;
 					break;
 				}
