@@ -14,7 +14,6 @@ export default class extends Channel {
 	public readonly chName = 'homeTimeline';
 	public static requireCredential = true;
 
-	private mutedUserIds: string[] = [];
 	private hideFromUsers: string[] = [];
 	private hideFromHosts: string[] = [];
 	private hideRenoteUsers: string[] = [];
@@ -86,12 +85,15 @@ export default class extends Channel {
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
+		console.log(1);
 		if (shouldMuteThisNote(note, this.mutedUserIds, this.hideFromUsers, this.hideFromHosts)) return;
+		console.log(2);
 
 		// Renoteを隠すユーザー
 		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
 			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
 		}
+		console.log(3);
 
 		if (this.excludeForeignReply && note.replyId) {
 			if (!(
