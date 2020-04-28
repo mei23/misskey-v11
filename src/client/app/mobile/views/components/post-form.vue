@@ -164,6 +164,11 @@ export default Vue.extend({
 			this.localOnly = true;
 		}
 
+		// 自分のリモートフォロワーのみ投稿かも
+		if (this.reply?.reply?.copyOnce) {
+			this.copyOnce = true;
+		}
+
 		// 公開以外へのリプライ時は元の公開範囲を引き継ぐ
 		if (this.reply && ['home', 'followers', 'specified'].includes(this.reply.visibility)) {
 			this.visibility = this.reply.visibility;
