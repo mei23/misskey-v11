@@ -42,7 +42,8 @@ export default class Connection {
 
 		if (this.user) {
 			this.updateMuting();
-			this.mutingClock = setInterval(this.updateMuting, 60 * 1000);
+			const interval = (300 * 1000) + (Math.random() * 30 * 1000);
+			this.mutingClock = setInterval(this.updateMuting, interval);
 		}
 	}
 
@@ -222,7 +223,8 @@ export default class Connection {
 
 	@autobind
 	private async updateMuting() {
-		const hides = await getHideUserIdsById(this.user?._id);
+		console.log(`updateMuting ${this.user?._id}`);
+		const hides = await getHideUserIdsById(this.user?._id, true, false);
 		this.muting = hides.map(x => `${x}`);
 	}
 
