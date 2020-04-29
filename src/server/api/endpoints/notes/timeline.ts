@@ -146,7 +146,7 @@ export default define(meta, async (ps, user) => {
 		getFriendIds(user._id),
 
 		// 隠すユーザーを取得
-		getHideUserIds(user, false, false),
+		getHideUserIds(user, false),
 
 		// Homeから隠すリストを取得
 		UserList.find({

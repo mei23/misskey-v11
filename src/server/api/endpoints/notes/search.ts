@@ -332,7 +332,7 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 	}
 
 	// 隠すユーザーを取得
-	const hideUserIds = await getHideUserIds(me);
+	const hideUserIds = await getHideUserIds(me, false);
 
 	// note
 	const noteQuery = {

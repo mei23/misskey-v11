@@ -189,7 +189,7 @@ export default define(meta, async (ps, me) => {
 	}
 
 	if (me != null) {
-		const hideUserIds = await getHideUserIds(me);
+		const hideUserIds = await getHideUserIds(me, false);
 
 		switch (ps.mute) {
 			case 'mute_all':

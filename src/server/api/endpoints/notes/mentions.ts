@@ -92,7 +92,7 @@ export default define(meta, async (ps, user) => {
 	} as any;
 
 	// 隠すユーザーを取得
-	const hideUserIds = await getHideUserIds(user);
+	const hideUserIds = await getHideUserIds(user, false);
 
 	if (hideUserIds && hideUserIds.length > 0) {
 		query.userId = {

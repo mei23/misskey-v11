@@ -51,7 +51,7 @@ export default define(meta, async (ps, user) => {
 		user ? getFriends(user._id) : [],
 
 		// 隠すユーザーを取得
-		getHideUserIds(user)
+		getHideUserIds(user, false)
 	]);
 
 	const visibleQuery = user == null ? [{

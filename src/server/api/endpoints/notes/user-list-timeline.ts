@@ -170,7 +170,7 @@ export default define(meta, async (ps, user) => {
 		getFriendIds(user._id, true),
 
 		// 隠すユーザーを取得
-		getHideUserIds(user),
+		getHideUserIds(user, false),
 
 		// リノートを隠すユーザーを取得
 		getHideRenoteUserIds(user),

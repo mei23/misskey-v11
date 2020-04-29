@@ -55,7 +55,7 @@ export default define(meta, async (ps, me) => {
 		throw '廃止';
 	} else {
 		// 隠すユーザーを取得
-		const hideUserIds = await getHideUserIds(me, true);
+		const hideUserIds = await getHideUserIds(me);
 		if (me) hideUserIds.push(me._id);
 
 		// 未ログイン or フォールバックは、ローカルユーザーの全フォロワーを対象にする

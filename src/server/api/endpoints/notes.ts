@@ -81,7 +81,7 @@ export const meta = {
 
 export default define(meta, async (ps) => {
 	// 隠すユーザーを取得
-	const hideUserIds = await getHideUserIds(null, true);
+	const hideUserIds = await getHideUserIds(null);
 
 	const sort = {
 		_id: -1

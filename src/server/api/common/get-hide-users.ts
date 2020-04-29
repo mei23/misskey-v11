@@ -4,11 +4,11 @@ import User, { IUser } from '../../../models/user';
 import { unique } from '../../../prelude/array';
 import Blocking from '../../../models/blocking';
 
-export async function getHideUserIds(me: IUser | null, includeSilenced = false, includeSuspended = true) {
+export async function getHideUserIds(me: IUser | null, includeSilenced = true, includeSuspended = true) {
 	return await getHideUserIdsById(me ? me._id : null, includeSilenced, includeSuspended);
 }
 
-export async function getHideUserIdsById(meId?: mongo.ObjectID | null, includeSilenced = false, includeSuspended = true) {
+export async function getHideUserIdsById(meId?: mongo.ObjectID | null, includeSilenced = true, includeSuspended = true) {
 	const [suspended, silenced, muted, blocking, blocked] = await Promise.all([
 		includeSuspended ? (User.find({
 			isSuspended: true

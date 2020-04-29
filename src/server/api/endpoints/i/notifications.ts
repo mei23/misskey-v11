@@ -65,7 +65,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user) => {
-	const hideUserIds = await getHideUserIds(user);
+	const hideUserIds = await getHideUserIds(user, false);
 
 	const query = {
 		notifieeId: user._id,
