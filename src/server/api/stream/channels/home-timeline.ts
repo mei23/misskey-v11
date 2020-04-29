@@ -88,7 +88,6 @@ export default class extends Channel {
 		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
 			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
 		}
-		console.log(3);
 
 		if (this.excludeForeignReply && note.replyId) {
 			if (!(
