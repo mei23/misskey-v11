@@ -82,9 +82,7 @@ export default class extends Channel {
 		}
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
-		console.log(1);
 		if (shouldMuteThisNote(note, this.mutedUserIds, this.hideFromUsers, this.hideFromHosts)) return;
-		console.log(2);
 
 		// Renoteを隠すユーザー
 		if (note.renoteId && !note.text && !note.fileIds?.length && !note.poll) {	// pure renote
