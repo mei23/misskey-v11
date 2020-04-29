@@ -75,7 +75,7 @@ export default define(meta, async (ps, me) => {
 		return [];
 	}
 
-	const hideUserIds = await getHideUserIds(me);
+	const hideUserIds = await getHideUserIds(me, true);
 	hideUserIds.push(user._id);
 
 	const replyTargetNotes = await Note.find({

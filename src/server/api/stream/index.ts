@@ -222,7 +222,7 @@ export default class Connection {
 
 	@autobind
 	private async updateMuting() {
-		const hides = await getHideUserIdsById(this.user?._id);
+		const hides = await getHideUserIdsById(this.user?._id, true);
 		this.muting = hides.map(x => `${x}`);
 	}
 
