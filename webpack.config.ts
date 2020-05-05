@@ -4,12 +4,8 @@
 
 import * as fs from 'fs';
 import * as webpack from 'webpack';
-import * as chalk from 'chalk';
 import rndstr from 'rndstr';
 const { VueLoaderPlugin } = require('vue-loader');
-//const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 
 class WebpackOnBuildPlugin {
 	constructor(readonly callback: (stats: any) => void) {
@@ -124,10 +120,7 @@ module.exports = {
 	},
 	plugins: [
 		//new HardSourceWebpackPlugin(),
-		new ProgressBarPlugin({
-			format: chalk`  {cyan.bold yes we can} {bold [}:bar{bold ]} {green.bold :percent} {gray (:current/:total)} :elapseds`,
-			clear: false
-		}),
+		new webpack.ProgressPlugin({}),
 		new webpack.DefinePlugin({
 			_CONSTANTS_: JSON.stringify(constants),
 			_VERSION_: JSON.stringify(version),
@@ -159,6 +152,7 @@ module.exports = {
 			'.js', '.ts', '.json'
 		],
 		alias: {
+			'crypto': false,
 			'const.styl': __dirname + '/src/client/const.styl'
 		}
 	},
@@ -166,9 +160,14 @@ module.exports = {
 		modules: ['node_modules']
 	},
 	optimization: {
-		minimizer: [new TerserPlugin()]
+		minimize: false
 	},
-	cache: true,
+	cache: {
+		type: 'filesystem',
+		buildDependencies: {
+			config: [__filename]
+		}
+	},
 	devtool: false, //'source-map',
 	mode: isProduction ? 'production' : 'development'
 };
