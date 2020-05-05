@@ -8,7 +8,6 @@ const sourcemaps = require('gulp-sourcemaps');
 import tslint from 'gulp-tslint';
 const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
-import * as chalk from 'chalk';
 import * as rename from 'gulp-rename';
 import * as replace from 'gulp-replace';
 const cleanCSS = require('gulp-clean-css');
@@ -16,13 +15,6 @@ const cleanCSS = require('gulp-clean-css');
 const locales = require('./locales');
 
 const env = process.env.NODE_ENV || 'development';
-const isProduction = env === 'production';
-const isDebug = !isProduction;
-
-if (isDebug) {
-	console.warn(chalk.yellow.bold('WARNING! NODE_ENV is not "production".'));
-	console.warn(chalk.yellow.bold('         built script will not be compressed.'));
-}
 
 gulp.task('build:ts', () => {
 	const tsProject = ts.createProject('./tsconfig.json');
