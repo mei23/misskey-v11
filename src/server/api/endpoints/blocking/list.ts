@@ -14,7 +14,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: ['read:following', 'following-read'],
+	kind: ['read:blocks', 'read:following', 'following-read'],
 
 	params: {
 		limit: {

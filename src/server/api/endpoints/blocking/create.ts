@@ -25,7 +25,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: ['write:following', 'following-write'],
+	kind: ['write:blocks', 'write:following', 'following-write'],
 
 	params: {
 		userId: {
