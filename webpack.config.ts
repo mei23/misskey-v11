@@ -167,6 +167,7 @@ module.exports = {
 	},
 	optimization: {
 		minimizer: [new TerserPlugin({
+			parallel: 1,
 			exclude: [
 				/admin/,
 				/dev/,
