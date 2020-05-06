@@ -50,7 +50,6 @@ module.exports = {
 		dev: './src/client/app/dev/script.ts',
 		auth: './src/client/app/auth/script.ts',
 		admin: './src/client/app/admin/script.ts',
-		test: './src/client/app/test/script.ts',
 		sw: './src/client/app/sw.js'
 	},
 	module: {
@@ -170,8 +169,7 @@ module.exports = {
 			parallel: 1,
 			exclude: [
 				/admin/,
-				/dev/,
-				/test/
+				/dev/
 			]
 		})]
 	},
