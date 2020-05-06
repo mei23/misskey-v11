@@ -10,6 +10,7 @@ const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
 import * as rename from 'gulp-rename';
 import * as replace from 'gulp-replace';
+const terser = require('gulp-terser');
 const cleanCSS = require('gulp-clean-css');
 
 const locales = require('./locales');
@@ -77,6 +78,9 @@ gulp.task('build:client:script', () => {
 		.pipe(replace('VERSION', JSON.stringify(client.version)))
 		.pipe(replace('ENV', JSON.stringify(env)))
 		.pipe(replace('LANGS', JSON.stringify(Object.keys(locales))))
+		.pipe(terser({
+			toplevel: true
+		}))
 		.pipe(gulp.dest('./built/client/assets/'));
 });
 
