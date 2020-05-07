@@ -6,7 +6,6 @@ import * as fs from 'fs';
 import * as webpack from 'webpack';
 import rndstr from 'rndstr';
 const { VueLoaderPlugin } = require('vue-loader');
-//const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 class WebpackOnBuildPlugin {
@@ -120,7 +119,6 @@ module.exports = {
 		}]
 	},
 	plugins: [
-		//new HardSourceWebpackPlugin(),
 		new webpack.ProgressPlugin({}),
 		new webpack.DefinePlugin({
 			_CONSTANTS_: JSON.stringify(constants),
