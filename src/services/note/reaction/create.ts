@@ -12,6 +12,7 @@ import perUserReactionsChart from '../../../services/chart/per-user-reactions';
 import { toDbReaction, decodeReaction } from '../../../misc/reaction-lib';
 import deleteReaction from './delete';
 import { packEmojis } from '../../../misc/pack-emojis';
+import { deliverToRelays } from '../../relay';
 
 export default async (user: IUser, note: INote, reaction: string) => {
 	reaction = await toDbReaction(reaction, true, user.host);
@@ -97,9 +98,10 @@ export default async (user: IUser, note: INote, reaction: string) => {
 
 	//#region 配信
 	if (isLocalUser(user) && !note.localOnly && !user.noFederation) {
-		const content = renderActivity(await renderLike(inserted, note));
+		const content = renderActivity(await renderLike(inserted, note), user);
 		if (isRemoteUser(note._user)) deliverToUser(user, content, note._user);
 		deliverToFollowers(user, content, true);
+		//deliverToRelays(user, content);
 	}
 	//#endregion
 
