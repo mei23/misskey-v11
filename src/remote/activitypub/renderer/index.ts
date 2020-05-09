@@ -48,7 +48,7 @@ export const attachLdSignature = async (activity: any, user: ILocalUser): Promis
 	activity['@context'].push(obj);
 
 	const ldSignature = new LdSignature();
-	ldSignature.debug = true;
+	ldSignature.debug = false;
 	activity = await ldSignature.signRsaSignature2017(activity, user.keypair, `${config.url}/users/${user._id}#main-key`);
 
 	return activity;
