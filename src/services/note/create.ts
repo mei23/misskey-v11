@@ -402,7 +402,7 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 					dm.addFollowersRecipe();
 				}
 
-				if (['public', 'home'].includes(note.visibility)) {
+				if (['public', 'home'].includes(note.visibility) && !note.copyOnce) {
 					deliverToRelays(user, noteActivity);
 				}
 

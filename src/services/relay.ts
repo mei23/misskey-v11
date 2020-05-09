@@ -81,6 +81,8 @@ export async function relayRejected(id: string) {
 }
 
 export async function deliverToRelays(user: ILocalUser, activity: any) {
+	if (activity == null) return;
+
 	const relays = await Relay.find({
 		status: 'accepted'
 	});
