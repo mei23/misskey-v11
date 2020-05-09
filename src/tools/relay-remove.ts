@@ -8,8 +8,9 @@ async function main(inbox: string): Promise<any> {
 const args = process.argv.slice(2);
 
 main(args[0]).then(() => {
-	//process.exit(0);
+	console.log('OK');
 }).catch(e => {
 	console.warn(e);
-	//process.exit(1);
+}).finally(() => {
+	console.log('Ctrl+C to exit');
 });
