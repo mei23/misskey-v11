@@ -52,6 +52,11 @@ export default Vue.extend({
 			}).then((relay: any) => {
 				this.inbox = '';
 				this.reload();
+			}).catch((e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e.message || e
+				});
 			});
 		},
 
@@ -60,6 +65,11 @@ export default Vue.extend({
 				inbox
 			}).then(() => {
 				this.reload();
+			}).catch((e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e.message || e
+				});
 			});
 		},
 
