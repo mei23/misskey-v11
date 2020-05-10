@@ -11,6 +11,8 @@ import { IIdentifier } from '../models/identifier';
 import renderHashtag from './hashtag';
 
 export default async (user: ILocalUser) => {
+	const isSystem = !!user.username.match(/\./);
+
 	const id = `${config.url}/users/${user._id}`;
 
 	const [avatar, banner] = await Promise.all([
@@ -87,7 +89,7 @@ export default async (user: ILocalUser) => {
 	];
 
 	return {
-		type: user.isBot ? 'Service' : 'Person',
+		type: isSystem ? 'Application' : user.isBot ? 'Service' : 'Person',
 		id,
 		inbox: `${id}/inbox`,
 		outbox: `${id}/outbox`,
