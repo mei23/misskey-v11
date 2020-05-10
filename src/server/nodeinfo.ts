@@ -4,6 +4,8 @@ import fetchMeta from '../misc/fetch-meta';
 import User from '../models/user';
 import Note from '../models/note';
 import { repositoryUrl } from '../const.json';
+import Relay from '../models/relay';
+import { fromHtml } from '../mfm/fromHtml';
 
 const router = new Router();
 
@@ -19,24 +21,27 @@ export const links = [/* (awaiting release) {
 }];
 
 const nodeinfo2 = async () => {
-	const [
-		meta,
-		total,
-		activeHalfyear,
-		activeMonth,
-		localPosts,
-		localComments
-	] = await Promise.all([
-		fetchMeta(),
-		User.count({ host: null }),
-		User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 15552000000) } }),
-		User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 2592000000) } }),
-		Note.count({ '_user.host': null, replyId: null }),
-		Note.count({ '_user.host': null, replyId: { $ne: null } })
-	]);
+	const meta = await fetchMeta();
+
+	const total = await User.count({ host: null });
+	const activeHalfyear = await User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 15552000000) } });
+	const activeMonth = await User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 2592000000) } });
+	const localPosts = await Note.count({ '_user.host': null, replyId: null });
+	const localComments = await Note.count({ '_user.host': null, replyId: { $ne: null } });
+
+	const relayActor = await User.findOne({ host: null, username: 'relay.actor' });
+
+	const relays = await Relay.find({ status: 'accepted' });
+	const relayedHosts = relays.map(x => {
+		try {
+			return new URL(x.inbox).hostname;
+		} catch {
+			return null;
+		}
+	}).filter((x): x is string => x != null);
 
 	const nodeName = meta.name || 'Misskey';
-	const nodeDescription = meta.description || '';
+	const nodeDescription = fromHtml(meta.description || '');
 
 	return {
 		software: {
@@ -63,6 +68,8 @@ const nodeinfo2 = async () => {
 			maintainer: meta.maintainer,
 			langs: meta.langs,
 			announcements: meta.announcements,
+			relayActor: relayActor ? `${config.url}/users/${relayActor._id}` : null,
+			relays: relayedHosts,
 			disableRegistration: meta.disableRegistration,
 			disableLocalTimeline: meta.disableLocalTimeline,
 			disableGlobalTimeline: meta.disableGlobalTimeline,
