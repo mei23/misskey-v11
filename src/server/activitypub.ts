@@ -19,6 +19,7 @@ import { inbox as processInbox } from '../queue';
 import { isSelfHost } from '../misc/convert-host';
 import NoteReaction from '../models/note-reaction';
 import { renderLike } from '../remote/activitypub/renderer/like';
+import { inspect } from 'util';
 
 // Init router
 const router = new Router();
@@ -31,6 +32,9 @@ function inbox(ctx: Router.RouterContext) {
 	try {
 		signature = httpSignature.parseRequest(ctx.req, { 'headers': [] });
 	} catch (e) {
+		console.log(`signature parse error: ${inspect(e)}`);
+		console.log(`headers: ${inspect(ctx.request.headers)}`);
+		console.log(`body: ${inspect(ctx.request.body, { depth: null })}`);
 		ctx.status = 401;
 		return;
 	}
