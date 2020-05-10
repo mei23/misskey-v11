@@ -1202,6 +1202,7 @@ admin/views/index.vue:
   moderators: "Moderators"
   users: "Users"
   federation: "Federation"
+  relays: "Relays"
   announcements: "Announcements"
   hashtags: "Hashtags"
   abuse: "Abuse"
@@ -1500,6 +1501,18 @@ admin/views/federation.vue:
   chart-spans:
     hour: "Hourly"
     day: "Daily"
+
+admin/views/relay.vue:
+  add-relay: "Add relay"
+  inbox: "inbox URL"
+  add: "Add"
+  remove: "Remove"
+  added-relays: "Added relays"
+  status:
+    requesting: "Requesting"
+    accepted: "Accepted"
+    rejected: "Rejected"
+
 desktop/views/pages/welcome.vue:
   about: "More details..."
   timeline: "Timeline"

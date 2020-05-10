@@ -1338,6 +1338,7 @@ admin/views/index.vue:
   moderators: "モデレーター"
   users: "ユーザー"
   federation: "連合"
+  relays: "リレー"
   announcements: "お知らせ"
   hashtags: "ハッシュタグ"
   abuse: "スパム報告"
@@ -1652,6 +1653,17 @@ admin/views/federation.vue:
   chart-spans:
     hour: "1時間ごと"
     day: "1日ごと"
+
+admin/views/relay.vue:
+  add-relay: "リレーの追加"
+  inbox: "inboxのURL"
+  add: "追加"
+  remove: "削除"
+  added-relays: "追加済みのリレー"
+  status:
+    requesting: "承認待ち"
+    accepted: "承認済み"
+    rejected: "拒否済み"
 
 desktop/views/pages/welcome.vue:
   about: "詳しく..."
