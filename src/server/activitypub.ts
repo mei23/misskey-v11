@@ -33,8 +33,6 @@ function inbox(ctx: Router.RouterContext) {
 		signature = httpSignature.parseRequest(ctx.req, { 'headers': [] });
 	} catch (e) {
 		console.log(`signature parse error: ${inspect(e)}`);
-		console.log(`headers: ${inspect(ctx.request.headers)}`);
-		console.log(`body: ${inspect(ctx.request.body, { depth: null })}`);
 		ctx.status = 401;
 		return;
 	}
