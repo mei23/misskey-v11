@@ -197,7 +197,7 @@
 		"redis-lock": "0.1.4",
 		"reflect-metadata": "0.1.13",
 		"rename": "1.0.4",
-		"request": "2.88.0",
+		"request": "2.88.2",
 		"request-promise-native": "1.0.8",
 		"request-stats": "3.0.0",
 		"require-all": "3.0.0",
