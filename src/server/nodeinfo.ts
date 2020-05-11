@@ -87,8 +87,8 @@ const nodeinfo2 = async () => {
 router.get(nodeinfo2_1path, async ctx => {
 	const base = await nodeinfo2();
 
-	ctx.set('Cache-Control', 'public, max-age=600');
 	ctx.body = { version: '2.1', ...base };
+	ctx.set('Cache-Control', 'public, max-age=600');
 });
 
 router.get(nodeinfo2_0path, async ctx => {
@@ -96,8 +96,8 @@ router.get(nodeinfo2_0path, async ctx => {
 
 	delete base.software.repository;
 
-	ctx.set('Cache-Control', 'public, max-age=600');
 	ctx.body = { version: '2.0', ...base };
+	ctx.set('Cache-Control', 'public, max-age=600');
 });
 
 export default router;
