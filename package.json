@@ -161,7 +161,7 @@
 		"koa-slow": "2.1.0",
 		"koa-views": "6.2.1",
 		"langmap": "0.0.16",
-		"loader-utils": "1.2.3",
+		"loader-utils": "2.0.0",
 		"lolex": "5.1.2",
 		"lookup-dns-cache": "2.1.0",
 		"mocha": "7.0.0",
