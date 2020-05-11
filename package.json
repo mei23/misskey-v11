@@ -107,7 +107,7 @@
 		"bcryptjs": "2.4.3",
 		"bootstrap": "4.4.1",
 		"bootstrap-vue": "2.1.0",
-		"bull": "3.12.1",
+		"bull": "3.14.0",
 		"cafy": "15.2.1",
 		"cbor": "5.0.1",
 		"chai": "4.2.0",
