@@ -146,7 +146,7 @@
 		"js-yaml": "3.13.1",
 		"jsdom": "16.2.2",
 		"json5": "2.1.1",
-		"json5-loader": "3.0.0",
+		"json5-loader": "4.0.0",
 		"jsrsasign": "8.0.15",
 		"katex": "0.11.1",
 		"koa": "2.11.0",
