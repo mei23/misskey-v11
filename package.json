@@ -176,7 +176,7 @@
 		"os-utils": "0.0.14",
 		"parse5": "5.1.1",
 		"parsimmon": "1.13.0",
-		"pg": "7.17.0",
+		"pg": "8.1.0",
 		"portscanner": "2.2.0",
 		"postcss-loader": "3.0.0",
 		"prismjs": "1.18.0",
