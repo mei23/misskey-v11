@@ -104,17 +104,17 @@ export default define(meta, async (ps, me) => {
 	return await packMany(notes, me);
 });
 
-async function searchInternal(me: ILocalUser, query: string, limit: number, offset: number) {
+async function searchInternal(me: ILocalUser, query: string, limit: number | undefined, offset: number | undefined) {
 	// extract tokens
 	const tokens = query.trim().split(/\s+/);
 	const words: string[] = [];
-	let from: IUser = null;
-	let followFrom: IUser = null;
-	let since: Date = null;
-	let until: Date = null;
+	let from: IUser | null  = null;
+	let followFrom: IUser | null | undefined = null;
+	let since: Date | null  = null;
+	let until: Date | null  = null;
 	let types: string[] = [];
 	let withFiles = false;
-	let host: string;	// = undefined
+	let host: string | null | undefined;	// = undefined
 	let sensitive: 'all' | 'sfw' | 'nsfw' = 'all';
 	let filtered = false;
 	let withPolls = false;
@@ -222,11 +222,11 @@ async function searchInternal(me: ILocalUser, query: string, limit: number, offs
 		if (matchHost) {
 			if (matchHost[1].match(/^(\.|local)$/) || isSelfHost(matchHost[1])) {
 				host = null;
+				filtered = true;
 			} else {
 				host = toDbHost(matchHost[1]);
 			}
 
-			// filteredにしない
 			continue;
 		}
 

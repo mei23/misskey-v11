@@ -1,7 +1,7 @@
 export type Schema = {
-	type: 'boolean' | 'number' | 'string' | 'array' | 'object' | 'any';
-	nullable: boolean;
-	optional: boolean;
+	type: string;
+	nullable?: boolean;
+	optional?: boolean;
 	items?: Schema;
 	properties?: Obj;
 	description?: string;
