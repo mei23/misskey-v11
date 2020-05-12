@@ -1,14 +1,14 @@
 <template>
 <div>
 	<ui-card>
-		<template #title><fa icon="plus"/> {{ $t('add-relay') }}</template>
+		<template #title><fa :icon="faPlus"/> {{ $t('add-relay') }}</template>
 		<section class="fit-top">
 			<ui-horizon-group inputs>
 				<ui-input v-model="inbox">
 					<span>{{ $t('inbox') }}</span>
 				</ui-input>
 			</ui-horizon-group>
-			<ui-button @click="add(inbox)">{{ $t('add') }}</ui-button>
+			<ui-button @click="add(inbox)"><fa :icon="faPlus"/> {{ $t('add') }}</ui-button>
 		</section>
 	</ui-card>
 
@@ -17,7 +17,7 @@
 		<section v-for="relay in relays" :key="relay.inbox" class="relayath">
 			<div>{{ relay.inbox }}</div>
 			<div>{{ $t(`status.${relay.status}`) }}</div>
-			<ui-button @click="remove(relay.inbox)">{{ $t('remove') }}</ui-button>
+			<ui-button @click="remove(relay.inbox)"><fa :icon="faTrashAlt"/> {{ $t('remove') }}</ui-button>
 		</section>
 	</ui-card>
 </div>
@@ -26,7 +26,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../i18n';
-import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('admin/views/relay.vue'),
@@ -34,7 +35,7 @@ export default Vue.extend({
 		return {
 			relays: [],
 			inbox: '',
-			faProjectDiagram
+			faPlus, faProjectDiagram, faTrashAlt
 		};
 	},
 
