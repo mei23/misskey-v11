@@ -88,14 +88,12 @@ export async function deliverToRelays(user: ILocalUser, activity: any) {
 	});
 	if (relays.length === 0) return;
 
-	const relayActor = await getRelayActor();
-
 	const copy = JSON.parse(JSON.stringify(activity));
 	if (!copy.to) copy.to = ['https://www.w3.org/ns/activitystreams#Public'];
 
 	const x = await attachLdSignature(copy, user);
 
 	for (const relay of relays) {
-		deliver(relayActor, x, relay.inbox);
+		deliver(user, x, relay.inbox);
 	}
 }
