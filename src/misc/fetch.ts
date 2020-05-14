@@ -24,7 +24,15 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 		};
 	}
 
-	return await res.json();
+	try {
+		return await res.json();
+	} catch (e) {
+		throw {
+			name: `JsonParseError`,
+			statusCode: 481,
+			message: `JSON parse error ${e.message || e}`
+		};
+	}
 }
 
 export const httpAgent = config.proxy

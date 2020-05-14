@@ -64,7 +64,7 @@ export async function fetchNote(object: string | IObject): Promise<INote | null>
 /**
  * Noteを作成します。
  */
-export async function createNote(value: string | IObject, resolver?: Resolver, silent = false): Promise<INote | null> {
+export async function createNote(value: string | IObject, resolver?: Resolver | null, silent = false): Promise<INote | null> {
 	if (resolver == null) resolver = new Resolver();
 
 	const object = await resolver.resolve(value);
@@ -273,8 +273,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
  * Misskeyに対象のNoteが登録されていればそれを返し、そうでなければ
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
-export async function resolveNote(value: string | IObject, resolver?: Resolver, timeline = false): Promise<INote> {
-	const uri = typeof value == 'string' ? value : value.id;
+export async function resolveNote(value: string | IObject, resolver?: Resolver | null, timeline = false): Promise<INote | null> {
+	const uri = getApId(value);
 
 	// ブロックしてたら中断
 	if (await isBlockedHost(extractApHost(uri))) throw { statusCode: 451 };

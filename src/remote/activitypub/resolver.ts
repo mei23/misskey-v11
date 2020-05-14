@@ -49,7 +49,11 @@ export default class Resolver {
 				!object['@context'].includes('https://www.w3.org/ns/activitystreams') :
 				object['@context'] !== 'https://www.w3.org/ns/activitystreams'
 		)) {
-			throw new Error('invalid response');
+			throw {
+				name: `InvalidResponse`,
+				statusCode: 482,
+				message: `Invalid @context`
+			};
 		}
 
 		return object;
