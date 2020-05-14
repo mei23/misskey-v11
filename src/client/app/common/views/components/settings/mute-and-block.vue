@@ -1,6 +1,13 @@
 <template>
 <ui-card>
 	<template #title><fa icon="ban"/> {{ $t('mute-and-block') }}</template>
+	<section>
+		<header>{{ $t('word-mute') }}</header>
+		<ui-textarea v-model="mutedWords">
+			{{ $t('muted-words') }}<template #desc>{{ $t('muted-words-description') }}</template>
+		</ui-textarea>
+		<ui-button @click="save">{{ $t('save') }}</ui-button>
+	</section>
 
 	<section>
 		<header>{{ $t('mute') }}</header>
@@ -28,14 +35,6 @@
 			</div>
 			<ui-button v-if="this.blockCursor != null" @click="updateBlock()">{{ $t('@.load-more') }}</ui-button>
 		</div>
-	</section>
-
-	<section>
-		<header>{{ $t('word-mute') }}</header>
-		<ui-textarea v-model="mutedWords">
-			{{ $t('muted-words') }}<template #desc>{{ $t('muted-words-description') }}</template>
-		</ui-textarea>
-		<ui-button @click="save">{{ $t('save') }}</ui-button>
 	</section>
 </ui-card>
 </template>
