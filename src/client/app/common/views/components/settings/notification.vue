@@ -9,7 +9,7 @@
 			<ui-button @click="readAllNotifications">{{ $t('mark-as-read-all-notifications') }}</ui-button>
 			<ui-button @click="readAllUnreadNotes">{{ $t('mark-as-read-all-unread-notes') }}</ui-button>
 			<ui-button @click="readAllMessagingMessages">{{ $t('mark-as-read-all-talk-messages') }}</ui-button>
-			<ui-button @click="unwatchAll">Unwatch all</ui-button>
+			<ui-button @click="unwatchAll">{{ $t('UnwatchAll') }}</ui-button>
 		</section>
 	</section>
 </ui-card>
