@@ -1040,19 +1040,11 @@
 	{ "category": "objects", "char": "🦯", "name": "probing_cane", "keywords": ["tools"] },
 	{ "category": "objects", "char": "🔩", "name": "nut_and_bolt", "keywords": ["handy", "tools", "fix"] },
 	{ "category": "objects", "char": "⚙", "name": "gear", "keywords": ["cog"] },
-
 	{ "category": "objects", "char": "🪃", "name": "boomerang", "keywords": ["tool"] },
 	{ "category": "objects", "char": "🪚", "name": "carpentry_saw", "keywords": ["tool"] },
 	{ "category": "objects", "char": "🪛", "name": "screwdriver", "keywords": ["tool"] },
 	{ "category": "objects", "char": "🪝", "name": "hook", "keywords": ["tool"] },
 	{ "category": "objects", "char": "🪜", "name": "ladder", "keywords": ["tool"] },
-
-
-
-
-
-
-
 	{ "category": "objects", "char": "🧱", "name": "brick", "keywords": ["bricks"] },
 	{ "category": "objects", "char": "⛓", "name": "chains", "keywords": ["lock", "arrest"] },
 	{ "category": "objects", "char": "🧲", "name": "magnet", "keywords": ["attraction", "magnetic"] },
