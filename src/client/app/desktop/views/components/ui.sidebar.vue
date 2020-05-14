@@ -75,7 +75,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import MkSettingsWindow from './settings-window.vue';
 import MkDriveWindow from './drive-window.vue';
 import MkMessagingWindow from './messaging-window.vue';
 import MkGameWindow from './game-window.vue';
@@ -193,7 +192,7 @@ export default Vue.extend({
 		},
 
 		settings() {
-			this.$root.new(MkSettingsWindow);
+			this.$router.push(`/i/settings`);
 		},
 
 		signout() {
