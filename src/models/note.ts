@@ -14,6 +14,8 @@ import Emoji from './emoji';
 import { packEmojis } from '../misc/pack-emojis';
 import { dbLogger } from '../db/logger';
 import { decodeReaction, decodeReactionCounts } from '../misc/reaction-lib';
+import { parse } from '../mfm/parse';
+import { toString } from '../mfm/to-string';
 
 const Note = db.get<INote>('notes');
 Note.createIndex('uri', { sparse: true, unique: true });
@@ -435,6 +437,15 @@ export const pack = async (
 		}
 	}
 	//#endregion
+
+	if (_note.user.isCat && _note.text) {
+		try {
+			const tokens = _note.text ? parse(_note.text) : [];
+			_note.text = toString(tokens, { doNyaize: true });
+		} catch (e) {
+			console.log(e);
+		}
+	}
 
 	if (_note.name && (_note.url || _note.uri)) {
 		_note.text = `【${_note.name}】\n${(_note.text || '').trim()}\n\n${_note.url || _note.uri}`;
