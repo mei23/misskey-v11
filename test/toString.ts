@@ -72,6 +72,12 @@ describe('toString', () => {
 	it('[タイトル]', () => {
 		assert.deepStrictEqual(toString(parse('[タイトル]')), '[タイトル]');
 	});
+	it('インライン数式', () => {
+		assert.deepStrictEqual(toString(parse('\\(インライン数式\\)')), '\\(インライン数式\\)');
+	});
+	it('ブロック数式', () => {
+		assert.deepStrictEqual(toString(parse('\\\[\nブロック数式\n\]\\')), '\\\[\nブロック数式\n\]\\');
+	});
 	it('上下反転', () => {
 		assert.deepStrictEqual(toString(parse('<vflip>上下反転</vflip>')), '<vflip>上下反転</vflip>');
 	});
