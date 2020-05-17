@@ -78,8 +78,15 @@ autoAdmin: true
 # Whether disable HSTS
 #disableHsts: true
 
-# Clustering
+# Clustering (worker(server+queue)プロセスをいくつ上げるか)
 #clusterLimit: 1
+
+# 以下をアンコメントアウトすると
+# server+queueなワーカープロセスを指定数上げるのではなく
+# 役割が別れたワーカープロセスを指定数ずつ上げるようになります
+#workerStrategies:
+#  serverWorkerCount: 1
+#  queueWorkerCount: 1
 
 # IP address family used for outgoing request (ipv4, ipv6 or dual)
 #outgoingAddressFamily: ipv4

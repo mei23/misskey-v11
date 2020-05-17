@@ -30,7 +30,10 @@ const ev = new Xev();
  * Init process
  */
 function main() {
-	process.title = `Misskey (${cluster.isMaster ? 'master' : 'worker'})`;
+	process.title = `Misskey (${cluster.isMaster ? 'master'
+		: process.env.WORKER_TYPE === 'server' ? 'server'
+		: process.env.WORKER_TYPE === 'queue' ? 'queue'
+		: 'worker'})`;
 
 	if (program.onlyQueue) {
 		queueMain();
@@ -101,7 +104,7 @@ async function masterMain() {
 	bootLogger.succ('Misskey initialized');
 
 	if (!program.disableClustering) {
-		await spawnWorkers(config.clusterLimit);
+		await spawnWorkers(config);
 	}
 
 	bootLogger.succ(`Now listening on port ${config.port} on ${config.url}`, null, true);
@@ -111,11 +114,16 @@ async function masterMain() {
  * Init worker process
  */
 async function workerMain() {
-	// start server
-	await require('./server').default();
+	const workerType = process.env.WORKER_TYPE;
 
-	// start job queue
-	require('./queue').default();
+	if (workerType === 'server') {
+		await require('./server').default();
+	} else if (workerType === 'queue') {
+		require('./queue').default();
+	} else {
+		await require('./server').default();
+		require('./queue').default();
+	}
 
 	if (cluster.isWorker) {
 		// Send a 'ready' message to parent process
@@ -204,16 +212,30 @@ async function init(): Promise<Config> {
 	return config;
 }
 
-async function spawnWorkers(limit: number = 1) {
-	const workers = Math.min(limit, os.cpus().length);
-	bootLogger.info(`Starting ${workers} worker${workers === 1 ? '' : 's'}...`);
-	await Promise.all([...Array(workers)].map(spawnWorker));
-	bootLogger.succ('All workers started');
+async function spawnWorkers(config: Config) {
+	if (config.workerStrategies) {
+		const servers = config.workerStrategies.serverWorkerCount;
+		const queues = config.workerStrategies.queueWorkerCount;
+
+		bootLogger.info(`Starting ${servers} server workers`);
+		await Promise.all([...Array(servers)].map(() => spawnWorker('server')));
+
+		bootLogger.info(`Starting ${queues} queue workers`);
+		await Promise.all([...Array(queues)].map(() => spawnWorker('queue')));
+
+		bootLogger.succ('All workers started');
+	} else {
+		const limit = config.clusterLimit || 1;
+		const workers = Math.min(limit, os.cpus().length);
+		bootLogger.info(`Starting ${workers} workers...`);
+		await Promise.all([...Array(workers)].map(spawnWorker));
+		bootLogger.succ('All workers started');
+	}
 }
 
-function spawnWorker(): Promise<void> {
+function spawnWorker(type = 'worker'): Promise<void> {
 	return new Promise(res => {
-		const worker = cluster.fork();
+		const worker = cluster.fork({ WORKER_TYPE: type });
 		worker.on('message', message => {
 			if (message !== 'ready') return;
 			res();

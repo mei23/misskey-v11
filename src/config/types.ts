@@ -41,6 +41,11 @@ export type Source = {
 
 	clusterLimit?: number;
 
+	workerStrategies?: {
+		serverWorkerCount: number;
+		queueWorkerCount: number;
+	};
+
 	outgoingAddressFamily?: 'ipv4' | 'ipv6' | 'dual';
 
 	deliverJobConcurrency?: number;
