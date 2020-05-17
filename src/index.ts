@@ -25,6 +25,7 @@ const logger = new Logger('core', 'cyan');
 const bootLogger = logger.createSubLogger('boot', 'magenta', false);
 const clusterLogger = logger.createSubLogger('cluster', 'orange');
 const ev = new Xev();
+const workerIndex: Record<number, string> = {};
 
 /**
  * Init process
@@ -218,10 +219,12 @@ async function spawnWorkers(config: Config) {
 		const queues = config.workerStrategies.queueWorkerCount;
 
 		bootLogger.info(`Starting ${servers} server workers`);
-		await Promise.all([...Array(servers)].map(() => spawnWorker('server')));
+		const serverWorkers = await Promise.all([...Array(servers)].map(() => spawnWorker('server')));
+		for (const worker of serverWorkers) workerIndex[worker.id] = 'server';
 
 		bootLogger.info(`Starting ${queues} queue workers`);
-		await Promise.all([...Array(queues)].map(() => spawnWorker('queue')));
+		const queueWorkers = await Promise.all([...Array(queues)].map(() => spawnWorker('queue')));
+		for (const worker of queueWorkers) workerIndex[worker.id] = 'queue';
 
 		bootLogger.succ('All workers started');
 	} else {
@@ -233,12 +236,12 @@ async function spawnWorkers(config: Config) {
 	}
 }
 
-function spawnWorker(type = 'worker'): Promise<void> {
-	return new Promise(res => {
+function spawnWorker(type: 'server' | 'queue' | 'worker' = 'worker'): Promise<cluster.Worker> {
+	return new Promise((res, rej) => {
 		const worker = cluster.fork({ WORKER_TYPE: type });
 		worker.on('message', message => {
-			if (message !== 'ready') return;
-			res();
+			if (message !== 'ready') return rej();
+			res(worker);
 		});
 	});
 }
@@ -260,7 +263,9 @@ cluster.on('exit', worker => {
 	// Replace the dead worker,
 	// we're not sentimental
 	clusterLogger.error(chalk.red(`[${worker.id}] died :(`));
-	cluster.fork();
+	const type = workerIndex[worker.id] || 'worker';
+	const w = cluster.fork({ WORKER_TYPE: type });
+	workerIndex[w.id] = type;
 });
 
 // Display detail of unhandled promise rejection
