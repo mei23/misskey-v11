@@ -25,6 +25,8 @@ class Autocomplete {
 	private opts: {
 		model: string;
 		noZwsp?: boolean;
+		userOnly?: boolean;
+		localOnly?: boolean;
 	};
 	private opening: boolean;
 
@@ -103,7 +105,7 @@ class Autocomplete {
 			}
 		}
 
-		if (isHashtag && opened == false) {
+		if (isHashtag && opened == false && !this.opts.userOnly) {
 			const hashtag = text.substr(hashtagIndex + 1);
 			if (!hashtag.includes(' ')) {
 				this.open('hashtag', hashtag);
@@ -111,7 +113,7 @@ class Autocomplete {
 			}
 		}
 
-		if (isEmoji && opened == false) {
+		if (isEmoji && opened == false && !this.opts.userOnly) {
 			const emoji = text.substr(emojiIndex + 1);
 			if (!emoji.includes(' ')) {
 				this.open('emoji', emoji);
@@ -162,6 +164,7 @@ class Autocomplete {
 					close: this.close,
 					type: type,
 					q: q,
+					localOnly: this.opts.localOnly,
 					x,
 					y
 				}

@@ -72,7 +72,7 @@ for (const x of lib) {
 emjdb.sort((a, b) => a.name.length - b.name.length);
 
 export default Vue.extend({
-	props: ['type', 'q', 'textarea', 'complete', 'close', 'x', 'y'],
+	props: ['type', 'q', 'textarea', 'complete', 'close', 'x', 'y', 'localOnly'],
 
 	data() {
 		return {
@@ -179,6 +179,7 @@ export default Vue.extend({
 			if (this.type == 'user') {
 				this.$root.api('users/search', {
 					query: this.q,
+					localOnly: !!this.localOnly,
 					limit: 20,
 					detail: false
 				}, false, true).then(users => {

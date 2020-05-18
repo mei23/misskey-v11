@@ -3,6 +3,7 @@
 	<h1>{{ $t('title') }}</h1>
 	<p>{{ $t('sub-title') }}</p>
 	<div class="play">
+		<input v-model="q" type="search" placeholder="@user" v-autocomplete="{ model: 'q', userOnly: true, localOnly: true }"/>
 		<form-button primary round @click="match">{{ $t('invite') }}</form-button>
 		<details>
 			<summary>{{ $t('rule') }}</summary>
@@ -55,6 +56,7 @@ export default Vue.extend({
 	i18n: i18n('common/views/components/games/reversi/reversi.index.vue'),
 	data() {
 		return {
+			q: '',
 			games: [],
 			gamesFetching: true,
 			gamesMoreFetching: false,
@@ -100,21 +102,27 @@ export default Vue.extend({
 		},
 
 		async match() {
-			const { result: user } = await this.$root.dialog({
-				title: this.$t('enter-username'),
-				user: {
-					local: true
-				}
-			});
-			if (user == null) return;
-			this.$root.api('games/reversi/match', {
-				userId: user.id
-			}).then(res => {
-				if (res == null) {
-					this.$emit('matching', user);
-				} else {
-					this.$emit('go', res);
-				}
+			const m = this.q.match(/^@(\w+)/);
+			if (!m) return;
+			const username = m[1];
+
+			this.$root.api('users/show', {
+				username
+			}).catch((e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e.message
+				});
+			}).then((user: any) => {
+				this.$root.api('games/reversi/match', {
+					userId: user.id
+				}).then(res => {
+					if (res == null) {
+						this.$emit('matching', user);
+					} else {
+						this.$emit('go', res);
+					}
+				});
 			});
 		},
 
@@ -159,6 +167,16 @@ export default Vue.extend({
 		padding 0 16px
 		max-width 500px
 		text-align center
+
+		> input
+			margin 1em
+			padding 0.5em
+			font-size 16px
+			width 250px
+			color var(--inputText)
+			background var(--desktopPostFormTextareaBg)
+			border 1px solid var(--primaryAlpha01)
+			border-radius 4px
 
 		> details
 			margin 8px 0
