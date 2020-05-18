@@ -18,7 +18,7 @@
 	</div>
 	<section v-if="invitations.length > 0">
 		<h2>{{ $t('invitations') }}</h2>
-		<div class="invitation" v-for="i in invitations" tabindex="-1" @click="accept(i)">
+		<div class="invitation" v-for="i in invitations" :key="i.id" tabindex="-1" @click="accept(i)">
 			<mk-avatar class="avatar" :user="i.parent"/>
 			<span class="name"><b><mk-user-name :user="i.parent"/></b></span>
 			<span class="username">@{{ i.parent.username }}</span>
@@ -27,7 +27,7 @@
 	</section>
 	<section v-if="myGames.length > 0">
 		<h2>{{ $t('my-games') }}</h2>
-		<a class="game" v-for="g in myGames" tabindex="-1" @click.prevent="go(g)" :href="`/games/reversi/${g.id}`">
+		<a class="game" v-for="g in myGames" :key="g.id" tabindex="-1" @click.prevent="go(g)" :href="`/games/reversi/${g.id}`">
 			<mk-avatar class="avatar" :user="g.user1"/>
 			<mk-avatar class="avatar" :user="g.user2"/>
 			<span><b><mk-user-name :user="g.user1"/></b> vs <b><mk-user-name :user="g.user2"/></b></span>
@@ -37,7 +37,7 @@
 	</section>
 	<section v-if="games.length > 0">
 		<h2>{{ $t('all-games') }}</h2>
-		<a class="game" v-for="g in games" tabindex="-1" @click.prevent="go(g)" :href="`/games/reversi/${g.id}`">
+		<a class="game" v-for="g in games" :key="g.id" tabindex="-1" @click.prevent="go(g)" :href="`/games/reversi/${g.id}`">
 			<mk-avatar class="avatar" :user="g.user1"/>
 			<mk-avatar class="avatar" :user="g.user2"/>
 			<span><b><mk-user-name :user="g.user1"/></b> vs <b><mk-user-name :user="g.user2"/></b></span>
@@ -75,16 +75,16 @@ export default Vue.extend({
 
 			this.$root.api('games/reversi/games', {
 				my: true
-			}).then(games => {
+			}).then((games: any[]) => {
 				this.myGames = games;
 			});
 
-			this.$root.api('games/reversi/invitations').then(invitations => {
+			this.$root.api('games/reversi/invitations').then((invitations: any[]) => {
 				this.invitations = this.invitations.concat(invitations);
 			});
 		}
 
-		this.$root.api('games/reversi/games').then(games => {
+		this.$root.api('games/reversi/games').then((games: any[]) => {
 			this.games = games;
 			this.gamesFetching = false;
 		});
@@ -101,7 +101,7 @@ export default Vue.extend({
 			this.$emit('go', game);
 		},
 
-		async match() {
+		match() {
 			const m = this.q.match(/^@(\w+)/);
 			if (!m) return;
 			const username = m[1];
@@ -114,15 +114,19 @@ export default Vue.extend({
 					text: e.message
 				});
 			}).then((user: any) => {
-				this.$root.api('games/reversi/match', {
-					userId: user.id
-				}).then(res => {
-					if (res == null) {
-						this.$emit('matching', user);
-					} else {
-						this.$emit('go', res);
-					}
-				});
+				this.matchWith(user);
+			});
+		},
+
+		matchWith(user: any) {
+			this.$root.api('games/reversi/match', {
+				userId: user.id
+			}).then((res: any) => {
+				if (res == null) {
+					this.$emit('matching', user);
+				} else {
+					this.$emit('go', res);
+				}
 			});
 		},
 
