@@ -1,5 +1,5 @@
 <template>
-<mk-window ref="window" width="500px" height="560px" :popout-url="popout" @closed="destroyDom">
+<mk-window ref="window" width="500px" height="740px" :popout-url="popout" @closed="destroyDom">
 	<template #header><fa icon="gamepad"/> {{ $t('game') }}</template>
 	<x-reversi :class="$style.content" @gamed="g => game = g"/>
 </mk-window>
