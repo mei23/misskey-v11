@@ -180,13 +180,13 @@ export default Vue.extend({
 
 		> input
 			margin 1em
-			padding 0.5em
+			padding 1em
 			font-size 16px
 			width 250px
 			color var(--inputText)
 			background var(--desktopPostFormTextareaBg)
 			border 1px solid var(--primaryAlpha01)
-			border-radius 4px
+			border-radius 8px
 
 		> details
 			margin 8px 0
