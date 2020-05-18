@@ -36,11 +36,6 @@ function main() {
 		: process.env.WORKER_TYPE === 'queue' ? 'queue'
 		: 'worker'})`;
 
-	if (program.onlyQueue) {
-		queueMain();
-		return;
-	}
-
 	if (cluster.isMaster || program.disableClustering) {
 		masterMain();
 
@@ -132,25 +127,6 @@ async function workerMain() {
 	}
 }
 
-async function queueMain() {
-	try {
-		// initialize app
-		const config = await init();
-
-		greet(config);
-	} catch (e) {
-		bootLogger.error('Fatal error occurred during initialization', null, true);
-		process.exit(1);
-	}
-
-	bootLogger.succ('Misskey initialized');
-
-	// start processor
-	require('./queue').default();
-
-	bootLogger.succ('Queue started', null, true);
-}
-
 const runningNodejsVersion = process.version.slice(1).split('.').map(x => parseInt(x, 10));
 const requiredNodejsVersion = [10, 0, 0];
 const satisfyNodejsVersion = !lessThan(runningNodejsVersion, requiredNodejsVersion);
@@ -214,26 +190,37 @@ async function init(): Promise<Config> {
 }
 
 async function spawnWorkers(config: Config) {
+	const st = getWorkerStrategies(config);
+
+	bootLogger.info(`Starting ${st.workers} worker processes`);
+	const workerWorkers = await Promise.all([...Array(st.workers)].map(() => spawnWorker('worker')));
+	for (const worker of workerWorkers) workerIndex[worker.id] = 'worker';
+
+	bootLogger.info(`Starting ${st.servers} server processes`);
+	const serverWorkers = await Promise.all([...Array(st.servers)].map(() => spawnWorker('server')));
+	for (const worker of serverWorkers) workerIndex[worker.id] = 'server';
+
+	bootLogger.info(`Starting ${st.queues} queue processes`);
+	const queueWorkers = await Promise.all([...Array(st.queues)].map(() => spawnWorker('queue')));
+	for (const worker of queueWorkers) workerIndex[worker.id] = 'queue';
+
+	bootLogger.succ('All workers started');
+}
+
+export function getWorkerStrategies(config: Config) {
+	let workers = Math.min(config.clusterLimit || 1, os.cpus().length);
+	let servers = 0;
+	let queues = 0;
+
 	if (config.workerStrategies) {
-		const servers = config.workerStrategies.serverWorkerCount;
-		const queues = config.workerStrategies.queueWorkerCount;
-
-		bootLogger.info(`Starting ${servers} server workers`);
-		const serverWorkers = await Promise.all([...Array(servers)].map(() => spawnWorker('server')));
-		for (const worker of serverWorkers) workerIndex[worker.id] = 'server';
-
-		bootLogger.info(`Starting ${queues} queue workers`);
-		const queueWorkers = await Promise.all([...Array(queues)].map(() => spawnWorker('queue')));
-		for (const worker of queueWorkers) workerIndex[worker.id] = 'queue';
-
-		bootLogger.succ('All workers started');
-	} else {
-		const limit = config.clusterLimit || 1;
-		const workers = Math.min(limit, os.cpus().length);
-		bootLogger.info(`Starting ${workers} workers...`);
-		await Promise.all([...Array(workers)].map(spawnWorker));
-		bootLogger.succ('All workers started');
+		workers = config.workerStrategies.workerWorkerCount || 0;
+		servers = config.workerStrategies.serverWorkerCount || 0;
+		queues = config.workerStrategies.queueWorkerCount || 0;
 	}
+
+	return {
+		workers, servers, queues
+	};
 }
 
 function spawnWorker(type: 'server' | 'queue' | 'worker' = 'worker'): Promise<cluster.Worker> {

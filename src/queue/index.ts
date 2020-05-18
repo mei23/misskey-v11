@@ -252,11 +252,9 @@ export function createImportUserListsJob(user: ILocalUser, fileId: IDriveFile['_
 }
 
 export default function() {
-	if (!program.onlyServer) {
-		deliverQueue.process(config.deliverJobConcurrency || 128, processDeliver);
-		inboxQueue.process(config.inboxJobConcurrency || 16, processInbox);
-		processDb(dbQueue);
-	}
+	deliverQueue.process(config.deliverJobConcurrency || 128, processDeliver);
+	inboxQueue.process(config.inboxJobConcurrency || 16, processInbox);
+	processDb(dbQueue);
 }
 
 export function destroy() {
