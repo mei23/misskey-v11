@@ -27,13 +27,15 @@
 	</section>
 	<section v-if="myGames.length > 0">
 		<h2>{{ $t('my-games') }}</h2>
-		<a class="game" v-for="g in myGames" :key="g.id" tabindex="-1" @click.prevent="go(g)" :href="`/games/reversi/${g.id}`">
-			<mk-avatar class="avatar" :user="g.user1"/>
-			<mk-avatar class="avatar" :user="g.user2"/>
-			<span><b><mk-user-name :user="g.user1"/></b> vs <b><mk-user-name :user="g.user2"/></b></span>
-			<span class="state">{{ g.isEnded ? $t('game-state.ended') : $t('game-state.playing') }}</span>
-			<mk-time :time="g.createdAt" />
-		</a>
+		<div class="games" v-for="g in myGames" :key="g.id">
+			<a class="game" tabindex="-1" @click.prevent="go(g)" :href="`/games/reversi/${g.id}`">
+				<span><b><mk-user-name :user="getOtherUser(g)"/></b></span>
+				<mk-avatar class="avatar" :user="getOtherUser(g)"/>
+				<span class="state">{{ g.isEnded ? $t('game-state.ended') : $t('game-state.playing') }}</span>
+				<mk-time :time="g.createdAt" />
+			</a>
+			<a class="re" @click="matchWith(getOtherUser(g))"><fa icon="gamepad"/></a>
+		</div>
 	</section>
 	<section v-if="games.length > 0">
 		<h2>{{ $t('all-games') }}</h2>
@@ -140,6 +142,10 @@ export default Vue.extend({
 			});
 		},
 
+		getOtherUser(game: any): any {
+			return game.user1.id == this.$store.state.i.id ? game.user2 : game.user1;
+		},
+
 		onInvited(invite) {
 			this.invitations.unshift(invite);
 		}
@@ -235,9 +241,13 @@ export default Vue.extend({
 			margin 0 8px
 			line-height 32px
 
-	.game
-		display block
-		margin 8px 0
+	.games
+		display flex
+
+	.game, .re
+		display inline-flex
+		align-items center
+		margin 4px
 		padding 8px
 		color var(--text)
 		background var(--face)
@@ -264,4 +274,6 @@ export default Vue.extend({
 			margin 0 8px
 			line-height 32px
 
+	.game
+		width 100%
 </style>
