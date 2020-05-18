@@ -12,4 +12,6 @@ program
 	.option('--color', 'This option is a dummy for some external program\'s (e.g. forever) issue.')
 	.parse(process.argv);
 
+if (process.env.MK_DISABLE_CLUSTERING) program.disableClustering = true;
+
 export { program };
