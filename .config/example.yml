@@ -78,16 +78,15 @@ autoAdmin: true
 # Whether disable HSTS
 #disableHsts: true
 
-# Clustering (workerStrategiesの使用を推奨)
-#clusterLimit: 1
-
 # 各Workerの数
-# server/queue処理を含むworkerが最低1つずつ必要 (例えば 1:0:0, 0:1:1)
-#   worker: server+queue両方を処理するworker
-#   server: server処理のみをするworker
-#   queue: queue処理のみをするworker
+# workerWorkerCount: server+queue両方を処理するworkerの数
+# serverWorkerCount: server処理のみをするworkerの数
+# queueWorkerCount: queue処理のみをするworkerの数
+# 稼働するのに必要な処理はserverとqueueの処理です
+# デフォルト(0:0:0)では、1つのmaster processが上がりそれに全ての処理が含まれるようになります
+# 0:1:1 にすると master(実処理は含まない), server(server処理を含む), queue(queueの処理を含む) の3つのプロセスが上がります
 #workerStrategies:
-#  workerWorkerCount: 1
+#  workerWorkerCount: 0
 #  serverWorkerCount: 0
 #  queueWorkerCount: 0
 

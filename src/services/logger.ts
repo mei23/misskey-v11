@@ -77,7 +77,7 @@ export default class Logger {
 		}
 	}
 
-	public error(x: string | Error, data?: Record<string, any>, important = false): void { // 実行を継続できない状況で使う
+	public error(x: string | Error, data?: Record<string, any> | null, important = false): void { // 実行を継続できない状況で使う
 		if (x instanceof Error) {
 			data = data || {};
 			data.e = x;

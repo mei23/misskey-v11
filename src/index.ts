@@ -36,8 +36,31 @@ function main() {
 		: process.env.WORKER_TYPE === 'queue' ? 'queue'
 		: 'worker'})`;
 
+	//#region Load config
+	const configLogger = bootLogger.createSubLogger('config');
+	let config;
+
+	try {
+		config = loadConfig();
+	} catch (exception) {
+		if (typeof exception === 'string') {
+			configLogger.error(exception);
+			process.exit(1);
+		}
+		if (exception.code === 'ENOENT') {
+			configLogger.error('Configuration file not found', null, true);
+			process.exit(1);
+		}
+		throw exception;
+	}
+	configLogger.succ('Loaded');
+	//#endregion
+
+	const st = getWorkerStrategies(config);
+	if (st.workers + st.servers + st.queues === 0) program.disableClustering = true;
+
 	if (cluster.isMaster || program.disableClustering) {
-		masterMain();
+		masterMain(config);
 
 		if (cluster.isMaster) {
 			ev.mount();
@@ -79,12 +102,10 @@ function greet(config: Config) {
 /**
  * Init master process
  */
-async function masterMain() {
-	let config: Config;
-
+async function masterMain(config: Config) {
 	try {
 		// initialize app
-		config = await init();
+		await init(config);
 
 		greet(config);
 
@@ -145,7 +166,7 @@ function showEnvironment(): void {
 /**
  * Init app
  */
-async function init(): Promise<Config> {
+async function init(config: Config) {
 	showEnvironment();
 
 	const nodejsLogger = bootLogger.createSubLogger('nodejs');
@@ -159,25 +180,6 @@ async function init(): Promise<Config> {
 
 	await showMachineInfo(bootLogger);
 
-	const configLogger = bootLogger.createSubLogger('config');
-	let config;
-
-	try {
-		config = loadConfig();
-	} catch (exception) {
-		if (typeof exception === 'string') {
-			configLogger.error(exception);
-			process.exit(1);
-		}
-		if (exception.code === 'ENOENT') {
-			configLogger.error('Configuration file not found', null, true);
-			process.exit(1);
-		}
-		throw exception;
-	}
-
-	configLogger.succ('Loaded');
-
 	// Try to connect to MongoDB
 	try {
 		await checkMongoDB(config, bootLogger);
@@ -185,8 +187,6 @@ async function init(): Promise<Config> {
 		bootLogger.error('Cannot connect to database', null, true);
 		process.exit(1);
 	}
-
-	return config;
 }
 
 async function spawnWorkers(config: Config) {
@@ -208,7 +208,7 @@ async function spawnWorkers(config: Config) {
 }
 
 export function getWorkerStrategies(config: Config) {
-	let workers = Math.min(config.clusterLimit || 1, os.cpus().length);
+	let workers = 0;
 	let servers = 0;
 	let queues = 0;
 

@@ -39,8 +39,6 @@ export type Source = {
 
 	accesslog?: string;
 
-	clusterLimit?: number;
-
 	workerStrategies?: {
 		serverWorkerCount?: number;
 		queueWorkerCount?: number;
