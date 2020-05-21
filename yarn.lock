@@ -3945,10 +3945,10 @@ file-entry-cache@^5.0.1:
   dependencies:
     flat-cache "^2.0.1"
 
-file-type@14.3.0:
-  version "14.3.0"
-  resolved "https://registry.yarnpkg.com/file-type/-/file-type-14.3.0.tgz#0afc57210e3c655d2106a2eba026d3d5161fea79"
-  integrity sha512-s71v6jMkbfwVdj87csLeNpL5K93mv4lN+lzgzifoICtPHhnXokDwBa3jrzfg+z6FK872iYJ0vS0i74v8XmoFDA==
+file-type@14.5.0:
+  version "14.5.0"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-14.5.0.tgz#d8cff151f4e97f8a38a3c0213c7ed5c5a4ddf97b"
+  integrity sha512-hIxIT/8DPClkKbC+IEoZvcQ5aBhsivh4aWzLMvmkp9Uabzey7gFNNPmTOwp8O/b2DkJ8a4FkFMkyFzkyRVsJXg==
   dependencies:
     readable-web-to-node-stream "^2.0.0"
     strtok3 "^6.0.0"
