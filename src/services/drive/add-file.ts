@@ -26,6 +26,7 @@ import * as S3 from 'aws-sdk/clients/s3';
 import { getS3 } from './s3';
 import * as sharp from 'sharp';
 import { genFid } from '../../misc/id/fid';
+import { InternalStorage } from './internal-storage';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
@@ -48,8 +49,8 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 		logger.error(err);
 
 		return {
-			webpublic: undefined as IImage,
-			thumbnail: undefined as IImage
+			webpublic: null,
+			thumbnail: null
 		};
 	});
 
@@ -62,17 +63,17 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 		const ext = info.type.ext ? `.${info.type.ext}` : '';
 
 		const baseUrl = drive.baseUrl
-			|| `${ drive.config.useSSL ? 'https' : 'http' }://${ drive.config.endPoint }${ drive.config.port ? `:${drive.config.port}` : '' }/${ drive.bucket }`;
+			|| `${ drive.config!.useSSL ? 'https' : 'http' }://${ drive.config!.endPoint }${ drive.config!.port ? `:${drive.config!.port}` : '' }/${ drive.bucket }`;
 
 		// for original
 		const key = `${drive.prefix}/${genFid()}${ext}`;
 		const url = `${ baseUrl }/${ key }`;
 
 		// for alts
-		let webpublicKey = null as string;
-		let webpublicUrl = null as string;
-		let thumbnailKey = null as string;
-		let thumbnailUrl = null as string;
+		let webpublicKey: string | null = null;
+		let webpublicUrl: string | null = null;
+		let thumbnailKey: string | null = null;
+		let thumbnailUrl: string | null = null;
 		//#endregion
 
 		//#region Uploads
@@ -86,7 +87,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			webpublicUrl = `${ baseUrl }/${ webpublicKey }`;
 
 			logger.info(`uploading webpublic: ${webpublicKey}`);
-			uploads.push(upload(webpublicKey, alts.webpublic.data, alts.webpublic.type, prsOpts?.useJpegForWeb ? null : name, drive));
+			uploads.push(upload(webpublicKey, alts.webpublic.data, alts.webpublic.type, null, drive));
 		}
 
 		if (alts.thumbnail) {
@@ -113,6 +114,51 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			webpublicUrl,
 			thumbnailUrl,
 		} as IMetadata);
+
+		const file = await DriveFile.insert({
+			length: info.size,
+			uploadDate: new Date(),
+			md5: info.md5,
+			filename: name,
+			metadata: metadata,
+			contentType: info.type.mime,
+			animation
+		});
+		//#endregion
+
+		return file;
+	} else if (drive.storage == 'fs') {
+
+		const key = `${genFid()}`;
+		InternalStorage.saveFromPath(key, path);
+
+		let webpublicKey: string | null = null;
+		let thumbnailKey: string | null = null;
+
+		if (alts.webpublic) {
+			webpublicKey = `${genFid()}`;
+			InternalStorage.saveFromBuffer(webpublicKey, alts.webpublic.data);
+		}
+
+		if (alts.thumbnail) {
+			thumbnailKey = `${genFid()}`;
+			InternalStorage.saveFromBuffer(thumbnailKey, alts.thumbnail.data);
+		}
+
+		//#region DB
+		Object.assign(metadata, {
+			withoutChunks: false,
+			storage: 'fs',
+			storageProps: {
+				key,
+				webpublicKey,
+				thumbnailKey,
+			},
+			fileSystem: true
+		} as IMetadata);
+
+		// web用(Exif削除済み)がある場合はオリジナルにアクセス制限
+		if (alts.webpublic) metadata.accessKey = genFid();
 
 		const file = await DriveFile.insert({
 			length: info.size,
@@ -169,7 +215,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	const img = sharp(path);
 
 	// #region webpublic
-	let webpublic: IImage;
+	let webpublic: IImage | null = null;
 
 	if (generateWeb && !prsOpts?.isWebpublic) {
 		logger.debug(`creating web image`);
@@ -190,7 +236,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	// #endregion webpublic
 
 	// #region thumbnail
-	let thumbnail: IImage;
+	let thumbnail: IImage | null = null;
 
 	if (['image/jpeg', 'image/webp'].includes(type)
 		|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
@@ -215,7 +261,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 /**
  * Upload to ObjectStorage
  */
-async function upload(key: string, stream: fs.ReadStream | Buffer, type: string, filename: string, drive: DriveConfig) {
+async function upload(key: string, stream: fs.ReadStream | Buffer, type: string, filename: string | null, drive: DriveConfig) {
 	const params = {
 		Bucket: drive.bucket,
 		Key: key,
@@ -305,13 +351,13 @@ async function deleteOldFile(user: IRemoteUser) {
 export async function addFile(
 	user: IUser,
 	path: string,
-	name: string = null,
-	comment: string = null,
-	folderId: mongodb.ObjectID = null,
+	name: string | null = null,
+	comment: string | null = null,
+	folderId: mongodb.ObjectID | null = null,
 	force: boolean = false,
 	isLink: boolean = false,
-	url: string = null,
-	uri: string = null,
+	url: string | null = null,
+	uri: string | null = null,
 	sensitive: boolean = false,
 	prsOpts?: ProcessOptions,
 ): Promise<IDriveFile> {
@@ -363,7 +409,7 @@ export async function addFile(
 		logger.debug(`drive usage is ${usage}`);
 
 		const instance = await fetchMeta();
-		const driveCapacity = 1024 * 1024 * (isLocalUser(user) ? instance.localDriveCapacityMb : instance.remoteDriveCapacityMb);
+		const driveCapacity = 1024 * 1024 * (isLocalUser(user) ? (instance.localDriveCapacityMb || 0) : (instance.remoteDriveCapacityMb || 0));
 
 		// If usage limit exceeded
 		if (usage + info.size > driveCapacity) {
@@ -426,7 +472,7 @@ export async function addFile(
 		metadata.uri = uri;
 	}
 
-	let driveFile: IDriveFile;
+	let driveFile: IDriveFile | undefined;
 
 	if (isLink) {
 		try {
@@ -456,6 +502,8 @@ export async function addFile(
 		const drive = getDriveConfig(uri != null);
 		driveFile = await (save(path, detectedName, info, metadata, drive, prsOpts));
 	}
+
+	if (!driveFile) throw 'Failed to create drivefile ${e}';
 
 	logger.succ(`drive file has been created ${driveFile._id}`);
 
