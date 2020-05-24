@@ -26,6 +26,7 @@ import { isBlockedHost } from '../../../misc/instance-info';
 import { parseAudience } from '../audience';
 import MessagingMessage from '../../../models/messaging-message';
 import DbResolver from '../db-resolver';
+import { tryStockEmoji } from '../../../services/emoji-store';
 
 const logger = apLogger;
 
@@ -331,12 +332,13 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 							}
 						});
 				}
+				await tryStockEmoji(exists).catch(() => {});
 				return exists;
 			}
 
 			logger.info(`register emoji host=${host}, name=${name}`);
 
-			return await Emoji.insert({
+			const emoji = await Emoji.insert({
 				host,
 				name,
 				uri: tag.id,
@@ -344,6 +346,10 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 				updatedAt: tag.updated ? new Date(tag.updated) : undefined,
 				aliases: []
 			});
+
+			await tryStockEmoji(emoji).catch(() => {});
+
+			return emoji;
 		})
 	);
 }

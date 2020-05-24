@@ -13,8 +13,8 @@ const logger = driveLogger.createSubLogger('downloader');
 export const uploadFromUrl = async (
 	url: string,
 	user: IUser,
-	folderId: mongodb.ObjectID = null,
-	uri: string = null,
+	folderId: mongodb.ObjectID | null = null,
+	uri: string | null = null,
 	sensitive = false,
 	force = false,
 	link = false
