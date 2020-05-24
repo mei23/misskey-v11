@@ -133,38 +133,7 @@ export default Vue.extend({
 
 	methods: {
 		search() {
-			if (this.searching) return;
-
-			this.$root.dialog({
-				title: this.$t('search'),
-				input: true
-			}).then(async ({ canceled, result: query }) => {
-				if (canceled) return;
-
-				const q = query.trim();
-				if (q.startsWith('@')) {
-					this.$router.push(`/${q}`);
-				} else if (q.startsWith('#')) {
-					this.$router.push(`/tags/${encodeURIComponent(q.substr(1))}`);
-				} else if (q.startsWith('https://')) {
-					this.searching = true;
-					try {
-						const res = await this.$root.api('ap/show', {
-							uri: q
-						});
-						if (res.type == 'User') {
-							this.$router.push(`/@${res.object.username}@${res.object.host}`);
-						} else if (res.type == 'Note') {
-							this.$router.push(`/notes/${res.object.id}`);
-						}
-					} catch (e) {
-						// TODO
-					}
-					this.searching = false;
-				} else {
-					this.$router.push(`/search?q=${encodeURIComponent(q)}`);
-				}
-			});
+			this.$router.push(`/search?q=`);
 		},
 
 		onReversiInvited() {

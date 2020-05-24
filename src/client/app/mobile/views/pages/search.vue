@@ -3,7 +3,10 @@
 	<template #header><fa icon="search"/> {{ q }}</template>
 
 	<main>
-		<mk-notes ref="timeline" :make-promise="makePromise" @inited="inited"/>
+		<div class="search-area">
+			<x-search-box :word="q"/>
+		</div>
+		<mk-notes v-if="q !== ''" ref="timeline" :make-promise="q === '' ? () => {} : makePromise" @inited="inited"/>
 	</main>
 </mk-ui>
 </template>
@@ -12,11 +15,15 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import Progress from '../../../common/scripts/loading';
+import XSearchBox from '../../../common/views/components/search-box.vue';
 
 const limit = 10;
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/pages/search.vue'),
+	components: {
+		XSearchBox
+	},
 	data() {
 		return {
 			makePromise: cursor => this.$root.api('notes/search', {
@@ -49,7 +56,7 @@ export default Vue.extend({
 	},
 	computed: {
 		q(): string {
-			return this.$route.query.q;
+			return this.$route.query.q || '';
 		}
 	},
 	mounted() {
@@ -62,3 +69,9 @@ export default Vue.extend({
 	}
 });
 </script>
+
+<style lang="stylus" scoped>
+	.search-area
+		padding 0 10%
+		margin-bottom 24px
+</style>

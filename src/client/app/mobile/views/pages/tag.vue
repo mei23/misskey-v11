@@ -3,6 +3,9 @@
 	<template #header><span style="margin-right:4px;"><fa icon="hashtag"/></span>{{ $route.params.tag }}</template>
 
 	<main>
+		<div class="search-area">
+			<x-search-box :word="$route.params.tag"/>
+		</div>
 		<mk-notes ref="timeline" :make-promise="makePromise" @inited="inited"/>
 	</main>
 </mk-ui>
@@ -12,11 +15,15 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import Progress from '../../../common/scripts/loading';
+import XSearchBox from '../../../common/views/components/search-box.vue';
 
 const limit = 20;
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/pages/tag.vue'),
+	components: {
+		XSearchBox
+	},
 	data() {
 		return {
 			makePromise: cursor => this.$root.api('notes/search_by_tag', {
@@ -51,3 +58,9 @@ export default Vue.extend({
 	}
 });
 </script>
+
+<style lang="stylus" scoped>
+	.search-area
+		padding 0 10%
+		margin-bottom 24px
+</style>
