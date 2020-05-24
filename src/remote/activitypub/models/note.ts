@@ -316,6 +316,7 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 			});
 
 			if (exists) {
+				await tryStockEmoji(exists).catch(() => {});
 				if ((tag.updated != null && exists.updatedAt == null)
 					|| (tag.id != null && exists.uri == null)
 					|| (exists.url != tag.icon.url)
@@ -332,7 +333,6 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 							}
 						});
 				}
-				await tryStockEmoji(exists).catch(() => {});
 				return exists;
 			}
 
