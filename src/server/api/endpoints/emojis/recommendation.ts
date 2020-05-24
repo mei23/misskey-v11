@@ -21,7 +21,7 @@ export const meta = {
 
 		minInstances: {
 			validator: $.optional.num.min(0),
-			default: 3
+			default: 0
 		},
 	},
 
