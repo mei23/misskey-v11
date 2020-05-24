@@ -27,6 +27,7 @@ class Autocomplete {
 		noZwsp?: boolean;
 		userOnly?: boolean;
 		localOnly?: boolean;
+		noEmoji?: boolean;
 	};
 	private opening: boolean;
 
@@ -113,7 +114,7 @@ class Autocomplete {
 			}
 		}
 
-		if (isEmoji && opened == false && !this.opts.userOnly) {
+		if (isEmoji && opened == false && !this.opts.userOnly && !this.opts.noEmoji) {
 			const emoji = text.substr(emojiIndex + 1);
 			if (!emoji.includes(' ')) {
 				this.open('emoji', emoji);

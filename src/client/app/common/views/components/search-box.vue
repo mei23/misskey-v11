@@ -1,7 +1,7 @@
 <template>
 <form class="serchbox24" @submit.prevent="onSubmit">
 	<div class="line">
-		<input v-model="q" type="search" :placeholder="$t('placeholder')" v-autocomplete="{ model: 'q' }"/>
+		<input v-model="q" type="search" :placeholder="$t('placeholder')" v-autocomplete="{ model: 'q', noEmoji: true }"/>
 		<button type="submit"><fa icon="search"/></button>
 	</div>
 	<div class="result"></div>
