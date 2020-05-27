@@ -1,14 +1,14 @@
 <template>
 <div class="form">
 	<header>
-		<h1>{{ $t('share-access') }}</h1>
+		<h1 v-html="$t('share-access', { name })"></h1>
 		<img :src="app.iconUrl"/>
 	</header>
 	<div class="app">
-		<section style="text-align: center">
+		<section>
 			<h2>{{ app.name }}</h2>
-			<div class="id">{{ app.id }}</div>
-			<div class="description">{{ app.description }}</div>
+			<p class="id">{{ app.id }}</p>
+			<p class="description">{{ app.description }}</p>
 		</section>
 		<section>
 			<h2>{{ $t('permission-ask') }}</h2>
@@ -34,6 +34,11 @@ export default Vue.extend({
 	i18n: i18n('auth/views/form.vue'),
 	props: ['session'],
 	computed: {
+		name(): string {
+			const el = document.createElement('div');
+			el.textContent = this.app.name
+			return el.innerHTML;
+		},
 		app(): any {
 			return this.session.app;
 		}
@@ -90,7 +95,14 @@ export default Vue.extend({
 		padding 44px 16px 0 16px
 		box-shadow 0 2px 2px rgba(#000, 0.1) inset
 
+		&:after
+			content ''
+			display block
+			clear both
+
 		> section
+			float left
+			width 50%
 			padding 8px
 			text-align left
 
@@ -102,7 +114,7 @@ export default Vue.extend({
 		padding 16px
 
 		> button
-			margin 0 16px
+			margin 0 8px
 			padding 0
 			color var(--primary)
 			font-weight bold
