@@ -13,7 +13,7 @@ const interval = 3000;
  */
 export default function() {
 	const st = getWorkerStrategies(config);
-	const workers = st.workers + st.queues;
+	const workers = st.workers + st.queues || 1;
 
 	const deliverConcurrencyPerWorker = config.deliverJobConcurrency || 128;
 	const inboxConcurrencyPerWorker = config.inboxJobConcurrency || 16;
