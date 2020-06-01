@@ -74,11 +74,6 @@ export async function buildMeta(instance: IMeta, detail = true) {
 			github: instance.enableGithubIntegration,
 			discord: instance.enableDiscordIntegration,
 			serviceWorker: instance.enableServiceWorker,
-			userRecommendation: {
-				external: instance.enableExternalUserRecommendation,
-				engine: instance.externalUserRecommendationEngine,
-				timeout: instance.externalUserRecommendationTimeout
-			}
 		};
 	}
 

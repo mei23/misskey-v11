@@ -125,19 +125,6 @@ if ((config as any).github) {
 		}
 	});
 }
-if ((config as any).user_recommendation) {
-	Meta.findOne({}).then(m => {
-		if (m != null && m.enableExternalUserRecommendation == null) {
-			Meta.update({}, {
-				$set: {
-					enableExternalUserRecommendation: true,
-					externalUserRecommendationEngine: (config as any).user_recommendation.engine,
-					externalUserRecommendationTimeout: (config as any).user_recommendation.timeout
-				}
-			});
-		}
-	});
-}
 if ((config as any).sw) {
 	Meta.findOne({}).then(m => {
 		if (m != null && m.enableServiceWorker == null) {
@@ -239,10 +226,6 @@ export type IMeta = {
 	enableDiscordIntegration?: boolean;
 	discordClientId?: string;
 	discordClientSecret?: string;
-
-	enableExternalUserRecommendation?: boolean;
-	externalUserRecommendationEngine?: string;
-	externalUserRecommendationTimeout?: number;
 
 	enableEmail?: boolean;
 	email?: string;
