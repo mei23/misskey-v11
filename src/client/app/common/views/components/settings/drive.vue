@@ -4,7 +4,7 @@
 
 	<section v-if="!fetching" class="juakhbxthdewydyreaphkepoxgxvfogn">
 		<div class="meter"><div :style="meterStyle"></div></div>
-		<p>{{ $t('max') }}: <b>{{ capacity | bytes }}</b> {{ $t('in-use') }}: <b>{{ usage | bytes }}</b></p>
+		<p>{{ $t('max') }}: <b>{{ capacity | bytes(2) }}</b> {{ $t('in-use') }}: <b>{{ usage | bytes(2) }}</b></p>
 	</section>
 
 	<section>
@@ -142,7 +142,7 @@ export default Vue.extend({
 					},
 					yaxis: {
 						labels: {
-							formatter: v => Vue.filter('bytes')(v, 0),
+							formatter: v => Vue.filter('bytes')(v, 2),
 							style: {
 								color: tinycolor(getComputedStyle(document.documentElement).getPropertyValue('--text')).toRgbString()
 							}
