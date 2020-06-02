@@ -398,14 +398,17 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 		noteQuery['_user.host'] = host;
 	}
 
-	// note - words
-	for (const word of words) {
+	if (words.length > 0) {
+		const texts = words.map(word => ({ text: new RegExp(escapeRegexp(word), 'i') }));
+		const cws = words.map(word => ({ cw: new RegExp(escapeRegexp(word), 'i') }));
+
 		noteQuery.$and.push({
-			text: new RegExp(escapeRegexp(word), 'i')
+			$or: [
+				{ $and: texts },
+				{ $and: cws }
+			]
 		});
 	}
-
-	//console.log(JSON.stringify(noteQuery, null, 2));
 
 	const notes = await Note.find(noteQuery, {
 		maxTimeMS: 20000,
