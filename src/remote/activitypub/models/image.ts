@@ -39,6 +39,13 @@ export async function createImage(actor: IRemoteUser, value: IObject): Promise<I
 			logger.warn(`Ignored image: ${image.url} - ${e}`);
 			return null;
 		}
+
+		// misc
+		if (e.code === 'HPE_HEADER_OVERFLOW') {
+			logger.warn(`Ignored image: ${image.url} - ${e.code}`);
+			return null;
+		}
+
 		throw e;
 	}
 
