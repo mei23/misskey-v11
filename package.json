@@ -226,7 +226,7 @@
 		"tslint": "5.20.1",
 		"tslint-sonarts": "1.9.0",
 		"typeorm": "0.2.24",
-		"typescript": "3.9.2",
+		"typescript": "3.9.5",
 		"ulid": "2.3.0",
 		"url-loader": "4.1.0",
 		"uuid": "8.0.0",
