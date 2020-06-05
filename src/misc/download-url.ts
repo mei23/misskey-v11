@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as URL from 'url';
 import * as stream from 'stream';
 import * as util from 'util';
 import fetch from 'node-fetch';
@@ -14,8 +13,6 @@ const pipeline = util.promisify(stream.pipeline);
 export async function downloadUrl(url: string, path: string) {
 	const logger = new Logger('download-url');
 
-	const requestUrl = URL.parse(url).pathname.match(/[^\u0021-\u00ff]/) ? encodeURI(url) : url;
-
 	logger.info(`Downloading ${chalk.cyan(url)} ...`);
 
 	const controller = new AbortController();
@@ -23,7 +20,7 @@ export async function downloadUrl(url: string, path: string) {
 		controller.abort();
 	}, 60 * 1000);
 
-	const response = await fetch(requestUrl, {
+	const response = await fetch(new URL(url).href, {
 		headers: {
 			'User-Agent': config.userAgent
 		},
