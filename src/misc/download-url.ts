@@ -21,7 +21,7 @@ export async function downloadUrl(url: string, path: string) {
 	const controller = new AbortController();
 	setTimeout(() => {
 		controller.abort();
-	}, 11 * 1000);
+	}, 60 * 1000);
 
 	const response = await fetch(requestUrl, {
 		headers: {
