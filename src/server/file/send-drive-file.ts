@@ -120,7 +120,7 @@ export default async function(ctx: Router.RouterContext) {
 		const isWebpublic = 'web' in ctx.query;
 
 		if (isThumbnail || isWebpublic) {
-			const key = isThumbnail ? file.metadata.storageProps?.thumbnailKey : file.metadata.storageProps?.webpublicKey;
+			const key = isThumbnail ? file.metadata.storageProps?.thumbnailKey : (file.metadata.storageProps?.webpublicKey || file.metadata.storageProps?.key);
 			if (!key) throw 'fs but key not found';
 
 			const { mime, ext } = await detectType(InternalStorage.resolvePath(key));
