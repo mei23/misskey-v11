@@ -4,7 +4,7 @@ import config from '../../../config';
 import Resolver from '../resolver';
 import { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji } from '../type';
+import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji, IApImage } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
@@ -308,32 +308,35 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 	return await Promise.all(
 		eomjiTags.map(async tag => {
 			const name = tag.name.replace(/^:/, '').replace(/:$/, '');
-			tag.icon = toSingle(tag.icon);
+			tag.icon = toSingle(tag.icon) as IApImage;
 
-			const exists = await Emoji.findOne({
+			let exists = await Emoji.findOne({
 				host,
 				name
 			});
 
 			if (exists) {
-				await tryStockEmoji(exists).catch(() => {});
+				// 更新されていたら更新
 				if ((tag.updated != null && exists.updatedAt == null)
 					|| (tag.id != null && exists.uri == null)
 					|| (exists.url != tag.icon.url)
 					|| (tag.updated != null && exists.updatedAt != null && new Date(tag.updated) > exists.updatedAt)) {
 						logger.info(`update emoji host=${host}, name=${name}`);
-						return await Emoji.findOneAndUpdate({
+						exists = await Emoji.findOneAndUpdate({
 							host,
 							name,
 						}, {
 							$set: {
 								uri: tag.id,
-								url: tag.icon.url,	// TODO: ここでもローカル保存
+								url: tag.icon.url,
 								saved: false,
 								updatedAt: new Date(),
 							}
-						});
+						}) as IEmoji;
 				}
+
+				await tryStockEmoji(exists).catch(() => {});
+
 				return exists;
 			}
 
