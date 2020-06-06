@@ -8,5 +8,7 @@ build/
 docker-compose.yml
 node_modules/
 mongo/
+mongo_db/
 redis/
+files/
 elasticsearch/
