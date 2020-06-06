@@ -79,11 +79,6 @@
 					<template #desc>{{ $t('@._settings.fetch-on-scroll-desc') }}</template>
 				</ui-switch>
 
-				<ui-switch v-model="disableClientImageResizing">
-					{{ $t('@._settings.disableClientImageResizing') }}
-					<template #desc>{{ $t('@._settings.disableClientImageResizing-desc') }}</template>
-				</ui-switch>
-
 				<ui-switch v-if="$root.isMobile" v-model="disableViaMobile">{{ $t('@._settings.disable-via-mobile') }}</ui-switch>
 			</section>
 
@@ -444,11 +439,6 @@ export default Vue.extend({
 		fetchOnScroll: {
 			get() { return this.$store.state.settings.fetchOnScroll; },
 			set(value) { this.$store.dispatch('settings/set', { key: 'fetchOnScroll', value }); }
-		},
-
-		disableClientImageResizing: {
-			get() { return !!this.$store.state.settings.disableClientImageResizing; },
-			set(value) { this.$store.dispatch('settings/set', { key: 'disableClientImageResizing', value }); }
 		},
 
 		rememberNoteVisibility: {

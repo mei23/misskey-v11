@@ -39,7 +39,7 @@ export default Vue.extend({
 			name = name || file.name || 'untitled';
 
 			let resizedImage: any;
-			if ((file.type === 'image/jpeg' && clientResize && !this.$store.state.settings.disableClientImageResizing) || (useJpeg && file.type === 'image/png')) {
+			if (useJpeg && (file.type === 'image/png' || file.type === 'image/jpeg')) {
 				const config = {
 					quality: 0.85,
 					maxWidth: 2048,
