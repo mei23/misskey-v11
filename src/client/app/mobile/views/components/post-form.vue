@@ -37,6 +37,7 @@
 			<footer v-if="!renote || quote">
 				<button class="upload" @click="chooseFile"><fa icon="upload"/></button>
 				<button class="drive" @click="chooseFileFromDrive"><fa icon="cloud"/></button>
+				<button class="jpeg" :class="{ enabled: useJpeg }" @click="useJpeg = !useJpeg"><fa :icon="faShareSquare"/></button>
 				<button class="kao" @click="kao"><fa :icon="faFish"/></button>
 				<button v-if="!inside" class="poll" :class="{ enabled: !!poll }" @click="poll = !poll"><fa icon="chart-pie"/></button>
 				<button class="cw" :class="{ enabled: useCw }" @click="useCw = !useCw"><fa :icon="['far', 'eye-slash']"/></button>
@@ -390,6 +391,7 @@ export default Vue.extend({
 					box-shadow none
 					opacity 0.7
 
+				> .jpeg
 				> .poll
 				> .cw
 					&.enabled
