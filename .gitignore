@@ -16,6 +16,7 @@ api-docs.json
 *.log
 /redis
 /mongo
+/mongo_db
 /elasticsearch
 *.code-workspace
 .DS_Store

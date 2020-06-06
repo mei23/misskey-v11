@@ -31,7 +31,7 @@ services:
       MONGO_INITDB_DATABASE: "misskey"
     volumes:
       - ./.config/mongo_initdb.js:/docker-entrypoint-initdb.d/mongo_initdb.js:ro
-      - ./mongo:/data
+      - ./mongo_db:/data/db
 
 #  es:
 #    restart: always
