@@ -239,7 +239,7 @@ export interface IApEmoji extends IObject {
 }
 
 export const isEmoji = (object: IObject): object is IApEmoji =>
-	object.type === 'Emoji' && typeof name === 'string' && object.icon != null;
+	object.type === 'Emoji' && typeof object.name === 'string' && object.icon != null;
 
 export const isCollection = (object: IObject): object is ICollection =>
 	object.type === 'Collection';
