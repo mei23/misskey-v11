@@ -185,6 +185,7 @@ export interface ILocalUser extends IUserBase {
 }
 
 export interface IRemoteUser extends IUserBase {
+	host: string;
 	inbox: string;
 	sharedInbox?: string;
 	outbox?: string;
