@@ -53,7 +53,23 @@
 				</ui-horizon-group>
 			</div>
 		</section>
+		<ui-button v-if="existMore" @click="fetchEmojis('local')">{{ $t('@.load-more') }}</ui-button>
 	</ui-card>
+
+	<ui-card>
+		<template #title><fa :icon="faGrin"/> {{ $t('emojis.title') }}</template>
+		<section v-for="emoji in remoteEmojis" :key="emoji.name" class="remotebft" style="padding: 16px 32px">
+			<div class="image">
+				<img :src="emoji.url" :alt="emoji.name" style="width: 32px;"/>
+			</div>
+			<div class="detail">
+				<div>{{ `${emoji.name}@${emoji.host}` }}</div>
+			</div>
+		</section>
+
+		<ui-button v-if="remoteExistMore" @click="fetchEmojis('remote')">{{ $t('@.load-more') }}</ui-button>
+	</ui-card>
+
 </div>
 </template>
 
@@ -71,7 +87,13 @@ export default Vue.extend({
 			category: '',
 			url: '',
 			aliases: '',
+			limit: 2,
 			emojis: [],
+			existMore: false,
+			offset: 0,
+			remoteEmojis: [],
+			remoteExistMore: false,
+			remoteOffset: 0,
 			faGrin
 		};
 	},
@@ -107,14 +129,44 @@ export default Vue.extend({
 			});
 		},
 
-		fetchEmojis() {
-			this.$root.api('admin/emoji/list').then(emojis => {
-				emojis.reverse();
-				for (const e of emojis) {
-					e.aliases = (e.aliases || []).join(' ');
-				}
-				this.emojis = emojis;
-			});
+		fetchEmojis(kind?: string) {
+			if (!kind || kind === 'local') {
+				this.$root.api('admin/emoji/list', {
+					remote: false,
+					offset: this.offset,
+					limit: this.limit + 1,
+				}).then((emojis: any[]) => {
+					if (emojis.length === this.limit + 1) {
+						emojis.pop();
+						this.existMore = true;
+					} else {
+						this.existMore = false;
+					}
+					for (const e of emojis) {
+						e.aliases = (e.aliases || []).join(' ');
+					}
+					this.emojis = emojis;
+					this.offset += emojis.length;
+				});
+			}
+
+			if (!kind || kind === 'remote') {
+				this.$root.api('admin/emoji/list', {
+					remote: true,
+					offset: this.remoteOffset,
+					limit: this.limit + 1,
+				}).then((emojis: any[]) => {
+					if (emojis.length === this.limit + 1) {
+						emojis.pop();
+						this.remoteExistMore = true;
+					} else {
+						this.remoteExistMore = false;
+					}
+
+					this.remoteEmojis = emojis;
+					this.remoteOffset += emojis.length;
+				});
+			}
 		},
 
 		updateEmoji(emoji) {
@@ -182,5 +234,18 @@ export default Vue.extend({
 
 		@media (min-width 500px)
 			padding-left 16px
+
+.remotebft
+	display flex
+
+	> div.image
+		padding-bottom 16px
+
+		> img
+			vertical-align bottom
+
+	> div.detail
+		flex 1
+		padding-left 16px
 
 </style>
