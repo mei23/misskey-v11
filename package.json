@@ -110,7 +110,7 @@
 		"cafy": "15.2.1",
 		"cbor": "5.0.2",
 		"chai": "4.2.0",
-		"chalk": "4.0.0",
+		"chalk": "4.1.0",
 		"cli-highlight": "2.1.4",
 		"commander": "4.1.0",
 		"content-disposition": "0.5.3",
