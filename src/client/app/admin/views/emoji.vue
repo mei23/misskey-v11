@@ -122,6 +122,7 @@ export default Vue.extend({
 			searchLocal: '',
 			searchRemote: '',
 			searchHost: '',
+			updating: false,
 			faGrin
 		};
 	},
@@ -175,6 +176,8 @@ export default Vue.extend({
 		},
 
 		fetchEmojis(kind?: string, truncate?: boolean) {
+			if (this.updating) return;
+			this.updating = true;
 			if (!kind || kind === 'local') {
 				if (truncate) this.offset = 0;
 				this.$root.api('admin/emoji/list', {
@@ -217,6 +220,7 @@ export default Vue.extend({
 					this.remoteOffset += emojis.length;
 				});
 			}
+			this.updating = false;
 		},
 
 		updateEmoji(emoji) {
