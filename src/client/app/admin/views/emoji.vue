@@ -29,9 +29,12 @@
 		<template #title><fa :icon="faGrin"/> {{ $t('emojis.title') }}</template>
 		<section style="padding: 16px 32px">
 			<ui-horizon-group searchboxes>
-				<ui-input v-model="searchLocal" type="text" spellcheck="false" @input="fetchEmojis('local', true)">
+				<ui-input v-model="searchLocal" type="text" spellcheck="false">
 					<span>{{ $t('name') }}</span>
 				</ui-input>
+				<ui-button @click="fetchEmojis('local', true)">
+					<fa :icon="faSync"/>
+				</ui-button>
 			</ui-horizon-group>
 		</section>
 		<section v-for="emoji in emojis" :key="emoji.name" class="oryfrbft">
@@ -75,12 +78,15 @@
 					<option value="all">{{ $t('all') }}</option>
 					<option value="newer">{{ $t('newer') }}</option>
 				</ui-select>
-				<ui-input v-model="searchRemote" type="text" spellcheck="false" @input="fetchEmojis('remote', true)">
+				<ui-input v-model="searchRemote" type="text" spellcheck="false">
 					<span>{{ $t('name') }}</span>
 				</ui-input>
-				<ui-input v-model="searchHost" type="text" spellcheck="false" @input="fetchEmojis('remote', true)">
+				<ui-input v-model="searchHost" type="text" spellcheck="false">
 					<span>{{ $t('host') }}</span>
 				</ui-input>
+				<ui-button @click="fetchEmojis('remote', true)">
+					<fa :icon="faSync"/>
+				</ui-button>
 			</ui-horizon-group>
 		</section>
 
@@ -107,6 +113,7 @@
 import Vue from 'vue';
 import i18n from '../../i18n';
 import { faGrin } from '@fortawesome/free-regular-svg-icons';
+import { faSync } from '@fortawesome/free-solid-svg-icons';
 import { unique } from '../../../../prelude/array';
 
 export default Vue.extend({
@@ -130,14 +137,8 @@ export default Vue.extend({
 			searchHost: '',
 			origin: 'all',
 			updating: false,
-			faGrin
+			faGrin, faSync
 		};
-	},
-
-	watch: {
-		origin() {
-			this.fetchEmojis('remote', true);
-		}
 	},
 
 	mounted() {
