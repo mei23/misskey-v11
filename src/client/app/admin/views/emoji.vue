@@ -26,7 +26,7 @@
 	</ui-card>
 
 	<ui-card>
-		<template #title><fa :icon="faGrin"/> {{ $t('localEmojis') }}</template>
+		<template #title><fa :icon="faGrin"/> {{ $t('emojis.title') }}</template>
 		<section style="padding: 16px 32px">
 			<ui-horizon-group searchboxes>
 				<ui-input v-model="searchLocal" type="text" spellcheck="false" @input="fetchEmojis('local', true)">
@@ -85,6 +85,7 @@
 			</div>
 			<div class="detail">
 				<div>{{ `${emoji.name}@${emoji.host}` }}</div>
+				<ui-button @click="copy(emoji.id)">{{ $t('copy') }}</ui-button>
 			</div>
 		</section>
 
@@ -156,6 +157,23 @@ export default Vue.extend({
 			});
 		},
 
+		copy(id: any) {
+			this.$root.api('admin/emoji/copy', {
+				emojiId: id,
+			}).then(() => {
+				this.fetchEmojis('local', true);
+				this.$root.dialog({
+					type: 'success',
+					text: this.$t('copied')
+				});
+			}).catch(e => {
+				this.$root.dialog({
+					type: 'error',
+					text: e
+				});
+			});
+		},
+
 		fetchEmojis(kind?: string, truncate?: boolean) {
 			if (!kind || kind === 'local') {
 				if (truncate) this.offset = 0;
@@ -184,6 +202,7 @@ export default Vue.extend({
 				this.$root.api('admin/emoji/list', {
 					remote: true,
 					name: this.searchRemote,
+					host: this.searchHost || undefined,
 					offset: this.remoteOffset,
 					limit: this.limit + 1,
 				}).then((emojis: any[]) => {

@@ -52,6 +52,7 @@ export default define(meta, async (ps) => {
 	}
 
 	const emojis = await Emoji.find(query, {
+		sort: { _id: -1 },
 		skip: ps.offset,
 		limit: ps.limit
 	});

@@ -1431,6 +1431,14 @@ admin/views/emoji.vue:
   remove-emoji:
     are-you-sure: "Delete \"$1\"?"
     removed: "Deleted"
+  remoteEmojis: "Remote emojis"
+  copy: "Copy"
+  copied: "Copied"
+  name: "Name"
+  host: "Host"
+  loadNext: "Next page"
+  loadFirst: "First page"
+
 admin/views/announcements.vue:
   announcements: "Announcements"
   save: "Save"
