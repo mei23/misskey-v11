@@ -26,7 +26,14 @@
 	</ui-card>
 
 	<ui-card>
-		<template #title><fa :icon="faGrin"/> {{ $t('emojis.title') }}</template>
+		<template #title><fa :icon="faGrin"/> {{ $t('localEmojis') }}</template>
+		<section style="padding: 16px 32px">
+			<ui-horizon-group searchboxes>
+				<ui-input v-model="searchLocal" type="text" spellcheck="false" @input="fetchEmojis('local', true)">
+					<span>{{ $t('name') }}</span>
+				</ui-input>
+			</ui-horizon-group>
+		</section>
 		<section v-for="emoji in emojis" :key="emoji.name" class="oryfrbft">
 			<div>
 				<img :src="emoji.url" :alt="emoji.name" style="width: 64px;"/>
@@ -53,11 +60,25 @@
 				</ui-horizon-group>
 			</div>
 		</section>
-		<ui-button v-if="existMore" @click="fetchEmojis('local')">{{ $t('@.load-more') }}</ui-button>
+		<section style="padding: 16px 32px">
+			<ui-button v-if="existMore" @click="fetchEmojis('local')">{{ $t('loadNext') }}</ui-button>
+			<ui-button v-else @click="fetchEmojis('local', true)">{{ $t('loadFirst') }}</ui-button>
+		</section>
 	</ui-card>
 
 	<ui-card>
-		<template #title><fa :icon="faGrin"/> {{ $t('emojis.title') }}</template>
+		<template #title><fa :icon="faGrin"/> {{ $t('remoteEmojis') }}</template>
+		<section style="padding: 16px 32px">
+			<ui-horizon-group searchboxes>
+				<ui-input v-model="searchRemote" type="text" spellcheck="false" @input="fetchEmojis('remote', true)">
+					<span>{{ $t('name') }}</span>
+				</ui-input>
+				<ui-input v-model="searchHost" type="text" spellcheck="false" @input="fetchEmojis('remote', true)">
+					<span>{{ $t('host') }}</span>
+				</ui-input>
+			</ui-horizon-group>
+		</section>
+
 		<section v-for="emoji in remoteEmojis" :key="emoji.name" class="remotebft" style="padding: 16px 32px">
 			<div class="image">
 				<img :src="emoji.url" :alt="emoji.name" style="width: 32px;"/>
@@ -67,7 +88,10 @@
 			</div>
 		</section>
 
-		<ui-button v-if="remoteExistMore" @click="fetchEmojis('remote')">{{ $t('@.load-more') }}</ui-button>
+		<section style="padding: 16px 32px">
+			<ui-button v-if="remoteExistMore" @click="fetchEmojis('remote')">{{ $t('loadNext') }}</ui-button>
+			<ui-button v-else @click="fetchEmojis('remote', true)">{{ $t('loadFirst') }}</ui-button>
+		</section>
 	</ui-card>
 
 </div>
@@ -87,13 +111,16 @@ export default Vue.extend({
 			category: '',
 			url: '',
 			aliases: '',
-			limit: 2,
+			limit: 10,
 			emojis: [],
 			existMore: false,
 			offset: 0,
 			remoteEmojis: [],
 			remoteExistMore: false,
 			remoteOffset: 0,
+			searchLocal: '',
+			searchRemote: '',
+			searchHost: '',
 			faGrin
 		};
 	},
@@ -129,10 +156,12 @@ export default Vue.extend({
 			});
 		},
 
-		fetchEmojis(kind?: string) {
+		fetchEmojis(kind?: string, truncate?: boolean) {
 			if (!kind || kind === 'local') {
+				if (truncate) this.offset = 0;
 				this.$root.api('admin/emoji/list', {
 					remote: false,
+					name: this.searchLocal,
 					offset: this.offset,
 					limit: this.limit + 1,
 				}).then((emojis: any[]) => {
@@ -151,8 +180,10 @@ export default Vue.extend({
 			}
 
 			if (!kind || kind === 'remote') {
+				if (truncate) this.remoteOffset = 0;
 				this.$root.api('admin/emoji/list', {
 					remote: true,
+					name: this.searchRemote,
 					offset: this.remoteOffset,
 					limit: this.limit + 1,
 				}).then((emojis: any[]) => {
