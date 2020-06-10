@@ -28,6 +28,10 @@ export const meta = {
 			validator: $.optional.bool,
 		},
 
+		newer: {
+			validator: $.optional.bool,
+		},
+
 		name: {
 			validator: $.optional.str
 		},
@@ -51,6 +55,17 @@ export default define(meta, async (ps) => {
 		query.host = ps.host;
 	}
 
+	if (ps.newer) {
+		const ex1 = await Emoji.find({
+			host: null,
+			md5: { $ne: null }
+		});
+
+		const ex2 = ex1.map(x => x.md5);
+
+		query.md5 = { $nin: ex2 };
+	}
+
 	const emojis = await Emoji.find(query, {
 		sort: { _id: -1 },
 		skip: ps.offset,
@@ -63,6 +78,7 @@ export default define(meta, async (ps) => {
 		category: e.category,
 		aliases: e.aliases,
 		host: e.host,
-		url: e.url
+		url: e.url,
+		md5: e.md5,
 	}));
 });

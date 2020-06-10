@@ -1438,6 +1438,9 @@ admin/views/emoji.vue:
   host: "Host"
   loadNext: "Next page"
   loadFirst: "First page"
+  origin: "Origin"
+  all: "All"
+  newer: "Newer"
 
 admin/views/announcements.vue:
   announcements: "Announcements"

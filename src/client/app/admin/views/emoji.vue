@@ -70,6 +70,11 @@
 		<template #title><fa :icon="faGrin"/> {{ $t('remoteEmojis') }}</template>
 		<section style="padding: 16px 32px">
 			<ui-horizon-group searchboxes>
+				<ui-select v-model="origin">
+					<template #label>{{ $t('origin') }}</template>
+					<option value="all">{{ $t('all') }}</option>
+					<option value="newer">{{ $t('newer') }}</option>
+				</ui-select>
 				<ui-input v-model="searchRemote" type="text" spellcheck="false" @input="fetchEmojis('remote', true)">
 					<span>{{ $t('name') }}</span>
 				</ui-input>
@@ -122,9 +127,16 @@ export default Vue.extend({
 			searchLocal: '',
 			searchRemote: '',
 			searchHost: '',
+			origin: 'all',
 			updating: false,
 			faGrin
 		};
+	},
+
+	watch: {
+		origin() {
+			this.fetchEmojis('remote', true);
+		}
 	},
 
 	mounted() {
@@ -149,7 +161,7 @@ export default Vue.extend({
 					type: 'success',
 					text: this.$t('add-emoji.added')
 				});
-				this.fetchEmojis();
+				this.fetchEmojis('local', true);
 			}).catch(e => {
 				this.$root.dialog({
 					type: 'error',
@@ -206,6 +218,7 @@ export default Vue.extend({
 					remote: true,
 					name: this.searchRemote,
 					host: this.searchHost || undefined,
+					newer: this.origin === 'newer',
 					offset: this.remoteOffset,
 					limit: this.limit + 1,
 				}).then((emojis: any[]) => {
