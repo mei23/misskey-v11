@@ -37,7 +37,7 @@
 				</ui-button>
 			</ui-horizon-group>
 		</section>
-		<section v-for="emoji in emojis" :key="emoji.name" class="oryfrbft">
+		<section v-for="emoji in emojis" :key="emoji.id" class="oryfrbft">
 			<div>
 				<img :src="emoji.url" :alt="emoji.name" style="width: 64px;"/>
 			</div>
@@ -90,7 +90,7 @@
 			</ui-horizon-group>
 		</section>
 
-		<section v-for="emoji in remoteEmojis" :key="emoji.name" class="remotebft" style="padding: 16px 32px">
+		<section v-for="emoji in remoteEmojis" :key="emoji.id" class="remotebft" style="padding: 16px 32px">
 			<div class="image">
 				<img :src="emoji.url" :alt="emoji.name" style="width: 32px;"/>
 			</div>
