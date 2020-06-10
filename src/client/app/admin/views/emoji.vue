@@ -118,6 +118,7 @@ export default Vue.extend({
 			url: '',
 			aliases: '',
 			limit: 10,
+			remoteLimit: 50,
 			emojis: [],
 			existMore: false,
 			offset: 0,
@@ -220,9 +221,9 @@ export default Vue.extend({
 					host: this.searchHost || undefined,
 					newer: this.origin === 'newer',
 					offset: this.remoteOffset,
-					limit: this.limit + 1,
+					limit: this.remoteLimit + 1,
 				}).then((emojis: any[]) => {
-					if (emojis.length === this.limit + 1) {
+					if (emojis.length === this.remoteLimit + 1) {
 						emojis.pop();
 						this.remoteExistMore = true;
 					} else {
