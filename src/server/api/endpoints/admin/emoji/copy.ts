@@ -39,7 +39,8 @@ export default define(meta, async (ps, me) => {
 	}
 
 	const n = await Emoji.findOne({
-		name: emoji.name
+		name: emoji.name,
+		host: null,
 	});
 
 	if (n) {
