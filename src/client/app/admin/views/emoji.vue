@@ -129,7 +129,6 @@ export default Vue.extend({
 			searchRemote: '',
 			searchHost: '',
 			origin: 'all',
-			updating: false,
 			faGrin
 		};
 	},
@@ -176,6 +175,7 @@ export default Vue.extend({
 				emojiId: id,
 			}).then(() => {
 				this.fetchEmojis('local', true);
+				this.fetchEmojis('remote', true);
 				this.$root.dialog({
 					type: 'success',
 					text: this.$t('copied')
@@ -189,8 +189,6 @@ export default Vue.extend({
 		},
 
 		fetchEmojis(kind?: string, truncate?: boolean) {
-			if (this.updating) return;
-			this.updating = true;
 			if (!kind || kind === 'local') {
 				if (truncate) this.offset = 0;
 				this.$root.api('admin/emoji/list', {
@@ -234,7 +232,6 @@ export default Vue.extend({
 					this.remoteOffset += emojis.length;
 				});
 			}
-			this.updating = false;
 		},
 
 		updateEmoji(emoji) {
@@ -272,7 +269,7 @@ export default Vue.extend({
 						type: 'success',
 						text: this.$t('remove-emoji.removed')
 					});
-					this.fetchEmojis();
+					this.fetchEmojis('local', true);
 				}).catch(e => {
 					this.$root.dialog({
 						type: 'error',

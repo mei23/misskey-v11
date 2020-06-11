@@ -48,6 +48,7 @@ export async function stockEmoji(emoji: IEmoji) {
 	await Emoji.update({ _id: emoji._id }, {
 		$set: {
 			url,
+			md5: file.md5,
 			saved: true
 		}
 	});
