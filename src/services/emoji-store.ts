@@ -24,7 +24,7 @@ export async function tryStockEmoji(emoji: IEmoji) {
 		return;
 	}
 
-	if (emoji.saved) {
+	if (emoji.saved && emoji.md5 != null) {
 		//console.log(`saved`);
 		return;
 	}
