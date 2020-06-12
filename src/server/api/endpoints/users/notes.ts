@@ -1,10 +1,11 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import Note, { packMany } from '../../../../models/note';
+import { packMany } from '../../../../models/note';
 import define from '../../define';
 import Following from '../../../../models/following';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
+import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {
@@ -248,10 +249,6 @@ export default define(meta, async (ps, me) => {
 	}
 	//#endregion
 
-	const notes = await Note.find(query, {
-		limit: ps.limit,
-		sort: sort
-	});
-
+	const notes = await findJoinedNotes(query, sort, ps.limit!);
 	return await packMany(notes, me);
 });
