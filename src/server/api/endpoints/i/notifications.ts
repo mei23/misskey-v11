@@ -112,60 +112,12 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 
-<<<<<<< HEAD
-	const notifications = await Notification.aggregate([{
-		$match: query
-	}, {
-		$sort: sort
-	}, {
-		$limit: ps.limit,
-	}, {
-		// join User
-		$lookup: {
-			from: 'users',
-			let: { notifierId: '$notifierId' },
-			pipeline: [
-				{
-					$match: {
-						$expr: {
-							$eq: [ '$_id', '$$notifierId' ]
-						}
-					}
-				}, {
-					$project: {
-						name: true,
-						username: true,
-						host: true,
-						avatarColor: true,
-						avatarId: true,
-						bannerId: true,
-						emojis: true,
-						avoidSearchIndex: true,
-						hideFollows: true,
-						isCat: true,
-						isBot: true,
-						isOrganization: true,
-						isGroup: true,
-						isAdmin: true,
-						isVerified: true
-					}
-				}
-			],
-			as: 'user',
-		}
-	}, {
-		$unwind: '$user'
-	}], {
-		maxTimeMS: 20000
-	}) as (INotification & { user: IUser })[];
-=======
 	const notifications = await Notification
 		.find(query, {
 			maxTimeMS: 20000,
 			limit: ps.limit,
 			sort: sort
 		});
->>>>>>> parent of 84806ab37... Promise.allで各アイテムに対してクエリみたいなのやめる (#1321)
 
 	// Mark all as read
 	if (notifications.length > 0 && ps.markAsRead) {
