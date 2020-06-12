@@ -79,8 +79,10 @@ common:
   follow-requests: "Follow requests"
   following: "Following"
   followers: "Followers"
+  all: "All"
   only-not-followed: "Only not followed users"
   only-not-following: "Only not following users"
+  only-moved: "Moved users only"
   desktop-mode: 'Desktop mode'
   mobile-mode: 'Mobile mode'
   favorites: "Favorites"

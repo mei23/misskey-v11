@@ -60,6 +60,14 @@ export const meta = {
 				'ja-JP': '相互フォローは除く'
 			}
 		},
+
+		moved: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': '引っ越したユーザーのみ'
+			}
+		},
 	},
 
 	res: {
@@ -135,23 +143,49 @@ export default define(meta, async (ps, me) => {
 		};
 	}
 
-	const following = await Following.aggregate([{
-		$match: query
-	}, {
-		$sort: { _id: -1 }
-	}, {
-		$limit: ps.limit + 1,
-	}, {
-		// join User
-		$lookup: {
-			from: 'users',
-			localField: 'followeeId',
-			foreignField: '_id',
-			as: '_user',
-		}
-	}, {
-		$unwind: '$_user'
-	}]) as (IFollowing & { _user: IUser })[];
+	let following: (IFollowing & { _user: IUser })[];
+
+	if (!ps.moved) {
+		following = await Following.aggregate([{
+			$match: query
+		}, {
+			$sort: { _id: -1 }
+		}, {
+			$limit: ps.limit + 1,
+		}, {
+			// join User
+			$lookup: {
+				from: 'users',
+				localField: 'followeeId',
+				foreignField: '_id',
+				as: '_user',
+			}
+		}, {
+			$unwind: '$_user'
+		}]) as (IFollowing & { _user: IUser })[];
+	} else {
+		following = await Following.aggregate([{
+			$match: query
+		}, {
+			// join User
+			$lookup: {
+				from: 'users',
+				localField: 'followeeId',
+				foreignField: '_id',
+				as: '_user',
+			}
+		}, {
+			$unwind: '$_user'
+		}, {
+			$match: {
+				'_user.movedToUserId': { $ne: null }
+			}
+		}, {
+			$sort: { _id: -1 }
+		}, {
+			$limit: ps.limit + 1,
+		}]) as (IFollowing & { _user: IUser })[];
+	}
 
 	// 「次のページ」があるかどうか
 	const inStock = following.length === ps.limit + 1;

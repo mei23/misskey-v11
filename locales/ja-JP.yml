@@ -82,8 +82,10 @@ common:
   follow-requests: "フォロー申請"
   following: "フォロー中"
   followers: "フォロワー"
+  all: すべて
   only-not-followed: "フォローされてないユーザーのみ"
   only-not-following: "フォローしてないユーザーのみ"
+  only-moved: "引っ越したユーザーのみ"
   desktop-mode: 'デスクトップ版'
   mobile-mode: 'モバイル版'
 
