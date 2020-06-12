@@ -123,12 +123,12 @@ export default define(meta, async (ps, user) => {
 		// join User
 		$lookup: {
 			from: 'users',
-			let: { userId: '$userId' },
+			let: { notifierId: '$notifierId' },
 			pipeline: [
 				{
 					$match: {
 						$expr: {
-							$eq: [ '$_id', '$$userId' ]
+							$eq: [ '$_id', '$$notifierId' ]
 						}
 					}
 				}, {
