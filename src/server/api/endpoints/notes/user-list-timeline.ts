@@ -1,5 +1,6 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
+import Note from '../../../../models/note';
 import { packMany } from '../../../../models/note';
 import UserList from '../../../../models/user-list';
 import define from '../../define';
@@ -10,7 +11,6 @@ import { isSelfHost } from '../../../../misc/convert-host';
 import { getHideRenoteUserIds } from '../../common/get-hide-renote-users';
 import _ = require('lodash');
 import { concat } from '../../../../prelude/array';
-import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {
@@ -394,7 +394,10 @@ export default define(meta, async (ps, user) => {
 	}
 	//#endregion
 
-	const timeline = await findJoinedNotes(query, sort, ps.limit!);
+	const timeline = await Note.find(query, {
+		limit: ps.limit,
+		sort: sort
+	});
 
 	return await packMany(timeline, user);
 });

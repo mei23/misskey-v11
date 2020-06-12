@@ -1,12 +1,11 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import Notification, { INotification } from '../../../../models/notification';
+import Notification from '../../../../models/notification';
 import { packMany } from '../../../../models/notification';
 import { getFriendIds } from '../../common/get-friends';
 import read from '../../common/read-notification';
 import define from '../../define';
 import { getHideUserIds } from '../../common/get-hide-users';
-import { IUser } from '../../../../models/user';
 
 export const meta = {
 	desc: {
@@ -113,6 +112,7 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 
+<<<<<<< HEAD
 	const notifications = await Notification.aggregate([{
 		$match: query
 	}, {
@@ -158,6 +158,14 @@ export default define(meta, async (ps, user) => {
 	}], {
 		maxTimeMS: 20000
 	}) as (INotification & { user: IUser })[];
+=======
+	const notifications = await Notification
+		.find(query, {
+			maxTimeMS: 20000,
+			limit: ps.limit,
+			sort: sort
+		});
+>>>>>>> parent of 84806ab37... Promise.allで各アイテムに対してクエリみたいなのやめる (#1321)
 
 	// Mark all as read
 	if (notifications.length > 0 && ps.markAsRead) {

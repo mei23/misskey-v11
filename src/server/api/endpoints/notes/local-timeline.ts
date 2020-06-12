@@ -1,12 +1,12 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
+import Note from '../../../../models/note';
 import { packMany } from '../../../../models/note';
 import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
 import activeUsersChart from '../../../../services/chart/active-users';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
-import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {
@@ -187,7 +187,10 @@ export default define(meta, async (ps, user) => {
 	}
 	//#endregion
 
-	const timeline = await findJoinedNotes(query, sort, ps.limit!);
+	const timeline = await Note.find(query, {
+		limit: ps.limit,
+		sort: sort
+	});
 
 	if (user) {
 		activeUsersChart.update(user);
