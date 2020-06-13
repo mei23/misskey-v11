@@ -3,7 +3,7 @@
 	<div v-if="$store.getters.isSignedIn && $store.state.i.host == null && $store.state.i.username === $route.params.user" class="options">
 		<ui-select v-model="fiter">
 			<option value="">{{ $t('@.all') }}</option>
-			<option value="diff">{{ $t('@.only-not-following') }}</option>
+			<option value="diff">{{ $t('@.only-not-followed') }}</option>
 			<option value="moved">{{ $t('@.only-moved') }}</option>
 		</ui-select>{{ filter }}
 	</div>
