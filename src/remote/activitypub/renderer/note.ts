@@ -91,25 +91,10 @@ export default async function renderNote(note: INote, dive = true, isTalk = fals
 
 	const files = (await Promise.all((note.fileIds || []).map(x => DriveFile.findOne(x)))).filter(x => x != null);
 
-	let text = note.text;
+	const text = note.text;
 
-	if (note.poll != null) {
-		if (text == null) text = '';
-		const url = `${config.url}/notes/${note._id}`;
-		// TODO: i18n
-		text += `\n[リモートで結果を表示](${url})`;
-	}
 	let apText = text;
 	if (apText == null) apText = '';
-
-	// Provides choices as text for AP
-	if (note.poll != null) {
-		const cs = note.poll.choices.map(c => `${c.id}: ${c.text}`);
-		apText += '\n----------------------------------------\n';
-		apText += cs.join('\n');
-		apText += '\n----------------------------------------\n';
-		apText += '番号を返信して投票';
-	}
 
 	if (quote) {
 		apText += `\n\nRE: ${quote}`;
@@ -141,7 +126,6 @@ export default async function renderNote(note: INote, dive = true, isTalk = fals
 		content: toHtml(Object.assign({}, note, {
 			text: text
 		})),
-		_misskey_fallback_content: content,
 		[expiresAt && expiresAt < new Date() ? 'closed' : 'endTime']: expiresAt,
 		[multiple ? 'anyOf' : 'oneOf']: choices.map(({ text, votes }) => ({
 			type: 'Note',
