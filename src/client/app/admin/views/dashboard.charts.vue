@@ -183,6 +183,12 @@ export default Vue.extend({
 				dataLabels: {
 					enabled: false
 				},
+				tooltip: {
+					x: {
+						show: true,
+						format: this.span === 'hour' ? 'dd MMM HH:mm' : 'dd MMM',
+					},
+				},
 				grid: {
 					clipMarkers: false,
 					borderColor: 'rgba(0, 0, 0, 0.1)',
