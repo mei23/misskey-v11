@@ -89,7 +89,7 @@
 				<img :src="emoji.url" :alt="emoji.name" style="width: 32px;"/>
 			</div>
 			<div class="detail">
-				<div style="margin-bottom: 0.5em;">{{ `${emoji.name}@${emoji.host}` }}</div>
+				<div style="margin-bottom: 0.5em;">{{ `${emoji.name}@${emoji.host} / MD5=${emoji.md5}` }}</div>
 				<ui-button @click="copy(emoji.id)">{{ $t('copy') }}</ui-button>
 			</div>
 		</section>

@@ -79,6 +79,7 @@ export default define(meta, async (ps) => {
 		aliases: e.aliases,
 		host: e.host,
 		url: e.url,
+		type: e.type,
 		md5: e.md5,
 	}));
 });
