@@ -22,7 +22,7 @@ export default define({
 	name: 'rss',
 	props: () => ({
 		compact: false,
-		url: 'http://feeds.afpbb.com/rss/afpbb/afpbbnews'
+		url: 'https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss'
 	})
 }).extend({
 	i18n: i18n(),
