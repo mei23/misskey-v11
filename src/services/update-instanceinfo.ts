@@ -57,18 +57,21 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 	logger.info(JSON.stringify(info, null, 2));
 
 	// GeoIP
-	const cc = request?.ip ? await geoIpLookup(request.ip).catch(e => {
+	const geoip = request?.ip ? await geoIpLookup(request.ip).catch(e => {
 		logger.warn(`GeoIP failed for ${toApHost(instance.host!)} ${request.ip} ${e}`);
 		return null;
 	}) : null;
-	if (cc) {
-		logger.info(`GeoIP: ${toApHost(instance.host!)} ${request?.ip} => ${cc}`);
+	if (geoip) {
+		logger.info(`GeoIP: ${toApHost(instance.host!)} ${request?.ip} => ${JSON.stringify(geoip)}`);
 	}
 
 	await Instance.update({ _id: instance._id }, {
 		$set: {
 			infoUpdatedAt: new Date(),
-			cc,
+			cc: geoip?.cc,
+			isp: geoip?.isp,
+			org: geoip?.org,
+			as: geoip?.as,
 			softwareName: info.softwareName,
 			softwareVersion: info.softwareVersion,
 			openRegistrations: info.openRegistrations,

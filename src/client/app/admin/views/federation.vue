@@ -51,8 +51,22 @@
 						<span>{{ $t('latest-request-received-at') }}</span>
 						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
+				</ui-horizon-group>
+				<ui-horizon-group inputs>
 					<ui-input :value="instance.cc" type="text" readonly>
 						<span>CC</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+					<ui-input :value="instance.isp" type="text" readonly>
+						<span>ISP</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+					<ui-input :value="instance.org" type="text" readonly>
+						<span>ORG</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
+					<ui-input :value="instance.as" type="text" readonly>
+						<span>AS</span>
 						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 				</ui-horizon-group>

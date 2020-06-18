@@ -6,10 +6,7 @@ export const logger = new Logger('instanceinfo', 'cyan');
 
 let nextResetTime = 0;
 
-/**
- * IP to CC
- */
-export async function geoIpLookup(ip: string): Promise<string> {
+export async function geoIpLookup(ip: string) {
 	// 抑制中？
 	if (Date.now() < nextResetTime) {
 		throw `suspended until ${nextResetTime}`;
@@ -54,5 +51,11 @@ export async function geoIpLookup(ip: string): Promise<string> {
 	if (json.status !== 'success') {
 		throw json.message;
 	}
-	return json.countryCode;
+
+	return {
+		cc: json.countryCode,
+		isp: json.isp,
+		org: json.org,
+		as: json.as,
+	};
 }
