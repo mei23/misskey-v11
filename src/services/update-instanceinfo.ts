@@ -58,11 +58,11 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 
 	// GeoIP
 	const cc = request?.ip ? await geoIpLookup(request.ip).catch(e => {
-		logger.warn(`GeoIP failed for ${request.ip} ${e}`);
+		logger.warn(`GeoIP failed for ${toApHost(instance.host!)} ${request.ip} ${e}`);
 		return null;
 	}) : null;
 	if (cc) {
-		logger.info(`GeoIP: ${request?.ip} => ${cc}`);
+		logger.info(`GeoIP: ${toApHost(instance.host!)} ${request?.ip} => ${cc}`);
 	}
 
 	await Instance.update({ _id: instance._id }, {
