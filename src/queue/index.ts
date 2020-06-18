@@ -53,8 +53,13 @@ export type InboxInfo = {
 };
 
 export type InboxJobData = {
-	activity: IActivity,
-	signature: httpSignature.IParsedSignature
+	activity: IActivity;
+	signature: httpSignature.IParsedSignature;
+	request?: InboxRequestData;
+};
+
+export type InboxRequestData = {
+	ip?: string;
 };
 
 export type DbJobData = DbUserJobData | DbUserImportJobData | DeleteNoteJobData;
@@ -141,10 +146,11 @@ export function deliver(user: ILocalUser, content: any, to: string, lowSeverity 
  * @param activity Activity
  * @param signature Signature
  */
-export function inbox(activity: IActivity, signature: httpSignature.IParsedSignature) {
+export function inbox(activity: IActivity, signature: httpSignature.IParsedSignature, request: InboxRequestData) {
 	const data = {
 		activity,
-		signature
+		signature,
+		request,
 	};
 
 	return inboxQueue.add(data, {

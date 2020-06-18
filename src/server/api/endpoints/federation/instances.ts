@@ -25,6 +25,10 @@ export const meta = {
 			validator: $.optional.str,
 		},
 
+		cc: {
+			validator: $.optional.str,
+		},
+
 		limit: {
 			validator: $.optional.num.range(1, 1000),
 			default: 30
@@ -119,6 +123,7 @@ export default define(meta, async (ps, me) => {
 	const q = {} as any;
 
 	if (ps.softwareName) q.softwareName = new RegExp('^' + escapeRegexp(ps.softwareName).toLowerCase());
+	if (ps.cc) q.cc = ps.cc.toUpperCase();
 	if (typeof ps.blocked === 'boolean') q.isBlocked = ps.blocked;
 	if (typeof ps.notResponding === 'boolean') q.isNotResponding = ps.notResponding;
 	if (typeof ps.markedAsClosed === 'boolean') q.isMarkedAsClosed = ps.markedAsClosed;

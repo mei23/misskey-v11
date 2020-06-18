@@ -37,7 +37,9 @@ function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
-	processInbox(ctx.request.body, signature);
+	processInbox(ctx.request.body, signature, {
+		ip: ctx.request.ip
+	});
 
 	ctx.status = 202;
 }

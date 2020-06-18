@@ -34,6 +34,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	logger.debug(inspect(info));
 	//#endregion
 
+	/** peer host (リレーから来たらリレー) */
 	const host = toUnicode(new URL(signature.keyId).hostname.toLowerCase());
 
 	// ブロックしてたら中断
@@ -141,7 +142,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			$set: set
 		});
 
-		UpdateInstanceinfo(i);
+		UpdateInstanceinfo(i, job.data.request);
 
 		instanceChart.requestReceived(i.host);
 	});

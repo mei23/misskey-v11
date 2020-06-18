@@ -51,6 +51,10 @@
 						<span>{{ $t('latest-request-received-at') }}</span>
 						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
+					<ui-input :value="instance.cc" type="text" readonly>
+						<span>CC</span>
+						<template #prefix><fa :icon="faInbox"/></template>
+					</ui-input>
 				</ui-horizon-group>
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.softwareName" type="text" readonly>
@@ -147,9 +151,14 @@
 					<option value="markedAsClosed">{{ $t('states.marked-as-closed') }}</option>
 				</ui-select>
 			</ui-horizon-group>
-			<ui-input v-model="softwareName" type="text" spellcheck="false" @input="fetchInstances()">
-				<span>{{ $t('softwareName') }}</span>
-			</ui-input>
+			<ui-horizon-group inputs>
+				<ui-input v-model="softwareName" type="text" spellcheck="false" @input="fetchInstances()">
+					<span>{{ $t('softwareName') }}</span>
+				</ui-input>
+				<ui-input v-model="cc" type="text" spellcheck="false" @input="fetchInstances()">
+					<span>CC</span>
+				</ui-input>
+			</ui-horizon-group>
 
 			<div class="instances">
 				<header>
@@ -205,6 +214,8 @@ export default Vue.extend({
 			target: null,
 			sort: '+lastCommunicatedAt',
 			state: 'all',
+			softwareName: '',
+			cc: '',
 			limit: 100,
 			instances: [],
 			chart: null,
@@ -308,6 +319,7 @@ export default Vue.extend({
 			this.instances = [];
 			this.$root.api('federation/instances', {
 				softwareName: this.softwareName,
+				cc: this.cc,
 				blocked: this.state === 'blocked' ? true : null,
 				notResponding: this.state === 'notResponding' ? true : null,
 				markedAsClosed: this.state === 'markedAsClosed' ? true : null,
