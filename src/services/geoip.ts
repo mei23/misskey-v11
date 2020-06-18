@@ -38,9 +38,9 @@ export async function geoIpLookup(ip: string): Promise<string> {
 	}
 
 	// 残りリクエストのチェック
-	const r1 = Number(res.headers.get('x-r1'));
+	const rl = Number(res.headers.get('x-rl'));
 	const ttl = Number(res.headers.get('x-ttl'));
-	if (r1 === 0) {
+	if (rl === 0) {
 		nextResetTime = Date.now() + (ttl * 1000);
 	}
 
