@@ -52,7 +52,7 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 		return false;
 	};
 
-	if (!updateNeeded) return;
+	if (!updateNeeded()) return;
 
 	await Instance.update({ _id: instance._id }, {
 		$set: {
