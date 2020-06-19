@@ -22,7 +22,7 @@
 						</span>
 					</div>
 
-					<div class="desc">
+					<div class="desc" style="padding-right: 120px">
 						<span class="desc" v-html="description || $t('@.about')"></span>
 					</div>
 
@@ -32,7 +32,7 @@
 						<span class="signin" @click="signin">{{ $t('@.signin') }}</span>
 					</p>
 
-					<img v-if="meta" :src="meta.mascotImageUrl" alt="" title="藍" class="char">
+					<img v-if="meta && meta.mascotImageUrl" :src="meta.mascotImageUrl" alt="" title="藍" class="char">
 				</div>
 			</div>
 
