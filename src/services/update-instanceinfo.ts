@@ -41,10 +41,18 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 	const _instance = await Instance.findOne({ host: instance.host });
 	if (!_instance) throw 'Instance is not registed';
 
-	const now = Date.now();
-	if (_instance.infoUpdatedAt && (now - _instance.infoUpdatedAt.getTime() < 1000 * 60 * 60 * 24)) {
-		return;
-	}
+	const updateNeeded = () => {
+		if (!_instance.infoUpdatedAt) return true;
+
+		const now = Date.now();
+		if (now - _instance.infoUpdatedAt.getTime() > 1000 * 60 * 60 * 24) return true;
+
+		if (request?.ip && !_instance.cc && (now - _instance.infoUpdatedAt.getTime() > 1000 * 60 * 60 * 1)) return true;
+
+		return false;
+	};
+
+	if (!updateNeeded) return;
 
 	await Instance.update({ _id: instance._id }, {
 		$set: {
@@ -56,22 +64,9 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 	const info = await fetchInstanceinfo(toApHost(instance.host));
 	logger.info(JSON.stringify(info, null, 2));
 
-	// GeoIP
-	const geoip = request?.ip ? await geoIpLookup(request.ip).catch(e => {
-		logger.warn(`GeoIP failed for ${toApHost(instance.host!)} ${request.ip} ${e}`);
-		return null;
-	}) : null;
-	if (geoip) {
-		logger.info(`GeoIP: ${toApHost(instance.host!)} ${request?.ip} => ${JSON.stringify(geoip)}`);
-	}
-
 	await Instance.update({ _id: instance._id }, {
 		$set: {
 			infoUpdatedAt: new Date(),
-			cc: geoip?.cc,
-			isp: geoip?.isp,
-			org: geoip?.org,
-			as: geoip?.as,
 			softwareName: info.softwareName,
 			softwareVersion: info.softwareVersion,
 			openRegistrations: info.openRegistrations,
@@ -81,6 +76,24 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 			maintainerEmail: info.maintainerEmail
 		}
 	});
+
+	// GeoIP
+	const geoip = request?.ip ? await geoIpLookup(request.ip).catch(e => {
+		logger.warn(`GeoIP failed for ${toApHost(instance.host!)} ${request.ip} ${e}`);
+		return { cc: '??', isp: '??', org: '??', as: '??' };
+	}) : null;
+	if (geoip) {
+		logger.info(`GeoIP: ${toApHost(instance.host!)} ${request?.ip} => ${JSON.stringify(geoip)}`);
+		await Instance.update({ _id: instance._id }, {
+			$set: {
+				infoUpdatedAt: new Date(),
+				cc: geoip.cc,
+				isp: geoip.isp,
+				org: geoip.org,
+				as: geoip.as,
+			}
+		});
+	}
 }
 
 export async function fetchInstanceinfo(host: string) {
