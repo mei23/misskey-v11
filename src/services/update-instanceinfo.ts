@@ -47,7 +47,7 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 		const now = Date.now();
 		if (now - _instance.infoUpdatedAt.getTime() > 1000 * 60 * 60 * 24) return true;
 
-		if (request?.ip && !_instance.cc && (now - _instance.infoUpdatedAt.getTime() > 1000 * 60 * 60 * 1)) return true;
+		if (request?.ip && !_instance.isp && (now - _instance.infoUpdatedAt.getTime() > 1000 * 60 * 60 * 1)) return true;
 
 		return false;
 	};
