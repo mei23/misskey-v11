@@ -72,6 +72,8 @@ drive:
 #  The first account created is automatically marked as Admin.
 autoAdmin: true
 
+#disableFederation: true
+
 #
 # Below settings are optional
 #

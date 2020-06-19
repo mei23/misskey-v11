@@ -9,6 +9,8 @@ import Note, { INote } from '../../models/note';
 import renderNote from '../../remote/activitypub/renderer/note';
 
 export default async (ctx: Router.RouterContext) => {
+	if (config.disableFederation) ctx.throw(404);
+
 	if (!ObjectID.isValid(ctx.params.user)) {
 		ctx.status = 404;
 		return;

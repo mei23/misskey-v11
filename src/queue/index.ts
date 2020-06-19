@@ -119,6 +119,8 @@ dbQueue
  * @param inboxInfo Detail information of inbox
  */
 export function deliver(user: ILocalUser, content: any, to: string, lowSeverity = false, inboxInfo?: InboxInfo) {
+	if (config.disableFederation) return;
+
 	const attempts = lowSeverity ? 2 : (config.deliverJobMaxAttempts || 12);
 
 	if (content == null) return null;

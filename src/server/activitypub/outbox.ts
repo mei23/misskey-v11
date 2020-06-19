@@ -17,6 +17,8 @@ import { countIf } from '../../prelude/array';
 import * as url from '../../prelude/url';
 
 export default async (ctx: Router.RouterContext) => {
+	if (config.disableFederation) ctx.throw(404);
+
 	if (!ObjectID.isValid(ctx.params.user)) {
 		ctx.status = 404;
 		return;

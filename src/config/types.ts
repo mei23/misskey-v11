@@ -32,6 +32,8 @@ export type Source = {
 
 	autoAdmin?: boolean;
 
+	disableFederation?: boolean;
+
 	proxy?: string;
 	proxySmtp?: string;
 

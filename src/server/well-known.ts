@@ -24,6 +24,8 @@ const jrd = 'application/jrd+json';
 const xrd = 'application/xrd+xml';
 
 router.get('/.well-known/host-meta', async ctx => {
+	if (config.disableFederation) ctx.throw(404);
+
 	ctx.set('Content-Type', xrd);
 	ctx.body = XRD({ element: 'Link', attributes: {
 		type: xrd,
@@ -32,6 +34,8 @@ router.get('/.well-known/host-meta', async ctx => {
 });
 
 router.get('/.well-known/host-meta.json', async ctx => {
+	if (config.disableFederation) ctx.throw(404);
+
 	ctx.set('Content-Type', jrd);
 	ctx.body = {
 		links: [{
@@ -43,6 +47,8 @@ router.get('/.well-known/host-meta.json', async ctx => {
 });
 
 router.get('/.well-known/nodeinfo', async ctx => {
+	if (config.disableFederation) ctx.throw(404);
+
 	ctx.body = { links };
 });
 

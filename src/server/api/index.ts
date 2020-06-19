@@ -18,6 +18,7 @@ import twitter from './service/twitter';
 import Instance from '../../models/instance';
 import { toApHost } from '../../misc/convert-host';
 import { unique } from '../../prelude/array';
+import config from '../../config';
 
 // Init app
 const app = new Koa();
@@ -74,6 +75,8 @@ router.use(github.routes());
 router.use(twitter.routes());
 
 router.get('/v1/instance/peers', async ctx => {
+	if (config.disableFederation) ctx.throw(404);
+
 	const instances = await Instance.find({
 		}, {
 			host: 1
