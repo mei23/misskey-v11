@@ -17,6 +17,9 @@ export default async (username: string, _host: string | null, option?: any, resy
 		return await User.findOne({ usernameLower, host: null });
 	}
 
+	// disableFederationならリモート解決しない
+	if (config.disableFederation) return null;
+
 	const configHostAscii = toASCII(config.host).toLowerCase();
 	const configHost = toUnicode(configHostAscii);
 

@@ -7,6 +7,7 @@ import create from '../../../../services/following/create';
 import define from '../../define';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
+import config from '../../../../config';
 
 export const meta = {
 	stability: 'stable',
@@ -93,6 +94,11 @@ export default define(meta, async (ps, user) => {
 
 	// no federation
 	if (user.noFederation && isRemoteUser(followee)) {
+		throw new ApiError(meta.errors.noFederation);
+	}
+
+	// disableFederation
+	if (config.disableFederation && isRemoteUser(followee)) {
 		throw new ApiError(meta.errors.noFederation);
 	}
 

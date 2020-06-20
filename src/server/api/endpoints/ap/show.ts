@@ -78,6 +78,9 @@ async function fetchAny(uri: string) {
 		if (packed !== null) return packed;
 	}
 
+	// disableFederationならリモート解決しない
+	if (config.disableFederation) return null;
+
 	// リモートから一旦オブジェクトフェッチ
 	const resolver = new Resolver();
 	const object = await resolver.resolve(uri);
