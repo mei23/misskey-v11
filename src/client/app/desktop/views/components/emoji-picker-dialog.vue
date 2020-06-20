@@ -1,6 +1,6 @@
 <template>
 <div class="gcafiosrssbtbnbzqupfmglvzgiaipyv">
-	<x-picker :includeRemote="includeRemote" @chosen="chosen"/>
+	<x-picker :includeRemote="includeRemote" :reaction="reaction" @chosen="chosen"/>
 </div>
 </template>
 
@@ -15,6 +15,11 @@ export default Vue.extend({
 
 	props: {
 		includeRemote: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		reaction: {
 			type: Boolean,
 			required: false,
 			default: false
@@ -63,9 +68,9 @@ export default Vue.extend({
 			return false;
 		},
 
-		chosen(emoji) {
-			this.$emit('chosen', emoji);
-			this.close();
+		chosen(args: { emoji: string, close: boolean }) {
+			this.$emit('chosen', args.emoji);
+			if (args.close) this.close();
 		},
 
 		close() {

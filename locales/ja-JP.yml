@@ -679,6 +679,7 @@ common/views/components/reaction-picker.vue:
   choose-reaction: "リアクションを選択"
 
 common/views/components/emoji-picker.vue:
+  pinned: "ピッカーを開いたままにする"
   recent-emoji: "最近使った絵文字"
   custom-emoji: "カスタム絵文字"
   remote-emoji: "リモートカスタム絵文字"

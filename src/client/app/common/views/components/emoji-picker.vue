@@ -11,6 +11,9 @@
 		</button>
 	</header>
 	<div class="emojis">
+		<header v-if="!reaction" class="menu">
+			<ui-switch v-model="pinned">{{ $t('pinned') }}</ui-switch>
+		</header>
 		<template v-if="categories[0].isActive">
 			<header class="category"><fa :icon="faHistory" fixed-width/> {{ $t('recent-emoji') }}</header>
 			<div class="list">
@@ -89,10 +92,16 @@ export default Vue.extend({
 			required: false,
 			default: false
 		},
+		reaction: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 	},
 
 	data() {
 		return {
+			pinned: false,
 			emojilist,
 			getStaticImageUrl,
 			customEmojis: {},
@@ -195,7 +204,10 @@ export default Vue.extend({
 			recents.unshift(emoji)
 			this.$store.commit('device/set', { key: 'recentEmojis', value: recents.splice(0, 16) });
 
-			this.$emit('chosen', getKey(emoji));
+			this.$emit('chosen', {
+				emoji: getKey(emoji),
+				close: !this.pinned,
+			});
 		}
 	}
 });
@@ -228,6 +240,9 @@ export default Vue.extend({
 		height 300px
 		overflow-y auto
 		overflow-x hidden
+
+		> header.menu
+			padding 0.5em
 
 		> header.category
 			position sticky

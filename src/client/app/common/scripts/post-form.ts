@@ -313,7 +313,7 @@ export default (opts) => ({
 				x: button.offsetWidth + rect.left + window.pageXOffset,
 				y: rect.top + window.pageYOffset
 			});
-			vm.$once('chosen', (emoji: string) => {
+			vm.$on('chosen', (emoji: string) => {
 				insertTextAtCursor(this.$refs.text, emoji + (emoji.startsWith(':') ? String.fromCharCode(0x200B) : ''));
 			});
 			this.$once('hook:beforeDestroy', () => {

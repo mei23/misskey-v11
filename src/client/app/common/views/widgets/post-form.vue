@@ -200,7 +200,7 @@ export default define({
 				x: button.offsetWidth + rect.left + window.pageXOffset,
 				y: rect.top + window.pageYOffset
 			});
-			vm.$once('chosen', (emoji: string) => {
+			vm.$on('chosen', (emoji: string) => {
 				insertTextAtCursor(this.$refs.text, emoji + String.fromCharCode(0x200B));
 			});
 		},
