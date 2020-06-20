@@ -1,5 +1,5 @@
 <template>
-<div class="ui-input" :class="[{ focused, filled, inline, disabled }, styl]">
+<div class="ui-input" :class="[{ focused, filled, inline, readonly, disabled }, styl]">
 	<div class="icon" ref="icon"><slot name="icon"></slot></div>
 	<div class="input">
 		<div class="password-meter" v-if="withPasswordMeter" v-show="passwordStrength != ''" :data-strength="passwordStrength">
@@ -20,7 +20,7 @@
 				:pattern="pattern"
 				:autocomplete="autocomplete"
 				:spellcheck="spellcheck"
-				@focus="focused = true"
+				@focus="focused = !readonly && !disabled"
 				@blur="focused = false"
 				@keydown="$emit('keydown', $event)"
 				:list="id"
@@ -35,7 +35,7 @@
 				:pattern="pattern"
 				:autocomplete="autocomplete"
 				:spellcheck="spellcheck"
-				@focus="focused = true"
+				@focus="focused = !readonly && !disabled"
 				@blur="focused = false"
 				@keydown="$emit('keydown', $event)"
 				:list="id"
@@ -445,8 +445,11 @@ root(fill)
 			> .label
 				color var(--primary)
 
+	// ラベルを上に移動する制御
 	&.focused
 	&.filled
+	&.readonly
+	&.disabled
 		> .input
 			> .label
 				top fill ? -24px : -17px
@@ -468,5 +471,9 @@ root(fill)
 
 		&, *
 			cursor not-allowed !important
+
+	&.readonly
+		&, *
+			cursor default !important
 
 </style>
