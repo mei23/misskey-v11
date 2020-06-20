@@ -5,7 +5,6 @@
 		<section class="fit-top">
 			<ui-input class="target" v-model="target" type="text" @enter="showInstance()">
 				<span>{{ $t('host') }}</span>
-				<template #prefix><fa :icon="faServer"/></template>
 			</ui-input>
 			<ui-button @click="showInstance()"><fa :icon="faSearch"/> {{ $t('lookup') }}</ui-button>
 
@@ -13,91 +12,72 @@
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.host" type="text" readonly>
 						<span>{{ $t('host') }}</span>
-						<template #prefix><fa :icon="faServer"/></template>
 					</ui-input>
 					<ui-input :value="instance.caughtAt | date" type="text" readonly>
 						<span>{{ $t('caught-at') }}</span>
-						<template #prefix><fa :icon="faCrosshairs"/></template>
 					</ui-input>
 				</ui-horizon-group>
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.notesCount | number" type="text" readonly>
 						<span>{{ $t('notes') }}</span>
-						<template #prefix><fa :icon="faEnvelopeOpenText"/></template>
 					</ui-input>
 					<ui-input :value="instance.usersCount | number" type="text" readonly>
 						<span>{{ $t('users') }}</span>
-						<template #prefix><fa :icon="faUsers"/></template>
 					</ui-input>
 					<ui-input :value="instance.followingCount | number" type="text" readonly>
 						<span>{{ $t('following') }}</span>
-						<template #prefix><fa :icon="faCaretDown"/></template>
 					</ui-input>
 					<ui-input :value="instance.followersCount | number" type="text" readonly>
 						<span>{{ $t('followers') }}</span>
-						<template #prefix><fa :icon="faCaretUp"/></template>
 					</ui-input>
 				</ui-horizon-group>
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.latestRequestSentAt | date" type="text" readonly>
 						<span>{{ $t('latest-request-sent-at') }}</span>
-						<template #prefix><fa :icon="faPaperPlane"/></template>
 					</ui-input>
 					<ui-input :value="instance.latestStatus" type="text" readonly>
 						<span>{{ $t('status') }}</span>
-						<template #prefix><fa :icon="faTrafficLight"/></template>
 					</ui-input>
 					<ui-input :value="instance.latestRequestReceivedAt | date" type="text" readonly>
 						<span>{{ $t('latest-request-received-at') }}</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 				</ui-horizon-group>
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.cc" type="text" readonly>
 						<span>CC</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 					<ui-input :value="instance.isp" type="text" readonly>
 						<span>ISP</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 					<ui-input :value="instance.org" type="text" readonly>
 						<span>ORG</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 					<ui-input :value="instance.as" type="text" readonly>
 						<span>AS</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 				</ui-horizon-group>
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.softwareName" type="text" readonly>
 						<span>{{ $t('softwareName') }}</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 					<ui-input :value="instance.softwareVersion" type="text" readonly>
 						<span>{{ $t('softwareVersion') }}</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 				</ui-horizon-group>
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.name" type="text" readonly>
 						<span>{{ $t('name') }}</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 					<ui-input :value="instance.description" type="text" readonly>
 						<span>{{ $t('description') }}</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 				</ui-horizon-group>
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.maintainerName" type="text" readonly>
 						<span>{{ $t('maintainerName') }}</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 					<ui-input :value="instance.maintainerEmail" type="text" readonly>
 						<span>{{ $t('maintainerEmail') }}</span>
-						<template #prefix><fa :icon="faInbox"/></template>
 					</ui-input>
 				</ui-horizon-group>
 				<ui-switch v-model="instance.isBlocked" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('block') }}</ui-switch>
