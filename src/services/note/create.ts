@@ -71,11 +71,15 @@ class NotificationManager {
 	}
 
 	public async deliver() {
+		// サイレンスされていたらスキップ
+		if (this.notifier.isSilenced) {
+			return;
+		}
+
 		for (const x of this.queue) {
 			// ミュートされてたらスキップ
 			const mute = await getMute(x.target, this.notifier._id);
 			if (mute) {
-				console.log(`ミュートされてたらスキップ`);
 				continue;
 			}
 
