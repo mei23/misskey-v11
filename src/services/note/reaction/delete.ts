@@ -8,7 +8,6 @@ import { renderActivity } from '../../../remote/activitypub/renderer';
 import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 import { decodeReaction } from '../../../misc/reaction-lib';
-import { deliverToRelays } from '../../relay';
 
 export default async (user: IUser, note: INote) => {
 	// if already unreacted
@@ -18,7 +17,7 @@ export default async (user: IUser, note: INote) => {
 		deletedAt: { $exists: false }
 	});
 
-	if (exist === null) {
+	if (exist == null) {
 		throw new IdentifiableError('60527ec9-b4cb-4a88-a6bd-32d3ad26817d', 'not reacted');
 	}
 
