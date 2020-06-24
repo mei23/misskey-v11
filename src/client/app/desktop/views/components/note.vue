@@ -3,9 +3,9 @@
 	class="note"
 	:class="{
 		mini: narrow,
-		'visibility-home': appearNote.visibility === 'home',
-		'visibility-followers': appearNote.visibility === 'followers',
-		'visibility-specified': appearNote.visibility === 'specified',
+		'visibility-home': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'home',
+		'visibility-followers': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'followers',
+		'visibility-specified': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'specified',
 	 }"
 	v-show="appearNote.deletedAt == null && !hideThisNote"
 	:tabindex="appearNote.deletedAt == null ? '-1' : null"

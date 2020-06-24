@@ -37,6 +37,7 @@
 				<ui-switch v-model="showFullAcct" v-if="isAdvanced">{{ $t('@._settings.show-full-acct') }}</ui-switch>
 				<ui-switch v-model="showVia">{{ $t('@._settings.show-via') }}</ui-switch>
 				<ui-switch v-model="iLikeSushi">{{ $t('@._settings.i-like-sushi') }}</ui-switch>
+				<ui-switch v-model="disableVisibilityColoring">{{ $t('@._settings.disableVisibilityColoring') }}</ui-switch>
 			</section>
 			<section>
 				<ui-switch v-model="suggestRecentHashtags" v-if="isAdvanced">{{ $t('@._settings.suggest-recent-hashtags') }}</ui-switch>
@@ -369,6 +370,11 @@ export default Vue.extend({
 		reduceMotion: {
 			get() { return this.$store.state.device.reduceMotion; },
 			set(value) { this.$store.commit('device/set', { key: 'reduceMotion', value }); }
+		},
+
+		disableVisibilityColoring: {
+			get() { return !!this.$store.state.device.disableVisibilityColoring; },
+			set(value) { this.$store.commit('device/set', { key: 'disableVisibilityColoring', value }); }
 		},
 
 		navbar: {
