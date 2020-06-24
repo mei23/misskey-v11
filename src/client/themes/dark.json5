@@ -60,6 +60,10 @@
 		noteHeaderAcct: ':alpha<0.65<$text',
 		noteHeaderInfo: ':alpha<0.5<$text',
 
+		noteHomeBg: 'rgba(0, 50, 0, 0.5)',
+		noteFollowersBg: 'rgba(0, 0, 50, 0.5)',
+		noteSpecifiedBg: 'rgba(0, 0, 25, 0.5)',
+
 		noteActions: ':alpha<0.45<$text',
 		noteActionsHover: ':alpha<0.6<$text',
 		noteActionsReplyHover: '#0af',

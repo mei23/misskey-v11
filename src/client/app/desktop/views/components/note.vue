@@ -1,7 +1,12 @@
 <template>
 <div
 	class="note"
-	:class="{ mini: narrow }"
+	:class="{
+		mini: narrow,
+		'visibility-home': appearNote.visibility === 'home',
+		'visibility-followers': appearNote.visibility === 'followers',
+		'visibility-specified': appearNote.visibility === 'specified',
+	 }"
 	v-show="appearNote.deletedAt == null && !hideThisNote"
 	:tabindex="appearNote.deletedAt == null ? '-1' : null"
 	v-hotkey="keymap"
@@ -173,6 +178,15 @@ export default Vue.extend({
 	padding 0
 	overflow hidden
 	box-shadow 0 1px 8px rgba(0, 0, 0, 0.2)
+
+	&.visibility-home
+		background-color var(--noteHomeBg)
+
+	&.visibility-followers
+		background-color var(--noteFollowersBg)
+
+	&.visibility-specified
+		background-color var(--noteSpecifiedBg)
 
 	&.mini
 		font-size 13px

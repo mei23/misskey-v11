@@ -3,7 +3,14 @@
 	class="note"
 	v-show="appearNote.deletedAt == null && !hideThisNote"
 	:tabindex="appearNote.deletedAt == null ? '-1' : null"
-	:class="{ renote: isRenote, smart: $store.state.device.postStyle == 'smart', mini: narrow }"
+	:class="{
+		renote: isRenote,
+		smart: $store.state.device.postStyle == 'smart',
+		mini: narrow,
+		'visibility-home': appearNote.visibility === 'home',
+		'visibility-followers': appearNote.visibility === 'followers',
+		'visibility-specified': appearNote.visibility === 'specified',
+	}"
 	v-hotkey="keymap"
 >
 	<mk-renote class="renote" v-if="isRenote" :note="note"/>
@@ -147,6 +154,15 @@ export default Vue.extend({
 
 	&:last-of-type
 		border-bottom none
+
+	&.visibility-home
+		background-color var(--noteHomeBg)
+
+	&.visibility-followers
+		background-color var(--noteFollowersBg)
+
+	&.visibility-specified
+		background-color var(--noteSpecifiedBg)
 
 	&:not(.mini)
 
