@@ -45,8 +45,6 @@
 			</ui-select>
 		</label>
 
-		<a href="https://assets.msky.cafe/theme/list" rel="noopener" target="_blank">{{ $t('find-more-theme') }}</a>
-
 		<details class="creator">
 			<summary><fa icon="palette"/> {{ $t('create-a-theme') }}</summary>
 			<div>
