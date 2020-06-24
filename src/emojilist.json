@@ -871,7 +871,7 @@
 	{ "category": "travel_and_places", "char": "🚡", "name": "aerial_tramway", "keywords": ["transportation", "vehicle", "ski"] },
 	{ "category": "travel_and_places", "char": "🚠", "name": "mountain_cableway", "keywords": ["transportation", "vehicle", "ski"] },
 	{ "category": "travel_and_places", "char": "🚟", "name": "suspension_railway", "keywords": ["vehicle", "transportation"] },
-	{ "category": "travel_and_places", "char": "🚃", "name": "railway_car", "keywords": ["transportation", "vehicle"] },
+	{ "category": "travel_and_places", "char": "🚃", "name": "railway_car", "keywords": ["transportation", "vehicle", "train"] },
 	{ "category": "travel_and_places", "char": "🚋", "name": "train", "keywords": ["transportation", "vehicle", "carriage", "public", "travel"] },
 	{ "category": "travel_and_places", "char": "🚝", "name": "monorail", "keywords": ["transportation", "vehicle"] },
 	{ "category": "travel_and_places", "char": "🚄", "name": "bullettrain_side", "keywords": ["transportation", "vehicle"] },
