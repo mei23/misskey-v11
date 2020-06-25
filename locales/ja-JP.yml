@@ -428,6 +428,7 @@ common/views/pages/explore.vue:
 common/views/components/url-preview.vue:
   enable-player: "プレイヤーを開く"
   disable-player: "プレイヤーを閉じる"
+  expandTweet: "ツイートを展開する"
 
 common/views/components/user-list.vue:
   no-users: "ユーザーがいません"
