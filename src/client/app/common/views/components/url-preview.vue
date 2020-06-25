@@ -101,6 +101,10 @@ export default Vue.extend({
 					script.setAttribute('id', wjsId);
 					script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
 					head.appendChild(script);
+					const meta = document.createElement("meta");
+					meta.name = 'twitter:widgets:theme';
+					meta.content = this.$store.state.device.darkmode ? 'dark': 'light';
+					head.appendChild(meta);
 				}
 				twttr.ready = loadTweet;
 				(window as any).twttr = twttr;
