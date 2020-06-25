@@ -3,9 +3,11 @@
 	class="note"
 	:class="{
 		mini: narrow,
-		'visibility-home': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'home',
-		'visibility-followers': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'followers',
-		'visibility-specified': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'specified',
+		'visibility-home': appearNote.visibility === 'home',
+		'visibility-followers': appearNote.visibility === 'followers',
+		'visibility-specified': appearNote.visibility === 'specified',
+		'coloring-bg': $store.state.device.visibilityColoring === 'bg',
+		'coloring-left': $store.state.device.visibilityColoring === 'left',
 	 }"
 	v-show="appearNote.deletedAt == null && !hideThisNote"
 	:tabindex="appearNote.deletedAt == null ? '-1' : null"
@@ -179,14 +181,27 @@ export default Vue.extend({
 	overflow hidden
 	box-shadow 0 1px 8px rgba(0, 0, 0, 0.2)
 
-	&.visibility-home
-		background-color var(--noteHomeBg)
+	&.coloring-bg
+		&.visibility-home
+			background-color var(--noteHomeBg)
 
-	&.visibility-followers
-		background-color var(--noteFollowersBg)
+		&.visibility-followers
+			background-color var(--noteFollowersBg)
 
-	&.visibility-specified
-		background-color var(--noteSpecifiedBg)
+		&.visibility-specified
+			background-color var(--noteSpecifiedBg)
+
+	&.coloring-left
+		border-left: transparent solid 5px
+
+		&.visibility-home
+			border-left-color var(--noteHomeBorder)
+
+		&.visibility-followers
+			border-left-color var(--noteFollowersBorder)
+
+		&.visibility-specified
+			border-left-color var(--noteSpecifiedBorder)
 
 	&.mini
 		font-size 13px

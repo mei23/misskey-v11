@@ -7,9 +7,11 @@
 		renote: isRenote,
 		smart: $store.state.device.postStyle == 'smart',
 		mini: narrow,
-		'visibility-home': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'home',
-		'visibility-followers': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'followers',
-		'visibility-specified': !$store.state.device.disableVisibilityColoring && appearNote.visibility === 'specified',
+		'visibility-home': appearNote.visibility === 'home',
+		'visibility-followers': appearNote.visibility === 'followers',
+		'visibility-specified': appearNote.visibility === 'specified',
+		'coloring-bg': $store.state.device.visibilityColoring === 'bg',
+		'coloring-left': $store.state.device.visibilityColoring === 'left',
 	}"
 	v-hotkey="keymap"
 >
@@ -155,14 +157,27 @@ export default Vue.extend({
 	&:last-of-type
 		border-bottom none
 
-	&.visibility-home
-		background-color var(--noteHomeBg)
+	&.coloring-bg
+		&.visibility-home
+			background-color var(--noteHomeBg)
 
-	&.visibility-followers
-		background-color var(--noteFollowersBg)
+		&.visibility-followers
+			background-color var(--noteFollowersBg)
 
-	&.visibility-specified
-		background-color var(--noteSpecifiedBg)
+		&.visibility-specified
+			background-color var(--noteSpecifiedBg)
+
+	&.coloring-left
+		border-left: transparent solid 5px
+
+		&.visibility-home
+			border-left-color var(--noteHomeBorder)
+
+		&.visibility-followers
+			border-left-color var(--noteFollowersBorder)
+
+		&.visibility-specified
+			border-left-color var(--noteSpecifiedBorder)
 
 	&:not(.mini)
 

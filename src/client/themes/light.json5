@@ -63,6 +63,9 @@
 		noteHomeBg: 'rgba(120, 240, 120, 0.3)',
 		noteFollowersBg: 'rgba(120, 120, 240, 0.3)',
 		noteSpecifiedBg: 'rgba(112, 112, 224, 0.3)',
+		noteHomeBorder: '#7d7',
+		noteFollowersBorder: '#77e',
+		noteSpecifiedBorder: '#777',
 
 		noteActions: ':alpha<0.3<$text',
 		noteActionsHover: ':alpha<0.9<$text',

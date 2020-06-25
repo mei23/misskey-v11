@@ -37,7 +37,6 @@
 				<ui-switch v-model="showFullAcct" v-if="isAdvanced">{{ $t('@._settings.show-full-acct') }}</ui-switch>
 				<ui-switch v-model="showVia">{{ $t('@._settings.show-via') }}</ui-switch>
 				<ui-switch v-model="iLikeSushi">{{ $t('@._settings.i-like-sushi') }}</ui-switch>
-				<ui-switch v-model="disableVisibilityColoring">{{ $t('@._settings.disableVisibilityColoring') }}</ui-switch>
 			</section>
 			<section>
 				<ui-switch v-model="suggestRecentHashtags" v-if="isAdvanced">{{ $t('@._settings.suggest-recent-hashtags') }}</ui-switch>
@@ -63,6 +62,12 @@
 				<ui-radio v-model="deckColumnAlign" value="center">{{ $t('@._settings.deck-column-align-center') }}</ui-radio>
 				<ui-radio v-model="deckColumnAlign" value="left">{{ $t('@._settings.deck-column-align-left') }}</ui-radio>
 				<ui-radio v-model="deckColumnAlign" value="flexible">{{ $t('@._settings.deck-column-align-flexible') }}</ui-radio>
+			</section>
+			<section>
+				<header>{{ $t('@._settings.visibilityColoring') }}</header>
+				<ui-radio v-model="visibilityColoring" value="none">{{ $t('@._settings.visibilityColoring-none') }}</ui-radio>
+				<ui-radio v-model="visibilityColoring" value="bg">{{ $t('@._settings.visibilityColoring-bg') }}</ui-radio>
+				<ui-radio v-model="visibilityColoring" value="left">{{ $t('@._settings.visibilityColoring-left') }}</ui-radio>
 			</section>
 			<section v-if="isAdvanced">
 				<ui-switch v-model="games_reversi_showBoardLabels">{{ $t('@._settings.show-reversi-board-labels') }}</ui-switch>
@@ -372,11 +377,6 @@ export default Vue.extend({
 			set(value) { this.$store.commit('device/set', { key: 'reduceMotion', value }); }
 		},
 
-		disableVisibilityColoring: {
-			get() { return !!this.$store.state.device.disableVisibilityColoring; },
-			set(value) { this.$store.commit('device/set', { key: 'disableVisibilityColoring', value }); }
-		},
-
 		navbar: {
 			get() { return this.$store.state.device.navbar; },
 			set(value) { this.$store.commit('device/set', { key: 'navbar', value }); }
@@ -385,6 +385,11 @@ export default Vue.extend({
 		deckColumnAlign: {
 			get() { return this.$store.state.device.deckColumnAlign; },
 			set(value) { this.$store.commit('device/set', { key: 'deckColumnAlign', value }); }
+		},
+
+		visibilityColoring: {
+			get() { return this.$store.state.device.visibilityColoring || 'left'; },
+			set(value) { this.$store.commit('device/set', { key: 'visibilityColoring', value }); }
 		},
 
 		enableSounds: {
