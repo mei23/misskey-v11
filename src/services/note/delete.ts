@@ -1,5 +1,5 @@
 import Note, { INote } from '../../models/note';
-import { IUser, isLocalUser, isRemoteUser } from '../../models/user';
+import User, { IUser, isLocalUser, isRemoteUser, IRemoteUser } from '../../models/user';
 import { publishNoteStream } from '../stream';
 import renderDelete from '../../remote/activitypub/renderer/delete';
 import renderUndo from '../../remote/activitypub/renderer/undo';
@@ -16,7 +16,7 @@ import { registerOrFetchInstanceDoc } from '../register-or-fetch-instance-doc';
 import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
 import Favorite from '../../models/favorite';
-import { deliverToFollowers } from '../../remote/activitypub/deliver-manager';
+import DeliverManager, { deliverToFollowers } from '../../remote/activitypub/deliver-manager';
 import { deliverToRelays } from '../relay';
 
 /**
@@ -94,20 +94,44 @@ export default async function(user: IUser, note: INote, quiet = false) {
 
 		//#region ローカルの投稿なら削除アクティビティを配送
 		if (isLocalUser(user)) {
-			let renote: INote;
+			(async () => {
+				let renote: INote | undefined;
 
-			if (note.renoteId && note.text == null && note.poll == null && (note.fileIds == null || note.fileIds.length == 0)) {
-				renote = await Note.findOne({
-					_id: note.renoteId
-				});
-			}
+				if (note.renoteId && note.text == null && note.poll == null && (note.fileIds == null || note.fileIds.length == 0)) {
+					renote = await Note.findOne({
+						_id: note.renoteId
+					});
+				}
 
-			const content = renderActivity(renote
-				? renderUndo(renderAnnounce(renote.uri || `${config.url}/notes/${renote._id}`, note), user)
-				: renderDelete(renderTombstone(`${config.url}/notes/${note._id}`), user, `${config.url}/notes/${note._id}/delete`));
+				const content = renderActivity(renote
+					? renderUndo(renderAnnounce(renote.uri || `${config.url}/notes/${renote._id}`, note), user)
+					: renderDelete(renderTombstone(`${config.url}/notes/${note._id}`), user, `${config.url}/notes/${note._id}/delete`));
 
-			deliverToFollowers(user, content);
-			deliverToRelays(user, content);
+				deliverToFollowers(user, content);
+				deliverToRelays(user, content);
+
+				const dm = new DeliverManager(user, content);
+
+				// メンションされたリモートユーザーに配送 (Replay, DM 含む)
+				for (const u of note.mentionedRemoteUsers || []) {
+					const user = await User.findOne({
+						uri: u.uri
+					});
+
+					if (user) dm.addDirectRecipe(user as IRemoteUser);
+				}
+
+				// 投稿がRenote/QuoteかつRenote元の投稿の投稿者がリモートユーザーなら配送
+				if (note.renoteId && note._renote?.userId) {
+					const user = await User.findOne({
+						_id: note._renote.userId
+					});
+
+					if (user) dm.addDirectRecipe(user as IRemoteUser);
+				}
+
+				dm.execute();
+			})();
 		}
 		//#endregion
 
