@@ -5,7 +5,7 @@
 </div>
 <div v-else-if="tweetUrl && tweetExpanded" class="twitter">
 	<blockquote ref="tweet" class="twitter-tweet" :data-theme="$store.state.device.darkmode ? 'dark' : null">
-		<a :href="url"></a>
+		<a :href="tweetUrl"></a>
 	</blockquote>
 </div>
 <div v-else class="mk-url-preview">
@@ -94,8 +94,8 @@ export default Vue.extend({
 			return;
 		}
 
-		if (requestUrl.hostname == 'twitter.com' && /^\/.+\/status(es)?\/\d+/.test(requestUrl.pathname)) {
-			this.tweetUrl = requestUrl;
+		if (requestUrl.hostname.match(/(?:mobile\.)?twitter\.com$/) && /^\/.+\/status(es)?\/\d+/.test(requestUrl.pathname)) {
+			this.tweetUrl = `https://twitter.com${requestUrl.pathname}${requestUrl.search}`;
 		}
 
 		if (this.tweetExpanded && this.tweetUrl) {
