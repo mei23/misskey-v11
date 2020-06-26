@@ -380,7 +380,11 @@ export default Vue.extend({
 					width: 2
 				},
 				tooltip: {
-					theme: this.$store.state.device.darkmode ? 'dark' : 'light'
+					theme: this.$store.state.device.darkmode ? 'dark' : 'light',
+					x: {
+						show: true,
+						format: true ? 'dd MMM HH:mm' : 'dd MMM',
+					},
 				},
 				legend: {
 					labels: {
