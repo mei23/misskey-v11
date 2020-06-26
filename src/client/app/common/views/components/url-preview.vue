@@ -94,7 +94,7 @@ export default Vue.extend({
 			return;
 		}
 
-		if (requestUrl.hostname.match(/(?:mobile\.)?twitter\.com$/) && /^\/.+\/status(es)?\/\d+/.test(requestUrl.pathname)) {
+		if (requestUrl.hostname.match(/^(?:mobile\.)?twitter\.com$/) && /^\/.+\/status(es)?\/\d+/.test(requestUrl.pathname)) {
 			this.tweetUrl = `https://twitter.com${requestUrl.pathname}${requestUrl.search}`;
 		}
 
