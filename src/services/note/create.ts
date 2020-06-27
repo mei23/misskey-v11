@@ -543,7 +543,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 function index(note: INote) {
 	if (config.mecabSearch) {
 		getIndexer(note).then(mecabWords => {
-			console.log(JSON.stringify(mecabWords, null, 2));
+			console.log(`Index: ${note._id} ${JSON.stringify(mecabWords)}`);
 			Note.findOneAndUpdate({ _id: note._id }, {
 				$set: { mecabWords }
 			});
