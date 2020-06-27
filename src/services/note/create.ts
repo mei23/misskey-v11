@@ -34,6 +34,7 @@ import extractHashtags from '../../misc/extract-hashtags';
 import { genId } from '../../misc/gen-id';
 import DeliverManager from '../../remote/activitypub/deliver-manager';
 import { deliverToRelays } from '../relay';
+import { getIndexer } from '../../misc/mecab';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention' | 'highlight';
 
@@ -540,16 +541,27 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 }
 
 function index(note: INote) {
-	if (note.text == null || config.elasticsearch == null) return;
+	if (config.mecabSearch) {
+		getIndexer(note).then(mecabWords => {
+			console.log(JSON.stringify(mecabWords, null, 2));
+			Note.findOneAndUpdate({ _id: note._id }, {
+				$set: { mecabWords }
+			});
+		});
+	}
 
-	es.index({
-		index: 'misskey',
-		type: 'note',
-		id: note._id.toString(),
-		body: {
-			text: note.text
-		}
-	});
+	if (!note.text || !config.elasticsearch) return;
+
+	if (es) {
+		es.index({
+			index: 'misskey',
+			type: 'note',
+			id: note._id.toString(),
+			body: {
+				text: note.text
+			}
+		});
+	}
 }
 
 async function notifyToWatchersOfRenotee(renote: INote, user: IUser, nm: NotificationManager, type: NotificationType) {

@@ -12,6 +12,8 @@ import { concat } from '../../../../prelude/array';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { getFriends, getFriendIds } from '../../common/get-friends';
 import NoteWatching from '../../../../models/note-watching';
+import config from '../../../../config';
+import { getIndexer } from '../../../../misc/mecab';
 const escapeRegexp = require('escape-regexp');
 
 export const meta = {
@@ -222,7 +224,6 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 		if (matchHost) {
 			if (matchHost[1].match(/^(\.|local)$/) || isSelfHost(matchHost[1])) {
 				host = null;
-				filtered = true;
 			} else {
 				host = toDbHost(matchHost[1]);
 			}
@@ -245,8 +246,8 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 
 	// フィルタ系が指定されていないワード検索の場合
 	if (!filtered && words.length > 0) {
-		// ESに回す
-		return null;
+		// meCabしてなければESに回す
+		if (!config.mecabSearch) return null;
 	}
 
 	let visibleQuery;
@@ -399,15 +400,24 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 	}
 
 	if (words.length > 0) {
-		const texts = words.map(word => ({ text: new RegExp(escapeRegexp(word), 'i') }));
-		const cws = words.map(word => ({ cw: new RegExp(escapeRegexp(word), 'i') }));
+		if (filtered) {
+			const texts = words.map(word => ({ text: new RegExp(escapeRegexp(word), 'i') }));
+			const cws = words.map(word => ({ cw: new RegExp(escapeRegexp(word), 'i') }));
 
-		noteQuery.$and.push({
-			$or: [
-				{ $and: texts },
-				{ $and: cws }
-			]
-		});
+			noteQuery.$and.push({
+				$or: [
+					{ $and: texts },
+					{ $and: cws }
+				]
+			});
+		} else {
+			const ws = await getIndexer({ text: words.join(' ') });
+			if (ws.length) {
+				noteQuery.$and.push({
+					mecabWords: { $all: ws }
+				});
+			}
+		}
 	}
 
 	const notes = await Note.find(noteQuery, {

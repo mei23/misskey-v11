@@ -34,6 +34,7 @@ export default async function(user: IUser, note: INote, quiet = false) {
 		$set: {
 			deletedAt: deletedAt,
 			text: null,
+			mecabWords: [],
 			tags: [],
 			fileIds: [],
 			renoteId: null,

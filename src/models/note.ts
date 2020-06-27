@@ -31,6 +31,7 @@ Note.createIndex('_files.contentType');
 Note.createIndex({ createdAt: -1 });
 Note.createIndex({ score: -1 }, { sparse: true });
 Note.createIndex({ '_user.host': 1, replyId: 1, _id: -1 });
+Note.createIndex('mecabWords');
 
 export default Note;
 
@@ -102,6 +103,11 @@ export type INote = {
 	 * 人気の投稿度合いを表すスコア
 	 */
 	score: number;
+
+	/**
+	 * MeCab index
+	 */
+	mecabWords?: string[];
 
 	// 非正規化
 	_reply?: {
@@ -305,6 +311,7 @@ export const pack = async (
 	delete _note.next;
 	delete _note.tagsLower;
 	delete _note.score;
+	delete _note.mecabWords;
 	delete _note._user;
 	delete _note._reply;
 	delete _note._renote;

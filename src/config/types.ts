@@ -55,6 +55,11 @@ export type Source = {
 	inboxJobPerSec?: number;
 	deliverJobMaxAttempts?: number;
 	inboxJobMaxAttempts?: number;
+
+	mecabSearch?: {
+		mecabBin: string;
+		mecabDic: string;
+	};
 };
 
 export type DriveConfig = {
