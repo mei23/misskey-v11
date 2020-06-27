@@ -10,12 +10,21 @@ async function main(days: number, global = false) {
 	const id = new ObjectID(genMeid7(limit));
 
 	while (true) {
-		const q = {
-			_id: { $gt: id },
-			mecabWords: { $exists: false }
-		} as any;
 
-		if (!global) q.host = null;
+		let q: any;
+
+		if (global) {
+			q = {
+				_id: { $gt: id },
+				mecabWords: { $exists: false }
+			};
+		} else {
+			q = {
+				'_user.host': null,
+				_id: { $gt: id },
+				mecabWords: { $exists: false }
+			};
+		}
 
 		const note = await Note.findOne(q);
 
