@@ -4,10 +4,11 @@ import Note from '../models/note';
 import Favorite from '../models/favorite';
 import { concat } from '../prelude/array';
 import { genMeid7 } from '../misc/id/meid7';
+import { ObjectID } from 'mongodb';
 
 async function main(days: number) {
 	const limit = new Date(Date.now() - (days * 1000 * 86400));
-	const id = genMeid7(limit);
+	const id = new ObjectID(genMeid7(limit));
 
 	// favs
 	const favs = await Favorite.find({
