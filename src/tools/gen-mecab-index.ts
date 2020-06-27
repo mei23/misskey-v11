@@ -1,20 +1,23 @@
-// node gen-mecab-index 日数
+// node gen-mecab-index 日数 [global]
 // でローカルの過去投稿の検索インデックスを作成する
 import Note from '../models/note';
 import { genMeid7 } from '../misc/id/meid7';
 import { getIndexer } from '../misc/mecab';
 import { ObjectID } from 'mongodb';
 
-async function main(days: number) {
+async function main(days: number, global = false) {
 	const limit = new Date(Date.now() - (days * 1000 * 86400));
 	const id = new ObjectID(genMeid7(limit));
 
 	while (true) {
-		const note = await Note.findOne({
+		const q = {
 			_id: { $gt: id },
-			host: null,
 			mecabWords: { $exists: false }
-		});
+		} as any;
+
+		if (!global) q.host = null;
+
+		const note = await Note.findOne(q);
 
 		if (!note) {
 			console.log('no more Notes');
@@ -35,6 +38,6 @@ async function main(days: number) {
 
 const args = process.argv.slice(2);
 
-main(Number(args[0] || '1')).then(() => {
+main(Number(args[0] || '1'), args[1] === 'global').then(() => {
 	console.log('Done');
 });
