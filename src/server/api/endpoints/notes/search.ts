@@ -147,7 +147,6 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 
 			if (followFrom == null) return [];
 
-			filtered = true;
 			continue;
 		}
 
@@ -156,7 +155,6 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 		if (matchSince) {
 			since = new Date(matchSince[1]);
 
-			filtered = true;
 			continue;
 		}
 
@@ -164,7 +162,6 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 		if (matchUntil) {
 			until = new Date(matchUntil[1]);
 
-			filtered = true;
 			continue;
 		}
 
@@ -206,7 +203,6 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 				return await packMany(watches.map(w => w.noteId), me);
 			}
 
-			filtered = true;
 			continue;
 		}
 
