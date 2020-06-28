@@ -3,11 +3,6 @@
 	class="note"
 	:class="{
 		mini: narrow,
-		'visibility-home': appearNote.visibility === 'home',
-		'visibility-followers': appearNote.visibility === 'followers',
-		'visibility-specified': appearNote.visibility === 'specified',
-		'coloring-bg': $store.state.device.visibilityColoring === 'bg',
-		'coloring-left': $store.state.device.visibilityColoring === 'left',
 	 }"
 	v-show="appearNote.deletedAt == null && !hideThisNote"
 	:tabindex="appearNote.deletedAt == null ? '-1' : null"
@@ -16,10 +11,29 @@
 >
 	<mk-renote class="renote" v-if="isRenote" :note="note"/>
 	<x-sub v-for="note in conversation" :key="note.id" :note="note"/>
-	<div class="reply-to" v-if="appearNote.reply && (!$store.getters.isSignedIn || $store.state.settings.showReplyTarget) && !preview">
+	<div
+		class="reply-to"
+		:class="{
+			'visibility-home': appearNote.reply.visibility === 'home',
+			'visibility-followers': appearNote.reply.visibility === 'followers',
+			'visibility-specified': appearNote.reply.visibility === 'specified',
+			'coloring-bg': $store.state.device.visibilityColoring === 'bg',
+			'coloring-left': $store.state.device.visibilityColoring === 'left',
+		}"
+		v-if="appearNote.reply && (!$store.getters.isSignedIn || $store.state.settings.showReplyTarget) && !preview"
+	>
 		<x-sub :note="appearNote.reply"/>
 	</div>
-	<article class="article">
+	<article
+		class="article"
+		:class="{
+			'visibility-home': appearNote.visibility === 'home',
+			'visibility-followers': appearNote.visibility === 'followers',
+			'visibility-specified': appearNote.visibility === 'specified',
+			'coloring-bg': $store.state.device.visibilityColoring === 'bg',
+			'coloring-left': $store.state.device.visibilityColoring === 'left',
+		}"
+	>
 		<mk-avatar class="avatar" :user="appearNote.user"/>
 		<div class="main">
 			<mk-note-header class="header" :note="appearNote" :mini="narrow" :no-info="detail"/>
@@ -181,28 +195,6 @@ export default Vue.extend({
 	overflow hidden
 	box-shadow 0 1px 8px rgba(0, 0, 0, 0.2)
 
-	&.coloring-bg
-		&.visibility-home
-			background-color var(--noteHomeBg)
-
-		&.visibility-followers
-			background-color var(--noteFollowersBg)
-
-		&.visibility-specified
-			background-color var(--noteSpecifiedBg)
-
-	&.coloring-left
-		border-left: transparent solid 5px
-
-		&.visibility-home
-			border-left-color var(--noteHomeBorder)
-
-		&.visibility-followers
-			border-left-color var(--noteFollowersBorder)
-
-		&.visibility-specified
-			border-left-color var(--noteSpecifiedBorder)
-
 	&.mini
 		font-size 13px
 
@@ -241,9 +233,54 @@ export default Vue.extend({
 	> .renote + article
 		padding-top 8px
 
+	> .reply-to
+		&.coloring-bg
+			&.visibility-home
+				background-color var(--noteHomeBg)
+
+			&.visibility-followers
+				background-color var(--noteFollowersBg)
+
+			&.visibility-specified
+				background-color var(--noteSpecifiedBg)
+
+		&.coloring-left
+			border-left: transparent solid 5px
+
+			&.visibility-home
+				border-left-color var(--noteHomeBorder)
+
+			&.visibility-followers
+				border-left-color var(--noteFollowersBorder)
+
+			&.visibility-specified
+				border-left-color var(--noteSpecifiedBorder)
+
 	> .article
 		display flex
 		padding 16px 32px 8px 32px
+
+		&.coloring-bg
+			&.visibility-home
+				background-color var(--noteHomeBg)
+
+			&.visibility-followers
+				background-color var(--noteFollowersBg)
+
+			&.visibility-specified
+				background-color var(--noteSpecifiedBg)
+
+		&.coloring-left
+			border-left: transparent solid 5px
+
+			&.visibility-home
+				border-left-color var(--noteHomeBorder)
+
+			&.visibility-followers
+				border-left-color var(--noteFollowersBorder)
+
+			&.visibility-specified
+				border-left-color var(--noteSpecifiedBorder)
 
 		&:hover
 			> .main > footer > button
