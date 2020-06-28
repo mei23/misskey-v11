@@ -6,7 +6,7 @@ import { createDeleteNoteJob } from '../../queue';
 import renderNote from '../../remote/activitypub/renderer/note';
 import renderCreate from '../../remote/activitypub/renderer/create';
 import renderAnnounce from '../../remote/activitypub/renderer/announce';
-import { renderActivity, attachLdSignature } from '../../remote/activitypub/renderer';
+import { renderActivity } from '../../remote/activitypub/renderer';
 import DriveFile, { IDriveFile } from '../../models/drive-file';
 import notify from '../../services/create-notification';
 import NoteWatching from '../../models/note-watching';
@@ -543,7 +543,9 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 function index(note: INote) {
 	if (config.mecabSearch) {
 		getIndexer(note).then(mecabWords => {
-			console.log(`Index: ${note._id} ${JSON.stringify(mecabWords)}`);
+			if (note.visibility === 'public' || note.visibility === 'home') {
+				console.log(`Index: ${note._id} ${JSON.stringify(mecabWords)}`);
+			}
 			Note.findOneAndUpdate({ _id: note._id }, {
 				$set: { mecabWords }
 			});
