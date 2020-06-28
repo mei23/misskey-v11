@@ -50,8 +50,10 @@ export default Vue.extend({
 		}
 	},
 	watch: {
-		$route() {
-			this.$refs.timeline.reload();
+		$route(to) {
+			if (to.path.match(/search/)) {
+				this.$refs.timeline.reload();
+			}
 		}
 	},
 	mounted() {
