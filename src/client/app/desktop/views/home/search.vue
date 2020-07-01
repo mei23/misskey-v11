@@ -21,27 +21,35 @@ export default Vue.extend({
 	i18n: i18n('desktop/views/pages/search.vue'),
 	data() {
 		return {
-			makePromise: cursor => this.$root.api('notes/search', {
-				limit: limit + 1,
-				offset: cursor ? cursor : undefined,
-				query: this.q
-			}).then(notes => {
-				if (notes.length == limit + 1) {
-					notes.pop();
-					return {
-						notes: notes,
-						cursor: cursor ? cursor + limit : limit
-					};
-				} else {
-					return {
-						notes: notes,
-						cursor: null
-					};
+			makePromise: cursor => {
+				if (this.$route.path !== '/search') {
+					return new Promise((res, rej) => {
+						rej('NOT_IN_SEARCH_PAGE');
+					});
 				}
-			}).catch((e: any) => {
-				this.$notify(e.message || e);
-				throw e;
-			})
+
+				return this.$root.api('notes/search', {
+					limit: limit + 1,
+					offset: cursor ? cursor : undefined,
+					query: this.q
+				}).then(notes => {
+					if (notes.length == limit + 1) {
+						notes.pop();
+						return {
+							notes: notes,
+							cursor: cursor ? cursor + limit : limit
+						};
+					} else {
+						return {
+							notes: notes,
+							cursor: null
+						};
+					}
+				}).catch((e: any) => {
+					this.$notify(e.message || e);
+					throw e;
+				});
+			},
 		};
 	},
 	computed: {
@@ -50,10 +58,8 @@ export default Vue.extend({
 		}
 	},
 	watch: {
-		$route(to) {
-			if (to.path.match(/search/)) {
-				this.$refs.timeline.reload();
-			}
+		$route() {
+			this.$refs.timeline.reload();
 		}
 	},
 	mounted() {
