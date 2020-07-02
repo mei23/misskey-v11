@@ -1,4 +1,4 @@
-// 90日以内のFavもリアクションもRenoteもされてないリモート投稿を削除する
+// 90日以内のFav/PinもリアクションもRenoteもされてないリモート投稿を削除する
 import User, { IUser } from '../models/user';
 import Note from '../models/note';
 import Favorite from '../models/favorite';

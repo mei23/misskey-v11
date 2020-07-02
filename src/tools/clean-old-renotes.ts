@@ -3,9 +3,11 @@ import Note from '../models/note';
 import { ObjectID } from 'mongodb';
 import Favorite from '../models/favorite';
 import { concat } from '../prelude/array';
+import { genMeid7 } from '../misc/id/meid7';
 
-async function main() {
-	const id = new ObjectID('700000000000000000000000');
+async function main(days: number) {
+	const limit = new Date(Date.now() - (days * 1000 * 86400));
+	const id = new ObjectID(genMeid7(limit));
 
 	// favs
 	const favs = await Favorite.find({
@@ -29,6 +31,8 @@ async function main() {
 		const user = await User.findOne({
 			_id: u._id
 		});
+
+		if (!user) continue;
 
 		console.log(`user(${prs}/${users.length}): ${user.username}@${user.host}`);
 
@@ -73,7 +77,17 @@ async function main() {
 		});
 
 		for (const note of notes) {
+			// ローカル向けはスキップ
+			const target = await User.findOne({
+				_id: note._renote?.userId
+			});
+
+			if (!target) continue;
+
+			if (target?.host == null) continue;
+
 			console.log(`${note._id}`);
+
 			await Note.update({ _id: note.renoteId }, {
 				$inc: {
 					renoteCount: -1
