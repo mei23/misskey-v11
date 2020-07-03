@@ -438,7 +438,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
  * Misskeyに対象のPersonが登録されていればそれを返し、そうでなければ
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
-export async function resolvePerson(uri: string, verifier?: string, resolver?: Resolver): Promise<IUser | null> {
+export async function resolvePerson(uri: string, verifier?: string, resolver?: Resolver): Promise<IUser> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
 	//#region このサーバーに既に登録されていたらそれを返す
@@ -465,6 +465,7 @@ export async function resolvePerson(uri: string, verifier?: string, resolver?: R
 			// WebFinger(@username@host) => uri で resync をしてみる
 			await resolveUser(existUser.username, existUser.host, {}, true);
 			user = await fetchPerson(uri);
+			if (user == null) throw e;
 		} else {
 			throw e;
 		}
