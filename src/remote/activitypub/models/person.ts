@@ -462,13 +462,11 @@ export async function resolvePerson(uri: string, verifier?: string, resolver?: R
 			const existUser = e.with as IRemoteUser;
 			logger.warn(`Duplicated username. input(uri=${uri}) exist(uri=${existUser.uri} username=${existUser.username}, host=${existUser.host})`);
 
-			// WebFinger(@username@host) => uri で resync をしてみる
-			await resolveUser(existUser.username, existUser.host, {}, true);
-			user = await fetchPerson(uri);
-			if (user == null) throw e;
-		} else {
-			throw e;
+			// WebFinger(@username@host)からresync をトリガする (24時間以上古い場合)
+			resolveUser(existUser.username, existUser.host);
 		}
+
+		throw e;
 	}
 
 	return user;
