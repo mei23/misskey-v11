@@ -77,16 +77,16 @@ async function main(days = 90) {
 		});
 
 		for (const note of notes) {
-			// ローカル向けはスキップ
+			//#region Renote/Quote先がローカルならスキップ
 			const target = await User.findOne({
 				_id: note._renote?.userId
 			});
 
 			if (!target) continue;
-
 			if (target?.host == null) continue;
+			//#endregion
 
-			console.log(`${note._id}`);
+			console.log(`Unrenote/Unquote ${note._id}`);
 
 			await Note.update({ _id: note.renoteId }, {
 				$inc: {
