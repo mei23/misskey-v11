@@ -229,7 +229,7 @@
 		"typescript": "3.9.6",
 		"ulid": "2.3.0",
 		"url-loader": "4.1.0",
-		"uuid": "8.0.0",
+		"uuid": "8.2.0",
 		"v-animate-css": "0.0.3",
 		"v-debounce": "0.1.2",
 		"vue": "2.6.11",
