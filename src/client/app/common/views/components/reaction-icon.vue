@@ -12,6 +12,10 @@ export default Vue.extend({
 			type: String,
 			required: true
 		},
+		customEmojis: {
+			required: false,
+			default: () => undefined as any[]
+		},
 	},
 	data() {
 		return {

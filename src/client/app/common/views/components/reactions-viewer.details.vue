@@ -8,7 +8,7 @@
 					<mk-user-name :user="u" :nowrap="false" style="line-height: 24px;"/>
 				</b>
 			</span>
-			<mk-reaction-icon slot="reaction" :reaction="reaction" ref="icon" />
+			<mk-reaction-icon slot="reaction" :reaction="reaction" :custom-emojis="customEmojis" ref="icon" />
 		</i18n>
 		<i18n path="many-users" v-if="10 < users.length">
 			<span slot="users">
@@ -18,7 +18,7 @@
 				</b>
 			</span>
 			<span slot="omitted">{{ count - 10 }}</span>
-			<mk-reaction-icon slot="reaction" :reaction="reaction" ref="icon" />
+			<mk-reaction-icon slot="reaction" :reaction="reaction" :custom-emojis="customEmojis" ref="icon" />
 		</i18n>
 	</div>
 </transition>
@@ -34,6 +34,10 @@ export default Vue.extend({
 		reaction: {
 			type: String,
 			required: true,
+		},
+		customEmojis: {
+			required: false,
+			default: () => undefined as any[]
 		},
 		users: {
 			type: Array,

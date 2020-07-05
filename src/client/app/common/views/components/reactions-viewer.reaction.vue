@@ -9,7 +9,7 @@
 	@mouseleave="onMouseleave"
 	ref="reaction"
 >
-	<mk-reaction-icon :reaction="reaction" ref="icon"/>
+	<mk-reaction-icon :reaction="reaction" :customEmojis="note.emojis" ref="icon"/>
 	<span>{{ count }}</span>
 </span>
 </template>
@@ -113,6 +113,7 @@ export default Vue.extend({
 				if (!this.isHovering) return;
 				this.details = this.$root.new(XDetails, {
 					reaction: this.reaction,
+					customEmojis: this.note.emojis,
 					users,
 					count: this.count,
 					source: this.$refs.reaction
