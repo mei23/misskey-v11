@@ -526,12 +526,7 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*":
-  version "14.0.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.1.tgz#5d93e0a099cd0acd5ef3d5bde3c086e1f49ff68c"
-  integrity sha512-FAYBGwC+W6F9+huFIDtn43cpy7+SzG+atzRiTfdp3inUKL2hXnd4rG8hylJLIh4+hqrQy1P17kvJByE/z825hA==
-
-"@types/node@14.0.14":
+"@types/node@*", "@types/node@14.0.14":
   version "14.0.14"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.14.tgz#24a0b5959f16ac141aeb0c5b3cd7a15b7c64cbce"
   integrity sha512-syUgf67ZQpaJj01/tRTknkMNoBBLWJOBODF0Zm4NrXmiSuxjymFrxnTu1QVYRubhVkRcZLYZG8STTwJRdVm/WQ==
@@ -614,10 +609,10 @@
   dependencies:
     "@types/redis" "*"
 
-"@types/redis@*", "@types/redis@2.8.20":
-  version "2.8.20"
-  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.20.tgz#7060fa9d65ccf7ef32f714f05f83a016a20211c8"
-  integrity sha512-IJOvkg+BnCRDlMrrBIasCs8bqddnjiplI26HwsPSeY/biEJaDzAQnjs2i5z5vJelTbi3TIiLUIrKXk7j9Tmi/Q==
+"@types/redis@*", "@types/redis@2.8.24":
+  version "2.8.24"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.24.tgz#164d1d1b9f628d089e63874b072100c30d9d1c1a"
+  integrity sha512-I5LivNsNdEvBDJnBthjL4YAqD888eSf/k8kM5ROzgRHy7UE7n+ijwFVKqCSM4Ekujfb+3SDz/GbEhXWjnuI04w==
   dependencies:
     "@types/node" "*"
 
