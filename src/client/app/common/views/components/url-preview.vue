@@ -3,14 +3,14 @@
 	<button class="disablePlayer" @click="playerEnabled = false" :title="$t('disable-player')"><fa icon="times"/></button>
 	<iframe :src="player.url + (player.url.match(/\?/) ? '&autoplay=1&auto_play=1' : '?autoplay=1&auto_play=1')" :width="player.width || '100%'" :heigth="player.height || 250" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen />
 </div>
-<div v-else-if="tweetUrl && detail" class="twitter">
+<div v-else-if="tweetUrl && tweetExpanded" class="twitter">
 	<blockquote ref="tweet" class="twitter-tweet" :data-theme="$store.state.device.darkmode ? 'dark' : null">
-		<a :href="url"></a>
+		<a :href="tweetUrl"></a>
 	</blockquote>
 </div>
 <div v-else class="mk-url-preview">
-	<component :is="hasRoute ? 'router-link' : 'a'" :class="{ mini: narrow, compact }" :[attr]="hasRoute ? url.substr(local.length) : url" rel="nofollow noopener" :target="target" :title="url" v-if="!fetching">
-		<div class="thumbnail" v-if="thumbnail" :style="`background-image: url('${thumbnail}')`">
+	<a :class="{ mini: narrow, compact }" :href="url" rel="nofollow noopener" target="_blank" :title="url" v-if="!fetching">
+		<div class="thumbnail" v-if="thumbnail && (!sensitive || $store.state.device.alwaysShowNsfw)" :style="`background-image: url('${thumbnail}')`">
 			<button v-if="!playerEnabled && player.url" @click.prevent="playerEnabled = true" :title="$t('enable-player')"><fa :icon="['far', 'play-circle']"/></button>
 		</div>
 		<article>
@@ -23,18 +23,23 @@
 				<p :title="sitename">{{ sitename }}</p>
 			</footer>
 		</article>
-	</component>
+	</a>
+	<div class="expandTweet" v-if="tweetUrl">
+		<a @click="() => { this.expandTweet(); tweetExpanded = true; }">
+			<fa :icon="faTwitter"/> {{ $t('expandTweet') }}
+		</a>
+	</div>
 </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { url as local, lang } from '../../../config';
+import { url as misskeyUrl, lang } from '../../../config';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/url-preview.vue'),
-
 	props: {
 		url: {
 			type: String,
@@ -61,62 +66,45 @@ export default Vue.extend({
 	},
 
 	data() {
-		const isSelf = this.url.startsWith(local);
-		const hasRoute =
-			(this.url.substr(local.length) === '/') ||
-			this.url.substr(local.length).startsWith('/@') ||
-			this.url.substr(local.length).startsWith('/notes/') ||
-			this.url.substr(local.length).startsWith('/tags/') ||
-			this.url.substr(local.length).startsWith('/pages/');
 		return {
-			local,
 			fetching: true,
 			title: null,
 			description: null,
 			thumbnail: null,
 			icon: null,
 			sitename: null,
+			sensitive: false,
 			player: {
 				url: null,
 				width: null,
 				height: null
 			},
 			tweetUrl: null,
+			tweetExpanded: this.detail,
 			playerEnabled: false,
-			self: isSelf,
-			hasRoute: hasRoute,
-			attr: hasRoute ? 'to' : 'href',
-			target: hasRoute ? null : '_blank'
+			misskeyUrl,
+			faTwitter
 		};
 	},
 
 	created() {
 		const requestUrl = new URL(this.url);
 
-		if (this.detail && requestUrl.hostname == 'twitter.com' && /^\/.+\/status(es)?\/\d+/.test(requestUrl.pathname)) {
-			this.tweetUrl = requestUrl;
-			const twttr = (window as any).twttr || {};
-			const loadTweet = () => twttr.widgets.load(this.$refs.tweet);
-
-			if (twttr.widgets) {
-				Vue.nextTick(loadTweet);
-			} else {
-				const wjsId = 'twitter-wjs';
-				if (!document.getElementById(wjsId)) {
-					const head = document.getElementsByTagName('head')[0];
-					const script = document.createElement('script');
-					script.setAttribute('id', wjsId);
-					script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
-					head.appendChild(script);
-				}
-				twttr.ready = loadTweet;
-				(window as any).twttr = twttr;
-			}
+		if (this.isBlokedUrl(requestUrl)) {
 			return;
 		}
 
-		if (requestUrl.hostname === 'music.youtube.com') {
-			requestUrl.hostname = 'youtube.com';
+		if (requestUrl.hostname.match(/^(?:mobile\.)?twitter\.com$/) && /^\/.+\/status(es)?\/\d+/.test(requestUrl.pathname)) {
+			this.tweetUrl = `https://twitter.com${requestUrl.pathname}${requestUrl.search}`;
+		}
+
+		if (this.tweetExpanded && this.tweetUrl) {
+			this.expandTweet();
+			return;
+		}
+
+		if (requestUrl.hostname === 'music.youtube.com' && requestUrl.pathname.match('^/(?:watch|channel)')) {
+			requestUrl.hostname = 'www.youtube.com';
 		}
 
 		const requestLang = (lang || 'ja-JP').replace('ja-KS', 'ja-JP');
@@ -131,10 +119,43 @@ export default Vue.extend({
 				this.thumbnail = info.thumbnail;
 				this.icon = info.icon;
 				this.sitename = info.sitename;
+				this.sensitive = !!info.sensitive;
 				this.fetching = false;
 				this.player = info.player;
 			})
 		});
+	},
+
+	methods: {
+		isBlokedUrl(url: URL) {
+			if (url.pathname.match(/\.(?:jpg|gif|png)$/)) return true;
+			if (url.pathname.match(/^\/media\/(?:[\w-]{19})$/)) return true;
+			return false;
+		},
+
+		expandTweet() {
+			const twttr = (window as any).twttr || {};
+			const loadTweet = () => twttr.widgets.load(this.$refs.tweet);
+
+			if (twttr.widgets) {
+				Vue.nextTick(loadTweet);
+			} else {
+				const wjsId = 'twitter-wjs';
+				if (!document.getElementById(wjsId)) {
+					const head = document.getElementsByTagName('head')[0];
+					const script = document.createElement('script');
+					script.setAttribute('id', wjsId);
+					script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
+					head.appendChild(script);
+					const meta = document.createElement("meta");
+					meta.name = 'twitter:widgets:theme';
+					meta.content = this.$store.state.device.darkmode ? 'dark': 'light';
+					head.appendChild(meta);
+				}
+				twttr.ready = loadTweet;
+				(window as any).twttr = twttr;
+			}
+		},
 	}
 });
 </script>
@@ -340,4 +361,11 @@ export default Vue.extend({
 					overflow hidden
 					white-space nowrap
 					text-overflow ellipsis
+
+	> .expandTweet
+		display flex
+
+		> a
+			font-size small
+			color var(--text)
 </style>
