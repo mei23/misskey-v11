@@ -68,6 +68,9 @@ drive:
 #    accessKey:
 #    secretKey:
 
+# 未保存のリモートファイルをローカルでプロキシする (default: false)
+#proxyRemoteFiles: true
+
 # If enabled:
 #  The first account created is automatically marked as Admin.
 autoAdmin: true

@@ -29,6 +29,7 @@ export type Source = {
 	};
 	drive?: DriveConfig;
 	remoteDrive?: DriveConfig;
+	proxyRemoteFiles?: boolean;
 
 	autoAdmin?: boolean;
 
