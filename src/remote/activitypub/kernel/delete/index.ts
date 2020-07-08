@@ -1,6 +1,6 @@
 import deleteNote from './note';
 import { IRemoteUser } from '../../../../models/user';
-import { IDelete, getApId, isTombstone, IObject, validPost, valiedActor } from '../../type';
+import { IDelete, getApId, isTombstone, IObject, validPost, validActor } from '../../type';
 import { toSingle } from '../../../../prelude/array';
 
 /**
@@ -40,7 +40,7 @@ export default async (actor: IRemoteUser, activity: IDelete): Promise<string> =>
 
 	if (validPost.includes(formarType)) {
 		return await deleteNote(actor, uri);
-	} else if (valiedActor.includes(formarType)) {
+	} else if (validActor.includes(formarType)) {
 		return `Delete Actor is not implanted`;
 	} else {
 		return `Unknown type ${formarType}`;

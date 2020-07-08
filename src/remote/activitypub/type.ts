@@ -228,10 +228,10 @@ export interface IApPerson extends IObject {
 	'vcard:Address'?: string;
 }
 
-export const valiedActor = ['Person', 'Service', 'Group', 'Organization', 'Application'];
+export const validActor = ['Person', 'Service', 'Group', 'Organization', 'Application'];
 
 export const isActor = (object: IObject): object is IApPerson =>
-	valiedActor.includes(object.type);
+	validActor.includes(object.type);
 
 export interface IApEmoji extends IObject {
 	type: 'Emoji';

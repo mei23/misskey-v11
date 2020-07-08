@@ -15,7 +15,7 @@ let latest: string = null;
 export default async (job: Bull.Job<DeliverJobData>) => {
 	const { protocol, host } = new URL(job.data.to);
 
-	if (protocol !== 'https:') return 'skip (invalied protocol)';
+	if (protocol !== 'https:') return 'skip (invalid protocol)';
 
 	// ブロック/閉鎖してたら中断
 	if (await isBlockedHost(host)) {
