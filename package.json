@@ -23,7 +23,8 @@
 	},
 	"resolutions": {
 		"lodash": "^4.17.19",
-		"dot-prop": "^5.2.0"
+		"dot-prop": "^5.2.0",
+		"mocha/serialize-javascript": "^3.1.0"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "1.2.29",
