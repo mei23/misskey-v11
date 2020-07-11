@@ -18,6 +18,7 @@ import DbResolver from '../../remote/activitypub/db-resolver';
 import { inspect } from 'util';
 import { extractApHost } from '../../misc/convert-host';
 import { LdSignature } from '../../remote/activitypub/misc/ld-signature';
+import resolveUser from '../../remote/resolve-user';
 
 const logger = new Logger('inbox');
 
@@ -72,7 +73,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 	// 署名検証失敗時にはkeyが変わったことも想定して、WebFingerからのユーザー情報の更新をトリガしておく (24時間以上古い場合に発動)
 	if (!httpSignatureValidated) {
-		resolvePerson(user.username, user.host);
+		resolveUser(user.username, user.host);
 	}
 
 	// また、http-signatureのsignerは、activity.actorと一致する必要がある
