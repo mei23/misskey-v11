@@ -193,7 +193,7 @@ export default abstract class Chart<T extends Obj> {
 			date: { $lt: dateExpire }
 		});
 
-		logger.info(`${this.name}: Deleted ${span} ${deleted.deletedCount} logs before ${dateExpire.toLocaleString()}`);
+		if (deleted.deletedCount > 0) logger.info(`${this.name}: Deleted ${span} ${deleted.deletedCount} logs before ${dateExpire.toLocaleString()}`);
 
 		return log;
 	}
