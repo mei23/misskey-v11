@@ -187,13 +187,13 @@ export default abstract class Chart<T extends Obj> {
 			}
 		}
 
-		const dateExpire = new Date(Date.now() - 1000 * 60 * 60 * 24 * 100);
+		const dateExpire = new Date(Date.now() - (span === 'hour' ? 1000 * 60 * 60 * 500 : 1000 * 60 * 60 * 24 * 500));
 		const deleted = await this.collection.remove({
 			span: span,
 			date: { $lt: dateExpire }
 		});
 
-		logger.info(`${this.name}: Deleted ${deleted.deletedCount} logs before ${dateExpire.toLocaleString()}`);
+		logger.info(`${this.name}: Deleted ${span} ${deleted.deletedCount} logs before ${dateExpire.toLocaleString()}`);
 
 		return log;
 	}
