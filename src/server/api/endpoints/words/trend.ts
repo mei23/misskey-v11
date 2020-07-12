@@ -29,6 +29,7 @@ export default define(meta, async () => {
 			createdAt: {
 				$gt: new Date(Date.now() - rangeA)
 			},
+			visibility: 'public',
 			mecabWords: {
 				$exists: true,
 				$ne: []
@@ -77,6 +78,7 @@ export default define(meta, async () => {
 	const hotsPromises = limitedTags.map(async tag => {
 		const passedCount = (await Note.distinct('userId', {
 			mecabWords: tag.name,
+			visibility: 'public',
 			createdAt: {
 				$lt: new Date(Date.now() - rangeA),
 				$gt: new Date(Date.now() - rangeB)
@@ -118,6 +120,7 @@ export default define(meta, async () => {
 	for (let i = 0; i < range; i++) {
 		countPromises.push(Promise.all(hots.map(tag => Note.distinct('userId', {
 			mecabWords: tag,
+			visibility: 'public',
 			createdAt: {
 				$lt: new Date(Date.now() - (interval * i)),
 				$gt: new Date(Date.now() - (interval * (i + 1)))
@@ -129,6 +132,7 @@ export default define(meta, async () => {
 
 	const totalCounts: any = await Promise.all(hots.map(tag => Note.distinct('userId', {
 		mecabWords: tag,
+		visibility: 'public',
 		createdAt: {
 			$gt: new Date(Date.now() - (interval * range))
 		}
