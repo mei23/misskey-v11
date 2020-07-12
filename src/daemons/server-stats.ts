@@ -32,8 +32,8 @@ export default function() {
 				used: usedmem
 			},
 			disk,
-			os_uptime: 0,
-			process_uptime: 0
+			os_uptime: -1,
+			process_uptime: -1
 		};
 		ev.emit('serverStats', stats);
 		log.unshift(stats);

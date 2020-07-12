@@ -14,8 +14,8 @@ export default Vue.extend({
 	props: ['connection'],
 	data() {
 		return {
-			process: 0,
-			os: 0
+			process: 'Unknown',
+			os: 'Unknown'
 		};
 	},
 	mounted() {
@@ -25,9 +25,9 @@ export default Vue.extend({
 		this.connection.off('stats', this.onStats);
 	},
 	methods: {
-		onStats(stats) {
-			this.process = formatUptime(stats.process_uptime);
-			this.os = formatUptime(stats.os_uptime);
+		onStats(stats: any) {
+			this.process = stats.process_uptime > 0 ? formatUptime(stats.process_uptime) : 'Unknown';
+			this.os = stats.process_uptime > 0 ? formatUptime(stats.os_uptime) : 'Unknown';
 		}
 	}
 });
