@@ -294,7 +294,7 @@ export default Vue.extend({
 		width 350px
 		height 100%
 		overflow auto
-		background var(--face)
+		background var(--secondary) 
 
 		&.left
 			left $width
