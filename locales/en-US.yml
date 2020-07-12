@@ -357,6 +357,7 @@ common:
     nav: "Navigation"
     tips: "Tips"
     hashtags: "Hashtags"
+    words: "Trend words"
     queue: "Queue"
   dev: "Failed to create the application. Please try again."
   ai-chan-kawaii: "Ai-chan kawaii!"
