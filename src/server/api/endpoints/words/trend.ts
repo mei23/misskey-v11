@@ -7,8 +7,8 @@ import define from '../../define';
 ユニーク投稿数とはそのハッシュタグと投稿ユーザーのペアのカウントで、例えば同じユーザーが複数回同じハッシュタグを投稿してもそのハッシュタグのユニーク投稿数は1とカウントされる
 */
 
-const rangeA = 1000 * 60 * 60;
-const rangeB = 1000 * 60 * 240;
+const rangeA = 1000 * 60 * 15;
+const rangeB = 1000 * 60 * 120;
 const coefficient = 1.25; // 「n倍」の部分
 const requiredUsers = 3; // 最低何人がそのタグを投稿している必要があるか
 
