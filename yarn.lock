@@ -513,10 +513,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/mocha@7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-7.0.2.tgz#b17f16cf933597e10d6d78eae3251e692ce8b0ce"
-  integrity sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==
+"@types/mocha@8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-8.0.0.tgz#b0ba1c5b4cb3880c51a6b488ad007a657d1be888"
+  integrity sha512-jWeYcTo3sCH/rMgsdYXDTO85GNRyTCII5dayMIu/ZO4zbEot1E3iNGaOwpLReLUHjeNQFkgeNNVYlY4dX6azQQ==
 
 "@types/mongodb@3.5.25":
   version "3.5.25"
@@ -539,10 +539,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.18.tgz#5111b2285659442f9f95697386a2b42b875bd7e9"
   integrity sha512-0Z3nS5acM0cIV4JPzrj9g/GH0Et5vmADWtip3YOXOp1NpOLU8V3KoZDc8ny9c1pe/YSYYzQkAWob6dyV/EWg4g==
 
-"@types/node@14.0.20":
-  version "14.0.20"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.20.tgz#0da05cddbc761e1fa98af88a17244c8c1ff37231"
-  integrity sha512-MRn/NP3dee8yL5QhbSA6riuwkS+UOcsPUMOIOG3KMUQpuor/2TopdRBu8QaaB4fGU+gz/bzyDWt0FtUbeJ8H1A==
+"@types/node@14.0.23":
+  version "14.0.23"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.23.tgz#676fa0883450ed9da0bb24156213636290892806"
+  integrity sha512-Z4U8yDAl5TFkmYsZdFPdjeMa57NOvnaf1tljHzhouaPEp7LCj2JKkejpI1ODviIAQuW4CcQmxkQ77rnLsOOoKw==
 
 "@types/node@^10.12.18":
   version "10.17.19"
@@ -612,10 +612,17 @@
   dependencies:
     "@types/redis" "*"
 
-"@types/redis@*", "@types/redis@2.8.24":
+"@types/redis@*":
   version "2.8.24"
   resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.24.tgz#164d1d1b9f628d089e63874b072100c30d9d1c1a"
   integrity sha512-I5LivNsNdEvBDJnBthjL4YAqD888eSf/k8kM5ROzgRHy7UE7n+ijwFVKqCSM4Ekujfb+3SDz/GbEhXWjnuI04w==
+  dependencies:
+    "@types/node" "*"
+
+"@types/redis@2.8.25":
+  version "2.8.25"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.25.tgz#046bfff24b82effa59d74744c6fcf8995be17479"
+  integrity sha512-e5N5Dg712aZ1CPi1Li0XalukPSWd2RTLYzmrMsQ84NkYQ7cqKHC+HroXM1WP65O1zRGfzld72/u9ikumEe+ylA==
   dependencies:
     "@types/node" "*"
 
