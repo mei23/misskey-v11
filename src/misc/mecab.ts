@@ -17,7 +17,11 @@ export async function getWordIndexer(note: Partial<Record<'text' | 'cw', string>
 	const source = `${note.text || ''} ${note.cw || ''}`;
 	const text = toWord(parseMfm(source)!);
 	const tokens = await me(text);
-	return unique(tokens.filter(token => token[2] === '固有名詞').map(token => token[0]));
+	const words = unique(tokens.filter(token => token[2] === '固有名詞').map(token => token[0]));
+
+	// is とか to が固有名詞扱いで入ってしまうので英字のみは飛ばしてしまう
+	const filtered = words.filter(x => !x.match(/^[A-Za-z]+$/));
+	return filtered;
 }
 
 async function me(text: string): Promise<string[][]> {
