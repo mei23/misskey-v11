@@ -166,7 +166,7 @@ export default Vue.extend({
 					'profile',
 					'calendar',
 					'hashtags',
-					'rss',
+					'words',
 					'version'
 				],
 				right: [
