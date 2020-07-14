@@ -7,7 +7,7 @@ import define from '../../define';
 ユニーク投稿数とはそのハッシュタグと投稿ユーザーのペアのカウントで、例えば同じユーザーが複数回同じハッシュタグを投稿してもそのハッシュタグのユニーク投稿数は1とカウントされる
 */
 
-const rangeA = 1000 * 60 * 15;
+const rangeA = 1000 * 60 * 30;
 const rangeB = 1000 * 60 * 120;
 const coefficient = 1.25; // 「n倍」の部分
 const requiredUsers = 3; // 最低何人がそのタグを投稿している必要があるか
@@ -30,16 +30,16 @@ export default define(meta, async () => {
 				$gt: new Date(Date.now() - rangeA)
 			},
 			visibility: 'public',
-			mecabWords: {
+			trendWords: {
 				$exists: true,
 				$ne: []
 			}
 		}
 	}, {
-		$unwind: '$mecabWords'
+		$unwind: '$trendWords'
 	}, {
 		$group: {
-			_id: { tag: '$mecabWords', userId: '$userId' }
+			_id: { tag: '$trendWords', userId: '$userId' }
 		}
 	}]) as {
 		_id: {
@@ -77,7 +77,7 @@ export default define(meta, async () => {
 	//#region 2. 1で取得したそれぞれのタグについて、「直近a分間のユニーク投稿数が今からa分前～今からb分前の間のユニーク投稿数のn倍以上」かどうかを判定する
 	const hotsPromises = limitedTags.map(async tag => {
 		const passedCount = (await Note.distinct('userId', {
-			mecabWords: tag.name,
+			trendWords: tag.name,
 			visibility: 'public',
 			createdAt: {
 				$lt: new Date(Date.now() - rangeA),
@@ -119,7 +119,7 @@ export default define(meta, async () => {
 
 	for (let i = 0; i < range; i++) {
 		countPromises.push(Promise.all(hots.map(tag => Note.distinct('userId', {
-			mecabWords: tag,
+			trendWords: tag,
 			visibility: 'public',
 			createdAt: {
 				$lt: new Date(Date.now() - (interval * i)),
@@ -131,7 +131,7 @@ export default define(meta, async () => {
 	const countsLog = await Promise.all(countPromises);
 
 	const totalCounts: any = await Promise.all(hots.map(tag => Note.distinct('userId', {
-		mecabWords: tag,
+		trendWords: tag,
 		visibility: 'public',
 		createdAt: {
 			$gt: new Date(Date.now() - (interval * range))

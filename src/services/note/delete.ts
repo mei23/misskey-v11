@@ -35,6 +35,7 @@ export default async function(user: IUser, note: INote, quiet = false) {
 			deletedAt: deletedAt,
 			text: null,
 			mecabWords: [],
+			trendWords: [],
 			tags: [],
 			fileIds: [],
 			renoteId: null,

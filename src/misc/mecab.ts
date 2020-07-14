@@ -116,4 +116,36 @@ export async function getIndexer(note: Partial<Record<'text' | 'cw', string>>): 
 	return xs.map(x => x.toLowerCase());
 }
 
+export async function getWordIndexer(note: Partial<Record<'text' | 'cw', string>>): Promise<string[]> {
+	const { text, cw } = note;
+
+	const containers: MeCabResult = {
+		filler: [],
+		interjection: [],
+		adjective: [],
+		adnominal: [],
+		verb: [],
+		adverb: [],
+		noun: [],
+	};
+
+	for (const source of [text, cw]) {
+		const result = await mecab(toText(parseMfm(source!)!)).catch((_: any) => containers);
+
+		for (const [key, container] of Object.entries(containers) as [keyof MeCabResult, MeCabResult[keyof MeCabResult]][]) {
+			for (const value of result[key]) {
+				if (!container.includes(value)) {
+					container.push(value);
+				}
+			}
+		}
+	}
+
+	const xs = [
+		...containers.noun,
+	];
+
+	return xs.map(x => x.toLowerCase());
+}
+
 export default mecab;

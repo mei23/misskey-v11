@@ -18,25 +18,8 @@ function visit(tree: MfmTree): string {
 			return [tree.node.props.lang, tree.node.props.code].filter(check).join(' ');
 		}
 
-		case 'mathBlock':
-		case 'mathInline': {
-			return tree.node.props.formula;
-		}
-
-		case 'mention': {
-			return tree.node.props.canonical;
-		}
-
 		case 'hashtag': {
 			return `#${tree.node.props.hashtag}`;
-		}
-
-		case 'url': {
-			return tree.node.props.url;
-		}
-
-		case 'emoji': {
-			return tree.node.props.emoji || `:${tree.node.props.name}:`;
 		}
 
 		case 'text': {

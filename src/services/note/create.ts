@@ -34,7 +34,7 @@ import extractHashtags from '../../misc/extract-hashtags';
 import { genId } from '../../misc/gen-id';
 import DeliverManager from '../../remote/activitypub/deliver-manager';
 import { deliverToRelays } from '../relay';
-import { getIndexer } from '../../misc/mecab';
+import { getIndexer, getWordIndexer } from '../../misc/mecab';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention' | 'highlight';
 
@@ -542,6 +542,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 
 function index(note: INote) {
 	if (config.mecabSearch) {
+		// for search
 		getIndexer(note).then(mecabWords => {
 			if (note.visibility === 'public' || note.visibility === 'home') {
 				console.log(`Index: ${note._id} ${JSON.stringify(mecabWords)}`);
@@ -550,6 +551,16 @@ function index(note: INote) {
 				$set: { mecabWords }
 			});
 		});
+
+		// for trend
+		if (note.visibility === 'public' || note.visibility === 'home') {
+			getWordIndexer(note).then(trendWords => {
+				console.log(`WordIndex: ${note._id} ${JSON.stringify(trendWords)}`);
+				Note.findOneAndUpdate({ _id: note._id }, {
+					$set: { trendWords }
+				});
+			});
+		}
 	}
 
 	if (!note.text || !config.elasticsearch) return;
