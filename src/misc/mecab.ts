@@ -3,20 +3,21 @@ import toText from '../mfm/toText';
 import toWord from '../mfm/toWord';
 import { promisify } from 'util';
 import config from '../config';
+import { unique } from '../prelude/array';
 const MeCab = require('mecab-async');
 
 export async function getIndexer(note: Partial<Record<'text' | 'cw', string>>): Promise<string[]> {
 	const source = `${note.text || ''} ${note.cw || ''}`;
 	const text = toText(parseMfm(source)!);
 	const tokens = await me(text);
-	return tokens.filter(token => ['フィラー', '感動詞', '形容詞', '連体詞', '動詞', '副詞', '名詞'].includes(token[1])).map(token => token[0]);
+	return unique(tokens.filter(token => ['フィラー', '感動詞', '形容詞', '連体詞', '動詞', '副詞', '名詞'].includes(token[1])).map(token => token[0]));
 }
 
 export async function getWordIndexer(note: Partial<Record<'text' | 'cw', string>>): Promise<string[]> {
 	const source = `${note.text || ''} ${note.cw || ''}`;
 	const text = toWord(parseMfm(source)!);
 	const tokens = await me(text);
-	return tokens.filter(token => token[2] === '固有名詞').map(token => token[0]);
+	return unique(tokens.filter(token => token[2] === '固有名詞').map(token => token[0]));
 }
 
 async function me(text: string): Promise<string[][]> {
