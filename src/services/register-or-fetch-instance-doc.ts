@@ -2,10 +2,10 @@ import Instance, { IInstance } from '../models/instance';
 import federationChart from '../services/chart/federation';
 import { toDbHost } from '../misc/convert-host';
 
-export async function registerOrFetchInstanceDoc(host: string): Promise<IInstance> {
+export async function registerOrFetchInstanceDoc(host: string): Promise<IInstance | null> {
 	if (host == null) return null;
 
-	host = toDbHost(host);
+	host = toDbHost(host)!;
 
 	const index = await Instance.findOne({ host });
 
