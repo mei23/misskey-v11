@@ -99,24 +99,25 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 export async function fetchInstanceinfo(host: string) {
 	const info = await fetchNodeinfo(host).catch(() => null);
 
-	if (!info) {
-		const mastodon = await fetchMastodonInstance(host);
-		return {
-			softwareName: 'mastodon',
-			softwareVersion: mastodon.version,
-		};
+	let name = info?.metadata?.nodeName || info?.metadata?.name || null;
+	let description = info?.metadata?.nodeDescription || info?.metadata?.description || null;
+	const maintainerName = info?.metadata?.maintainer?.name || null;
+	let maintainerEmail = info?.metadata?.maintainer?.email || null;
+
+	// fetch Mastodon API
+	if (!name) {
+		const mastodon = await fetchMastodonInstance(toApHost(host)!).catch(() => {});
+		if (mastodon) {
+			name = mastodon.title;
+			description = mastodon.description;
+			maintainerEmail = mastodon.email;
+		}
 	}
 
-	// additional metadatas
-	const name = info.metadata ? (info.metadata.nodeName || info.metadata.name || null) : null;
-	const description = info.metadata ? (info.metadata.nodeDescription || info.metadata.description || null) : null;
-	const maintainerName = info.metadata ? info.metadata.maintainer ? (info.metadata.maintainer.name || null) : null : null;
-	const maintainerEmail = info.metadata ? info.metadata.maintainer ? (info.metadata.maintainer.email || null) : null : null;
-
 	return {
-		softwareName: info.software.name,
-		softwareVersion: info.software.version,
-		openRegistrations: info.openRegistrations,
+		softwareName: info?.software?.name,
+		softwareVersion: info?.software?.version,
+		openRegistrations: info?.openRegistrations,
 		name,
 		description,
 		maintainerName,
