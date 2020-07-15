@@ -44,7 +44,7 @@
 				</ui-horizon-group>
 				<ui-horizon-group inputs>
 					<ui-input :value="instance.cc" type="text" readonly>
-						<template #prefix><mfm :text="ccToEmoji(instance.cc)" :plain="true" :nowrap="true"/></template>
+						<template #prefix><mfm :text="ccToEmoji(instance.cc)" :plain="true" :nowrap="true" :key="instance.cc"/></template>
 						<span>CC</span>
 					</ui-input>
 					<ui-input :value="instance.isp" type="text" readonly>
@@ -167,7 +167,7 @@
 				</header>
 				<div v-for="instance in instances" :key="instance.host" :style="{ opacity: instance.isNotResponding ? 0.5 : 1 }">
 					<a @click.prevent="showInstance(instance.host)" rel="nofollow noopener" target="_blank" :href="`https://${instance.host}`" :style="{ textDecoration: instance.isMarkedAsClosed ? 'line-through' : 'none' }">
-						<mfm :text="ccToEmoji(instance.cc)" :plain="true" :nowrap="true"/>
+						<mfm :text="ccToEmoji(instance.cc)" :plain="true" :nowrap="true" :key="instance.cc"/>
 						{{ `${instance.host} ${instance.name ? ` (${instance.name})` : ''}` }}
 					</a>
 					<span>{{ `${instance.softwareName || 'unknown'}` }} <small :style="{ opacity: 0.7 }">{{ `${instance.softwareVersion || ''}` }}</small></span>
