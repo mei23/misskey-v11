@@ -20,7 +20,7 @@ export async function getWordIndexer(note: Partial<Record<'text' | 'cw', string>
 	const words = unique(tokens.filter(token => token[2] === '固有名詞').map(token => token[0]));
 
 	// is とか to が固有名詞扱いで入ってしまうので英字のみは飛ばしてしまう
-	const filtered = words.filter(x => !x.match(/^[A-Za-z]+$/));
+	const filtered = words.filter(x => !x.match(/^[A-Za-z.,\s]+$/));
 	return filtered;
 }
 
