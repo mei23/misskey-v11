@@ -22,12 +22,12 @@ const summarize = (note: any): string => {
 
 	// ファイルが添付されているとき
 	if ((note.files || []).length != 0) {
-		summary += ` (${note.files.length}Files)`;
+		summary += ` (${note.files.length}つのファイル)`;
 	}
 
 	// 投票が添付されているとき
 	if (note.poll) {
-		summary += ' (Poll)';
+		summary += ' (投票)';
 	}
 
 	// 返信のとき
