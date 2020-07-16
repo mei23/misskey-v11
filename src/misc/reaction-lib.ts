@@ -92,7 +92,7 @@ export async function toDbReaction(reaction: string | undefined | null, enableEm
 	return REACTION_STAR;
 }
 
-export async function toDbReactionNoResolve(reaction: string ): Promise<string> {
+export async function toDbReactionNoResolve(reaction: string): Promise<string> {
 	// 既存の文字列リアクションはそのまま
 	if (Object.values(basic10).includes(reaction)) return reaction;
 
