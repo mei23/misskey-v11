@@ -187,6 +187,16 @@ export function createImportFollowingJob(user: ILocalUser, fileId: DriveFile['id
 	});
 }
 
+export function createImportBlockingJob(user: ILocalUser, fileId: DriveFile['id']) {
+	return dbQueue.add('importBlocking', {
+		user: user,
+		fileId: fileId
+	}, {
+		removeOnComplete: true,
+		removeOnFail: true
+	});
+}
+
 export function createImportUserListsJob(user: ILocalUser, fileId: DriveFile['id']) {
 	return dbQueue.add('importUserLists', {
 		user: user,

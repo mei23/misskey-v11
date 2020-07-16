@@ -6,6 +6,7 @@ import { exportMute } from './export-mute';
 import { exportBlocking } from './export-blocking';
 import { exportUserLists } from './export-user-lists';
 import { importFollowing } from './import-following';
+import { importBlocking } from './import-blocking';
 import { importUserLists } from './import-user-lists';
 
 const jobs = {
@@ -16,6 +17,7 @@ const jobs = {
 	exportBlocking,
 	exportUserLists,
 	importFollowing,
+	importBlocking,
 	importUserLists
 } as any;
 
