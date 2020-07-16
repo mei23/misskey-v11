@@ -4,7 +4,7 @@ import NoteReaction, { pack } from '../../../../models/note-reaction';
 import define from '../../define';
 import { getNote } from '../../common/getters';
 import { ApiError } from '../../error';
-import { toDbReaction } from '../../../../misc/reaction-lib';
+import { toDbReaction, toDbReactionNoResolve } from '../../../../misc/reaction-lib';
 
 export const meta = {
 	desc: {
@@ -93,7 +93,9 @@ export default define(meta, async (ps, user) => {
 	}
 
 	if (ps.type) {
-		query.reaction = await toDbReaction(ps.type);
+		const type = await toDbReactionNoResolve(ps.type);
+		//console.log(`${ps.type} => ${type}`);
+		query.reaction = type;
 	}
 
 	const reactions = await NoteReaction.find(query, {
