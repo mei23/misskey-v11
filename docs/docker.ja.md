@@ -7,7 +7,7 @@ Dockerを使ったMisskey構築方法
 
 *1.* Misskeyのダウンロード
 ----------------------------------------------------------------
-1. masterブランチからMisskeyレポジトリをクローン
+1. Misskeyレポジトリをクローン
 
 	`git clone -b mei-m544 https://github.com/mei23/misskey.git`
 

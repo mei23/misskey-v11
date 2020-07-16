@@ -98,7 +98,6 @@ router.get('/*/*', async ctx => {
 		id: doc,
 		html: conv.makeHtml(md),
 		title: md.match(/^# (.+?)\r?\n/)[1],
-		src: `https://github.com/syuilo/misskey/tree/master/src/docs/${doc}.${lang}.md`,
 		version: config.version
 	}, await genVars(lang)));
 
