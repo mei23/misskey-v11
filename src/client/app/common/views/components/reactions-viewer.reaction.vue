@@ -15,8 +15,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Icon from './reaction-icon.vue';
-import anime from 'animejs';
 import XDetails from './reactions-viewer.details.vue';
 
 export default Vue.extend({
@@ -40,11 +38,6 @@ export default Vue.extend({
 			detailsTimeoutId: null,
 			isHovering: false
 		};
-	},
-	watch: {
-		count() {
-			this.anime();
-		},
 	},
 	computed: {
 		canToggle(): boolean {
@@ -110,46 +103,6 @@ export default Vue.extend({
 				this.details.close();
 				this.details = null;
 			}
-		},
-		anime() {
-			if (this.$store.state.device.reduceMotion) return;
-			if (document.hidden) return;
-
-			this.$nextTick(() => {
-				if (!this.$refs.icon) return;
-
-				const rect = this.$refs.icon.$el.getBoundingClientRect();
-
-				const x = rect.left;
-				const y = rect.top;
-
-				const icon = new Icon({
-					parent: this,
-					propsData: {
-						reaction: this.reaction,
-						customEmojis: this.note.emojis
-					}
-				}).$mount();
-
-				icon.$el.style.position = 'absolute';
-				icon.$el.style.zIndex = 100;
-				icon.$el.style.top = (y + window.scrollY) + 'px';
-				icon.$el.style.left = (x + window.scrollX) + 'px';
-				icon.$el.style.fontSize = window.getComputedStyle(this.$refs.icon.$el).fontSize;
-
-				document.body.appendChild(icon.$el);
-
-				anime({
-					targets: icon.$el,
-					opacity: [1, 0],
-					translateY: [0, -64],
-					duration: 1000,
-					easing: 'linear',
-					complete: () => {
-						icon.destroyDom();
-					}
-				});
-			});
 		},
 	}
 });

@@ -4,6 +4,7 @@ import NoteReaction, { pack } from '../../../../models/note-reaction';
 import define from '../../define';
 import { getNote } from '../../common/getters';
 import { ApiError } from '../../error';
+import { toDbReaction } from '../../../../misc/reaction-lib';
 
 export const meta = {
 	desc: {
@@ -23,6 +24,10 @@ export const meta = {
 				'ja-JP': '対象の投稿のID',
 				'en-US': 'The ID of the target note'
 			}
+		},
+
+		type: {
+			validator: $.optional.nullable.str,
 		},
 
 		limit: {
@@ -85,6 +90,10 @@ export default define(meta, async (ps, user) => {
 		query._id = {
 			$lt: ps.untilId
 		};
+	}
+
+	if (ps.type) {
+		query.reaction = await toDbReaction(ps.type);
 	}
 
 	const reactions = await NoteReaction.find(query, {
