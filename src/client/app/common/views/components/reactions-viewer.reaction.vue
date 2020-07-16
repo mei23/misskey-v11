@@ -4,6 +4,9 @@
 	:class="{ reacted: note.myReaction == reaction, canToggle }"
 	@click="toggleReaction(reaction)"
 	v-if="count > 0"
+	@mouseover="onMouseover"
+	@mouseleave="onMouseleave"
+	ref="reaction"
 >
 	<mk-reaction-icon :reaction="reaction" :customEmojis="note.emojis" ref="icon"/>
 	<span>{{ count }}</span>
@@ -14,6 +17,7 @@
 import Vue from 'vue';
 import Icon from './reaction-icon.vue';
 import anime from 'animejs';
+import XDetails from './reactions-viewer.details.vue';
 
 export default Vue.extend({
 	props: {
@@ -29,6 +33,13 @@ export default Vue.extend({
 			type: Object,
 			required: true,
 		},
+	},
+	data() {
+		return {
+			details: null,
+			detailsTimeoutId: null,
+			isHovering: false
+		};
 	},
 	watch: {
 		count() {
@@ -63,6 +74,43 @@ export default Vue.extend({
 				});
 			}
 		},
+		onMouseover() {
+			this.isHovering = true;
+			this.detailsTimeoutId = setTimeout(this.openDetails, 300);
+		},
+		onMouseleave() {
+			this.isHovering = false;
+			clearTimeout(this.detailsTimeoutId);
+			this.closeDetails();
+		},
+		openDetails() {
+			if (this.$root.isMobile) return;
+			this.$root.api('notes/reactions', {
+				noteId: this.note.id,
+				type: this.reaction,
+				limit: 11
+			}).then((reactions: any[]) => {
+				const users = reactions
+					.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+					.map(x => x.user);
+
+				this.closeDetails();
+				if (!this.isHovering) return;
+				this.details = this.$root.new(XDetails, {
+					reaction: this.reaction,
+					customEmojis: this.note.emojis,
+					users,
+					count: this.count,
+					source: this.$refs.reaction
+				});
+			});
+		},
+		closeDetails() {
+			if (this.details != null) {
+				this.details.close();
+				this.details = null;
+			}
+		},
 		anime() {
 			if (this.$store.state.device.reduceMotion) return;
 			if (document.hidden) return;
@@ -87,6 +135,7 @@ export default Vue.extend({
 				icon.$el.style.zIndex = 100;
 				icon.$el.style.top = (y + window.scrollY) + 'px';
 				icon.$el.style.left = (x + window.scrollX) + 'px';
+				icon.$el.style.fontSize = window.getComputedStyle(this.$refs.icon.$el).fontSize;
 
 				document.body.appendChild(icon.$el);
 
