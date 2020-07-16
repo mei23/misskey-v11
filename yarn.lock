@@ -1548,10 +1548,10 @@ autwh@0.1.0:
   dependencies:
     oauth "0.9.15"
 
-aws-sdk@2.713.0:
-  version "2.713.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.713.0.tgz#e87404ddcba093d36afafb48f119ec66f654a83f"
-  integrity sha512-axR1eOVn134KXJc1IT+Au2TXcK6oswY+4nvGe5GfU3pXeehhe0xNeP9Bw9yF36TRBxuvu4IJ2hRHDKma05smgA==
+aws-sdk@2.714.0:
+  version "2.714.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.714.0.tgz#b248ecd68f0f8061dc95b6919ff64cc7ae1e8c97"
+  integrity sha512-5wtzueYdq8nj/7TgW64kfVUJC2lXSMb+0Iv3F4tBqzdZMAjbva82qnGGkWRFmy1jqq9Zll0tJsR1tnskkuK67g==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -8104,11 +8104,6 @@ randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   dependencies:
     safe-buffer "^5.1.0"
 
-randomcolor@0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/randomcolor/-/randomcolor-0.5.4.tgz#df615b13f25b89ea58c5f8f72647f0a6f07adcc3"
-  integrity sha512-nYd4nmTuuwMFzHL6W+UWR5fNERGZeVauho8mrJDUSXdNDbao4rbrUwhuLgKC/j8VCS5+34Ria8CsTDuBjrIrQA==
-
 randomfill@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/randomfill/-/randomfill-1.0.4.tgz#c92196fc86ab42be983f1bf31778224931d61458"
@@ -9493,10 +9488,15 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@*, systeminformation@4.26.9:
+systeminformation@*:
   version "4.26.9"
   resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.26.9.tgz#ecc725a162c0c7d8d48226f97637a5f590042ffd"
   integrity sha512-69MTIX9j//wnteJzQWuGL6FiMxlfS3wTWyhROI6pNUaQALYqJb3W9VtLVcEcKFOjO1vrGRgilJVFzJeRRi//Pg==
+
+systeminformation@4.26.10:
+  version "4.26.10"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.26.10.tgz#2244e7529ca9e7b8ecd6941e19fe7df7e3da9146"
+  integrity sha512-bO4FIzrjESAfh4KHwkUJym3jvKtJ4oJ2PG0BBQGBmKa0pF2oanpkB7CF4ZsSX7vfp3+GKaLzioVwpV/3Tyk+lQ==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
@@ -9822,10 +9822,10 @@ trace-redirect@1.0.6:
   resolved "https://registry.yarnpkg.com/trace-redirect/-/trace-redirect-1.0.6.tgz#ac629b5bf8247d30dde5a35fe9811b811075b504"
   integrity sha512-UUfa1DjjU5flcjMdaFIiIEGDTyu2y/IiMjOX4uGXa7meKBS4vD4f2Uy/tken9Qkd4Jsm4sRsfZcIIPqrRVF3Mg==
 
-ts-loader@8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-8.0.0.tgz#faf4b1617dcc4a24c2925d92c5b19e9c6621064d"
-  integrity sha512-giEW167rtK1V6eX/DnXEtOgcawwoIp6hqznqYNNSmraUZOq36zMhwBq12JMlYhxf50BC58bscsTSKKtE42zAuw==
+ts-loader@8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-8.0.1.tgz#9670dcbce2a8c8506d01a37fee042350d02c8c21"
+  integrity sha512-I9Nmly0ufJoZRMuAT9d5ijsC2B7oSPvUnOJt/GhgoATlPGYfa17VicDKPcqwUCrHpOkCxr/ybLYwbnS4cOxmvQ==
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"
