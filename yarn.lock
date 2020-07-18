@@ -49,38 +49,38 @@
     pump "^3.0.0"
     secure-json-parse "^2.1.0"
 
-"@fortawesome/fontawesome-common-types@^0.2.29":
-  version "0.2.29"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.29.tgz#e1a456b643237462d390304cab6975ff3fd68397"
-  integrity sha512-cY+QfDTbZ7XVxzx7jxbC98Oxr/zc7R2QpTLqTxqlfyXDrAJjzi/xUIqAUsygELB62JIrbsWxtSRhayKFkGI7MA==
+"@fortawesome/fontawesome-common-types@^0.2.30":
+  version "0.2.30"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.30.tgz#2f1cc5b46bd76723be41d0013a8450c9ba92b777"
+  integrity sha512-TsRwpTuKwFNiPhk1UfKgw7zNPeV5RhNp2Uw3pws+9gDAkPGKrtjR1y2lI3SYn7+YzyfuNknflpBA1LRKjt7hMg==
 
-"@fortawesome/fontawesome-svg-core@1.2.29":
-  version "1.2.29"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.29.tgz#34ef32824664534f9e4ef37982ebf286b899a189"
-  integrity sha512-xmPmP2t8qrdo8RyKihTkGb09RnZoc+7HFBCnr0/6ZhStdGDSLeEd7ajV181+2W29NWIFfylO13rU+s3fpy3cnA==
+"@fortawesome/fontawesome-svg-core@1.2.30":
+  version "1.2.30"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.30.tgz#f56dc6791861fe5d1af04fb8abddb94658c576db"
+  integrity sha512-E3sAXATKCSVnT17HYmZjjbcmwihrNOCkoU7dVMlasrcwiJAHxSKeZ+4WN5O+ElgO/FaYgJmASl8p9N7/B/RttA==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.29"
+    "@fortawesome/fontawesome-common-types" "^0.2.30"
 
-"@fortawesome/free-brands-svg-icons@5.13.1":
-  version "5.13.1"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-brands-svg-icons/-/free-brands-svg-icons-5.13.1.tgz#fef07a4b957dc1708f2191a94cdfcd6901c35383"
-  integrity sha512-dKwF+NpIV2LVCNBA7hibH53k+ChF4Wu59P2z35gu3zwRBZpmpLVhS9k1/RiSqUqkyXUQvA2rSv48GY6wp5axZQ==
+"@fortawesome/free-brands-svg-icons@5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-brands-svg-icons/-/free-brands-svg-icons-5.14.0.tgz#98555518ba41bdff82fbae2f4d1bc36cd3b1c043"
+  integrity sha512-WsqPFTvJFI7MYkcy0jeFE2zY+blC4OrnB9MJOcn1NxRXT/sSfEEhrI7CwzIkiYajLiVDBKWeErYOvpsMeodmCQ==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.29"
+    "@fortawesome/fontawesome-common-types" "^0.2.30"
 
-"@fortawesome/free-regular-svg-icons@5.13.1":
-  version "5.13.1"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-regular-svg-icons/-/free-regular-svg-icons-5.13.1.tgz#02ac0c2fd52948d2139eca3ca42b267f17e3d725"
-  integrity sha512-sSeaqqmv2ovA5LKcrbh3VnEDZHVhaxijWKm4R0AdT0eG21pgxNsJbStD8lW9z6bgSuWXRNHhbhOmARuRCLS8tw==
+"@fortawesome/free-regular-svg-icons@5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-regular-svg-icons/-/free-regular-svg-icons-5.14.0.tgz#ca513ac7699625af42938744297ac483361da043"
+  integrity sha512-6LCFvjGSMPoUQbn3NVlgiG4CY5iIY8fOm+to/D6QS/GvdqhDt+xZklQeERdCvVRbnFa1ITc1rJHPRXqkX5wztQ==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.29"
+    "@fortawesome/fontawesome-common-types" "^0.2.30"
 
-"@fortawesome/free-solid-svg-icons@5.13.1":
-  version "5.13.1"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.13.1.tgz#010a846b718a0f110b3cd137d072639b4e8bd41a"
-  integrity sha512-LQH/0L1p4+rqtoSHa9qFYR84hpuRZKqaQ41cfBQx8b68p21zoWSekTAeA54I/2x9VlCHDLFlG74Nmdg4iTPQOg==
+"@fortawesome/free-solid-svg-icons@5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.14.0.tgz#970453f5e8c4915ad57856c3a0252ac63f6fec18"
+  integrity sha512-M933RDM8cecaKMWDSk3FRYdnzWGW7kBBlGNGfvqLVwcwhUPNj9gcw+xZMrqBdRqxnSXdl3zWzTCNNGEtFUq67Q==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.29"
+    "@fortawesome/fontawesome-common-types" "^0.2.30"
 
 "@fortawesome/vue-fontawesome@0.1.10":
   version "0.1.10"
@@ -324,10 +324,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/gulp-mocha@0.0.32":
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/@types/gulp-mocha/-/gulp-mocha-0.0.32.tgz#dbc425e804a8354236c31ab23406222a8ab9bdaf"
-  integrity sha512-30OJubm6wl7oVFR7ibaaTl0h52sRQDJwB0h7SXm8KbPG7TN3Bb8QqNI7ObfGFjCoBCk9tr55R4278ckLMFzNcw==
+"@types/gulp-mocha@0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@types/gulp-mocha/-/gulp-mocha-0.0.33.tgz#15cce17cc15f7ea30706bc21bd172d38e9409a8f"
+  integrity sha512-NPObaXGsFZxG1wOA76XFS2g17EL6PjMLyZg0HGWBjdNlrXzWTiiUTJBj1zj2OKXOm7OOCHFEcjHxKSGnc3JjRg==
   dependencies:
     "@types/mocha" "*"
     "@types/node" "*"
@@ -516,10 +516,15 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/mocha@*", "@types/mocha@7.0.2":
+"@types/mocha@*":
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-7.0.2.tgz#b17f16cf933597e10d6d78eae3251e692ce8b0ce"
   integrity sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==
+
+"@types/mocha@8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-8.0.0.tgz#b0ba1c5b4cb3880c51a6b488ad007a657d1be888"
+  integrity sha512-jWeYcTo3sCH/rMgsdYXDTO85GNRyTCII5dayMIu/ZO4zbEot1E3iNGaOwpLReLUHjeNQFkgeNNVYlY4dX6azQQ==
 
 "@types/node-fetch@2.5.7":
   version "2.5.7"
@@ -534,10 +539,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.1.tgz#5d93e0a099cd0acd5ef3d5bde3c086e1f49ff68c"
   integrity sha512-FAYBGwC+W6F9+huFIDtn43cpy7+SzG+atzRiTfdp3inUKL2hXnd4rG8hylJLIh4+hqrQy1P17kvJByE/z825hA==
 
-"@types/node@14.0.19":
-  version "14.0.19"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.19.tgz#994d99708822bca643a2364f8aeed04a16e0f5a1"
-  integrity sha512-yf3BP/NIXF37BjrK5klu//asUWitOEoUP5xE1mhSUjazotwJ/eJDgEmMQNlOeWOVv72j24QQ+3bqXHE++CFGag==
+"@types/node@14.0.23":
+  version "14.0.23"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.23.tgz#676fa0883450ed9da0bb24156213636290892806"
+  integrity sha512-Z4U8yDAl5TFkmYsZdFPdjeMa57NOvnaf1tljHzhouaPEp7LCj2JKkejpI1ODviIAQuW4CcQmxkQ77rnLsOOoKw==
 
 "@types/nodemailer@6.4.0":
   version "6.4.0"
@@ -624,10 +629,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/redis@2.8.24":
-  version "2.8.24"
-  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.24.tgz#164d1d1b9f628d089e63874b072100c30d9d1c1a"
-  integrity sha512-I5LivNsNdEvBDJnBthjL4YAqD888eSf/k8kM5ROzgRHy7UE7n+ijwFVKqCSM4Ekujfb+3SDz/GbEhXWjnuI04w==
+"@types/redis@2.8.25":
+  version "2.8.25"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.25.tgz#046bfff24b82effa59d74744c6fcf8995be17479"
+  integrity sha512-e5N5Dg712aZ1CPi1Li0XalukPSWd2RTLYzmrMsQ84NkYQ7cqKHC+HroXM1WP65O1zRGfzld72/u9ikumEe+ylA==
   dependencies:
     "@types/node" "*"
 
@@ -834,10 +839,10 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
-"@types/websocket@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/websocket/-/websocket-1.0.0.tgz#828c794b0a50949ad061aa311af1009934197e4b"
-  integrity sha512-MLr8hDM8y7vvdAdnoDEP5LotRoYJj7wgT6mWzCUQH/gHqzS4qcnOT/K4dhC0WimWIUiA3Arj9QAJGGKNRiRZKA==
+"@types/websocket@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/websocket/-/websocket-1.0.1.tgz#039272c196c2c0e4868a0d8a1a27bbb86e9e9138"
+  integrity sha512-f5WLMpezwVxCLm1xQe/kdPpQIOmL0TXYx2O15VYfYzc7hTIdxiOoOvez+McSIw3b7z/1zGovew9YSL7+h4h7/Q==
   dependencies:
     "@types/node" "*"
 
@@ -1609,10 +1614,10 @@ autwh@0.1.0:
   dependencies:
     oauth "0.9.15"
 
-aws-sdk@2.709.0:
-  version "2.709.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.709.0.tgz#33b0c0fe8b9420c65610545394be047ac2d93c8f"
-  integrity sha512-F3sKXsCiutj9RglVXdqb/XJ3Ko3G+pX081Nf1YjVJpLydwE2v16FGxrLqE5pqyWMDeUf5nZHnBoMuOYD8ip+Kw==
+aws-sdk@2.714.2:
+  version "2.714.2"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.714.2.tgz#4ce016cd79b19b74b23e9ede227724330bf41dfe"
+  integrity sha512-R79E/790Wr7GzPQtkUIUlh7H1GGMvgCSdQ/9c79QTVKEKTkVAbcYE678pwP7nzRk5PTzU/ECvbH2p9hWXNa4UA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -5905,7 +5910,16 @@ koa-mount@4.0.0:
     debug "^4.0.1"
     koa-compose "^4.1.0"
 
-koa-send@5.0.0, koa-send@^5.0.0:
+koa-send@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/koa-send/-/koa-send-5.0.1.tgz#39dceebfafb395d0d60beaffba3a70b4f543fe79"
+  integrity sha512-tmcyQ/wXXuxpDxyNXv5yNNkdAMdFRqwtegBXUaowiQzUKqJehttS0x2j0eOZDQAyloAth5w6wwBImnFzkUz3pQ==
+  dependencies:
+    debug "^4.1.1"
+    http-errors "^1.7.3"
+    resolve-path "^1.4.0"
+
+koa-send@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/koa-send/-/koa-send-5.0.0.tgz#5e8441e07ef55737734d7ced25b842e50646e7eb"
   integrity sha512-90ZotV7t0p3uN9sRwW2D484rAaKIsD8tAVtypw/aBU+ryfV+fR2xrcAwhI8Wl6WRkojLUs/cB9SBSCuIb+IanQ==
