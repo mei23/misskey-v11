@@ -116,7 +116,8 @@ export class UserRepository extends Repository<User> {
 			username: user.username,
 			host: user.host,
 			avatarUrl: user.avatarUrl ? user.avatarUrl : config.url + '/avatar/' + user.id,
-			avatarColor: user.avatarColor,
+			avatarBlurhash: user.avatarBlurhash,
+			avatarColor: null, // 後方互換性のため
 			isAdmin: user.isAdmin || falsy,
 			isBot: user.isBot || falsy,
 			isCat: user.isCat || falsy,
@@ -146,7 +147,8 @@ export class UserRepository extends Repository<User> {
 				createdAt: user.createdAt.toISOString(),
 				updatedAt: user.updatedAt ? user.updatedAt.toISOString() : null,
 				bannerUrl: user.bannerUrl,
-				bannerColor: user.bannerColor,
+				bannerBlurhash: user.bannerBlurhash,
+				bannerColor: null, // 後方互換性のため
 				isLocked: user.isLocked,
 				isModerator: user.isModerator || falsy,
 				isSilenced: user.isSilenced || falsy,
@@ -298,7 +300,7 @@ export const packedUserSchema = {
 			format: 'url',
 			nullable: true as const, optional: false as const,
 		},
-		avatarColor: {
+		avatarBlurhash: {
 			type: 'any' as const,
 			nullable: true as const, optional: false as const,
 		},
@@ -307,7 +309,7 @@ export const packedUserSchema = {
 			format: 'url',
 			nullable: true as const, optional: true as const,
 		},
-		bannerColor: {
+		bannerBlurhash: {
 			type: 'any' as const,
 			nullable: true as const, optional: true as const,
 		},
