@@ -205,10 +205,10 @@
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.2.tgz#f65d3d6389e01eeb458bd54dc8f52b95a9463bc8"
   integrity sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==
 
-"@types/cbor@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@types/cbor/-/cbor-5.0.0.tgz#b48dcc5f75191399ed6ea7cef862ef38a0945fa0"
-  integrity sha512-9HFbkKNnQUn8bseuoggKdgynqAuM31Bf5IPMlPFh7SOKApjMFG1M+yoIrVbXOo/ohzovKkFW14zsDGlnuBofqA==
+"@types/cbor@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/cbor/-/cbor-5.0.1.tgz#e147bbe09ada4db7000ec6c23eafb5f67f5422a5"
+  integrity sha512-zVqJy2KzusZPLOgyGJDnOIbu3DxIGGqxYbEwtEEe4Z+la8jwIhOyb+GMrlHafs5tvKruwf8f8qOYP6zTvse/pw==
   dependencies:
     "@types/node" "*"
 
@@ -534,12 +534,7 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*":
-  version "14.0.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.1.tgz#5d93e0a099cd0acd5ef3d5bde3c086e1f49ff68c"
-  integrity sha512-FAYBGwC+W6F9+huFIDtn43cpy7+SzG+atzRiTfdp3inUKL2hXnd4rG8hylJLIh4+hqrQy1P17kvJByE/z825hA==
-
-"@types/node@14.0.24":
+"@types/node@*", "@types/node@14.0.24":
   version "14.0.24"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.24.tgz#b0f86f58564fa02a28b68f8b55d4cdec42e3b9d6"
   integrity sha512-btt/oNOiDWcSuI721MdL8VQGnjsKjlTMdrKyTcLCKeQp/n4AAMFJ961wMbp+09y8WuGPClDEv07RIItdXKIXAA==
