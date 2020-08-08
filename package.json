@@ -109,7 +109,7 @@
 		"bootstrap-vue": "2.16.0",
 		"bull": "3.16.0",
 		"cafy": "15.2.1",
-		"cbor": "5.0.2",
+		"cbor": "5.1.0",
 		"chai": "4.2.0",
 		"chalk": "4.1.0",
 		"cli-highlight": "2.1.4",
