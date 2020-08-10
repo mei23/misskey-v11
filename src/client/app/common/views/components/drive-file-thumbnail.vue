@@ -104,6 +104,7 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 .zdjebgpv
+	display flex
 	position relative
 
 	> .icon-sub
