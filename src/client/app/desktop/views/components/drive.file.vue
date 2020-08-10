@@ -311,6 +311,7 @@ export default Vue.extend({
 		width 128px
 		height 128px
 		margin auto
+		color var(--driveFileIcon)
 
 	> .name
 		display block
