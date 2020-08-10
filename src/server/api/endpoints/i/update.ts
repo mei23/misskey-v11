@@ -206,8 +206,8 @@ export default define(meta, async (ps, user, app) => {
 
 		updates.avatarUrl = DriveFiles.getPublicUrl(avatar, true);
 
-		if (avatar.properties.avgColor) {
-			updates.avatarColor = avatar.properties.avgColor;
+		if (avatar.blurhash) {
+			updates.avatarBlurhash = avatar.blurhash;
 		}
 	}
 
@@ -219,8 +219,8 @@ export default define(meta, async (ps, user, app) => {
 
 		updates.bannerUrl = DriveFiles.getPublicUrl(banner, false);
 
-		if (banner.properties.avgColor) {
-			updates.bannerColor = banner.properties.avgColor;
+		if (banner.blurhash) {
+			updates.bannerBlurhash = banner.blurhash;
 		}
 	}
 

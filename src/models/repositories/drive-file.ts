@@ -123,6 +123,7 @@ export class DriveFileRepository extends Repository<DriveFile> {
 			md5: file.md5,
 			size: file.size,
 			isSensitive: file.isSensitive,
+			blurhash: file.blurhash,
 			properties: file.properties,
 			url: opts.self ? file.url : this.getPublicUrl(file, false, meta),
 			thumbnailUrl: this.getPublicUrl(file, true, meta),
@@ -202,6 +203,12 @@ export const packedDriveFileSchema = {
 			type: 'boolean' as const,
 			optional: false as const, nullable: false as const,
 			description: 'Whether this Drive file is sensitive.',
+		},
+		blurhash: {
+			type: 'string' as const,
+			optional: false as const, nullable: true as const,
+			description: 'The blurhash of image.',
+			example: 'yMEKyd1U1?=nZN-2EwofR*oHnijYX6S50J=m]WEVl9JE$SR*xHR;XSX8nQxB-WS6Nts*aKskWnaxR%s*i_n~X6S5=#NgOAs*enoIWU',
 		},
 	},
 };

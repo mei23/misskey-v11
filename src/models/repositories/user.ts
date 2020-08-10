@@ -128,6 +128,7 @@ export class UserRepository extends Repository<User> {
 			username: user.username,
 			host: user.host,
 			avatarUrl: user.avatar ? DriveFiles.getPublicUrl(user.avatar, true) : config.url + '/avatar/' + user.id,
+			avatarBlurhash: user.avatarBlurhash,
 			avatarColor: user.avatar?.properties?.avgColor || null,
 			isAdmin: user.isAdmin || falsy,
 			isBot: user.isBot || falsy,
@@ -152,6 +153,7 @@ export class UserRepository extends Repository<User> {
 				createdAt: user.createdAt.toISOString(),
 				updatedAt: user.updatedAt ? user.updatedAt.toISOString() : null,
 				bannerUrl: user.banner ? DriveFiles.getPublicUrl(user.banner, false) : null,
+				bannerBlurhash: user.bannerBlurhash,
 				bannerColor: user.banner?.properties?.avgColor || null,
 				isLocked: user.isLocked,
 				isModerator: user.isModerator || falsy,
@@ -304,7 +306,7 @@ export const packedUserSchema = {
 			format: 'url',
 			nullable: true as const, optional: false as const,
 		},
-		avatarColor: {
+		avatarBlurhash: {
 			type: 'any' as const,
 			nullable: true as const, optional: false as const,
 		},
@@ -313,7 +315,7 @@ export const packedUserSchema = {
 			format: 'url',
 			nullable: true as const, optional: true as const,
 		},
-		bannerColor: {
+		bannerBlurhash: {
 			type: 'any' as const,
 			nullable: true as const, optional: true as const,
 		},
