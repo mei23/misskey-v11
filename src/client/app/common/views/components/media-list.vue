@@ -70,7 +70,7 @@ export default Vue.extend({
 
 			> *
 				overflow hidden
-				border-radius 4px
+				border-radius 6px
 
 			&[data-count="1"]
 				grid-template-rows 1fr

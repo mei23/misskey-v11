@@ -1,15 +1,9 @@
 <template>
-	<span class="mk-avatar" :style="style" :class="{ cat }" :title="user | acct" v-if="disableLink && !disablePreview" v-user-preview="user.id" @click="onClick" v-once>
-		<span class="inner" :style="icon"></span>
+	<span class="mk-avatar" :style="style" :class="{ cat }" :title="user | acct" v-if="disableLink" v-user-preview="disablePreview ? undefined : user.id" @click="onClick" v-once>
+		<img class="inner" :style="style" :src="url"/>
 	</span>
-	<span class="mk-avatar" :style="style" :class="{ cat }" :title="user | acct" v-else-if="disableLink && disablePreview" @click="onClick" v-once>
-		<span class="inner" :style="icon"></span>
-	</span>
-	<router-link class="mk-avatar" :style="style" :class="{ cat }" :to="user | userPage" :title="user | acct" :target="target" v-else-if="!disableLink && !disablePreview" v-user-preview="user.id" v-once>
-		<span class="inner" :style="icon"></span>
-	</router-link>
-	<router-link class="mk-avatar" :style="style" :class="{ cat }" :to="user | userPage" :title="user | acct" :target="target" v-else-if="!disableLink && disablePreview" v-once>
-		<span class="inner" :style="icon"></span>
+	<router-link class="mk-avatar" :style="style" :class="{ cat }" :to="user | userPage" :title="user | acct" :target="target" v-else v-user-preview="disablePreview ? undefined : user.id">
+		<img class="inner" :style="style" :src="url"/>
 	</router-link>
 </template>
 
@@ -52,21 +46,26 @@ export default Vue.extend({
 			return this.$store.state.device.disableShowingAnimatedImages
 				? getStaticImageUrl(this.user.avatarUrl)
 				: this.user.avatarUrl;
-		},
-		icon(): any {
-			return {
-				backgroundColor: this.user.avatarColor,
-				backgroundImage: this.lightmode ? null : `url(${this.url})`,
-				borderRadius: this.$store.state.settings.circleIcons ? '100%' : null
-			};
+		}
+	},
+	watch: {
+		'user.avatarBlurhash'() {
+			this.$el.style.color = this.getBlurhashAvgColor(this.user.avatarBlurhash);
 		}
 	},
 	mounted() {
-		if (this.user.avatarColor) {
-			this.$el.style.color = this.user.avatarColor;
-		}
+		this.$el.style.color = this.getBlurhashAvgColor(this.user.avatarBlurhash);
 	},
 	methods: {
+		getBlurhashAvgColor(s) {
+			return typeof s == 'string'
+				? '#' + [...s.slice(2, 6)]
+						.map(x => '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%*+,-.:;=?@[]^_{|}~'.indexOf(x))
+						.reduce((a, c) => a * 83 + c, 0)
+						.toString(16)
+						.padStart(6, '0')
+				: undefined;
+		},
 		onClick(e) {
 			this.$emit('click', e);
 		}
@@ -103,8 +102,6 @@ export default Vue.extend({
 		transform rotate(-37.5deg) skew(-30deg)
 
 	.inner
-		background-position center center
-		background-size cover
 		bottom 0
 		left 0
 		position absolute
@@ -112,5 +109,8 @@ export default Vue.extend({
 		top 0
 		transition border-radius 1s ease
 		z-index 1
-
+		overflow hidden
+		object-fit cover
+		width 100%
+		height 100%
 </style>

@@ -83,12 +83,6 @@ export default Vue.extend({
 			return this.file.type.split('/')[0];
 		},
 
-		style(): any {
-			return this.file.properties.avgColor ? {
-				'background-color': this.file.properties.avgColor
-			} : {};
-		},
-
 		dlUrl(): string {
 			return this.file.url;
 		}
