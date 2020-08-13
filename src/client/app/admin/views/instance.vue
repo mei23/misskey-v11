@@ -78,6 +78,7 @@
 				</ui-horizon-group>
 				<ui-switch v-model="objectStorageUseSSL" :disabled="!useObjectStorage">{{ $t('object-storage-use-ssl') }}</ui-switch>
 				<ui-switch v-model="objectStorageUseProxy" :disabled="!useObjectStorage">{{ $t('objectStorageUseProxy') }}</ui-switch>
+				<ui-switch v-model="objectStorageSetPublicRead" :disabled="!useObjectStorage">{{ $t('objectStorageSetPublicRead') }}</ui-switch>
 			</template>
 		</section>
 		<section>
@@ -319,6 +320,7 @@ export default Vue.extend({
 			objectStorageSecretKey: null,
 			objectStorageUseSSL: false,
 			objectStorageUseProxy: true,
+			objectStorageSetPublicRead: true,
 			faHeadset, faShieldAlt, faGhost, faUserPlus, farEnvelope, faBolt, faThumbtack, faPencilAlt, faSave, faHashtag
 		};
 	},
@@ -385,6 +387,7 @@ export default Vue.extend({
 			this.objectStorageSecretKey = meta.objectStorageSecretKey;
 			this.objectStorageUseSSL = meta.objectStorageUseSSL;
 			this.objectStorageUseProxy = meta.objectStorageUseProxy;
+			this.objectStorageSetPublicRead = meta.objectStorageSetPublicRead;
 		});
 	},
 
@@ -510,6 +513,7 @@ export default Vue.extend({
 				objectStorageSecretKey: this.objectStorageSecretKey ? this.objectStorageSecretKey : null,
 				objectStorageUseSSL: this.objectStorageUseSSL,
 				objectStorageUseProxy: this.objectStorageUseProxy,
+				objectStorageSetPublicRead: this.objectStorageSetPublicRead,
 			}).then(() => {
 				this.$root.dialog({
 					type: 'success',
