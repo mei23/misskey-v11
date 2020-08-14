@@ -2,7 +2,7 @@
 :v: Thanks for your contributions :v:
 
 ## Issues
-Feature suggestions and bug reports are filed in https://github.com/syuilo/misskey/issues .
+Feature suggestions and bug reports are filed in https://github.com/mayaeh/misskey-v11/issues .
 
 * Please search existing issues to avoid duplication. If your issue is already filed, please add your reaction or comment to the existing one.
 * If you have multiple independent issues, please submit them separately.
