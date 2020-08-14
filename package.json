@@ -5,7 +5,7 @@
 	"codename": "daybreak",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/mei23/misskey-v11.git"
+		"url": "https://github.com/mayaeh/misskey-v11.git"
 	},
 	"main": "./index.js",
 	"private": true,

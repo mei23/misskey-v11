@@ -24,8 +24,8 @@ export default Vue.extend({
 	data() {
 		return {
 			aboutUrl: `/docs/${lang}/about`,
-			repositoryUrl: 'https://github.com/syuilo/misskey',
-			feedbackUrl: 'https://github.com/syuilo/misskey/issues/new',
+			repositoryUrl: 'https://github.com/mayaeh/misskey-v11',
+			feedbackUrl: 'https://github.com/mayaeh/misskey-v11/issues/new',
 			ToSUrl: null
 		}
 	},
