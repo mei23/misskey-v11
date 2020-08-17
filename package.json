@@ -39,7 +39,7 @@
 		"@koa/multer": "3.0.0",
 		"@koa/router": "8.0.8",
 		"@types/bcryptjs": "2.4.2",
-		"@types/bull": "3.14.0",
+		"@types/bull": "3.14.1",
 		"@types/cbor": "5.0.1",
 		"@types/dateformat": "3.0.1",
 		"@types/double-ended-queue": "2.1.1",
