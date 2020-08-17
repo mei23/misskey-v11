@@ -26,7 +26,7 @@
 		"format": "gulp format"
 	},
 	"resolutions": {
-		"lodash": "^4.17.19"
+		"lodash": "^4.17.20"
 	},
 	"dependencies": {
 		"@elastic/elasticsearch": "7.8.0",
