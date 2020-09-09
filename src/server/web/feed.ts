@@ -52,7 +52,7 @@ export default async function(user: User) {
 			link: `${config.url}/notes/${note.id}`,
 			date: note.createdAt,
 			description: note.cw || undefined,
-			content: `${note.text || undefined}${imgEle}`
+			content: `${note.text || ""}${imgEle}`,
 			image: file ? DriveFiles.getPublicUrl(file) || undefined : undefined
 		});
 	}
