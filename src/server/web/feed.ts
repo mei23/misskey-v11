@@ -21,7 +21,7 @@ export default async function(user: User) {
 			visibility: In(['public', 'home'])
 		},
 		order: { createdAt: -1 },
-		take: 20
+		take: 1000
 	});
 
 	const feed = new Feed({
