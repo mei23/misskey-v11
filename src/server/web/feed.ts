@@ -45,13 +45,14 @@ export default async function(user: User) {
 			id: In(note.fileIds)
 		}) : [];
 		const file = files.find(file => file.type.startsWith('image/'));
+		const imgEle = file ? ` <br><img src="${DriveFiles.getPublicUrl(file)}">` : "";
 
 		feed.addItem({
 			title: `${author.name}: ${(note.text ? note.text : "empty").substring(0,50)}`,
 			link: `${config.url}/notes/${note.id}`,
 			date: note.createdAt,
 			description: note.cw || undefined,
-			content: note.text || undefined,
+			content: `${note.text || undefined}${imgEle}`
 			image: file ? DriveFiles.getPublicUrl(file) || undefined : undefined
 		});
 	}
