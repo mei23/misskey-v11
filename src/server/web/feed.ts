@@ -47,7 +47,7 @@ export default async function(user: User) {
 		const file = files.find(file => file.type.startsWith('image/'));
 
 		feed.addItem({
-			title: `New note by ${author.name}`,
+			title: `${author.name}: ${(note.text ? note.text : "empty").substring(0,50)}`,
 			link: `${config.url}/notes/${note.id}`,
 			date: note.createdAt,
 			description: note.cw || undefined,
