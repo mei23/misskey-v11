@@ -69,7 +69,7 @@ export async function renderPerson(user: ILocalUser) {
 		attachment.push({
 			type: 'PropertyValue',
 			name: 'Discord',
-			value: `<a href="https://discordapp.com/users/${profile.discordId}" rel="me nofollow noopener" target="_blank"><span>${profile.discordUsername}#${profile.discordDiscriminator}</span></a>`,
+			value: `<a href="https://discord.com/users/${profile.discordId}" rel="me nofollow noopener" target="_blank"><span>${profile.discordUsername}#${profile.discordDiscriminator}</span></a>`,
 			identifier: {
 				type: 'PropertyValue',
 				name: 'misskey:authentication:discord',

@@ -74,7 +74,7 @@ async function getOAuth2() {
 		return new OAuth2(
 			meta.discordClientId!,
 			meta.discordClientSecret!,
-			'https://discordapp.com/',
+			'https://discord.com/',
 			'api/oauth2/authorize',
 			'api/oauth2/token');
 	} else {
@@ -184,7 +184,7 @@ router.get('/dc/cb', async ctx => {
 
 		const { id, username, discriminator } = await new Promise<any>((res, rej) =>
 			request({
-				url: 'https://discordapp.com/api/users/@me',
+				url: 'https://discord.com/api/users/@me',
 				headers: {
 					'Authorization': `Bearer ${accessToken}`,
 					'User-Agent': config.userAgent
@@ -261,7 +261,7 @@ router.get('/dc/cb', async ctx => {
 
 		const { id, username, discriminator } = await new Promise<any>((res, rej) =>
 			request({
-				url: 'https://discordapp.com/api/users/@me',
+				url: 'https://discord.com/api/users/@me',
 				headers: {
 					'Authorization': `Bearer ${accessToken}`,
 					'User-Agent': config.userAgent
