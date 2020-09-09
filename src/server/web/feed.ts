@@ -8,6 +8,7 @@ import { ensure } from '../../prelude/ensure';
 export default async function(user: User) {
 	const author = {
 		link: `${config.url}/@${user.username}`,
+		email: `${user.username}@${config.host}`,
 		name: user.name || user.username
 	};
 
