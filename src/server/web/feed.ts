@@ -44,7 +44,6 @@ export default async function(user: User) {
 		const files = note.fileIds.length > 0 ? await DriveFiles.find({
 			id: In(note.fileIds)
 		}) : [];
-		const aFile = files.find(file => file.type.startsWith('image/'));
 		var fileEle = ""
 		files.forEach(function(file){
 			if(file.type.startsWith('image/')){
@@ -63,8 +62,7 @@ export default async function(user: User) {
 			link: `${config.url}/notes/${note.id}`,
 			date: note.createdAt,
 			description: note.cw || undefined,
-			content: `${note.text || ""}${fileEle}`,
-			image: aFile ? DriveFiles.getPublicUrl(aFile) || undefined : undefined
+			content: `${note.text || ""}${fileEle}`
 		});
 	}
 
