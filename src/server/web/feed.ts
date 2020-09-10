@@ -44,16 +44,27 @@ export default async function(user: User) {
 		const files = note.fileIds.length > 0 ? await DriveFiles.find({
 			id: In(note.fileIds)
 		}) : [];
-		const file = files.find(file => file.type.startsWith('image/'));
-		const imgEle = file ? ` <br><img src="${DriveFiles.getPublicUrl(file)}">` : "";
+		const aFile = files.find(file => file.type.startsWith('image/'));
+		var fileEle = ""
+		files.forEach(function(file){
+			if(file.type.startsWith('image/')){
+				fileEle += ` <br><img src="${DriveFiles.getPublicUrl(file)}">`;
+			}else if(file.type.startsWith('audio/')){
+				fileEle += ` <br><audio controls src="${DriveFiles.getPublicUrl(file)}" type="${file.type}">`;
+			}else if(file.type.startsWith('video/')){
+				fileEle += ` <br><video controls src="${DriveFiles.getPublicUrl(file)}" type="${file.type}">`;
+			}else(file.type.startsWith('image/')){
+				fileEle += ` <br><a href="{DriveFiles.getPublicUrl(file)}" download="${file.name}">${file.name}</a>`;
+			}
+		});
 
 		feed.addItem({
 			title: `${author.name}: ${(note.text ? note.text : "empty").substring(0,50)}`,
 			link: `${config.url}/notes/${note.id}`,
 			date: note.createdAt,
 			description: note.cw || undefined,
-			content: `${note.text || ""}${imgEle}`,
-			image: file ? DriveFiles.getPublicUrl(file) || undefined : undefined
+			content: `${note.text || ""}${fileEle}`,
+			image: aFile ? DriveFiles.getPublicUrl(aFile) || undefined : undefined
 		});
 	}
 
