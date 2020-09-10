@@ -54,7 +54,7 @@ export default async function(user: User) {
 			}else if(file.type.startsWith('video/')){
 				fileEle += ` <br><video controls src="${DriveFiles.getPublicUrl(file)}" type="${file.type}">`;
 			}else{
-				fileEle += ` <br><a href="{DriveFiles.getPublicUrl(file)}" download="${file.name}">${file.name}</a>`;
+				fileEle += ` <br><a href="${DriveFiles.getPublicUrl(file)}" download="${file.name}">${file.name}</a>`;
 			}
 		});
 
