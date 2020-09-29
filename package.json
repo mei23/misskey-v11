@@ -229,7 +229,7 @@
 		"ts-node": "8.10.2",
 		"tslint": "5.20.1",
 		"tslint-sonarts": "1.9.0",
-		"typeorm": "0.2.25",
+		"typeorm": "0.2.26",
 		"typescript": "3.9.7",
 		"ulid": "2.3.0",
 		"url-loader": "4.1.0",
