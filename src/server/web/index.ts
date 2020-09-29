@@ -283,6 +283,12 @@ const override = (source: string, target: string, depth: number = 0) =>
 router.get('/othello', async ctx => ctx.redirect(override(ctx.URL.pathname, 'games/reversi', 1)));
 router.get('/reversi', async ctx => ctx.redirect(override(ctx.URL.pathname, 'games')));
 
+// streamingに非WebSocketリクエストが来た場合にbase htmlをキャシュ付きで返すと、Proxy等でそのパスがキャッシュされておかしくなる
+router.get('/streaming', async ctx => {
+	ctx.status = 503;
+	ctx.set('Cache-Control', 'private, max-age=0');
+});
+
 // Render base html for all requests
 router.get('*', async ctx => {
 	const meta = await fetchMeta();
