@@ -172,7 +172,7 @@
 		"moji": "0.5.1",
 		"ms": "2.1.2",
 		"multer": "1.4.2",
-		"nested-property": "3.0.0",
+		"nested-property": "4.0.0",
 		"node-fetch": "2.6.1",
 		"nodemailer": "6.4.13",
 		"nprogress": "0.2.0",
