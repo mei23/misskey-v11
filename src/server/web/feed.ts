@@ -58,7 +58,7 @@ export default async function(user: User) {
 		}
 
 		feed.addItem({
-			title: `${author.name} ${(note.replyId ? 'reply' : 'say')}: ${(note.text ? note.text : 'post a new note').substring(0,50)}`,
+			title: `${author.name} ${(note.replyId ? 'replies' : 'says')}: ${(note.text ? note.text : 'post a new note').substring(0,50)}`,
 			link: `${config.url}/notes/${note.id}`,
 			date: note.createdAt,
 			description: note.cw || undefined,
