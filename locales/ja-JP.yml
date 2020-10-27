@@ -678,6 +678,7 @@ common/views/components/emoji-picker.vue:
   recent-emoji: "最近使った絵文字"
   custom-emoji: "カスタム絵文字"
   no-category: "カテゴリなし"
+  face: "顔文字"
   people: "人"
   animals-and-nature: "動物&自然"
   food-and-drink: "食べ物&飲み物"
