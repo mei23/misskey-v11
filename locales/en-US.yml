@@ -634,6 +634,7 @@ common/views/components/emoji-picker.vue:
   recent-emoji: "Recently used"
   custom-emoji: "Custom Emoji"
   no-category: "Uncategorized"
+  face: "Face mark"
   people: "People"
   animals-and-nature: "Animals & Nature"
   food-and-drink: "Food & drink"
