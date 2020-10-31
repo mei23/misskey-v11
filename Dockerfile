@@ -7,20 +7,20 @@ WORKDIR /misskey
 FROM base AS builder
 
 RUN apk add --no-cache \
-  autoconf \
-  automake \
-  file \
-  g++ \
-  gcc \
-  libc-dev \
-  libtool \
-  make \
-  nasm \
-  pkgconfig \
-  python3 \
-  zlib-dev \
-  vips-dev \
-  vips
+    autoconf \
+    automake \
+    file \
+    g++ \
+    gcc \
+    libc-dev \
+    libtool \
+    make \
+    nasm \
+    pkgconfig \
+    python3 \
+    zlib-dev \
+    vips-dev \
+    vips
 
 COPY package.json yarn.lock ./
 RUN yarn install
