@@ -13,6 +13,7 @@ url: https://example.tld/
 
 #   ┌───────────────────────┐
 #───┘ Port settings └───────────────────────────────────
+
 # Listen port
 port: 3000
 
