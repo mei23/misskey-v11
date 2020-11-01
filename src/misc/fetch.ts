@@ -13,6 +13,7 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 			Accept: accept
 		}, headers || {}),
 		timeout,
+		size: 10 * 1024 * 1024,
 		agent: getAgentByUrl,
 	});
 
