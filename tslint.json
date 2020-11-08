@@ -61,7 +61,11 @@
 		"no-duplicated-branches": false,
 		"no-identical-conditions": false,
 		"no-useless-cast": false,
-		"no-hardcoded-credentials": false
+		"no-hardcoded-credentials": false,
+		"no-nested-switch": false,
+		"no-all-duplicated-branches)": false,
+		"typedef-whitespace": false,
+		"no-all-duplicated-branches": false
 	},
 	"rulesDirectory": []
 }
