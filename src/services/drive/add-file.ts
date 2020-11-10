@@ -38,15 +38,7 @@ async function save(file: DriveFile, path: string, name: string, type: string, h
 
 	if (meta.useObjectStorage) {
 		//#region ObjectStorage params
-		let [ext] = (name.match(/\.([a-zA-Z0-9_-]+)$/) || ['']);
-
-		if (ext === '') {
-			if (type === 'image/jpeg') ext = '.jpg';
-			if (type === 'image/png') ext = '.png';
-			if (type === 'image/webp') ext = '.webp';
-			if (type === 'image/apng') ext = '.apng';
-			if (type === 'image/vnd.mozilla.apng') ext = '.apng';
-		}
+		const ext = getExt(name, type);
 
 		const baseUrl = meta.objectStorageBaseUrl
 			|| `${ meta.objectStorageUseSSL ? 'https' : 'http' }://${ meta.objectStorageEndpoint }${ meta.objectStoragePort ? `:${meta.objectStoragePort}` : '' }/${ meta.objectStorageBucket }`;
@@ -105,18 +97,21 @@ async function save(file: DriveFile, path: string, name: string, type: string, h
 		const thumbnailAccessKey = 'thumbnail-' + uuid();
 		const webpublicAccessKey = 'webpublic-' + uuid();
 
-		const url = InternalStorage.saveFromPath(accessKey, path);
+		let url = InternalStorage.saveFromPath(accessKey, path);
+		url += `/${accessKey}${getExt(name, type)}`;
 
 		let thumbnailUrl: string | null = null;
 		let webpublicUrl: string | null = null;
 
 		if (alts.thumbnail) {
 			thumbnailUrl = InternalStorage.saveFromBuffer(thumbnailAccessKey, alts.thumbnail.data);
+			thumbnailUrl += `/${thumbnailAccessKey}.jpg`;
 			logger.info(`thumbnail stored: ${thumbnailAccessKey}`);
 		}
 
 		if (alts.webpublic) {
 			webpublicUrl = InternalStorage.saveFromBuffer(webpublicAccessKey, alts.webpublic.data);
+			webpublicUrl += `/${webpublicAccessKey}${getExt(name, type)}`;
 			logger.info(`web stored: ${webpublicAccessKey}`);
 		}
 
@@ -242,6 +237,25 @@ async function deleteOldFile(user: IRemoteUser) {
 	if (oldFile) {
 		deleteFile(oldFile, true);
 	}
+}
+
+function getExt(name?: string, type?: string) {
+	let ext = '';
+
+	if (name) {
+		[ext] = (name.match(/\.([a-zA-Z0-9_-]+)$/) || ['']);
+	}
+
+	if (ext === '') {
+		if (type === 'image/jpeg') ext = '.jpg';
+		if (type === 'image/png') ext = '.png';
+		if (type === 'image/webp') ext = '.webp';
+		if (type === 'image/apng') ext = '.apng';
+		if (type === 'image/vnd.mozilla.apng') ext = '.apng';
+		if (type === 'video/mp4') ext = '.mp4';
+	}
+
+	return ext;
 }
 
 /**
