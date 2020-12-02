@@ -689,10 +689,10 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.3.tgz#e7b5aebbac150f8b5fdd4a46e7f0bd8e65e19109"
   integrity sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==
 
-"@types/parsimmon@1.10.4":
-  version "1.10.4"
-  resolved "https://registry.yarnpkg.com/@types/parsimmon/-/parsimmon-1.10.4.tgz#7639e16015440d9baf622f83c12dae47787226b7"
-  integrity sha512-M56NfQHfaWuaj6daSgCVs7jh8fXLI3LmxjRoQxmOvYesgIkI+9HPsDLO0vd7wX7cwA0D0ZWFEJdp0VPwLdS+bQ==
+"@types/parsimmon@1.10.5":
+  version "1.10.5"
+  resolved "https://registry.yarnpkg.com/@types/parsimmon/-/parsimmon-1.10.5.tgz#2a0e4035bebc948a0484f1a8b55800cb1c10b2dd"
+  integrity sha512-tUbXk1Yo74+5Hhn9Lar0XaWI55aCKtm7bV4sjnJ2Dqma/a5JmO0jmGdqAfC8rVqeDSVU5AugSOXdVYfc0HrKDg==
 
 "@types/portscanner@2.1.0":
   version "2.1.0"
@@ -9796,10 +9796,10 @@ syslog-pro@1.0.0:
   dependencies:
     moment "^2.22.2"
 
-systeminformation@*, systeminformation@4.30.5:
-  version "4.30.5"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.30.5.tgz#2219c305c8be56a2cfa527a5519c45bc81d4916c"
-  integrity sha512-aYWs8yttl8ePpr6VOQ/Ak8cznuc9L/NQODVhbOKhInX73ZMLvV2BS86Mzr7LLfmUteVFR36CTDNQgiJgRqq+SQ==
+systeminformation@*, systeminformation@4.30.10:
+  version "4.30.10"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.30.10.tgz#7fa94b3da5247a64d070b2b4100c0dbc18e20858"
+  integrity sha512-BndDV7hjRomUGkHK6MO661KUUWcDRbr5SlepDvREidYnR2QJIyHln0iSysH9GPOT7YJgwtswdyg/up/ZFYxHrQ==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
@@ -9831,10 +9831,10 @@ tapable@^1.0.0, tapable@^1.0.0-beta.5:
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-1.1.3.tgz#a1fccc06b58db61fd7a45da2da44f5f3a3e67ba2"
   integrity sha512-4WK/bYZmj8xLr+HUCODHGF1ZFzsYffasLUgEiMBY4fgtltdO6B4WJtlSbPaDTLpYTcGVwM2qLnFTICEcNxs3kA==
 
-tapable@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.0.0.tgz#a49c3d6a8a2bb606e7db372b82904c970d537a08"
-  integrity sha512-bjzn0C0RWoffnNdTzNi7rNDhs1Zlwk2tRXgk8EiHKAOX1Mag3d6T0Y5zNa7l9CJ+EoUne/0UHdwS8tMbkh9zDg==
+tapable@^2.0.0, tapable@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.1.1.tgz#b01cc1902d42a7bb30514e320ce21c456f72fd3f"
+  integrity sha512-Wib1S8m2wdpLbmQz0RBEVosIyvb/ykfKXf3ZIDqvWoMg/zTNm6G/tDSuUM61J1kNCDXWJrLHGSFeMhAG+gAGpQ==
 
 tar-fs@^2.0.0:
   version "2.1.0"
@@ -10890,10 +10890,10 @@ webpack-sources@^2.1.1:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
 
-webpack@5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.7.0.tgz#bb752a5a54aa66dfd24ff5b80256e6c609bbc4cb"
-  integrity sha512-U0AshArzQX5X+L2eViVEjrE7nNLUs80BQYcPUyRnaUMT2EyZiIbXAYWL7GLx6qRu0ykxAwXytRoC1+jqWQZExw==
+webpack@5.9.0:
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.9.0.tgz#af2e9cf9d6c7867cdcf214ea3bb5eb77aece6895"
+  integrity sha512-YnnqIV/uAS5ZrNpctSv378qV7HmbJ74DL+XfvMxzbX1bV9e7eeT6eEWU4wuUw33CNr/HspBh7R/xQlVjTEyAeA==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.45"
@@ -10915,7 +10915,7 @@ webpack@5.7.0:
     neo-async "^2.6.2"
     pkg-dir "^4.2.0"
     schema-utils "^3.0.0"
-    tapable "^2.0.0"
+    tapable "^2.1.1"
     terser-webpack-plugin "^5.0.3"
     watchpack "^2.0.0"
     webpack-sources "^2.1.1"
