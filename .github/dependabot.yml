@@ -7,4 +7,5 @@ updates:
     day: "monday"
     time: "06:00"
     timezone: "Asia/Tokyo"
+    target_branch: "nyon"
   open-pull-requests-limit: 99
