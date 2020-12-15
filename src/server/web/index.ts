@@ -198,10 +198,25 @@ router.get('/notes/:note', async ctx => {
 
 	if (note) {
 		const _note = await Notes.pack(note);
+
+		let imageUrl;
+		// use attached
+		if (_note.files) {
+			imageUrl = _note.files
+				.filter((file: any) => file.type.match(/^(image|video)/) && !file.isSensitive)
+				.map((file: any) => file.thumbnailUrl)
+				.shift();
+		}
+		// or avatar
+		if (imageUrl == null || imageUrl === '') {
+			imageUrl = (_note.user as any).avatarUrl;
+		}
+
 		const meta = await fetchMeta();
 		await ctx.render('note', {
 			note: _note,
 			summary: getNoteSummary(_note),
+			imageUrl,
 			instanceName: meta.name || 'Misskey',
 			icon: meta.iconUrl
 		});
