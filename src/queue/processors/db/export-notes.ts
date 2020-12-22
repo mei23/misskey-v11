@@ -10,10 +10,11 @@ import { MoreThan } from 'typeorm';
 import { Note } from '../../../models/entities/note';
 import { Poll } from '../../../models/entities/poll';
 import { ensure } from '../../../prelude/ensure';
+import { DbUserJobData } from '../../type';
 
 const logger = queueLogger.createSubLogger('export-notes');
 
-export async function exportNotes(job: Bull.Job, done: any): Promise<void> {
+export async function exportNotes(job: Bull.Job<DbUserJobData>, done: any): Promise<void> {
 	logger.info(`Exporting notes of ${job.data.user.id} ...`);
 
 	const user = await Users.findOne(job.data.user.id);

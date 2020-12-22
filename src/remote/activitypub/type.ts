@@ -2,7 +2,7 @@ export type obj = { [x: string]: any };
 export type ApObject = IObject | string | (IObject | string)[];
 
 export interface IObject {
-	'@context': string | obj | obj[];
+	'@context'?: string | obj | obj[];
 	type: string;
 	id?: string;
 	summary?: string;

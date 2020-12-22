@@ -12,10 +12,11 @@ import procesObjectStorage from './processors/object-storage';
 import { queueLogger } from './logger';
 import { DriveFile } from '../models/entities/drive-file';
 import { getJobInfo } from './get-job-info';
+import { DbJobData, DeliverJobData, InboxJobData, ObjectStorageJobData } from './type';
 import { IActivity } from '../remote/activitypub/type';
 
-function initializeQueue(name: string, limitPerSec = -1) {
-	return new Queue(name, {
+function initializeQueue<T>(name: string, limitPerSec = -1) {
+	return new Queue<T>(name, {
 		redis: {
 			port: config.redis.port,
 			host: config.redis.host,
@@ -30,12 +31,6 @@ function initializeQueue(name: string, limitPerSec = -1) {
 	});
 }
 
-export type InboxJobData = {
-	activity: IActivity,
-	/** HTTP-Signature */
-	signature: httpSignature.IParsedSignature
-};
-
 function renderError(e: Error): any {
 	return {
 		stack: e?.stack,
@@ -44,10 +39,10 @@ function renderError(e: Error): any {
 	};
 }
 
-export const deliverQueue = initializeQueue('deliver', config.deliverJobPerSec || 128);
-export const inboxQueue = initializeQueue('inbox', config.inboxJobPerSec || 16);
-export const dbQueue = initializeQueue('db');
-export const objectStorageQueue = initializeQueue('objectStorage');
+export const deliverQueue = initializeQueue<DeliverJobData>('deliver', config.deliverJobPerSec || 128);
+export const inboxQueue = initializeQueue<InboxJobData>('inbox', config.inboxJobPerSec || 16);
+export const dbQueue = initializeQueue<DbJobData>('db');
+export const objectStorageQueue = initializeQueue<ObjectStorageJobData>('objectStorage');
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const inboxLogger = queueLogger.createSubLogger('inbox');
@@ -86,7 +81,7 @@ objectStorageQueue
 	.on('error', (job: any, err: Error) => objectStorageLogger.error(`error ${err}`, { job, e: renderError(err) }))
 	.on('stalled', (job) => objectStorageLogger.warn(`stalled id=${job.id}`));
 
-export function deliver(user: ILocalUser, content: any, to: any) {
+export function deliver(user: ILocalUser, content: any, to: string) {
 	if (content == null) return null;
 
 	const data = {
@@ -106,9 +101,9 @@ export function deliver(user: ILocalUser, content: any, to: any) {
 	});
 }
 
-export function inbox(activity: any, signature: httpSignature.IParsedSignature) {
+export function inbox(activity: IActivity, signature: httpSignature.IParsedSignature) {
 	const data = {
-		activity: activity,
+		activity,
 		signature
 	};
 

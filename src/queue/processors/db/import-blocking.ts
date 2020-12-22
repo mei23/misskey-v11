@@ -7,10 +7,11 @@ import { resolveUser } from '../../../remote/resolve-user';
 import { downloadTextFile } from '../../../misc/download-text-file';
 import { isSelfHost, toPuny } from '../../../misc/convert-host';
 import { Users, DriveFiles } from '../../../models';
+import { DbUserImportJobData } from '../../type';
 
 const logger = queueLogger.createSubLogger('import-blocking');
 
-export async function importBlocking(job: Bull.Job, done: any): Promise<void> {
+export async function importBlocking(job: Bull.Job<DbUserImportJobData>, done: any): Promise<void> {
 	logger.info(`Importing blocking of ${job.data.user.id} ...`);
 
 	const user = await Users.findOne(job.data.user.id);

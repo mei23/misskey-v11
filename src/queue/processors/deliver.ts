@@ -7,12 +7,13 @@ import { instanceChart } from '../../services/chart';
 import { fetchNodeinfo } from '../../services/fetch-nodeinfo';
 import { fetchMeta } from '../../misc/fetch-meta';
 import { toPuny } from '../../misc/convert-host';
+import { DeliverJobData } from '../type';
 
 const logger = new Logger('deliver');
 
 let latest: string | null = null;
 
-export default async (job: Bull.Job) => {
+export default async (job: Bull.Job<DeliverJobData>) => {
 	const { host } = new URL(job.data.to);
 
 	// ブロックしてたら中断

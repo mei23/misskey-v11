@@ -1,7 +1,8 @@
 import * as Bull from 'bull';
 import { deleteObjectStorageFile } from '../../../services/drive/delete-file';
+import { DeleteObjectStorageFileJobData } from '../../type';
 
-export default async (job: Bull.Job) => {
+export default async (job: Bull.Job<DeleteObjectStorageFileJobData>) => {
 	const key: string = job.data.key;
 
 	await deleteObjectStorageFile(key);

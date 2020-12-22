@@ -8,10 +8,11 @@ import dateFormat = require('dateformat');
 import { getFullApAccount } from '../../../misc/convert-host';
 import { Users, Blockings } from '../../../models';
 import { MoreThan } from 'typeorm';
+import { DbUserJobData } from '../../type';
 
 const logger = queueLogger.createSubLogger('export-blocking');
 
-export async function exportBlocking(job: Bull.Job, done: any): Promise<void> {
+export async function exportBlocking(job: Bull.Job<DbUserJobData>, done: any): Promise<void> {
 	logger.info(`Exporting blocking of ${job.data.user.id} ...`);
 
 	const user = await Users.findOne(job.data.user.id);

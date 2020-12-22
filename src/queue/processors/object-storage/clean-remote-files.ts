@@ -4,10 +4,11 @@ import { queueLogger } from '../../logger';
 import { deleteFileSync } from '../../../services/drive/delete-file';
 import { DriveFiles } from '../../../models';
 import { MoreThan, Not, IsNull } from 'typeorm';
+import { CleanRemoteFilesJobData } from '../../type';
 
 const logger = queueLogger.createSubLogger('clean-remote-files');
 
-export default async function cleanRemoteFiles(job: Bull.Job, done: any): Promise<void> {
+export default async function cleanRemoteFiles(job: Bull.Job<CleanRemoteFilesJobData>, done: any): Promise<void> {
 	logger.info(`Deleting cached remote files...`);
 
 	let deletedCount = 0;
