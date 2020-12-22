@@ -22,7 +22,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	const activity = job.data.activity;
 
 	//#region Log
-	const info = Object.assign({}, activity);
+	const info = Object.assign({}, activity) as any;
 	delete info['@context'];
 	logger.debug(JSON.stringify(info, null, 2));
 	//#endregion
