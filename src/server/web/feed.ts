@@ -17,7 +17,7 @@ export default async function(user: User) {
 	const notes = await Notes.find({
 		where: {
 			userId: user.id,
-			renoteId: null,
+			//renoteId: null,
 			visibility: In(['public', 'home'])
 		},
 		order: { createdAt: -1 },
@@ -41,6 +41,26 @@ export default async function(user: User) {
 	});
 
 	for (const note of notes) {
+		let contentStr = noteToString(note);
+		let next = aFind.renoteId ? aFind.renoteId : aFind.replyId;
+		let depth = 5
+		while(depth > 0 && next){
+			let finding = findById(id);
+			contentStr += finding.text;
+			next = finding.next;
+			depth -= 1;
+		}
+
+		feed.addItem({
+			title: `${author.name} ${(note.renoteId ? 'renotes' : (note.replyId ? 'replies' : 'says'))}: ${(note.text ? note.text : 'post a new note').substring(0,50)}`,
+			link: `${config.url}/notes/${note.id}`,
+			date: note.createdAt,
+			description: note.cw || undefined,
+			content: `${note.text || ''}${fileEle} <span class="${(note.replyId ? 'reply_note' : 'new_note')} ${(fileEle.indexOf("img src") != -1 ? 'with_img' : 'without_img')}"></span>`
+		});
+	}
+	
+	function noteToString(note){
 		const files = note.fileIds.length > 0 ? await DriveFiles.find({
 			id: In(note.fileIds)
 		}) : [];
@@ -56,14 +76,19 @@ export default async function(user: User) {
 				fileEle += ` <br><a href="${DriveFiles.getPublicUrl(file)}" download="${file.name}">${file.name}</a>`;
 			}
 		}
-
-		feed.addItem({
-			title: `${author.name} ${(note.replyId ? 'replies' : 'says')}: ${(note.text ? note.text : 'post a new note').substring(0,50)}`,
-			link: `${config.url}/notes/${note.id}`,
-			date: note.createdAt,
-			description: note.cw || undefined,
-			content: `${note.text || ''}${fileEle} <span class="${(note.replyId ? 'reply_note' : 'new_note')} ${(fileEle.indexOf("img src") != -1 ? 'with_img' : 'without_img')}"></span>`
-		});
+		return `${note.text || ''}${fileEle} <span class="${(note.replyId ? 'reply_note' : 'new_note')} ${(fileEle.indexOf("img src") != -1 ? 'with_img' : 'without_img')}"></span>`;
+	}
+	
+	function findById(id){
+		let text = "";
+		let next = null;
+		const findings = await Notes.find({where: {userId: id, visibility: In(['public', 'home'])}, order: { createdAt: -1 }, take: 20});
+		for (const aFind of findings){
+			text += `<hr>`;
+			text += noteToString(aFind);
+			next = aFind.renoteId ? aFind.renoteId : aFind.replyId;
+		}
+		return {text: text, next: next};
 	}
 
 	return feed;
