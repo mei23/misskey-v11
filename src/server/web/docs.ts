@@ -29,9 +29,9 @@ async function genVars(lang: string): Promise<{ [key: string]: any }> {
 
 	vars['lang'] = lang;
 
-	const cwd = path.resolve(__dirname + '/../../../') + '/';
+	const cwd = path.resolve(__dirname + '/../../') + '/';	// built/
 
-	const docs = glob.sync(`src/docs/**/*.${lang}.md`, { cwd });
+	const docs = glob.sync(`docs/**/*.${lang}.md`, { cwd });
 	vars['docs'] = {};
 	for (const x of docs) {
 		const [, name] = x.match(/docs\/(.+?)\.(.+?)\.md$/)!;
@@ -92,9 +92,9 @@ router.get('/*/*', async ctx => {
 		tables: true,
 		extensions: ['urlExtension', 'apiUrlExtension', 'highlightjs']
 	});
-	const md = fs.readFileSync(`${__dirname}/../../../src/docs/${doc}.${lang}.md`, 'utf8');
+	const md = fs.readFileSync(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
 
-	await ctx.render('../../../../src/docs/article', Object.assign({
+	await ctx.render('docs-article', Object.assign({
 		id: doc,
 		html: conv.makeHtml(md),
 		title: md.match(/^# (.+?)\r?\n/)![1],
