@@ -5,12 +5,21 @@
 			<div v-if="ids.length > 1" class="folder">
 				<template v-for="(id, stackIndex) in ids">
 					<x-column-core :ref="id" :key="id" :column="columns.find(c => c.id == id)" :is-stacked="true" @parentFocus="moveFocus(id, $event)"
-						:pos="{ first: layoutIndex === 0, last: layoutIndex === layoutL.length - 1, top: stackIndex === 0, bottom: stackIndex === ids.length - 1 }"
+						:pos="{
+							first: layoutIndex === 0,
+							last: layoutIndex === layoutL.length - 1 && layoutR.length === 0,
+							top: stackIndex === 0,
+							bottom: stackIndex === ids.length - 1
+						}"
 					/>
 				</template>
 			</div>
 			<x-column-core v-else :ref="ids[0]" :key="ids[0]" :column="columns.find(c => c.id == ids[0])" @parentFocus="moveFocus(ids[0], $event)"
-				:pos="{ first: layoutIndex === 0, last: layoutIndex === layoutL.length - 1, top: true, bottom: true }"
+				:pos="{
+					alone: layout.length === 1,
+					first: layoutIndex === 0,
+					last: layoutIndex === layoutL.length - 1 && layoutR.length === 0,
+					top: true, bottom: true }"
 			/>
 		</template>
 		<router-view></router-view>
@@ -18,12 +27,22 @@
 			<div v-if="ids.length > 1" class="folder">
 				<template v-for="(id, stackIndex) in ids">
 					<x-column-core :ref="id" :key="id" :column="columns.find(c => c.id == id)" :is-stacked="true" @parentFocus="moveFocus(id, $event)"
-						:pos="{ x: layoutIndex, first: layoutIndex === 0, last: layoutIndex === layoutR.length - 1, top: stackIndex === 0, bottom: stackIndex === ids.length - 1 }"
+						:pos="{
+							first: layoutIndex === 0 && layoutL.length === 0,
+							last: layoutIndex === layoutR.length - 1,
+							top: stackIndex === 0,
+							bottom: stackIndex === ids.length - 1
+						}"
 					/>
 				</template>
 			</div>
 			<x-column-core v-else :ref="ids[0]" :key="ids[0]" :column="columns.find(c => c.id == ids[0])" @parentFocus="moveFocus(ids[0], $event)"
-				:pos="{ x: layoutIndex, first: layoutIndex === 0, last: layoutIndex === layoutR.length - 1, top: true, bottom: true }"
+				:pos="{
+					alone: layout.length === 1,
+					first: layoutIndex === 0 && layoutL.length === 0,
+					last: layoutIndex === layoutR.length - 1,
+					top: true,
+					bottom: true }"
 			/>
 		</template>
 		<button ref="add" @click="add" :title="$t('@deck.add-column')"><fa icon="plus"/></button>

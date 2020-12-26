@@ -190,7 +190,7 @@ export default Vue.extend({
 				}
 			},
 			// アイテムが1つなら区切り線は表示しない
-			(this.pos?.first && this.pos?.last && this.pos?.top && this.pos?.bottom) ? undefined : null,
+			this.pos?.alone ? undefined : null,
 			// 左に移動
 			this.pos?.first ? undefined : {
 				icon: 'arrow-left',
