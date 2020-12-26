@@ -1,19 +1,31 @@
 <template>
 <mk-ui :class="$style.root">
 	<div class="qlvquzbjribqcaozciifydkngcwtyzje" ref="body" :style="style" :class="`${$store.state.device.deckColumnAlign} ${$store.state.device.deckColumnWidth}`" v-hotkey.global="keymap">
-		<template v-for="(ids, layoutIndex) in layout">
+		<template v-for="(ids, layoutIndex) in layoutL">
 			<div v-if="ids.length > 1" class="folder">
 				<template v-for="(id, stackIndex) in ids">
 					<x-column-core :ref="id" :key="id" :column="columns.find(c => c.id == id)" :is-stacked="true" @parentFocus="moveFocus(id, $event)"
-						:pos="{ first: layoutIndex === 0, last: layoutIndex === layout.length - 1, top: stackIndex === 0, bottom: stackIndex === ids.length - 1 }"
+						:pos="{ first: layoutIndex === 0, last: layoutIndex === layoutL.length - 1, top: stackIndex === 0, bottom: stackIndex === ids.length - 1 }"
 					/>
 				</template>
 			</div>
 			<x-column-core v-else :ref="ids[0]" :key="ids[0]" :column="columns.find(c => c.id == ids[0])" @parentFocus="moveFocus(ids[0], $event)"
-				:pos="{ first: layoutIndex === 0, last: layoutIndex === layout.length - 1, top: true, bottom: true }"
+				:pos="{ first: layoutIndex === 0, last: layoutIndex === layoutL.length - 1, top: true, bottom: true }"
 			/>
 		</template>
 		<router-view></router-view>
+		<template v-for="(ids, layoutIndex) in layoutR">
+			<div v-if="ids.length > 1" class="folder">
+				<template v-for="(id, stackIndex) in ids">
+					<x-column-core :ref="id" :key="id" :column="columns.find(c => c.id == id)" :is-stacked="true" @parentFocus="moveFocus(id, $event)"
+						:pos="{ x: layoutIndex, first: layoutIndex === 0, last: layoutIndex === layoutR.length - 1, top: stackIndex === 0, bottom: stackIndex === ids.length - 1 }"
+					/>
+				</template>
+			</div>
+			<x-column-core v-else :ref="ids[0]" :key="ids[0]" :column="columns.find(c => c.id == ids[0])" @parentFocus="moveFocus(ids[0], $event)"
+				:pos="{ x: layoutIndex, first: layoutIndex === 0, last: layoutIndex === layoutR.length - 1, top: true, bottom: true }"
+			/>
+		</template>
 		<button ref="add" @click="add" :title="$t('@deck.add-column')"><fa icon="plus"/></button>
 	</div>
 </mk-ui>
@@ -48,6 +60,22 @@ export default Vue.extend({
 			if (this.deck == null) return [];
 			if (this.deck.layout == null) return this.deck.columns.map(c => [c.id]);
 			return this.deck.layout;
+		},
+
+		viewIndex(): number {
+			return this.$store.state.device.deckTemporaryColumnIndex;
+		},
+
+		layoutL(): any[] {
+			if (this.$store.state.device.deckTemporaryColumnPosition === 'specify') return this.layout.slice(0, this.viewIndex);
+			if (this.$store.state.device.deckTemporaryColumnPosition === 'left') return [];
+			return this.layout;
+		},
+
+		layoutR(): any[] {
+			if (this.$store.state.device.deckTemporaryColumnPosition === 'specify') return this.layout.slice(this.viewIndex);
+			if (this.$store.state.device.deckTemporaryColumnPosition === 'left') return this.layout;
+			return [];
 		},
 
 		style(): any {
