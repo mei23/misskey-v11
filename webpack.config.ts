@@ -173,7 +173,6 @@ module.exports = {
 			parallel: 1
 		})]
 	},
-	cache: true,
 	devtool: false, //'source-map',
 	mode: isProduction ? 'production' : 'development'
 };
