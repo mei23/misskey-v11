@@ -46,6 +46,11 @@ export default Vue.extend({
 			required: false,
 			default: false
 		},
+		pos: {
+			type: Object,
+			required: false,
+			default: () => {}
+		},
 		name: {
 			type: String,
 			required: false
@@ -183,37 +188,51 @@ export default Vue.extend({
 						this.$store.commit('renameDeckColumn', { id: this.column.id, name });
 					});
 				}
-			}, null, {
+			},
+			// アイテムが1つなら区切り線は表示しない
+			(this.pos?.first && this.pos?.last && this.pos?.top && this.pos?.bottom) ? undefined : null,
+			// 左に移動
+			this.pos?.first ? undefined : {
 				icon: 'arrow-left',
 				text: this.$t('swap-left'),
 				action: () => {
 					this.$store.commit('swapLeftDeckColumn', this.column.id);
 				}
-			}, {
+			},
+			// 右に移動
+			this.pos?.last ? undefined : {
 				icon: 'arrow-right',
 				text: this.$t('swap-right'),
 				action: () => {
 					this.$store.commit('swapRightDeckColumn', this.column.id);
 				}
-			}, this.isStacked ? {
+			},
+			// 上に移動
+			this.pos?.top ? undefined : {
 				icon: faArrowUp,
 				text: this.$t('swap-up'),
 				action: () => {
 					this.$store.commit('swapUpDeckColumn', this.column.id);
 				}
-			} : undefined, this.isStacked ? {
+			},
+			// 下に移動
+			this.pos?.bottom ? undefined : {
 				icon: faArrowDown,
 				text: this.$t('swap-down'),
 				action: () => {
 					this.$store.commit('swapDownDeckColumn', this.column.id);
 				}
-			} : undefined, null, {
+			},
+			// 左に重ねる
+			this.pos?.first ? undefined : {
 				icon: ['far', 'window-restore'],
 				text: this.$t('stack-left'),
 				action: () => {
 					this.$store.commit('stackLeftDeckColumn', this.column.id);
 				}
-			}, this.isStacked ? {
+			},
+			// 右に出す
+			this.isStacked ? {
 				icon: faWindowMaximize,
 				text: this.$t('pop-right'),
 				action: () => {

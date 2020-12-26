@@ -1,5 +1,5 @@
 <template>
-<x-column :name="name" :column="column" :is-stacked="isStacked" :menu="menu">
+<x-column :name="name" :column="column" :is-stacked="isStacked" :pos="pos" :menu="menu">
 	<template #header><fa :icon="['far', 'bell']"/>{{ name }}</template>
 
 	<x-notifications :type="column.notificationType === 'all' ? null : column.notificationType"/>
@@ -27,7 +27,12 @@ export default Vue.extend({
 		isStacked: {
 			type: Boolean,
 			required: true
-		}
+		},
+		pos: {
+			type: Object,
+			required: false,
+			default: () => {}
+		},
 	},
 
 	data() {

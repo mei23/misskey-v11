@@ -1,5 +1,5 @@
 <template>
-<x-column :menu="menu" :naked="true" :narrow="true" :name="name" :column="column" :is-stacked="isStacked" class="wtdtxvecapixsepjtcupubtsmometobz">
+<x-column :menu="menu" :naked="true" :narrow="true" :name="name" :column="column" :is-stacked="isStacked" :pos="pos" class="wtdtxvecapixsepjtcupubtsmometobz">
 	<template #header><fa icon="calculator"/>{{ name }}</template>
 
 	<div class="gqpwvtwtprsbmnssnbicggtwqhmylhnq">
@@ -71,7 +71,12 @@ export default Vue.extend({
 		isStacked: {
 			type: Boolean,
 			required: true
-		}
+		},
+		pos: {
+			type: Object,
+			required: false,
+			default: () => {}
+		},
 	},
 
 	data() {

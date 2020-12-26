@@ -1,13 +1,17 @@
 <template>
 <mk-ui :class="$style.root">
 	<div class="qlvquzbjribqcaozciifydkngcwtyzje" ref="body" :style="style" :class="`${$store.state.device.deckColumnAlign} ${$store.state.device.deckColumnWidth}`" v-hotkey.global="keymap">
-		<template v-for="ids in layout">
+		<template v-for="(ids, layoutIndex) in layout">
 			<div v-if="ids.length > 1" class="folder">
-				<template v-for="id, i in ids">
-					<x-column-core :ref="id" :key="id" :column="columns.find(c => c.id == id)" :is-stacked="true" @parentFocus="moveFocus(id, $event)"/>
+				<template v-for="(id, stackIndex) in ids">
+					<x-column-core :ref="id" :key="id" :column="columns.find(c => c.id == id)" :is-stacked="true" @parentFocus="moveFocus(id, $event)"
+						:pos="{ first: layoutIndex === 0, last: layoutIndex === layout.length - 1, top: stackIndex === 0, bottom: stackIndex === ids.length - 1 }"
+					/>
 				</template>
 			</div>
-			<x-column-core v-else :ref="ids[0]" :key="ids[0]" :column="columns.find(c => c.id == ids[0])" @parentFocus="moveFocus(ids[0], $event)"/>
+			<x-column-core v-else :ref="ids[0]" :key="ids[0]" :column="columns.find(c => c.id == ids[0])" @parentFocus="moveFocus(ids[0], $event)"
+				:pos="{ first: layoutIndex === 0, last: layoutIndex === layout.length - 1, top: true, bottom: true }"
+			/>
 		</template>
 		<router-view></router-view>
 		<button ref="add" @click="add" :title="$t('@deck.add-column')"><fa icon="plus"/></button>
