@@ -94,6 +94,7 @@ export default Vue.extend({
 	watch: {
 		$route() {
 			if (this.$route.name == 'index') return;
+			if (this.$store.state.device.deckTemporaryColumnPosition !== 'right') return;
 			this.$nextTick(() => {
 				this.$refs.body.scrollTo({
 					left: this.$refs.body.scrollWidth - this.$refs.body.clientWidth,
