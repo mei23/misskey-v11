@@ -208,6 +208,52 @@ export default (os: MiOS) => new Vuex.Store({
 			os.store.dispatch('settings/updateDeckProfile');
 		},
 
+		changeTemporaryColumn(state, id) {
+			const deck = state.settings.deckProfiles[state.device.deckProfile];
+
+			// ドラッグ先の縦位置
+			const x = deck.layout.findIndex(ids => ids.indexOf(id) != -1);
+			const leftEdge = x === 0;
+			const rightEdge = x === deck.layout.length - 1;
+
+			// 左端固定以外から左端に移動したら左端固定にする
+			if (state.device.deckTemporaryColumnPosition !== 'left' && leftEdge) {
+				state.device.deckTemporaryColumnPosition = 'left';
+				state.device.deckTemporaryColumnIndex = 1;
+				return;
+			}
+
+			// 右端固定以外から右端に移動したら右端固定にする
+			if (state.device.deckTemporaryColumnPosition !== 'right' && rightEdge) {
+				state.device.deckTemporaryColumnPosition = 'right';
+				state.device.deckTemporaryColumnIndex = 1;
+				return;
+			}
+
+			// 左端固定から移動した
+			if (leftEdge) {
+				state.device.deckTemporaryColumnPosition = 'specify';
+				state.device.deckTemporaryColumnIndex = x + 1;
+				return;
+			}
+
+			// 右端固定から移動した
+			if (rightEdge) {
+				state.device.deckTemporaryColumnPosition = 'specify';
+				state.device.deckTemporaryColumnIndex = x;
+				return;
+			}
+
+			// 中程から移動した
+			if (x < state.device.deckTemporaryColumnIndex) {
+				state.device.deckTemporaryColumnPosition = 'specify';
+				state.device.deckTemporaryColumnIndex = x;
+			} else {
+				state.device.deckTemporaryColumnPosition = 'specify';
+				state.device.deckTemporaryColumnIndex = x + 1;
+			}
+		},
+
 		swapDeckColumn(state, x) {
 			const deck = state.settings.deckProfiles[state.device.deckProfile];
 			const a = x.a;
