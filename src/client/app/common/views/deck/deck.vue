@@ -45,7 +45,7 @@
 					bottom: true }"
 			/>
 		</template>
-		<button ref="add" @click="add" :title="$t('@deck.add-column')" style="font-size: 2em"><fa icon="plus"/></button>
+		<button ref="add" @click="add" :title="$t('@deck.add-column')" style="font-size: 1.5em"><fa icon="plus"/></button>
 	</div>
 </mk-ui>
 </template>
