@@ -1,6 +1,6 @@
 <template>
 <div class="mrdgzndn">
-	<mfm :text="text" :is-note="false" :i="$store.state.i" :key="text"/>
+	<mfm :text="text" :i="$store.state.i" :key="text"/>
 
 	<mk-url-preview v-for="url in urls" :url="url" :key="url" class="url"/>
 </div>
