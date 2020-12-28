@@ -53,12 +53,9 @@ export default Vue.extend({
 				start = videoTag.currentTime
 				videoTag.pause()
 			}
-			const viewer = this.$root.new(MkMediaVideoDialog, {
+			this.$root.new(MkMediaVideoDialog, {
 				video: this.video,
 				start,
-			});
-			this.$once('hook:beforeDestroy', () => {
-				viewer.close();
 			});
 		}
 	}

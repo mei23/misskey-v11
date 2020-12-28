@@ -59,11 +59,8 @@ export default Vue.extend({
 	},
 	methods: {
 		onClick() {
-			const viewer = this.$root.new(ImageViewer, {
+			this.$root.new(ImageViewer, {
 				image: this.image
-			});
-			this.$once('hook:beforeDestroy', () => {
-				viewer.close();
 			});
 		}
 	}
