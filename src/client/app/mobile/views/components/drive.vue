@@ -387,7 +387,7 @@ export default Vue.extend({
 			this.$root.dialog({
 				title: this.$t('folder-name'),
 				input: {
-					default: this.folder.name
+					default: ''
 				}
 			}).then(({ result: name }) => {
 				if (!name) {
