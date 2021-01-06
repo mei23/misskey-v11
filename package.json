@@ -196,7 +196,6 @@
 		"random-seed": "0.3.0",
 		"randomcolor": "0.6.2",
 		"ratelimiter": "3.4.1",
-		"recaptcha-promise": "1.0.0",
 		"reconnecting-websocket": "4.4.0",
 		"redis": "3.0.2",
 		"redis-lock": "0.1.4",

@@ -4,7 +4,7 @@ import { generateKeyPair } from 'crypto';
 import generateUserToken from '../common/generate-native-user-token';
 import config from '../../../config';
 import { fetchMeta } from '../../../misc/fetch-meta';
-import * as recaptcha from 'recaptcha-promise';
+import { verifyRecaptcha } from '../../../misc/captcha'; 
 import { Users, Signins, RegistrationTickets, UsedUsernames } from '../../../models';
 import { genId } from '../../../misc/gen-id';
 import { usersChart } from '../../../services/chart';
@@ -23,16 +23,9 @@ export default async (ctx: Koa.Context) => {
 	// Verify recaptcha
 	// ただしテスト時はこの機構は障害となるため無効にする
 	if (process.env.NODE_ENV !== 'test' && instance.enableRecaptcha && instance.recaptchaSecretKey) {
-		recaptcha.init({
-			secret_key: instance.recaptchaSecretKey
+		await verifyRecaptcha(instance.recaptchaSecretKey, body['g-recaptcha-response']).catch(e => {
+			ctx.throw(400, e);
 		});
-
-		const success = await recaptcha(body['g-recaptcha-response']);
-
-		if (!success) {
-			ctx.throw(400, 'recaptcha-failed');
-			return;
-		}
 	}
 
 	const username = body['username'];
