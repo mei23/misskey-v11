@@ -1,17 +1,11 @@
 <template>
-<x-prism :inline="inline" :language="prismLang">{{ code }}</x-prism>
+<highlightjs :language="lang" :code="code" />
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import 'prismjs';
-import 'prismjs/themes/prism-okaidia.css';
-import XPrism from 'vue-prism-component';
 
 export default Vue.extend({
-	components: {
-		XPrism
-	},
 	props: {
 		code: {
 			type: String,
@@ -26,11 +20,14 @@ export default Vue.extend({
 			required: false
 		}
 	},
-
-	computed: {
-		prismLang() {
-			return Prism.languages[this.lang] ? this.lang : 'js';
-		}
-	}
 });
 </script>
+<style lang="stylus" scoped>
+// fallback
+code
+	display block
+	overflow-x auto
+	padding .5em
+	color #333
+	background #f8f8f8
+</style>
