@@ -46,7 +46,7 @@
 		"@types/dateformat": "3.0.1",
 		"@types/double-ended-queue": "2.1.1",
 		"@types/fluent-ffmpeg": "2.1.16",
-		"@types/gulp": "4.0.7",
+		"@types/gulp": "4.0.8",
 		"@types/gulp-mocha": "0.0.33",
 		"@types/gulp-rename": "2.0.0",
 		"@types/gulp-replace": "0.0.31",
