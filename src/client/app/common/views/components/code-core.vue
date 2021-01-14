@@ -1,5 +1,6 @@
 <template>
-<highlightjs :language="lang" :code="code" />
+<code class="inline" v-if="inline">{{ code }}</code>
+<highlightjs v-else :language="lang" :code="code"/>
 </template>
 
 <script lang="ts">
@@ -23,11 +24,15 @@ export default Vue.extend({
 });
 </script>
 <style lang="stylus" scoped>
-// fallback
 code
-	display block
-	overflow-x auto
-	padding .5em
-	color #333
-	background #f8f8f8
+	color #f8f8f8
+	background #272822
+
+	&.inline
+		display inline
+
+	&.hljs
+		display block
+		overflow-x auto
+		padding .5em
 </style>
