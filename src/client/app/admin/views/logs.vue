@@ -22,7 +22,7 @@
 				<code v-for="log in logs" :key="log.id" :class="log.level">
 					<details>
 						<summary><mk-time :time="log.createdAt"/> [{{ log.domain.join('.') }}] {{ log.message }}</summary>
-						<vue-json-pretty v-if="log.data" :data="log.data"></vue-json-pretty>
+						<highlightjs v-if="log.data" language="json" :code="JSON.stringify(log.data, null, 2)"/>
 					</details>
 				</code>
 			</div>
@@ -37,14 +37,9 @@
 import Vue from 'vue';
 import i18n from '../../i18n';
 import { faStream } from '@fortawesome/free-solid-svg-icons';
-import VueJsonPretty from 'vue-json-pretty';
 
 export default Vue.extend({
 	i18n: i18n('admin/views/logs.vue'),
-
-	components: {
-		VueJsonPretty
-	},
 
 	data() {
 		return {
