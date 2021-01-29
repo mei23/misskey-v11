@@ -4,7 +4,7 @@ import { getAgentByUrl } from './fetch';
 import config from '../config';
 
 export async function verifyRecaptcha(secret: string, response: string) {
-	const result = await getCaptchaResponse('https://www.google.com/recaptcha/api/siteverify', secret, response).catch(e => {
+	const result = await getCaptchaResponse('https://www.recaptcha.net/recaptcha/api/siteverify', secret, response).catch(e => {
 		throw `recaptcha-request-failed: ${e}`;
 	});
 
