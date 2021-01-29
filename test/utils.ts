@@ -45,6 +45,27 @@ export const api = async (endpoint: string, params: any, me?: any): Promise<{ bo
 	};
 };
 
+export const signup = async (params?: any): Promise<any> => {
+	const q = Object.assign({
+		username: 'test',
+		password: 'test'
+	}, params);
+
+	const res = await api('signup', q);
+
+	return res.body;
+};
+
+export const post = async (user: any, params?: any): Promise<any> => {
+	const q = Object.assign({
+		text: 'test'
+	}, params);
+
+	const res = await api('notes/create', q, user);
+
+	return res.body ? res.body.createdNote : null;
+};
+
 export const simpleGet = async (path: string, accept: string): Promise<{ status?: number, type?: string, location?: string }> => {
 	// node-fetchだと3xxを取れない
 	return await new Promise((resolve, reject) => {
