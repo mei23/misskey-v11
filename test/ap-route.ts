@@ -14,8 +14,6 @@ import * as childProcess from 'child_process';
 import * as assert from 'assert';
 import { async, signup, post, simpleGet, launchServer } from './utils';
 
-const db = require('../built/db/mongodb').default;
-
 // Request Accept
 const ONLY_AP = 'application/activity+json';
 const PREFER_AP = 'application/activity+json, */*';
@@ -33,12 +31,6 @@ describe('AP route negotiation', () => {
 	let alicesPost: any;
 
 	before(launchServer(g => p = g, async () => {
-
-		await Promise.all([
-			db.get('users').drop(),
-			db.get('notes').drop(),
-		]);
-
 		alice = await signup({ username: 'alice' });
 		alicesPost = await post(alice, {
 			text: 'test'
