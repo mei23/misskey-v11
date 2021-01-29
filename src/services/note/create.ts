@@ -29,6 +29,7 @@ import { createNotification } from '../create-notification';
 import { isDuplicateKeyValueError } from '../../misc/is-duplicate-key-value-error';
 import { ensure } from '../../prelude/ensure';
 import { deliverToRelays } from '../relay';
+import { normalizeTag } from '../../misc/normalize-tag';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention';
 
@@ -361,7 +362,7 @@ async function insertNote(user: User, data: Option, tags: string[], emojis: stri
 		text: data.text,
 		hasPoll: data.poll != null,
 		cw: data.cw == null ? null : data.cw,
-		tags: tags.map(tag => tag.toLowerCase()),
+		tags: tags.map(tag => normalizeTag(tag) as string),
 		emojis,
 		userId: user.id,
 		viaMobile: data.viaMobile!,

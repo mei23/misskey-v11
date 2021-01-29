@@ -27,6 +27,7 @@ import { getConnection } from 'typeorm';
 import { ensure } from '../../../prelude/ensure';
 import { toArray } from '../../../prelude/array';
 import { fetchNodeinfo } from '../../../services/fetch-nodeinfo';
+import { normalizeTag } from '../../../misc/normalize-tag';
 
 const logger = apLogger;
 
@@ -134,7 +135,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 
 	const { fields } = analyzeAttachments(person.attachment || []);
 
-	const tags = extractApHashtags(person.tag).map(tag => tag.toLowerCase()).splice(0, 32);
+	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 32);
 
 	const isBot = object.type == 'Service';
 
@@ -317,7 +318,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 
 	const { fields } = analyzeAttachments(person.attachment || []);
 
-	const tags = extractApHashtags(person.tag).map(tag => tag.toLowerCase()).splice(0, 32);
+	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 32);
 
 	const updates = {
 		lastFetchedAt: new Date(),

@@ -6,6 +6,7 @@ import { Notes } from '../../../../models';
 import { generateMuteQuery } from '../../common/generate-mute-query';
 import { generateVisibilityQuery } from '../../common/generate-visibility-query';
 import { Brackets } from 'typeorm';
+import { normalizeTag } from '../../../../misc/normalize-tag';
 
 export const meta = {
 	desc: {
@@ -99,14 +100,14 @@ export default define(meta, async (ps, me) => {
 	if (me) generateMuteQuery(query, me);
 
 	if (ps.tag) {
-		query.andWhere(':tag = ANY(note.tags)', { tag: ps.tag.toLowerCase() });
+		query.andWhere(':tag = ANY(note.tags)', { tag: normalizeTag(ps.tag) });
 	} else {
 		let i = 0;
 		query.andWhere(new Brackets(qb => {
 			for (const tags of ps.query!) {
 				qb.orWhere(new Brackets(qb => {
 					for (const tag of tags) {
-						qb.andWhere(`:tag${i} = ANY(note.tags)`, { [`tag${i}`]: tag.toLowerCase() });
+						qb.andWhere(`:tag${i} = ANY(note.tags)`, { [`tag${i}`]: normalizeTag(tag) });
 						i++;
 					}
 				}));

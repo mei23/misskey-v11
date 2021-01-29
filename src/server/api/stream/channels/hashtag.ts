@@ -3,6 +3,7 @@ import shouldMuteThisNote from '../../../../misc/should-mute-this-note';
 import Channel from '../channel';
 import { Notes } from '../../../../models';
 import { PackedNote } from '../../../../models/repositories/note';
+import { normalizeTag } from '../../../../misc/normalize-tag';
 
 export default class extends Channel {
 	public readonly chName = 'hashtag';
@@ -23,7 +24,7 @@ export default class extends Channel {
 	@autobind
 	private async onNote(note: PackedNote) {
 		const noteTags = note.tags ? note.tags.map((t: string) => t.toLowerCase()) : [];
-		const matched = this.q.some(tags => tags.every(tag => noteTags.includes(tag.toLowerCase())));
+		const matched = this.q.some(tags => tags.every(tag => noteTags.includes(normalizeTag(tag) as string)));
 		if (!matched) return;
 
 		// Renoteなら再pack
