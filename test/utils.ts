@@ -45,7 +45,7 @@ export const api = async (endpoint: string, params: any, me?: any): Promise<{ bo
 	};
 };
 
-export const simpleGet = async (path: string, accept: string): Promise<{ status: number, type: string, location: string }> => {
+export const simpleGet = async (path: string, accept: string): Promise<{ status?: number, type?: string, location?: string }> => {
 	// node-fetchだと3xxを取れない
 	return await new Promise((resolve, reject) => {
 		const req = http.request(`http://localhost:8080${path}`, {
