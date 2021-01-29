@@ -1,5 +1,6 @@
 import * as childProcess from 'child_process';
 import fetch from 'node-fetch';
+import * as http from 'http';
 
 export const async = (fn: Function) => (done: Function) => {
 	fn().then(() => {
@@ -44,14 +45,46 @@ export const api = async (endpoint: string, params: any, me?: any): Promise<{ bo
 	};
 };
 
-export const get = async (path: string): Promise<{ status: number }> => {
-	const res = await fetch(`http://localhost:8080${path}`, {
-		method: 'GET',
+export const signup = async (params?: any): Promise<any> => {
+	const q = Object.assign({
+		username: 'test',
+		password: 'test'
+	}, params);
+
+	const res = await api('signup', q);
+
+	return res.body;
+};
+
+export const post = async (user: any, params?: any): Promise<any> => {
+	const q = Object.assign({
+		text: 'test'
+	}, params);
+
+	const res = await api('notes/create', q, user);
+
+	return res.body ? res.body.createdNote : null;
+};
+
+export const simpleGet = async (path: string, accept: string): Promise<{ status?: number, type?: string, location?: string }> => {
+	// node-fetchだと3xxを取れない
+	return await new Promise((resolve, reject) => {
+		const req = http.request(`http://localhost:8080${path}`, {
+			headers: {
+				Accept: accept
+			}
+		}, res => {
+			if (res.statusCode! >= 400) {
+				reject(res);
+			} else {
+				resolve({
+					status: res.statusCode,
+					type: res.headers['content-type'],
+					location: res.headers.location,
+				});
+			}
+		});
+
+		req.end();
 	});
-
-	const status = res.status;
-
-	return {
-		status
-	};
 };
