@@ -41,9 +41,11 @@ function inbox(ctx: Router.RouterContext) {
 const ACTIVITY_JSON = 'application/activity+json; charset=utf-8';
 const LD_JSON = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"; charset=utf-8';
 
-function isActivityPubReq(ctx: Router.RouterContext) {
+function isActivityPubReq(ctx: Router.RouterContext, preferAp = false) {
 	ctx.response.vary('Accept');
-	const accepted = ctx.accepts('html', ACTIVITY_JSON, LD_JSON);
+	const accepted = preferAp
+		? ctx.accepts(ACTIVITY_JSON, LD_JSON, 'html')
+		: ctx.accepts('html', ACTIVITY_JSON, LD_JSON);
 	return typeof accepted === 'string' && !accepted.match(/html/);
 }
 
@@ -159,7 +161,7 @@ async function userInfo(ctx: Router.RouterContext, user: User | undefined) {
 }
 
 router.get('/users/:user', async (ctx, next) => {
-	if (!isActivityPubReq(ctx)) return await next();
+	if (!isActivityPubReq(ctx, true)) return await next();
 
 	const userId = ctx.params.user;
 
