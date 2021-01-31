@@ -30,7 +30,7 @@ export async function createSystemUser(username: string) {
 			host: null
 		});
 
-		if (exist) throw new Error('the username is already exists');
+		if (exist) throw new Error('the user is already exists');
 
 		account = await transactionalEntityManager.insert(User, {
 			id: genId(),
