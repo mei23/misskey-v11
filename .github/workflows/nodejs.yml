@@ -15,7 +15,7 @@ jobs:
       postgres:
         image: postgres:10-alpine
         ports:
-          - 5432:5432
+          - 54311:5432
         env:
           POSTGRES_DB: test-misskey
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -31,6 +31,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: NODE_ENV=production yarn install
-    - run: cp .circleci/misskey/*.yml .config
     - run: NODE_ENV=production yarn build
+    - run: cp test/test.yml .config
     - run: yarn test
