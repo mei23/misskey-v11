@@ -15,7 +15,7 @@ jobs:
       postgres:
         image: postgres:10-alpine
         ports:
-          - 5432:5432
+          - 54311:5432
         env:
           POSTGRES_DB: test-misskey
           POSTGRES_HOST_AUTH_METHOD: trust

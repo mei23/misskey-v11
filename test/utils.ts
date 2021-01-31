@@ -28,7 +28,7 @@ export const api = async (endpoint: string, params: any, me?: any): Promise<{ bo
 		i: me.token
 	} : {};
 
-	const res = await fetch('http://localhost:8080/api/' + endpoint, {
+	const res = await fetch('http://localhost:61811/api/' + endpoint, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ export const post = async (user: any, params?: any): Promise<any> => {
 export const simpleGet = async (path: string, accept: string): Promise<{ status?: number, type?: string, location?: string }> => {
 	// node-fetchだと3xxを取れない
 	return await new Promise((resolve, reject) => {
-		const req = http.request(`http://localhost:8080${path}`, {
+		const req = http.request(`http://localhost:61811${path}`, {
 			headers: {
 				Accept: accept
 			}
