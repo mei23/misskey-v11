@@ -1,0 +1,14 @@
+url: 'http://misskey.local'
+port: 61811
+db:
+  host: localhost
+  port: 54311
+  db: test-misskey
+  user: postgres
+  pass: ''
+redis:
+  host: localhost
+  port: 6379
+id: aid
+
+# docker run --rm -p 54311:5432 --name pgtest -e POSTGRES_DB=test-misskey -e POSTGRES_HOST_AUTH_METHOD=trust postgres:12-alpine
