@@ -1,8 +1,9 @@
-import { parseFragment } from 'parse5';
-import { urlRegexFull } from './prelude';
+import * as parse5 from 'parse5';
+import treeAdapter = require('parse5/lib/tree-adapters/default');
+import { urlRegex, urlRegexFull } from './prelude';
 
 export function fromHtml(html: string, hashtagNames?: string[]): string {
-	const dom = parseFragment(html);
+	const dom = parse5.parseFragment(html);
 
 	let text = '';
 
@@ -12,30 +13,35 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 
 	return text.trim();
 
-	function getText(node: any): string {
-		if (node.nodeName == '#text') return node.value;
+	function getText(node: parse5.Node): string {
+		if (treeAdapter.isTextNode(node)) return node.value;
+		if (!treeAdapter.isElementNode(node)) return '';
 
 		if (node.childNodes) {
-			return node.childNodes.map((n: any) => getText(n)).join('');
+			return node.childNodes.map(n => getText(n)).join('');
 		}
 
 		return '';
 	}
 
-	function analyze(node: any) {
-		switch (node.nodeName) {
-			case '#text':
-				text += node.value;
-				break;
+	function analyze(node: parse5.Node) {
+		if (treeAdapter.isTextNode(node)) {
+			text += node.value;
+			return;
+		}
 
+		// Skip comment or document type node
+		if (!treeAdapter.isElementNode(node)) return;
+
+		switch (node.nodeName) {
 			case 'br':
 				text += '\n';
 				break;
 
 			case 'a':
 				const txt = getText(node);
-				const rel = node.attrs.find((x: any) => x.name == 'rel');
-				const href = node.attrs.find((x: any) => x.name == 'href');
+				const rel = node.attrs.find(x => x.name === 'rel');
+				const href = node.attrs.find(x => x.name === 'href');
 
 				// ハッシュタグ
 				if (hashtagNames && href && hashtagNames.map(x => x.toLowerCase()).includes(txt.toLowerCase())) {
@@ -44,21 +50,38 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 				} else if (txt.startsWith('@') && !(rel && rel.value.match(/^me /))) {
 					const part = txt.split('@');
 
-					if (part.length == 2) {
+					if (part.length === 2 && href) {
 						//#region ホスト名部分が省略されているので復元する
 						const acct = `${txt}@${(new URL(href.value)).hostname}`;
 						text += acct;
 						//#endregion
-					} else if (part.length == 3) {
+					} else if (part.length === 3) {
 						text += txt;
 					}
 				// その他
 				} else {
-					text += !href ? txt
-						: txt === href.value
-							? txt.match(urlRegexFull) ? txt
-							: `<${txt}>`
-						: `[${txt}](${href.value})`;
+					const generateLink = () => {
+						if (!href && !txt) {
+							return '';
+						}
+						if (!href) {
+							return txt;
+						}
+						if (!txt || txt === href.value) {
+							if (href.value.match(urlRegexFull)) {
+								return href.value;
+							} else {
+								return `<${href.value}>`;
+							}
+						}
+						if (href.value.match(urlRegex) && !href.value.match(urlRegexFull)) {
+							return `[${txt}](<${href.value}>)`;
+						} else {
+							return `[${txt}](${href.value})`;
+						}
+					};
+
+					text += generateLink();
 				}
 				break;
 
