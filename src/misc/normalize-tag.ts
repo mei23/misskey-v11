@@ -1,4 +1,3 @@
-export function normalizeTag(tag?: string | null): string | null | undefined {
-	if (tag == null) return tag;
+export function normalizeTag(tag: string): string {
 	return tag.normalize('NFKC').toLowerCase();
 }

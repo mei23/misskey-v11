@@ -22,7 +22,7 @@ export async function updateUsertags(user: User, tags: string[]) {
 }
 
 export async function updateHashtag(user: User, tag: string, isUserAttached = false, inc = true) {
-	tag = normalizeTag(tag) as string;
+	tag = normalizeTag(tag);
 
 	const index = await Hashtags.findOne({ name: tag });
 

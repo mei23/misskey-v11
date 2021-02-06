@@ -362,7 +362,7 @@ async function insertNote(user: User, data: Option, tags: string[], emojis: stri
 		text: data.text,
 		hasPoll: data.poll != null,
 		cw: data.cw == null ? null : data.cw,
-		tags: tags.map(tag => normalizeTag(tag) as string),
+		tags: tags.map(tag => normalizeTag(tag)),
 		emojis,
 		userId: user.id,
 		viaMobile: data.viaMobile!,

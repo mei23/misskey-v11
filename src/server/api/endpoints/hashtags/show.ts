@@ -39,7 +39,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user) => {
-	const hashtag = await Hashtags.findOne({ name: normalizeTag(ps.tag) as string });
+	const hashtag = await Hashtags.findOne({ name: normalizeTag(ps.tag) });
 	if (hashtag == null) {
 		throw new ApiError(meta.errors.noSuchHashtag);
 	}
