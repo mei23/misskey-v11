@@ -21,15 +21,24 @@ Dockerを使ったMisskey構築方法
 
 	`git checkout master`
 
-*2.* 設定ファイルの作成と編集
+*2.* Dockerの設定
+----------------------------------------------------------------
+`docker-compose.yml`を必要に応じて編集してください。
+
+*3.* Misskeyのビルド
+----------------------------------------------------------------
+次のコマンドでビルドしてください:
+
+`docker-compose build`
+
+*4.* 設定ファイルの作成と編集
 ----------------------------------------------------------------
 
 下記コマンドで設定ファイルを作成してください。
 
 ```bash
-cd .config
-cp example.yml default.yml
-cp docker_example.env docker.env
+cp .config/example.yml .config/default.yml
+cp .config/docker_example.env .config/docker.env
 ```
 
 ### `default.yml`の編集
@@ -54,16 +63,6 @@ cp docker_example.env docker.env
 | `POSTGRES_PASSWORD` | パスワード    |
 | `POSTGRES_USER`     | ユーザー名    |
 | `POSTGRES_DB`       | データベース名 |
-
-*3.* Dockerの設定
-----------------------------------------------------------------
-`docker-compose.yml`を編集してください。
-
-*4.* Misskeyのビルド
-----------------------------------------------------------------
-次のコマンドでMisskeyをビルドしてください:
-
-`docker-compose build`
 
 *5.* データベースを初期化
 ----------------------------------------------------------------
