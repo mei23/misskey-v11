@@ -19,17 +19,26 @@ adduser --disabled-password --disabled-login misskey
 ----------------------------------------------------------------
 これらのソフトウェアをインストール・設定してください:
 
-#### 依存関係 :package:
-* **[Node.js](https://nodejs.org/en/)** (11.10.1以上)
-* **[PostgreSQL](https://www.postgresql.org/)** (10以上)
-* **[Redis](https://redis.io/)**
+#### 依存関係
+* [Node.js](https://nodejs.org/) (12以上)
+* [PostgreSQL](https://www.postgresql.org/) (10以上)
+* [Redis](https://redis.io/)
+* [FFmpeg](https://www.ffmpeg.org/)
+
+#### ビルド依存関係
+* Git
+* Yarn
+* Python (v2 or v3)
+* make および C/C++コンパイラーツール
+
+※ Debian/Ubuntu系のディストリの場合、Node.js/Yarn 以外は以下で入ります。
+```
+apt -y install redis git build-essential ffmpeg postgresql
+```
 
 ##### オプション
-* [Yarn](https://yarnpkg.com/)
-	* セキュリティの観点から推奨されます。 yarn をインストールしない方針の場合は、文章中の `yarn` を適宜 `npx yarn` と読み替えてください。
 * [Elasticsearch](https://www.elastic.co/)
 	* 検索機能を有効にするためにはインストールが必要です。
-* [FFmpeg](https://www.ffmpeg.org/)
 
 *3.* Misskeyのインストール
 ----------------------------------------------------------------
@@ -39,41 +48,30 @@ adduser --disabled-password --disabled-login misskey
 
 2. masterブランチからMisskeyレポジトリをクローン
 
-	`git clone -b master git://github.com/syuilo/misskey.git`
+	`git clone -b master https://github.com/mei23/misskey-v11.git`
 
 3. misskeyディレクトリに移動
 
 	`cd misskey`
 
-4. [最新のリリース](https://github.com/syuilo/misskey/releases/latest)を確認
-
-	`git checkout master`
-
-5. Misskeyの依存パッケージをインストール
+4. Misskeyの依存パッケージをインストール
 
 	`yarn install`
 
-*4.* 設定ファイルを作成する
-----------------------------------------------------------------
-1. `.config/example.yml`をコピーし名前を`default.yml`にする。
-
-	`cp .config/example.yml .config/default.yml`
-
-2. `default.yml` を編集する。
-
-*5.* Misskeyのビルド
+*4.* Misskeyのビルド
 ----------------------------------------------------------------
 
 次のコマンドでMisskeyをビルドしてください:
 
 `NODE_ENV=production yarn build`
 
-Debianをお使いであれば、`build-essential`パッケージをインストールする必要があります。
+*5.* 設定ファイルを作成する
+----------------------------------------------------------------
+1. `.config/example.yml`をコピーし名前を`default.yml`にする。
 
-何らかのモジュールでエラーが発生する場合はnode-gypを使ってください:
-1. `npx node-gyp configure`
-2. `npx node-gyp build`
-3. `NODE_ENV=production yarn build`
+	`cp .config/example.yml .config/default.yml`
+
+2. `default.yml` を編集する。
 
 *6.* データベースを初期化
 ----------------------------------------------------------------
@@ -114,8 +112,6 @@ yarn run init
 	[Install]
 	WantedBy=multi-user.target
 	```
-
-	CentOSで1024以下のポートを使用してMisskeyを使用する場合は`ExecStart=/usr/bin/sudo /usr/bin/npm start`に変更する必要があります。
 
 3. systemdを再読み込みしmisskeyサービスを有効化
 
