@@ -3,8 +3,6 @@ Dockerを使ったMisskey構築方法
 
 このガイドはDockerを使ったMisskeyセットアップ方法について解説します。
 
-[英語版もあります - English version also available](./docker.en.md)
-
 ----------------------------------------------------------------
 
 *1.* Misskeyのダウンロード
