@@ -1748,11 +1748,6 @@ big.js@^5.2.2:
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-5.2.2.tgz#65f0af382f578bcdc742bd9c281e9cb2d7768328"
   integrity sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==
 
-bignumber.js@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.0.tgz#805880f84a329b5eac6e7cb6f8274b6d82bdf075"
-  integrity sha512-t/OYhhJ2SD+YGBQcjY8GzzDHEk9f3nerxjtfa6tlMXfe7frs/WozhvCNoGvpM0P3bNf3Gq5ZRMlGr5f3r4/N8A==
-
 binary-extensions@^1.0.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"
@@ -2118,13 +2113,12 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cbor@5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/cbor/-/cbor-5.1.0.tgz#c3be220dcbbd96a338d279a664237aed3f596904"
-  integrity sha512-qzEc7kUShdMbWTaUH7X+aHW8owvBU3FS0dfYR1lGYpoZr0mGJhhojLlZJH653x/DfeMZ56h315FRNBUIG1R7qg==
+cbor@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/cbor/-/cbor-7.0.0.tgz#4917f5a9e054f1aa27434ff6897edd554689bba2"
+  integrity sha512-sb956Vgn7Lik7shtb4YYpXeGmDxq3xRH8ZvQLnoXoICMbQLJyw0kWtZd2VnCEWBhNHK6Qx0tdyLks99SAFPKmw==
   dependencies:
-    bignumber.js "^9.0.0"
-    nofilter "^1.0.4"
+    nofilter "^2.0.0"
 
 center-align@^0.1.1:
   version "0.1.3"
@@ -6778,10 +6772,10 @@ nodemailer@6.4.17:
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.17.tgz#8de98618028953b80680775770f937243a7d7877"
   integrity sha512-89ps+SBGpo0D4Bi5ZrxcrCiRFaMmkCt+gItMXQGzEtZVR3uAD3QAQIDoxTWnx3ky0Dwwy/dhFrQ+6NNGXpw/qQ==
 
-nofilter@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/nofilter/-/nofilter-1.0.4.tgz#78d6f4b6a613e7ced8b015cec534625f7667006e"
-  integrity sha512-N8lidFp+fCz+TD51+haYdbDGrcBWwuHX40F5+z0qkUjMJ5Tp+rdSuAkMJ9N9eoolDlEVTf6u5icM+cNKkKW2mA==
+nofilter@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/nofilter/-/nofilter-2.0.0.tgz#57a2d7c6fcd34dd396f490d6942c4f58640b5823"
+  integrity sha512-i3ck2PUWBa+trsGGBvwS3msnTowbFei5G++BgpOpT7y7VTrprXphMQP5svTdsMLdttKDZFo+5RqVWRqhmf+BwQ==
 
 noop-logger@^0.1.1:
   version "0.1.1"
