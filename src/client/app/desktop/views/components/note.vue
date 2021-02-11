@@ -26,7 +26,6 @@
 						<span v-if="appearNote.isHidden" style="opacity: 0.5">{{ $t('private') }}</span>
 						<a class="reply" v-if="appearNote.reply"><fa icon="reply"/></a>
 						<mfm v-if="appearNote.text" :text="appearNote.text" :author="appearNote.user" :i="$store.state.i" :custom-emojis="appearNote.emojis"/>
-						<a class="rp" v-if="appearNote.renote">RN:</a>
 					</div>
 					<div class="files" v-if="appearNote.files.length > 0">
 						<mk-media-list :media-list="appearNote.files"/>

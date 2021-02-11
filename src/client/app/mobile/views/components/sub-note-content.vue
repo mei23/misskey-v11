@@ -5,7 +5,7 @@
 		<span v-if="note.deletedAt" style="opacity: 0.5">({{ $t('deleted') }})</span>
 		<a class="reply" v-if="note.replyId"><fa icon="reply"/></a>
 		<mfm v-if="note.text" :text="note.text" :author="note.user" :i="$store.state.i" :custom-emojis="note.emojis"/>
-		<a class="rp" v-if="note.renoteId">RN: ...</a>
+		<router-link class="rp" v-if="note.renoteId" :to="`/notes/${note.renoteId}`">RN: ...</router-link>
 	</div>
 	<details v-if="note.files.length > 0">
 		<summary>({{ $t('media-count').replace('{}', note.files.length) }})</summary>
