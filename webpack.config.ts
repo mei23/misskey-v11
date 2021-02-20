@@ -4,9 +4,9 @@
 
 import * as fs from 'fs';
 import * as webpack from 'webpack';
+import rndstr from 'rndstr';
 import * as chalk from 'chalk';
 const { VueLoaderPlugin } = require('vue-loader');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -20,13 +20,14 @@ class WebpackOnBuildPlugin {
 }
 
 const isProduction = process.env.NODE_ENV == 'production';
-const useHardSource = process.env.MISSKEY_USE_HARD_SOURCE;
 
 const constants = require('./src/const.json');
 
 const locales = require('./locales');
 const meta = require('./package.json');
 const codename = meta.codename;
+
+const version = isProduction ? meta.version : meta.version + '-' + rndstr({ length: 8, chars: '0-9a-z' });
 
 const postcss = {
 	loader: 'postcss-loader',
@@ -127,14 +128,13 @@ module.exports = {
 		}]
 	},
 	plugins: [
-		...(useHardSource ? [new HardSourceWebpackPlugin()] : []),
 		new ProgressBarPlugin({
 			format: chalk`  {cyan.bold webpack} {bold [}:bar{bold ]} {green.bold :percent} :msg :elapseds`,
 			clear: false
 		}),
 		new webpack.DefinePlugin({
 			_COPYRIGHT_: JSON.stringify(constants.copyright),
-			_VERSION_: JSON.stringify(meta.version),
+			_VERSION_: JSON.stringify(version),
 			_CODENAME_: JSON.stringify(codename),
 			_LANGS_: JSON.stringify(Object.entries(locales).map(([k, v]: [string, any]) => [k, v && v.meta && v.meta.lang])),
 			_ENV_: JSON.stringify(process.env.NODE_ENV)
@@ -143,8 +143,7 @@ module.exports = {
 			'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
 		}),
 		new WebpackOnBuildPlugin((stats: any) => {
-			fs.writeFileSync('./built/meta.json', JSON.stringify({ version: meta.version }), 'utf-8');
-
+			fs.writeFileSync('./built/meta.json', JSON.stringify({ version }), 'utf-8');
 			fs.mkdirSync('./built/client/assets/locales', { recursive: true });
 
 			for (const [lang, locale] of Object.entries(locales))
@@ -154,7 +153,7 @@ module.exports = {
 	],
 	output: {
 		path: __dirname + '/built/client/assets',
-		filename: `[name].${meta.version}.js`,
+		filename: `[name].${version}.js`,
 		publicPath: `/assets/`
 	},
 	resolve: {

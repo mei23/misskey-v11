@@ -17,7 +17,6 @@
 		"migrateandstart": "npm run migrate && npm run start",
 		"build": "webpack && gulp build",
 		"webpack": "webpack",
-		"watch": "webpack --watch",
 		"gulp": "gulp build",
 		"clean": "gulp clean",
 		"cleanall": "gulp cleanall",
