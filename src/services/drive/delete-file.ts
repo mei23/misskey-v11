@@ -1,11 +1,13 @@
 import { DriveFile } from '../../models/entities/drive-file';
 import { InternalStorage } from './internal-storage';
-import { DriveFiles, Instances, Notes } from '../../models';
+import { DriveFiles, Instances } from '../../models';
 import { driveChart, perUserDriveChart, instanceChart } from '../chart';
 import { createDeleteObjectStorageFileJob } from '../../queue';
 import { fetchMeta } from '../../misc/fetch-meta';
 import { getS3 } from './s3';
 import { v4 as uuid } from 'uuid';
+import { getConnection } from 'typeorm';
+import { Note } from '../../models/entities/note';
 
 export async function deleteFile(file: DriveFile, isExpired = false) {
 	if (file.storedInternal) {
@@ -60,10 +62,10 @@ export async function deleteFileSync(file: DriveFile, isExpired = false) {
 		await Promise.all(promises);
 	}
 
-	postProcess(file, isExpired);
+	await postProcess(file, isExpired);
 }
 
-function postProcess(file: DriveFile, isExpired = false) {
+async function postProcess(file: DriveFile, isExpired = false) {
 	// リモートファイル期限切れ削除後は直リンクにする
 	if (isExpired && file.userHost !== null && file.uri != null) {
 		DriveFiles.update(file.id, {
@@ -78,12 +80,15 @@ function postProcess(file: DriveFile, isExpired = false) {
 			webpublicAccessKey: 'webpublic-' + uuid(),
 		});
 	} else {
-		DriveFiles.delete(file.id);
+		await getConnection().transaction(async transactionalEntityManager => {
+			await transactionalEntityManager.delete(DriveFile, file.id);
 
-		// TODO: トランザクション
-		Notes.createQueryBuilder().delete()
-			.where(':id = ANY(fileIds)', { id: file.id })
-			.execute();
+			await transactionalEntityManager.createQueryBuilder()
+				.delete()
+				.from(Note)
+				.where(':id = ANY(fileIds)', { id: file.id })
+				.execute();
+		});
 	}
 
 	// 統計を更新
