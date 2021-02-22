@@ -1,6 +1,6 @@
 import { DriveFile } from '../../models/entities/drive-file';
 import { InternalStorage } from './internal-storage';
-import { DriveFiles, Instances, Notes } from '../../models';
+import { DriveFiles, Instances } from '../../models';
 import { driveChart, perUserDriveChart, instanceChart } from '../chart';
 import { createDeleteObjectStorageFileJob } from '../../queue';
 import { fetchMeta } from '../../misc/fetch-meta';
@@ -79,11 +79,6 @@ function postProcess(file: DriveFile, isExpired = false) {
 		});
 	} else {
 		DriveFiles.delete(file.id);
-
-		// TODO: トランザクション
-		Notes.createQueryBuilder().delete()
-			.where(':id = ANY(fileIds)', { id: file.id })
-			.execute();
 	}
 
 	// 統計を更新
