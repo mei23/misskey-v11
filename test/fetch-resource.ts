@@ -22,6 +22,7 @@ const UNSPECIFIED = '*/*';
 
 // Response Contet-Type
 const AP = 'application/activity+json; charset=utf-8';
+const JSON = 'application/json; charset=utf-8';
 const HTML = 'text/html; charset=utf-8';
 
 describe('Fetch resource', () => {
@@ -50,23 +51,27 @@ describe('Fetch resource', () => {
 		}));
 
 		it('GET root', async(async () => {
-			const res = await simpleGet('/', 'text/html');
+			const res = await simpleGet('/');
 			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
 		}));
 
 		it('GET docs', async(async () => {
-			const res = await simpleGet('/docs/ja-JP/about', 'text/html');
+			const res = await simpleGet('/docs/ja-JP/about');
 			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
 		}));
 
 		it('GET api-doc', async(async () => {
-			const res = await simpleGet('/api-doc', 'text/html');
+			const res = await simpleGet('/api-doc');
 			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
 		}));
 
 		it('GET api.json', async(async () => {
-			const res = await simpleGet('/api.json', 'application/json');
+			const res = await simpleGet('/api.json');
 			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, JSON);
 		}));
 	});
 
