@@ -6,6 +6,7 @@ import { publishMainStream } from '../../stream';
 import { User, ILocalUser } from '../../../models/entities/user';
 import { Users, FollowRequests, Followings } from '../../../models';
 import { decrementFollowing } from '../delete';
+import { publishFollowingChanged } from '../../server-event';
 
 export default async function(followee: User, follower: User) {
 	if (Users.isRemoteUser(follower)) {
@@ -34,6 +35,10 @@ export default async function(followee: User, follower: User) {
 		if (following) {
 			await Followings.delete(following.id);
 			decrementFollowing(follower, followee);
+
+			if (Users.isLocalUser(follower)) {
+				publishFollowingChanged(follower.id);
+			}
 		}
 	}
 

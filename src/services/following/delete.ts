@@ -8,6 +8,7 @@ import { registerOrFetchInstanceDoc } from '../register-or-fetch-instance-doc';
 import { User } from '../../models/entities/user';
 import { Followings, Users, Instances } from '../../models';
 import { instanceChart, perUserFollowingChart } from '../chart';
+import { publishFollowingChanged } from '../server-event';
 
 const logger = new Logger('following/delete');
 
@@ -36,6 +37,10 @@ export default async function(follower: User, followee: User, silent = false) {
 	if (Users.isLocalUser(follower) && Users.isRemoteUser(followee)) {
 		const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
 		deliver(follower, content, followee.inbox);
+	}
+
+	if (Users.isLocalUser(follower)) {
+		publishFollowingChanged(follower.id);
 	}
 }
 
