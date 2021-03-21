@@ -32,7 +32,7 @@ export async function pupulateEmoji(emojiName: string, noteUserHost: string | nu
 		: isSelfHost(match[2]) ? null	// 自ホスト指定
 		: (match[2] || noteUserHost);	// 指定されたホスト || ノートのオーナーのホスト (こっちがリアクションにマッチすることはない)
 
-	host = toPunyNullable(noteUserHost);
+	host = toPunyNullable(host);
 
 	const queryOrNull = async () => (await Emojis.findOne({
 		name,
