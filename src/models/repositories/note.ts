@@ -1,14 +1,13 @@
 import { EntityRepository, Repository, In } from 'typeorm';
 import { Note } from '../entities/note';
 import { User } from '../entities/user';
-import { unique, concat } from '../../prelude/array';
 import { nyaize } from '../../misc/nyaize';
-import { Emojis, Users, Apps, PollVotes, DriveFiles, NoteReactions, Followings, Polls } from '..';
+import { Users, Apps, PollVotes, DriveFiles, NoteReactions, Followings, Polls } from '..';
 import { ensure } from '../../prelude/ensure';
 import { SchemaType } from '../../misc/schema';
 import { awaitAll } from '../../prelude/await-all';
-import { Emoji } from '../entities/emoji';
 import { decodeReaction, convertLegacyReactions, convertLegacyReaction } from '../../misc/reaction-lib';
+import { populateEmojis } from '../../misc/populate-emojis';
 
 export type PackedNote = SchemaType<typeof packedNoteSchema>;
 
@@ -131,63 +130,6 @@ export class NoteRepository extends Repository<Note> {
 			};
 		}
 
-		/**
-		 * 添付用emojisを解決する
-		 * @param emojiNames Note等に添付されたカスタム絵文字名 (:は含めない)
-		 * @param noteUserHost Noteのホスト
-		 * @param reactionNames Note等にリアクションされたカスタム絵文字名 (:は含めない)
-		 */
-		async function populateEmojis(emojiNames: string[], noteUserHost: string | null, reactionNames: string[]) {
-			let all = [] as {
-				name: string,
-				url: string
-			}[];
-
-			// カスタム絵文字
-			if (emojiNames?.length > 0) {
-				const tmp = await Emojis.find({
-					where: {
-						name: In(emojiNames),
-						host: noteUserHost
-					},
-					select: ['name', 'host', 'url']
-				}).then(emojis => emojis.map((emoji: Emoji) => {
-					return {
-						name: emoji.name,
-						url: emoji.url,
-					};
-				}));
-
-				all = concat([all, tmp]);
-			}
-
-			const customReactions = reactionNames?.map(x => decodeReaction(x)).filter(x => x.name);
-
-			if (customReactions?.length > 0) {
-				const where = [] as {}[];
-
-				for (const customReaction of customReactions) {
-					where.push({
-						name: customReaction.name,
-						host: customReaction.host
-					});
-				}
-
-				const tmp = await Emojis.find({
-					where,
-					select: ['name', 'host', 'url']
-				}).then(emojis => emojis.map((emoji: Emoji) => {
-					return {
-						name: `${emoji.name}@${emoji.host || '.'}`,	// @host付きでローカルは.
-						url: emoji.url,
-					};
-				}));
-				all = concat([all, tmp]);
-			}
-
-			return all;
-		}
-
 		async function populateMyReaction() {
 			const reaction = await NoteReactions.findOne({
 				userId: meId!,
@@ -223,7 +165,7 @@ export class NoteRepository extends Repository<Note> {
 			repliesCount: note.repliesCount,
 			reactions: convertLegacyReactions(note.reactions),
 			tags: note.tags.length > 0 ? note.tags : undefined,
-			emojis: populateEmojis(note.emojis, host, Object.keys(note.reactions)),
+			emojis: populateEmojis(note.emojis.concat(Object.keys(note.reactions).map(x => decodeReaction(x).reaction)), host),
 			fileIds: note.fileIds,
 			files: DriveFiles.packMany(note.fileIds),
 			replyId: note.replyId,
