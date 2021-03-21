@@ -165,7 +165,7 @@ export class NoteRepository extends Repository<Note> {
 			repliesCount: note.repliesCount,
 			reactions: convertLegacyReactions(note.reactions),
 			tags: note.tags.length > 0 ? note.tags : undefined,
-			emojis: populateEmojis(note.emojis.concat(Object.keys(note.reactions).map(x => decodeReaction(x).reaction)), host),
+			emojis: populateEmojis(note.emojis.concat(Object.keys(note.reactions).filter(x => x.startsWith(':')).map(x => decodeReaction(x).reaction).map(x => x.replace(/:/g, ''))), host),
 			fileIds: note.fileIds,
 			files: DriveFiles.packMany(note.fileIds),
 			replyId: note.replyId,
