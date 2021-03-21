@@ -24,13 +24,20 @@ export class Cache<T> {
 		return cached.value;
 	}
 
+	public delete(key: string | null) {
+		const r = this.cache.delete(key);
+		console.log(`DELETE: '${key}' ${r}`);
+	}
+
 	public async fetch(key: string | null, fetcher: () => Promise<T | null>): Promise<T | null> {
 		const cachedValue = this.get(key);
 		if (cachedValue !== undefined) {
 			// Cache HIT
+			console.log(`HIT: '${key}'`);
 			return cachedValue;
 		}
 
+		console.log(`MISS: '${key}'`);
 		// Cache MISS
 		const value = await fetcher();
 		this.set(key, value);

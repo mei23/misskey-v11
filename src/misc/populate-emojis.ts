@@ -1,8 +1,10 @@
 import { Emojis } from '../models';
+import { Emoji } from '../models/entities/emoji';
+import { getServerSubscriber } from '../services/server-subscriber';
 import { Cache } from './cache';
 import { isSelfHost, toPunyNullable } from './convert-host';
 
-const cache = new Cache<PopulatedEmoji | null>(1000 * 60 * 60);
+const cache = new Cache<Emoji | null>(1000 * 60 * 60);
 
 /**
  * 添付用絵文字情報
@@ -32,10 +34,12 @@ export async function pupulateEmoji(emojiName: string, noteUserHost: string | nu
 
 	host = toPunyNullable(noteUserHost);
 
-	const emoji = await Emojis.findOne({
+	const queryOrNull = async () => (await Emojis.findOne({
 		name,
 		host
-	});
+	})) || null;
+
+	const emoji = await cache.fetch(`${name} ${host}`, queryOrNull);
 
 	if (emoji == null) return null;
 
@@ -46,16 +50,18 @@ export async function pupulateEmoji(emojiName: string, noteUserHost: string | nu
 }
 
 /**
- * 添付用絵文字情報を解決する (キャッシュ付き)
- */
-export async function pupulateEmojiWithCache(emojiName: string, noteUserHost: string | null): Promise<PopulatedEmoji | null> {
-	return await cache.fetch(emojiName, () => pupulateEmoji(emojiName, noteUserHost));
-}
-
-/**
  * 複数の添付用絵文字情報を解決する (キャシュ付き, 存在しないものは結果から除外される)
  */
 export async function populateEmojis(emojiNames: string[], noteUserHost: string | null): Promise<PopulatedEmoji[]> {
-	const emojis = await Promise.all(emojiNames.map(x => pupulateEmojiWithCache(x, noteUserHost)));
+	const emojis = await Promise.all(emojiNames.map(x => pupulateEmoji(x, noteUserHost)));
 	return emojis.filter((x): x is PopulatedEmoji => x != null);
 }
+
+// イベントでアップデート
+const ev = getServerSubscriber();
+
+ev.on('serverEvent', (data: any) => {
+	if (data.type === 'emojiUpdated') {
+		cache.delete(`${data.body.name} ${data.body.host}`);
+	}
+});
