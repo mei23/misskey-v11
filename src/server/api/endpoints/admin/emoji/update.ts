@@ -5,7 +5,6 @@ import { ID } from '../../../../../misc/cafy-id';
 import { Emojis } from '../../../../../models';
 import { getConnection } from 'typeorm';
 import { ApiError } from '../../../error';
-import { publishEmojiUpdated } from '../../../../../services/server-event';
 
 export const meta = {
 	desc: {
@@ -65,6 +64,4 @@ export default define(meta, async (ps) => {
 	});
 
 	await getConnection().queryResultCache!.remove(['meta_emojis']);
-
-	publishEmojiUpdated(ps.name, null);
 });

@@ -17,6 +17,3 @@ export async function publishInstanceModUpdated() {
 	await publishServerEvent(null, 'instanceModUpdated');
 }
 
-export async function publishEmojiUpdated(name: string, host: string | null) {
-	await publishServerEvent(null, 'emojiUpdated', { name, host });
-}

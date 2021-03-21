@@ -27,7 +27,6 @@ import { createMessage } from '../../../services/messages/create';
 import { parseAudience } from '../audience';
 import { extractApMentions } from './mention';
 import DbResolver from '../db-resolver';
-import { publishEmojiUpdated } from '../../../services/server-event';
 
 const logger = apLogger;
 
@@ -338,8 +337,6 @@ export async function extractEmojis(tags: IObject | IObject[], host: string): Pr
 					updatedAt: new Date(),
 				});
 
-				publishEmojiUpdated(name, host);
-
 				return await Emojis.findOne({
 					host,
 					name
@@ -350,7 +347,6 @@ export async function extractEmojis(tags: IObject | IObject[], host: string): Pr
 		}
 
 		logger.info(`register emoji host=${host}, name=${name}`);
-		publishEmojiUpdated(name, host);
 
 		return await Emojis.save({
 			id: genId(),
