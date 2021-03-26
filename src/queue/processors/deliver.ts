@@ -24,7 +24,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 	}
 
 	// closedなら中断
-	if (isClosedHost(host)) {
+	if (await isClosedHost(host)) {
 		return 'skip (closed)';
 	}
 
