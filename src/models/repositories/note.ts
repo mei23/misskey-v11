@@ -8,6 +8,8 @@ import { SchemaType } from '../../misc/schema';
 import { awaitAll } from '../../prelude/await-all';
 import { decodeReaction, convertLegacyReactions, convertLegacyReaction } from '../../misc/reaction-lib';
 import { populateEmojis } from '../../misc/populate-emojis';
+import { parse } from '../../mfm/parse';
+import { toString } from '../../mfm/to-string';
 
 export type PackedNote = SchemaType<typeof packedNoteSchema>;
 
@@ -192,7 +194,8 @@ export class NoteRepository extends Repository<Note> {
 		});
 
 		if (packed.user.isCat && packed.text) {
-			packed.text = nyaize(packed.text);
+			const tokens = packed.text ? parse(packed.text) : [];
+			packed.text = toString(tokens, { doNyaize: true });
 		}
 
 		if (!opts.skipHide) {

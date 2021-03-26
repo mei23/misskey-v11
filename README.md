@@ -15,3 +15,5 @@ Twitter新UIのプレビューに対応, 偽の引用投稿が生成されてし
 
 その他は以下を参照  
 https://github.com/mei23/misskey-v11/releases
+
+リリースはリリースノート書きたくなったときに切ります
