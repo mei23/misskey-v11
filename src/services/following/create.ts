@@ -15,6 +15,7 @@ import { genId } from '../../misc/gen-id';
 import { createNotification } from '../create-notification';
 import { isDuplicateKeyValueError } from '../../misc/is-duplicate-key-value-error';
 import { ensure } from '../../prelude/ensure';
+import { publishFollowingChanged } from '../server-event';
 
 const logger = new Logger('following/create');
 
@@ -155,5 +156,9 @@ export default async function(follower: User, followee: User, requestId?: string
 	if (Users.isRemoteUser(follower) && Users.isLocalUser(followee)) {
 		const content = renderActivity(renderAccept(renderFollow(follower, followee, requestId), followee));
 		deliver(followee, content, follower.inbox);
+	}
+
+	if (Users.isLocalUser(follower)) {
+		publishFollowingChanged(follower.id);
 	}
 }

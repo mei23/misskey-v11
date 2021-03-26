@@ -6,6 +6,7 @@ import { getUser } from '../../common/getters';
 import { genId } from '../../../../misc/gen-id';
 import { Mutings, NoteWatchings } from '../../../../models';
 import { Muting } from '../../../../models/entities/muting';
+import { publishMutingChanged } from '../../../../services/server-event';
 
 export const meta = {
 	desc: {
@@ -86,4 +87,6 @@ export default define(meta, async (ps, user) => {
 		userId: muter.id,
 		noteUserId: mutee.id
 	});
+
+	publishMutingChanged(muter.id);
 });

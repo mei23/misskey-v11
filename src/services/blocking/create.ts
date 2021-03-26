@@ -9,6 +9,7 @@ import { User } from '../../models/entities/user';
 import { Blockings, Users, FollowRequests, Followings } from '../../models';
 import { perUserFollowingChart } from '../chart';
 import { genId } from '../../misc/gen-id';
+import { publishFollowingChanged } from '../server-event';
 
 export default async function(blocker: User, blockee: User) {
 	await Promise.all([
@@ -98,6 +99,8 @@ async function unFollow(follower: User, followee: User) {
 		Users.pack(followee, follower, {
 			detail: true
 		}).then(packed => publishMainStream(follower.id, 'unfollow', packed));
+
+		publishFollowingChanged(follower.id);
 	}
 
 	// リモートにフォローをしていたらUndoFollow送信
