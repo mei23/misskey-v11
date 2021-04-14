@@ -32,11 +32,13 @@ const version = isProduction ? meta.version : meta.version + '-' + rndstr({ leng
 const postcss = {
 	loader: 'postcss-loader',
 	options: {
-		plugins: [
-			require('cssnano')({
-				preset: 'default'
-			})
-		]
+		postcssOptions: {
+			plugins: [
+				require('cssnano')({
+					preset: 'default'
+				})
+			]
+		},
 	},
 };
 
