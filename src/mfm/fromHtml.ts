@@ -1,6 +1,6 @@
 import * as parse5 from 'parse5';
 import treeAdapter = require('parse5/lib/tree-adapters/default');
-import { urlRegex, urlRegexFull } from './prelude';
+import { urlRegexFull } from './prelude';
 
 export function fromHtml(html: string, hashtagNames?: string[]): string {
 	const dom = parse5.parseFragment(html);
@@ -60,24 +60,42 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 					}
 				// その他
 				} else {
+					const isPlainSafe = (input: string): boolean => {
+						if (input.match(/[()]/)) return false;
+						if (input.match(/[.,]$/)) return false;
+						if (input.match(urlRegexFull)) return true;
+						return false;
+					};
+
 					const generateLink = () => {
+						// hrefもtextもない
 						if (!href && !txt) {
 							return '';
 						}
+
+						// hrefがない
 						if (!href) {
 							return txt;
 						}
-						if (!txt || txt === href.value) {
-							if (href.value.match(urlRegexFull)) {
-								return href.value;
-							} else {
-								return `<${href.value}>`;
-							}
+
+						// ラベル不要＆安全にベタ書き出来るURL
+						if ((!txt || txt === href.value) && isPlainSafe(href.value)) {
+							return href.value;
 						}
-						if (href.value.match(urlRegex) && !href.value.match(urlRegexFull)) {
-							return `[${txt}](<${href.value}>)`;
+
+						let encoded: string | null = null;
+						try {
+							encoded = href.value.match(/^https?:[/][/]/)
+								? new URL(href.value).href
+									.replace(/[()]/g, c => '%' + c.charCodeAt(0).toString(16))
+									.replace(/[.,]$/, c => '%' + c.charCodeAt(0).toString(16))
+								: null;
+						} catch { }
+
+						if (encoded) {
+							return `[${txt}](${encoded})`;
 						} else {
-							return `[${txt}](${href.value})`;
+							return txt;
 						}
 					};
 

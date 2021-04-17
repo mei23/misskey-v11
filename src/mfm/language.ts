@@ -165,9 +165,9 @@ export const mfmLanguage = P.createLanguage({
 				i += 2;
 			} else {
 				url = match[0];
+				url = removeOrphanedBrackets(url);
+				url = url.replace(/[.,]*$/, '');
 			}
-			url = removeOrphanedBrackets(url);
-			url = url.replace(/[.,]*$/, '');
 			return P.makeSuccess(i + url.length, url);
 		}).map(x => createLeaf('url', { url: x }));
 	},
