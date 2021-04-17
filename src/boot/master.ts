@@ -6,7 +6,6 @@ import * as portscanner from 'portscanner';
 import Logger from '../services/logger';
 import loadConfig from '../config/load';
 import { Config } from '../config/types';
-import { lessThan } from '../prelude/array';
 import { program } from '../argv';
 import { showMachineInfo } from '../misc/show-machine-info';
 import { initDb } from '../db/postgre';
@@ -80,8 +79,6 @@ export async function masterMain() {
 }
 
 const runningNodejsVersion = process.version.slice(1).split('.').map(x => parseInt(x, 10));
-const requiredNodejsVersion = [11, 7, 0];
-const satisfyNodejsVersion = !lessThan(runningNodejsVersion, requiredNodejsVersion);
 
 async function isPortAvailable(port: number): Promise<boolean> {
 	return await portscanner.checkPortStatus(port, '127.0.0.1') === 'closed';
@@ -107,11 +104,6 @@ async function init(): Promise<Config> {
 	const nodejsLogger = bootLogger.createSubLogger('nodejs');
 
 	nodejsLogger.info(`Version ${runningNodejsVersion.join('.')}`);
-
-	if (!satisfyNodejsVersion) {
-		nodejsLogger.error(`Node.js version is less than ${requiredNodejsVersion.join('.')}. Please upgrade it.`, null, true);
-		process.exit(1);
-	}
 
 	await showMachineInfo(bootLogger);
 
