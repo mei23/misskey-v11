@@ -2,7 +2,6 @@ import * as os from 'os';
 import * as cluster from 'cluster';
 import * as chalk from 'chalk';
 import * as portscanner from 'portscanner';
-import * as isRoot from 'is-root';
 
 import Logger from '../services/logger';
 import loadConfig from '../config/load';
@@ -55,11 +54,6 @@ export async function masterMain() {
 			process.exit(1);
 		}
 
-		if (process.platform === 'linux' && isWellKnownPort(config.port) && !isRoot()) {
-			bootLogger.error('You need root privileges to listen on well-known port on Linux', null, true);
-			process.exit(1);
-		}
-
 		if (!await isPortAvailable(config.port)) {
 			bootLogger.error(`Port ${config.port} is already in use`, null, true);
 			process.exit(1);
@@ -89,10 +83,6 @@ const runningNodejsVersion = process.version.slice(1).split('.').map(x => parseI
 const requiredNodejsVersion = [11, 7, 0];
 const satisfyNodejsVersion = !lessThan(runningNodejsVersion, requiredNodejsVersion);
 
-function isWellKnownPort(port: number): boolean {
-	return port < 1024;
-}
-
 async function isPortAvailable(port: number): Promise<boolean> {
 	return await portscanner.checkPortStatus(port, '127.0.0.1') === 'closed';
 }
@@ -106,8 +96,6 @@ function showEnvironment(): void {
 		logger.warn('The environment is not in production mode.');
 		logger.warn('DO NOT USE FOR PRODUCTION PURPOSE!', null, true);
 	}
-
-	logger.info(`You ${isRoot() ? '' : 'do not '}have root privileges`);
 }
 
 /**
