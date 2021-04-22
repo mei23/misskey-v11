@@ -222,7 +222,7 @@
 		"three": "0.127.0",
 		"tinycolor2": "1.4.2",
 		"tmp": "0.2.1",
-		"ts-loader": "8.1.0",
+		"ts-loader": "9.1.0",
 		"ts-node": "9.1.1",
 		"tslint": "5.20.1",
 		"tslint-sonarts": "1.9.0",
