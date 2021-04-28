@@ -96,7 +96,7 @@
 		"@types/webpack": "5.28.0",
 		"@types/webpack-stream": "3.2.12",
 		"@types/websocket": "1.0.2",
-		"@types/ws": "7.4.1",
+		"@types/ws": "7.4.2",
 		"@typescript-eslint/parser": "2.33.0",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
