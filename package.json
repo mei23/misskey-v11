@@ -25,9 +25,7 @@
 		"format": "gulp format"
 	},
 	"resolutions": {
-		"lodash": "^4.17.21",
-		"gulp/gulp-cli/yargs/yargs-parser": "5.0.0-security.0",
-		"jsonld/rdf-canonize/node-forge": "0.10.0"
+		"lodash": "^4.17.21"
 	},
 	"dependencies": {
 		"@elastic/elasticsearch": "7.12.0",
