@@ -11,7 +11,7 @@ import * as rimraf from 'rimraf';
 import * as chalk from 'chalk';
 import * as rename from 'gulp-rename';
 import * as mocha from 'gulp-mocha';
-import * as replace from 'gulp-replace';
+const replace = require('gulp-replace');
 const cleanCSS = require('gulp-clean-css');
 const terser = require('gulp-terser');
 
