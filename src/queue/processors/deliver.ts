@@ -7,7 +7,7 @@ import { instanceChart } from '../../services/chart';
 import { fetchNodeinfo } from '../../services/fetch-nodeinfo';
 import { fetchMeta } from '../../misc/fetch-meta';
 import { toPuny } from '../../misc/convert-host';
-import { DeliverJobData } from '../type';
+import { DeliverJobData } from '../types';
 import { isClosedHost } from '../../services/instance-moderation';
 
 const logger = new Logger('deliver');

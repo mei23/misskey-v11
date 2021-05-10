@@ -7,7 +7,7 @@ import { resolveUser } from '../../../remote/resolve-user';
 import { downloadTextFile } from '../../../misc/download-text-file';
 import { isSelfHost, toPuny } from '../../../misc/convert-host';
 import { Users, DriveFiles } from '../../../models';
-import { DbUserImportJobData } from '../../type';
+import { DbUserImportJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('import-following');
 

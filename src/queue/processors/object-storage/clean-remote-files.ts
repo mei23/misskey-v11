@@ -4,7 +4,7 @@ import { queueLogger } from '../../logger';
 import { deleteFileSync } from '../../../services/drive/delete-file';
 import { DriveFiles } from '../../../models';
 import { MoreThan, Not, IsNull } from 'typeorm';
-import { CleanRemoteFilesJobData } from '../../type';
+import { CleanRemoteFilesJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('clean-remote-files');
 

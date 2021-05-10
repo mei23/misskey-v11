@@ -12,7 +12,7 @@ import procesObjectStorage from './processors/object-storage';
 import { queueLogger } from './logger';
 import { DriveFile } from '../models/entities/drive-file';
 import { getJobInfo } from './get-job-info';
-import { DbJobData, DeliverJobData, InboxJobData, ObjectStorageJobData } from './type';
+import { DbJobData, DeliverJobData, InboxJobData, ObjectStorageJobData } from './types';
 import { IActivity } from '../remote/activitypub/type';
 
 function initializeQueue<T>(name: string, limitPerSec = -1) {

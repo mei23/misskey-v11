@@ -8,7 +8,7 @@ import dateFormat = require('dateformat');
 import { getFullApAccount } from '../../../misc/convert-host';
 import { Users, Blockings } from '../../../models';
 import { MoreThan } from 'typeorm';
-import { DbUserJobData } from '../../type';
+import { DbUserJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('export-blocking');
 

@@ -10,7 +10,7 @@ import { MoreThan } from 'typeorm';
 import { Note } from '../../../models/entities/note';
 import { Poll } from '../../../models/entities/poll';
 import { ensure } from '../../../prelude/ensure';
-import { DbUserJobData } from '../../type';
+import { DbUserJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('export-notes');
 
