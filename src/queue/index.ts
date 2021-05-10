@@ -1,4 +1,3 @@
-import * as Queue from 'bull';
 import * as httpSignature from 'http-signature';
 
 import config from '../config';
@@ -12,24 +11,8 @@ import procesObjectStorage from './processors/object-storage';
 import { queueLogger } from './logger';
 import { DriveFile } from '../models/entities/drive-file';
 import { getJobInfo } from './get-job-info';
-import { DbJobData, DeliverJobData, InboxJobData, ObjectStorageJobData } from './types';
 import { IActivity } from '../remote/activitypub/type';
-
-function initializeQueue<T>(name: string, limitPerSec = -1) {
-	return new Queue<T>(name, {
-		redis: {
-			port: config.redis.port,
-			host: config.redis.host,
-			password: config.redis.pass,
-			db: config.redis.db || 0,
-		},
-		prefix: config.redis.prefix ? `${config.redis.prefix}:queue` : 'queue',
-		limiter: limitPerSec > 0 ? {
-			max: limitPerSec * 5,
-			duration: 5000
-		} : undefined
-	});
-}
+import { dbQueue, deliverQueue, inboxQueue, objectStorageQueue } from './queues';
 
 function renderError(e: Error): any {
 	return {
@@ -38,11 +21,6 @@ function renderError(e: Error): any {
 		name: e?.name
 	};
 }
-
-export const deliverQueue = initializeQueue<DeliverJobData>('deliver', config.deliverJobPerSec || 128);
-export const inboxQueue = initializeQueue<InboxJobData>('inbox', config.inboxJobPerSec || 16);
-export const dbQueue = initializeQueue<DbJobData>('db');
-export const objectStorageQueue = initializeQueue<ObjectStorageJobData>('objectStorage');
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const inboxLogger = queueLogger.createSubLogger('inbox');

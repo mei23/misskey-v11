@@ -8,6 +8,7 @@ import { exportUserLists } from './export-user-lists';
 import { importFollowing } from './import-following';
 import { importBlocking } from './import-blocking';
 import { importUserLists } from './import-user-lists';
+import { DbJobData } from '../../types';
 
 const jobs = {
 	deleteDriveFiles,
@@ -19,10 +20,10 @@ const jobs = {
 	importFollowing,
 	importBlocking,
 	importUserLists
-} as any;
+} as Record<string, Bull.ProcessCallbackFunction<DbJobData> | Bull.ProcessPromiseFunction<DbJobData>>;
 
-export default function(dbQueue: Bull.Queue) {
+export default function(dbQueue: Bull.Queue<DbJobData>) {
 	for (const [k, v] of Object.entries(jobs)) {
-		dbQueue.process(k, v as any);
+		dbQueue.process(k, v);
 	}
 }
