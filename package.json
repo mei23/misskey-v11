@@ -175,7 +175,7 @@
 		"parsimmon": "1.17.0",
 		"pg": "8.6.0",
 		"portscanner": "2.2.0",
-		"postcss": "8.2.14",
+		"postcss": "8.2.15",
 		"postcss-loader": "5.2.0",
 		"probe-image-size": "7.1.0",
 		"progress-bar-webpack-plugin": "2.1.0",
