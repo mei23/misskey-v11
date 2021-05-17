@@ -41,7 +41,8 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 const _http = new http.Agent({
 	keepAlive: true,
 	keepAliveMsecs: 30 * 1000,
-});
+	lookup: cache.lookup,
+} as http.AgentOptions);
 
 /**
  * Get https non-proxy agent
@@ -56,14 +57,14 @@ const _https = new https.Agent({
  * Get http proxy or non-proxy agent
  */
 export const httpAgent = config.proxy
-	? new HttpProxyAgent(config.proxy) as unknown as http.Agent
+	? new HttpProxyAgent(config.proxy)
 	: _http;
 
 /**
  * Get https proxy or non-proxy agent
  */
 export const httpsAgent = config.proxy
-	? new HttpsProxyAgent(config.proxy) as unknown as https.Agent
+	? new HttpsProxyAgent(config.proxy)
 	: _https;
 
 /**
