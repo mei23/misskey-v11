@@ -37,7 +37,7 @@ export default async function(user: User, note: Note, quiet = false) {
 		});
 
 		//#region ローカルの投稿なら削除アクティビティを配送
-		if (Users.isLocalUser(user)) {
+		if (Users.isLocalUser(user) && !note.localOnly) {
 			let renote: Note | undefined;
 
 			if (note.renoteId && note.text == null && !note.hasPoll && (note.fileIds == null || note.fileIds.length == 0)) {
