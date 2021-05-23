@@ -2,6 +2,7 @@ import define from '../../define';
 import { fetchMeta } from '../../../../misc/fetch-meta';
 import { Notes } from '../../../../models';
 import { Note } from '../../../../models/entities/note';
+import { safeForSql } from '../../../../misc/safe-for-sql';
 
 /*
 トレンドに載るためには「『直近a分間のユニーク投稿数が今からa分前～今からb分前の間のユニーク投稿数のn倍以上』のハッシュタグの上位5位以内に入る」ことが必要
@@ -108,7 +109,7 @@ export default define(meta, async () => {
 	for (let i = 0; i < range; i++) {
 		countPromises.push(Promise.all(hots.map(tag => Notes.createQueryBuilder('note')
 			.select('count(distinct note.userId)')
-			.where(':tag = ANY(note.tags)', { tag: tag })
+			.where(`'{"${safeForSql(tag) ? tag : 'aichan_kawaii'}"}' <@ note.tags`)
 			.andWhere('note.createdAt < :lt', { lt: new Date(now.getTime() - (interval * i)) })
 			.andWhere('note.createdAt > :gt', { gt: new Date(now.getTime() - (interval * (i + 1))) })
 			.cache(60000) // 1 min
@@ -121,7 +122,7 @@ export default define(meta, async () => {
 
 	const totalCounts = await Promise.all(hots.map(tag => Notes.createQueryBuilder('note')
 		.select('count(distinct note.userId)')
-		.where(':tag = ANY(note.tags)', { tag: tag })
+		.where(`'{"${safeForSql(tag) ? tag : 'aichan_kawaii'}"}' <@ note.tags`)
 		.andWhere('note.createdAt > :gt', { gt: new Date(now.getTime() - (interval * range)) })
 		.cache(60000) // 1 min
 		.getRawOne()
