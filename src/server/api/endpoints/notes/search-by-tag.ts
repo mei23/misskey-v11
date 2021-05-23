@@ -103,13 +103,11 @@ export default define(meta, async (ps, me) => {
 	if (ps.tag) {
 		query.andWhere(`'{"${safeForSql(ps.tag) ? normalizeTag(ps.tag) : 'aichan_kawaii'}"}' <@ note.tags`);
 	} else {
-		let i = 0;
 		query.andWhere(new Brackets(qb => {
 			for (const tags of ps.query!) {
 				qb.orWhere(new Brackets(qb => {
 					for (const tag of tags) {
 						qb.andWhere(`'{"${safeForSql(tag) ? normalizeTag(tag) : 'aichan_kawaii'}"}' <@ note.tags`);
-						i++;
 					}
 				}));
 			}
