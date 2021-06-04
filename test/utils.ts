@@ -2,6 +2,7 @@ import * as childProcess from 'child_process';
 import fetch from 'node-fetch';
 import * as http from 'http';
 import loadConfig from '../src/config/load';
+import { SIGKILL } from 'constants';
 
 const port = loadConfig().port;
 
@@ -24,6 +25,22 @@ export function launchServer(callbackSpawnedProcess: (p: childProcess.ChildProce
 			if (message === 'ok') moreProcess().then(() => done()).catch(e => done(e));
 		});
 	};
+}
+
+export function shutdownServer(p: childProcess.ChildProcess, timeout = 20 * 1000) {
+	return new Promise((res, rej) => {
+		const t = setTimeout(() => {
+			p.kill(SIGKILL);
+			res('force exit');
+		}, timeout);
+
+		p.once('exit', () => {
+			clearTimeout(t);
+			res('exited');
+		});
+
+		p.kill();
+	});
 }
 
 export const api = async (endpoint: string, params: any, me?: any): Promise<{ body: any, status: number }> => {

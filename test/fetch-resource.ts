@@ -12,7 +12,7 @@ process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, launchServer, signup, post, api, simpleGet } from './utils';
+import { async, launchServer, signup, post, api, simpleGet, shutdownServer } from './utils';
 
 // Request Accept
 const ONLY_AP = 'application/activity+json';
@@ -38,8 +38,8 @@ describe('Fetch resource', () => {
 		});
 	}));
 
-	after(() => {
-		p.kill();
+	after(async () => {
+		await shutdownServer(p);
 	});
 
 	describe('Common', () => {
