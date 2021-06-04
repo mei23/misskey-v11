@@ -10,6 +10,7 @@ import { program } from '../argv';
 import { showMachineInfo } from '../misc/show-machine-info';
 import { initDb } from '../db/postgre';
 import * as meta from '../meta.json';
+import { inspect } from 'util';
 
 const logger = new Logger('core', 'cyan');
 const bootLogger = logger.createSubLogger('boot', 'magenta', false);
@@ -132,7 +133,7 @@ async function init(): Promise<Config> {
 		await initDb();
 	} catch (e) {
 		bootLogger.error('Cannot connect to database', null, true);
-		bootLogger.error(e);
+		bootLogger.error(inspect(e));
 		process.exit(1);
 	}
 
