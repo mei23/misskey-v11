@@ -252,5 +252,8 @@
 		"websocket": "1.0.34",
 		"ws": "7.4.6",
 		"xev": "2.0.1"
+	},
+	"devDependencies": {
+		"@redocly/openapi-core": "1.0.0-beta.50"
 	}
 }

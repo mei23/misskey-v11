@@ -2,17 +2,18 @@
  * Tests for Fetch resource
  *
  * How to run the tests:
- * > TS_NODE_FILES=true npx mocha test/fetch-resource.ts --require ts-node/register
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/fetch-resource.ts --require ts-node/register
  *
  * To specify test:
- * > TS_NODE_FILES=true npx mocha test/fetch-resource.ts --require ts-node/register -g 'test name'
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/fetch-resource.ts --require ts-node/register -g 'test name'
  */
 
 process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, launchServer, signup, post, api, simpleGet, shutdownServer } from './utils';
+import { async, startServer, signup, post, api, simpleGet, port, shutdownServer } from './utils';
+import * as openapi from '@redocly/openapi-core';
 
 // Request Accept
 const ONLY_AP = 'application/activity+json';
@@ -31,12 +32,13 @@ describe('Fetch resource', () => {
 	let alice: any;
 	let alicesPost: any;
 
-	before(launchServer(g => p = g, async () => {
+	before(async () => {
+		p = await startServer();
 		alice = await signup({ username: 'alice' });
 		alicesPost = await post(alice, {
 			text: 'test'
 		});
-	}));
+	});
 
 	after(async () => {
 		await shutdownServer(p);
@@ -72,6 +74,32 @@ describe('Fetch resource', () => {
 			const res = await simpleGet('/api.json');
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, JSON);
+		}));
+
+		it('Validate api.json', async(async () => {
+			const config = await openapi.loadConfig();
+			const result = await openapi.bundle({
+				config,
+				ref: `http://localhost:${port}/api.json`
+			});
+
+			for (const problem of result.problems) {
+				console.log(`${problem.message} - ${problem.location[0]?.pointer}`);
+			}
+
+			assert.strictEqual(result.problems.length, 0);
+		}));
+
+		it('GET favicon.ico', async(async () => {
+			const res = await simpleGet('/favicon.ico');
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, 'image/x-icon');
+		}));
+
+		it('GET apple-touch-icon.png', async(async () => {
+			const res = await simpleGet('/apple-touch-icon.png');
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, 'image/png');
 		}));
 	});
 
