@@ -10,7 +10,6 @@ const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
 import * as chalk from 'chalk';
 import * as rename from 'gulp-rename';
-import * as mocha from 'gulp-mocha';
 const replace = require('gulp-replace');
 const cleanCSS = require('gulp-clean-css');
 const terser = require('gulp-terser');
@@ -75,16 +74,6 @@ gulp.task('format', () =>
 		}))
 		.pipe(tslint.report())
 );
-
-gulp.task('mocha', () =>
-	gulp.src('./test/**/*.ts')
-		.pipe(mocha({
-			exit: true,
-			require: 'ts-node/register'
-		} as any))
-);
-
-gulp.task('test', gulp.task('mocha'));
 
 gulp.task('clean', cb =>
 	rimraf('./built', cb)
