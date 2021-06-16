@@ -72,7 +72,7 @@
 import Vue from 'vue';
 import i18n from '../../../../i18n';
 import { hostname } from '../../../../config';
-import { hexifyAB } from '../../../scripts/2fa';
+import { hexifyAB, byteify } from '../../../scripts/2fa';
 
 function stringifyAB(buffer) {
 	return String.fromCharCode.apply(null, new Uint8Array(buffer));
@@ -190,12 +190,7 @@ export default Vue.extend({
 						challengeId: registration.challengeId,
 						stage: 0,
 						publicKeyOptions: {
-							challenge: Buffer.from(
-								registration.challenge
-									.replace(/\-/g, "+")
-									.replace(/_/g, "/"),
-								'base64'
-							),
+							challenge: byteify(registration.challenge, 'base64'),
 							rp: {
 								id: hostname,
 								name: 'Misskey'

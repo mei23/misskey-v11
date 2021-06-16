@@ -47,7 +47,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import { apiUrl, host } from '../../../config';
 import { toUnicode } from 'punycode';
-import { hexifyAB } from '../../scripts/2fa';
+import { hexifyAB, byteify } from '../../scripts/2fa';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/signin.vue'),
@@ -98,14 +98,9 @@ export default Vue.extend({
 			this.queryingKey = true;
 			return navigator.credentials.get({
 				publicKey: {
-					challenge: Buffer.from(
-						this.challengeData.challenge
-							.replace(/\-/g, '+')
-							.replace(/_/g, '/'),
-							'base64'
-					),
+					challenge: byteify(this.challengeData.challenge, 'base64'),
 					allowCredentials: this.challengeData.securityKeys.map(key => ({
-						id: Buffer.from(key.id, 'hex'),
+						id: byteify(key.id, 'hex'),
 						type: 'public-key',
 						transports: ['usb', 'nfc', 'ble', 'internal']
 					})),
