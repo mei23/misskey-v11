@@ -250,7 +250,7 @@
 		"webpack": "5.38.1",
 		"webpack-cli": "4.7.0",
 		"websocket": "1.0.34",
-		"ws": "7.4.6",
+		"ws": "7.5.0",
 		"xev": "2.0.1"
 	},
 	"devDependencies": {
