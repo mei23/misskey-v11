@@ -448,13 +448,6 @@
     "@types/node" "*"
     "@types/vinyl" "*"
 
-"@types/gulp-replace@0.0.31":
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/@types/gulp-replace/-/gulp-replace-0.0.31.tgz#87c3ac90b437694c58d68d1da677fcaff38b25ff"
-  integrity sha512-dbgQ1u0N9ShXrzahBgQfMSu6qUh8nlTLt7whhQ0S0sEUHhV3scysppJ1UX0fl53PJENgAL99ueykddyrCaDt7g==
-  dependencies:
-    "@types/node" "*"
-
 "@types/gulp@4.0.8":
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/@types/gulp/-/gulp-4.0.8.tgz#a5e43764d400b9818dc79b5ffa86e22a94521037"

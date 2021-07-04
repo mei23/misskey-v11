@@ -10,7 +10,7 @@ const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
 import * as chalk from 'chalk';
 import * as rename from 'gulp-rename';
-const replace = require('gulp-replace');
+import replace = require('gulp-replace');
 const cleanCSS = require('gulp-clean-css');
 const terser = require('gulp-terser');
 
