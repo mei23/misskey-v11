@@ -604,10 +604,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/lolex@5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@types/lolex/-/lolex-5.1.0.tgz#11b4c4756c007306d0feeaf2f08f88350c635d2b"
-  integrity sha512-hCQ2dOEQUw1LwofdIpMMGGqENd5p5ANzvcTe1nXTjcQL84r7tcLXFJlBgi0Ggz0f7BLmE2epf0C5Q07iq2gV0g==
+"@types/lolex@5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@types/lolex/-/lolex-5.1.1.tgz#86799c00c8d0b75e4e45dcb6befb79932e9ea3f6"
+  integrity sha512-FqJj5xmnDe/RBy9jt0c6dybENYXS0A5Wdt0e1OsG6m+KDCMx2SmY7OobTBQ6jqIqaA6yvIiCjbPET/zn7cx12g==
 
 "@types/mime@*":
   version "2.0.1"
