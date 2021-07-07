@@ -83,7 +83,7 @@
 		"@types/request-promise-native": "1.0.17",
 		"@types/request-stats": "3.0.0",
 		"@types/rimraf": "3.0.0",
-		"@types/seedrandom": "3.0.0",
+		"@types/seedrandom": "3.0.1",
 		"@types/sharp": "0.27.3",
 		"@types/showdown": "1.9.3",
 		"@types/speakeasy": "2.0.5",
