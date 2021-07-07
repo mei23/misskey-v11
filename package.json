@@ -62,7 +62,7 @@
 		"@types/koa-views": "2.0.4",
 		"@types/koa__cors": "3.0.2",
 		"@types/koa__multer": "2.0.2",
-		"@types/koa__router": "8.0.4",
+		"@types/koa__router": "8.0.5",
 		"@types/lolex": "5.1.0",
 		"@types/mocha": "8.2.2",
 		"@types/node": "15.14.0",
