@@ -86,7 +86,7 @@
 		"@types/seedrandom": "3.0.0",
 		"@types/sharp": "0.27.3",
 		"@types/showdown": "1.9.3",
-		"@types/speakeasy": "2.0.5",
+		"@types/speakeasy": "2.0.6",
 		"@types/tinycolor2": "1.4.2",
 		"@types/tmp": "0.2.0",
 		"@types/uuid": "8.3.0",
