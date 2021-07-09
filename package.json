@@ -55,7 +55,7 @@
 		"@types/koa": "2.13.3",
 		"@types/koa-bodyparser": "4.3.1",
 		"@types/koa-cors": "0.0.0",
-		"@types/koa-favicon": "2.0.19",
+		"@types/koa-favicon": "2.0.21",
 		"@types/koa-logger": "3.1.1",
 		"@types/koa-mount": "4.0.0",
 		"@types/koa-send": "4.1.2",
