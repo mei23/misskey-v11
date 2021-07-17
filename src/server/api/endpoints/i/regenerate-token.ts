@@ -5,6 +5,7 @@ import generateUserToken from '../../common/generate-native-user-token';
 import define from '../../define';
 import { Users, UserProfiles } from '../../../../models';
 import { ensure } from '../../../../prelude/ensure';
+import { publishTerminate } from '../../../../services/server-event';
 
 export const meta = {
 	requireCredential: true,
@@ -37,4 +38,7 @@ export default define(meta, async (ps, user) => {
 
 	// Publish event
 	publishMainStream(user.id, 'myTokenRegenerated');
+
+	// Terminate streaming
+	publishTerminate(user.id);
 });

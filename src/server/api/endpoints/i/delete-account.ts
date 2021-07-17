@@ -4,6 +4,7 @@ import define from '../../define';
 import { Users, UserProfiles } from '../../../../models';
 import { ensure } from '../../../../prelude/ensure';
 import { doPostSuspend } from '../../../../services/suspend-user';
+import { publishTerminate } from '../../../../services/server-event';
 
 export const meta = {
 	requireCredential: true,
@@ -31,4 +32,7 @@ export default define(meta, async (ps, user) => {
 	await doPostSuspend(user).catch(e => {});
 
 	await Users.delete(user.id);
+
+	// Terminate streaming
+	publishTerminate(user.id);
 });
