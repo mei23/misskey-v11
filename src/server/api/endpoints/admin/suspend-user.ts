@@ -6,6 +6,7 @@ import { Users, Followings, Notifications } from '../../../../models';
 import { User } from '../../../../models/entities/user';
 import { insertModerationLog } from '../../../../services/insert-moderation-log';
 import { doPostSuspend } from '../../../../services/suspend-user';
+import { publishTerminate } from '../../../../services/server-event';
 
 export const meta = {
 	desc: {
@@ -51,6 +52,10 @@ export default define(meta, async (ps, me) => {
 	insertModerationLog(me, 'suspend', {
 		targetId: user.id,
 	});
+
+	if (Users.isLocalUser(user)) {
+		publishTerminate(user.id);
+	}
 
 	(async () => {
 		await doPostSuspend(user).catch(e => {});

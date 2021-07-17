@@ -18,6 +18,11 @@ module.exports = (server: http.Server) => {
 		const q = request.resourceURL.query as ParsedUrlQuery;
 		const [user, app] = await authenticate(q.i as string);
 
+		if (user?.isSuspended) {
+			request.reject(400);
+			return;
+		}
+
 		const connection = request.accept();
 
 		let ev: EventEmitter;

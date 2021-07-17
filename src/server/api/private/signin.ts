@@ -47,6 +47,13 @@ export default async (ctx: Koa.Context) => {
 		return;
 	}
 
+	if (user.isSuspended) {
+		ctx.throw(403, {
+			error: 'user is suspended'
+		});
+		return;
+	}
+
 	const profile = await UserProfiles.findOne(user.id).then(ensure);
 
 	// Compare password
