@@ -3,6 +3,13 @@ import { User } from '../../models/entities/user';
 import { App } from '../../models/entities/app';
 import { Users, AccessTokens, Apps } from '../../models';
 
+export class AuthenticationError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = 'AuthenticationError';
+	}
+}
+
 export default async (token: string): Promise<[User | null | undefined, App | null | undefined]> => {
 	if (token == null) {
 		return [null, null];
@@ -14,7 +21,7 @@ export default async (token: string): Promise<[User | null | undefined, App | nu
 			.findOne({ token });
 
 		if (user == null) {
-			throw new Error('user not found');
+			throw new AuthenticationError('user not found');
 		}
 
 		return [user, null];
@@ -24,7 +31,7 @@ export default async (token: string): Promise<[User | null | undefined, App | nu
 		});
 
 		if (accessToken == null) {
-			throw new Error('invalid signature');
+			throw new AuthenticationError('invalid signature');
 		}
 
 		const app = await Apps
