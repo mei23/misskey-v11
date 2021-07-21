@@ -527,10 +527,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-cors@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@types/koa-cors/-/koa-cors-0.0.1.tgz#5c681704938acf45ce871fdb1ca084dc57dd4f97"
-  integrity sha512-pSpsfmXQ2pf6h8Jv3S5bKL4OmlcUW29mIcdhB7lb6kduoMNwKF7Ztf7kup2Z8Cst6BwfjnDx+/J9vsvS/jpCbA==
+"@types/koa-cors@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@types/koa-cors/-/koa-cors-0.0.2.tgz#369c753fb383640f225579c70a4f9a286b4931b7"
+  integrity sha512-uNaDY26HUVO+2C6arK8ZFODs9mBjYprD8mlvkVe2bYdX9wzEeKtycVXPafXpUkePhMh4sffIMkhRDyedokG/QA==
   dependencies:
     "@types/koa" "*"
 
@@ -569,21 +569,7 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa@*", "@types/koa@^2.13.1":
-  version "2.13.3"
-  resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.13.3.tgz#5b44c0956d7f7bf41f74ccfb530fec60fbed45ca"
-  integrity sha512-TaujBV+Dhe/FvmSMZJtCFBms+bqQacgUebk/M2C2tq8iGmHE/DDf4DcW2Hc7NqusVZmy5xzrWOjtdPKNP+fTfw==
-  dependencies:
-    "@types/accepts" "*"
-    "@types/content-disposition" "*"
-    "@types/cookies" "*"
-    "@types/http-assert" "*"
-    "@types/http-errors" "*"
-    "@types/keygrip" "*"
-    "@types/koa-compose" "*"
-    "@types/node" "*"
-
-"@types/koa@2.13.4":
+"@types/koa@*", "@types/koa@2.13.4", "@types/koa@^2.13.1":
   version "2.13.4"
   resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.13.4.tgz#10620b3f24a8027ef5cbae88b393d1b31205726b"
   integrity sha512-dfHYMfU+z/vKtQB7NUrthdAEiSvnLebvBjwHtfFmpZmB7em2N3WVQdHgnFq+xvyVgxW5jKDmjWfLD3lw4g4uTw==
