@@ -1619,10 +1619,10 @@ autwh@0.1.0:
   dependencies:
     oauth "0.9.15"
 
-aws-sdk@2.947.0:
-  version "2.947.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.947.0.tgz#2cc329654ad09ee7199ef25bc88f2b0e5a2fc155"
-  integrity sha512-m58mW/0Yg2RnRCJSzWZS8JUMhoBQ4trjKf+uJ3bD24jeV+Nf6iIHQ1s4ogP2O2XXUreSRsJNe8l0cOPSOM37Lg==
+aws-sdk@2.950.0:
+  version "2.950.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.950.0.tgz#cffb65590c50de9479c87ed04df57d355d1d8a22"
+  integrity sha512-iFC5fKLuFLEV27xeKmxDHDZzIDj4upm5+Ts3NpYYRbwPlOG0nE0gZzf9fRYkLkLgTr0TQq26CbKorgeo+6ailw==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
