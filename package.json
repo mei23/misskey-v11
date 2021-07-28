@@ -93,7 +93,7 @@
 		"@types/web-push": "3.3.2",
 		"@types/webpack": "5.28.0",
 		"@types/webpack-stream": "3.2.12",
-		"@types/websocket": "1.0.3",
+		"@types/websocket": "1.0.4",
 		"@types/ws": "7.4.7",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
