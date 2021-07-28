@@ -5,10 +5,8 @@ import Logger from '../../services/logger';
 import { Instances } from '../../models';
 import { instanceChart } from '../../services/chart';
 import { fetchNodeinfo } from '../../services/fetch-nodeinfo';
-import { fetchMeta } from '../../misc/fetch-meta';
-import { toPuny } from '../../misc/convert-host';
 import { DeliverJobData } from '../types';
-import { isClosedHost } from '../../services/instance-moderation';
+import { isBlockedHost, isClosedHost } from '../../services/instance-moderation';
 
 const logger = new Logger('deliver');
 
@@ -18,8 +16,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 	const { host } = new URL(job.data.to);
 
 	// ブロックしてたら中断
-	const meta = await fetchMeta();
-	if (meta.blockedHosts.includes(toPuny(host))) {
+	if (await isBlockedHost(host)) {
 		return 'skip (blocked)';
 	}
 
