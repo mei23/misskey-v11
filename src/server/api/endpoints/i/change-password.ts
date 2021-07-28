@@ -15,7 +15,7 @@ export const meta = {
 		},
 
 		newPassword: {
-			validator: $.str
+			validator: $.str.min(1)
 		}
 	}
 };
