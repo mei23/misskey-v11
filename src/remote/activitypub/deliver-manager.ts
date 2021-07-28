@@ -1,6 +1,7 @@
 import { Users, Followings } from '../../models';
 import { ILocalUser, IRemoteUser } from '../../models/entities/user';
 import { deliver } from '../../queue';
+import { isBlockedHost, isClosedHost } from '../../services/instance-moderation';
 
 //#region types
 interface IRecipe {
@@ -101,7 +102,18 @@ export default class DeliverManager {
 
 		// deliver
 		for (const inbox of inboxes) {
-			deliver(this.actor, this.activity, inbox);
+			if (inbox == null) {
+				continue;
+			} else if (!inbox.match(/^https?:/)) {
+				continue;
+			} else {
+				try {
+					const { host } = new URL(inbox);
+					if (await isBlockedHost(host)) continue;
+					if (await isClosedHost(host)) continue;
+					deliver(this.actor, this.activity, inbox);
+				} catch { }
+			}
 		}
 	}
 }

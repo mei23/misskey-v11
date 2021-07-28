@@ -1,8 +1,15 @@
 import { toPuny } from '../misc/convert-host';
+import { fetchMeta } from '../misc/fetch-meta';
 import { Instances } from '../models';
 import { getServerSubscriber } from '../services/server-subscriber';
 
 let closedHosts: Set<string>;
+
+export async function isBlockedHost(host: string | null) {
+	if (host == null) return false;
+	const meta = await fetchMeta();
+	return meta.blockedHosts.includes(toPuny(host));
+}
 
 export async function isClosedHost(host: string | null) {
 	if (host == null) return false;
