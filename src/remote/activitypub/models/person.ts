@@ -32,6 +32,13 @@ import { resolveUser } from '../../resolve-user';
 
 const logger = apLogger;
 
+const MAX_NAME_LENGTH = 128;
+const MAX_SUMMARY_LENGTH = 2048;
+
+const truncate = (value: string, maxLength: number) => {
+	return value.substr(0, maxLength);
+};
+
 /**
  * Validate and convert to actor object
  * @param x Fetched object
@@ -56,8 +63,8 @@ function validateActor(x: IObject, uri: string): IActor {
 	validate('id', x.id, $.str.min(1));
 	validate('inbox', x.inbox, $.str.min(1));
 	validate('preferredUsername', x.preferredUsername, $.str.min(1).max(128).match(/^\w([\w-.]*\w)?$/));
-	validate('name', x.name, $.optional.nullable.str.max(128));
-	validate('summary', x.summary, $.optional.nullable.str.max(2048));
+	validate('name', x.name, $.optional.nullable.str);
+	validate('summary', x.summary, $.optional.nullable.str);
 
 	const idHost = toPuny(new URL(x.id!).hostname);
 	if (idHost !== expectHost) {
@@ -136,7 +143,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 				bannerId: null,
 				createdAt: new Date(),
 				lastFetchedAt: new Date(),
-				name: person.name,
+				name: person.name ? truncate(person.name, MAX_NAME_LENGTH) : person.name,
 				isLocked: !!person.manuallyApprovesFollowers,
 				username: person.preferredUsername,
 				usernameLower: person.preferredUsername!.toLowerCase(),
@@ -152,7 +159,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 
 			await transactionalEntityManager.insert(UserProfile, {
 				userId: user.id,
-				description: person.summary ? htmlToMfm(person.summary, person.tag) : null,
+				description: person.summary ? htmlToMfm(truncate(person.summary, MAX_SUMMARY_LENGTH), person.tag) : null,
 				url: getOneApHrefNullable(person.url),
 				fields,
 				userHost: host
@@ -314,7 +321,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 		sharedInbox: person.sharedInbox || (person.endpoints ? person.endpoints.sharedInbox : undefined),
 		featured: person.featured,
 		emojis: emojiNames,
-		name: person.name,
+		name: person.name ? truncate(person.name, MAX_NAME_LENGTH) : person.name,
 		tags,
 		isBot: getApType(object) === 'Service',
 		isCat: (person as any).isCat === true,
@@ -346,7 +353,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 	await UserProfiles.update({ userId: exist.id }, {
 		url: person.url,
 		fields,
-		description: person.summary ? fromHtml(person.summary) : null,
+		description: person.summary ? htmlToMfm(truncate(person.summary, MAX_SUMMARY_LENGTH), person.tag) : null,
 		twitterUserId: null,
 		twitterScreenName: null,
 		githubId: null,
