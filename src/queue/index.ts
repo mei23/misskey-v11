@@ -180,6 +180,15 @@ export function createImportUserListsJob(user: ILocalUser, fileId: DriveFile['id
 	});
 }
 
+export function createDeleteAccountJob(user: ILocalUser) {
+	return dbQueue.add('deleteAccount', {
+		user: user
+	}, {
+		removeOnComplete: true,
+		removeOnFail: true
+	});
+}
+
 export function createDeleteObjectStorageFileJob(key: string) {
 	return objectStorageQueue.add('deleteFile', {
 		key: key
