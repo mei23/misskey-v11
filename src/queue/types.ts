@@ -1,6 +1,6 @@
 //import { ObjectID } from 'mongodb';
 import * as httpSignature from 'http-signature';
-import { ILocalUser } from '../models/entities/user';
+import { ILocalUser, User } from '../models/entities/user';
 import { IActivity } from '../remote/activitypub/type';
 
 export type DeliverJobData = {
@@ -20,7 +20,7 @@ export type InboxJobData = {
 export type DbJobData = DbUserJobData | DbUserImportJobData;
 
 export type DbUserJobData = {
-	user: ILocalUser;
+	user: User;
 };
 
 export type DbUserImportJobData = {

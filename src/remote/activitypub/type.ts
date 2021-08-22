@@ -112,6 +112,15 @@ export interface IPost extends IObject {
 	_misskey_talk: boolean;
 }
 
+export interface ITombstone extends IObject {
+	type: 'Tombstone';
+	formerType?: string;
+	deleted?: Date;
+}
+
+export const isTombstone = (object: IObject): object is ITombstone =>
+	getApType(object) === 'Tombstone';
+
 export interface IQuestion extends IObject {
 	type: 'Note' | 'Question';
 	_misskey_content?: string;
