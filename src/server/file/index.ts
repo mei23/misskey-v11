@@ -11,6 +11,10 @@ import sendDriveFile from './send-drive-file';
 // Init app
 const app = new Koa();
 app.use(cors());
+app.use(async (ctx, next) => {
+	ctx.set('Content-Security-Policy', `default-src 'none'; style-src 'unsafe-inline'`);
+	await next();
+});
 
 // Init router
 const router = new Router();
