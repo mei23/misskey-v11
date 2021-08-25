@@ -54,11 +54,7 @@ export default Vue.extend({
 	},
 
 	mounted() {
-		if (!document.cookie.match(/i=(\w+)/)) {
-			document.cookie = `i=${this.$store.state.i.token}; path=/;` +
-			` domain=${document.location.hostname}; max-age=31536000;` +
-			(document.location.protocol.startsWith('https') ? ' secure' : '');
-		}
+		document.cookie = `i=${this.$store.state.i.token};path=/;${(document.location.protocol.startsWith('https') ? ' secure' : '')}`;
 		this.$watch('$store.state.i', () => {
 			if (this.$store.state.i.twitter) {
 				if (this.twitterForm) this.twitterForm.close();
