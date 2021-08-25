@@ -117,14 +117,10 @@ router.get('/signin/discord', async ctx => {
 		response_type: 'code'
 	};
 
-	const expires = 1000 * 60 * 60; // 1h
 	ctx.cookies.set('signin_with_discord_session_id', sessid, {
 		path: '/',
-		domain: config.host,
 		secure: config.url.startsWith('https'),
-		httpOnly: true,
-		expires: new Date(Date.now() + expires),
-		maxAge: expires
+		httpOnly: true
 	});
 
 	redis.set(sessid, JSON.stringify(params));

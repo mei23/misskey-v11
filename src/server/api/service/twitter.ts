@@ -104,14 +104,10 @@ router.get('/signin/twitter', async ctx => {
 
 	redis.set(sessid, JSON.stringify(twCtx));
 
-	const expires = 1000 * 60 * 60; // 1h
 	ctx.cookies.set('signin_with_twitter_session_id', sessid, {
 		path: '/',
-		domain: config.host,
 		secure: config.url.startsWith('https'),
-		httpOnly: true,
-		expires: new Date(Date.now() + expires),
-		maxAge: expires
+		httpOnly: true
 	});
 
 	ctx.redirect(twCtx.url);
