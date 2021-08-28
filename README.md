@@ -1,6 +1,7 @@
+<h1>めいv11 (Mei v11)</h1>
 
-Fork of https://github.com/syuilo/misskey/tree/v11
-----------------------------------------------------------------
+Mei v11 is a decentralized microblogging platform.  
+The fork of [Misskey v11](https://github.com/syuilo/misskey/tree/v11)
 
 ## 主な変更点
 
@@ -15,5 +16,3 @@ Twitter新UIのプレビューに対応, 偽の引用投稿が生成されてし
 
 その他は以下を参照  
 https://github.com/mei23/misskey-v11/releases
-
-リリースはリリースノート書きたくなったときに切ります
