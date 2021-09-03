@@ -120,3 +120,7 @@ autoAdmin: true
 
 # Sign to ActivityPub GET request (default: false)
 #signToActivityPubGet: true
+
+#allowedPrivateNetworks: [
+#  '127.0.0.1/32'
+#]
