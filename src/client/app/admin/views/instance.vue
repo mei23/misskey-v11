@@ -77,6 +77,7 @@
 					<ui-input v-model="objectStorageSecretKey" :disabled="!useObjectStorage"><template #icon><fa icon="key"/></template>{{ $t('object-storage-secret-key') }}</ui-input>
 				</ui-horizon-group>
 				<ui-switch v-model="objectStorageUseSSL" :disabled="!useObjectStorage">{{ $t('object-storage-use-ssl') }}</ui-switch>
+				<ui-switch v-model="objectStorageUseProxy" :disabled="!useObjectStorage">{{ $t('objectStorageUseProxy') }}</ui-switch>
 			</template>
 		</section>
 		<section>
@@ -317,6 +318,7 @@ export default Vue.extend({
 			objectStorageAccessKey: null,
 			objectStorageSecretKey: null,
 			objectStorageUseSSL: false,
+			objectStorageUseProxy: true,
 			faHeadset, faShieldAlt, faGhost, faUserPlus, farEnvelope, faBolt, faThumbtack, faPencilAlt, faSave, faHashtag
 		};
 	},
@@ -382,6 +384,7 @@ export default Vue.extend({
 			this.objectStorageAccessKey = meta.objectStorageAccessKey;
 			this.objectStorageSecretKey = meta.objectStorageSecretKey;
 			this.objectStorageUseSSL = meta.objectStorageUseSSL;
+			this.objectStorageUseProxy = meta.objectStorageUseProxy;
 		});
 	},
 
@@ -506,6 +509,7 @@ export default Vue.extend({
 				objectStorageAccessKey: this.objectStorageAccessKey ? this.objectStorageAccessKey : null,
 				objectStorageSecretKey: this.objectStorageSecretKey ? this.objectStorageSecretKey : null,
 				objectStorageUseSSL: this.objectStorageUseSSL,
+				objectStorageUseProxy: this.objectStorageUseProxy,
 			}).then(() => {
 				this.$root.dialog({
 					type: 'success',

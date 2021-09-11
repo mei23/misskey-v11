@@ -15,7 +15,7 @@ export function getS3(meta: Meta) {
 		sslEnabled: meta.objectStorageUseSSL,
 		s3ForcePathStyle: !!meta.objectStorageEndpoint,
 		httpOptions: {
-			agent: getAgentByUrl(new URL(u), !meta.objectStorageUseSSL)
+			agent: getAgentByUrl(new URL(u), !meta.objectStorageUseProxy)
 		}
 	});
 }
