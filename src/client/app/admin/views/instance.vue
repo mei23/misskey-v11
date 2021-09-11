@@ -321,7 +321,7 @@ export default Vue.extend({
 			objectStorageSecretKey: null,
 			objectStorageUseSSL: false,
 			objectStorageUseProxy: true,
-			objectStorageSetPublicRead: true,
+			objectStorageSetPublicRead: false,
 			objectStorageS3ForcePathStyle: true,
 			faHeadset, faShieldAlt, faGhost, faUserPlus, farEnvelope, faBolt, faThumbtack, faPencilAlt, faSave, faHashtag
 		};
