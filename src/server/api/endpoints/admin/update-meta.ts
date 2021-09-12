@@ -407,6 +407,18 @@ export const meta = {
 		objectStorageUseSSL: {
 			validator: $.optional.bool
 		},
+
+		objectStorageUseProxy: {
+			validator: $.optional.bool
+		},
+
+		objectStorageSetPublicRead: {
+			validator: $.optional.bool
+		},
+
+		objectStorageS3ForcePathStyle: {
+			validator: $.optional.bool
+		},
 	}
 };
 
@@ -651,6 +663,18 @@ export default define(meta, async (ps, me) => {
 
 	if (ps.objectStorageUseSSL !== undefined) {
 		set.objectStorageUseSSL = ps.objectStorageUseSSL;
+	}
+
+	if (ps.objectStorageUseProxy !== undefined) {
+		set.objectStorageUseProxy = ps.objectStorageUseProxy;
+	}
+
+	if (ps.objectStorageSetPublicRead !== undefined) {
+		set.objectStorageSetPublicRead = ps.objectStorageSetPublicRead;
+	}
+
+	if (ps.objectStorageS3ForcePathStyle !== undefined) {
+		set.objectStorageS3ForcePathStyle = ps.objectStorageS3ForcePathStyle;
 	}
 
 	await getConnection().transaction(async transactionalEntityManager => {

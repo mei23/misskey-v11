@@ -214,6 +214,9 @@ export default define(meta, async (ps, me) => {
 		response.objectStorageAccessKey = instance.objectStorageAccessKey;
 		response.objectStorageSecretKey = instance.objectStorageSecretKey;
 		response.objectStorageUseSSL = instance.objectStorageUseSSL;
+		response.objectStorageUseProxy = instance.objectStorageUseProxy;
+		response.objectStorageSetPublicRead = instance.objectStorageSetPublicRead;
+		response.objectStorageS3ForcePathStyle = instance.objectStorageS3ForcePathStyle;
 	}
 
 	return response;
