@@ -37,36 +37,68 @@ export default function(type, data): Notification {
 		case 'notification':
 			const notification = data as any;	// TODO: PackedNotification
 			switch (notification.type) {
+				case 'follow':
+					return {
+						title: `Followed by ${getUserName(notification.user)}`,
+						body: '',
+						icon: notification.user.avatarUrl
+					};
+
 				case 'mention':
 					return {
-						title: `${getUserName(notification.user)}:`,
+						title: `Mention from ${getUserName(notification.user)}`,
 						body: getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'reply':
 					return {
-						title: `You got reply from ${getUserName(notification.user)}:`,
+						title: `Reply from ${getUserName(notification.user)}`,
 						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
+					};
+
+				case 'renote':
+					return {
+						title: `Renoted by ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note.renote),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'quote':
 					return {
-						title: `${getUserName(notification.user)}:`,
+						title: `Quoted by ${getUserName(notification.user)}`,
 						body: getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'reaction':
 					return {
-						title: `${getUserName(notification.user)}: ${getReactionEmoji(notification.reaction)}:`,
+						title: `${getReactionEmoji(notification.reaction)} from ${getUserName(notification.user)}`,
 						body: getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
+				case 'poll_vote':
+					return {
+						title: `Voted by ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
+					};
+
+				case 'receiveFollowRequest':
+					return {
+						title: `Follow request from ${getUserName(notification.user)}`,
+						body: '',
+						icon: notification.user.avatarUrl
+					};
+
 				default:
-					return null;
+					return {
+						title: `${getUserName(notification.user)}`,
+						body: notification.type,
+						icon: notification.user.avatarUrl
+					};
 			}
 
 		default:
