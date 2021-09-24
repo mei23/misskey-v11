@@ -1,27 +1,6 @@
 # Contribution guide
 :v: Thanks for your contributions :v:
 
-## Issues
-Feature suggestions and bug reports are filed in https://github.com/syuilo/misskey/issues .
-
-* Please search existing issues to avoid duplication. If your issue is already filed, please add your reaction or comment to the existing one.
-* If you have multiple independent issues, please submit them separately.
-
-## Branches
-* **master** branch is tracking the latest release and used for production purposes.
-* **develop** branch is where we work for the next release.
-* **l10n_develop** branch is reserved for localization management.
-
-## Localization (l10n)
-Misskey uses [Crowdin](https://crowdin.com/project/misskey) for localization management.
-You can improve our translations with your Crowdin account.
-Your changes in Crowdin are automatically submitted as a PR (with the title "New Crowdin translations") to the repository.
-The owner [@syuilo](https://github.com/syuilo) merges the PR into the develop branch before the next release.
-
-If your language is not listed in Crowdin, please open an issue.
-
-![Crowdin](https://d322cqt584bo4o.cloudfront.net/misskey/localized.svg)
-
 ## Internationalization (i18n)
 Misskey uses the Vue.js plugin [Vue I18n](https://github.com/kazupon/vue-i18n).
 Documentation of Vue I18n is available at http://kazupon.github.io/vue-i18n/introduction.html .
@@ -33,10 +12,6 @@ Documentation of Vue I18n is available at http://kazupon.github.io/vue-i18n/intr
 
 ## Test
 * Test codes are located in [`/test`](/test).
-
-## Continuous integration
-Misskey uses CircleCI for executing automated tests.
-Configuration files are located in [`/.circleci`](/.circleci).
 
 ## Adding MisskeyRoom items
 * Use English for material, object and texture names.
@@ -270,6 +245,21 @@ npx ts-node ./node_modules/typeorm/cli.js migration:generate -n 変更の名前
 ```
 
 作成されたスクリプトは不必要な変更を含むため除去してください。
+
+### ローカルでテストを動かす方法
+```
+cp test/test.yml .config/
+```
+
+```
+docker-compose -f test/docker-compose.yml up
+```
+でテスト用のDBとRedisを上げる。
+または、空の (データが消去されてもいい) DBを準備して`.config/test.yml`を調整する。
+
+```
+yarn test
+```
 
 ## その他
 ### HTMLのクラス名で follow という単語は使わない
