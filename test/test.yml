@@ -10,5 +10,3 @@ redis:
   host: localhost
   port: 56311
 id: aid
-
-# docker run --rm -p 54311:5432 --name pgtest -e POSTGRES_DB=test-misskey -e POSTGRES_HOST_AUTH_METHOD=trust postgres:12-alpine
