@@ -2028,10 +2028,10 @@ cache-content-type@^1.0.0:
     mime-types "^2.1.18"
     ylru "^1.2.0"
 
-cacheable-lookup@6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/cacheable-lookup/-/cacheable-lookup-6.0.1.tgz#f32ab50c3212302d9f49aa094c8a7593c162af7c"
-  integrity sha512-vaccXt7hUfa5UzrtbdzHTWnL6V6ir39QtLuvGZys32j4HboAeiWVhrcdAm8ecTz1rLubxPhec2n22BBb5/dgVA==
+cacheable-lookup@6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/cacheable-lookup/-/cacheable-lookup-6.0.2.tgz#8df03d6239c91bb9f6394700d7ba4a100abbad67"
+  integrity sha512-9RJkUl1k/A1dFhaRfrEUdISvvou0WKx8LboMO0j1BpsqgAuolwZgwaEtn0dmFMk5HQxpFtHF1bHCnIQMywUpvw==
 
 cacheable-lookup@^5.0.3:
   version "5.0.4"

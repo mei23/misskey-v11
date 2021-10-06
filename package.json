@@ -106,7 +106,7 @@
 		"blurhash": "1.1.4",
 		"bootstrap-vue": "2.21.2",
 		"bull": "3.29.2",
-		"cacheable-lookup": "6.0.1",
+		"cacheable-lookup": "6.0.2",
 		"cafy": "15.2.1",
 		"cbor": "8.0.0",
 		"chalk": "4.1.2",
