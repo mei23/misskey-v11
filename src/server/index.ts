@@ -20,7 +20,7 @@ import config from '../config';
 import apiServer from './api';
 import { sum } from '../prelude/array';
 import Logger from '../services/logger';
-import { program } from '../argv';
+import { envOption } from '../env';
 import { UserProfiles } from '../models';
 import { networkChart } from '../services/chart';
 import { genAvatar } from '../misc/gen-avatar';
@@ -39,7 +39,7 @@ if (!['production', 'test'].includes(process.env.NODE_ENV || '')) {
 	}));
 
 	// Delay
-	if (program.slow) {
+	if (envOption.slow) {
 		app.use(slow({
 			delay: 3000
 		}));

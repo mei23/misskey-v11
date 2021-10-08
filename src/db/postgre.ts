@@ -50,6 +50,7 @@ import { PageLike } from '../models/entities/page-like';
 import { ModerationLog } from '../models/entities/moderation-log';
 import { UsedUsername } from '../models/entities/used-username';
 import { Relay } from '../models/entities/relay';
+import { envOption } from '../env';
 
 const sqlLogger = dbLogger.createSubLogger('sql', 'white', false);
 
@@ -61,7 +62,9 @@ class MyCustomLogger implements Logger {
 	}
 
 	public logQuery(query: string, parameters?: any[]) {
-		sqlLogger.info(this.highlight(query));
+		if (envOption.verbose) {
+			sqlLogger.info(this.highlight(query));
+		}
 	}
 
 	public logQueryError(error: string, query: string, parameters?: any[]) {
@@ -142,6 +145,8 @@ export function initDb(justBorrow = false, sync = false, log = false, forceRecre
 			return Promise.resolve(conn);
 		} catch (e) {}
 	}
+
+	log = process.env.NODE_ENV !== 'production';
 
 	return createConnection({
 		type: 'postgres',

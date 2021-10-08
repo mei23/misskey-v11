@@ -6,7 +6,7 @@ import * as portscanner from 'portscanner';
 import Logger from '../services/logger';
 import loadConfig from '../config/load';
 import { Config } from '../config/types';
-import { program } from '../argv';
+import { envOption } from '../env';
 import { showMachineInfo } from '../misc/show-machine-info';
 import { initDb } from '../db/postgre';
 import * as meta from '../meta.json';
@@ -15,7 +15,7 @@ const logger = new Logger('core', 'cyan');
 const bootLogger = logger.createSubLogger('boot', 'magenta', false);
 
 function greet() {
-	if (!program.quiet) {
+	if (!envOption.quiet) {
 		//#region Misskey logo
 		const v = `v${meta.version}`;
 		console.log('  _____ _         _           ');
@@ -64,11 +64,11 @@ export async function masterMain() {
 
 	bootLogger.succ('Misskey initialized');
 
-	if (!program.disableClustering) {
+	if (!envOption.disableClustering) {
 		await spawnWorkers(config.clusterLimit);
 	}
 
-	if (!program.noDaemons) {
+	if (!envOption.noDaemons) {
 		require('../daemons/server-stats').default();
 		require('../daemons/notes-stats').default();
 		require('../daemons/queue-stats').default();
