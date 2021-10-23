@@ -108,7 +108,7 @@
 		"bull": "3.29.3",
 		"cacheable-lookup": "6.0.4",
 		"cafy": "15.2.1",
-		"cbor": "8.0.0",
+		"cbor": "8.0.2",
 		"chalk": "4.1.2",
 		"cli-highlight": "2.1.11",
 		"commander": "4.1.0",
