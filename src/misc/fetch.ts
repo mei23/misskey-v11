@@ -20,15 +20,7 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 		timeout
 	});
 
-	try {
-		return await res.json();
-	} catch (e) {
-		throw {
-			name: `JsonParseError`,
-			statusCode: 481,
-			message: `JSON parse error ${e.message || e}`
-		};
-	}
+	return await res.json();
 }
 
 export async function getResponse(args: { url: string, method: string, body?: string, headers: Record<string, string>, timeout?: number, size?: number }) {
@@ -52,12 +44,7 @@ export async function getResponse(args: { url: string, method: string, body?: st
 	});
 
 	if (!res.ok) {
-		throw {
-			name: `StatusError`,
-			statusCode: res.status,
-			statusMessage: res.statusText,
-			message: `${res.status} ${res.statusText}`,
-		};
+		throw new StatusError(`${res.status} ${res.statusText}`, res.status, res.statusText);
 	}
 
 	return res;
@@ -140,4 +127,17 @@ export function getAgentByUrl(url: URL, bypassProxy = false): http.Agent | https
 		return url.protocol == 'http:' ? httpAgent : httpsAgent;
 	}
 }
-//#endregion Agent
+
+export class StatusError extends Error {
+	public statusCode: number;
+	public statusMessage?: string;
+	public isClientError: boolean;
+
+	constructor(message: string, statusCode: number, statusMessage?: string) {
+		super(message);
+		this.name = 'StatusError';
+		this.statusCode = statusCode;
+		this.statusMessage = statusMessage;
+		this.isClientError = typeof this.statusCode === 'number' && this.statusCode >= 400 && this.statusCode < 500;
+	}
+}

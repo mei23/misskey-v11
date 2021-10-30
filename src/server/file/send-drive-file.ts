@@ -11,6 +11,7 @@ import { downloadUrl } from '../../misc/download-url';
 import { detectType } from '../../misc/get-file-info';
 import { convertToJpeg, convertToPngOrJpeg } from '../../services/drive/image-processor';
 import { GenerateVideoThumbnail } from '../../services/drive/generate-video-thumbnail';
+import { StatusError } from '../../misc/fetch';
 
 const assets = `${__dirname}/../../server/file/assets/`;
 
@@ -77,9 +78,9 @@ export default async function(ctx: Koa.Context) {
 				ctx.set('Content-Type', image.type);
 				ctx.set('Cache-Control', 'max-age=31536000, immutable');
 			} catch (e) {
-				serverLogger.error(e.statusCode);
+				serverLogger.error(`${e}`);
 
-				if (typeof e.statusCode === 'number' && e.statusCode >= 400 && e.statusCode < 500) {
+				if (e instanceof StatusError && e.isClientError) {
 					ctx.status = e.statusCode;
 					ctx.set('Cache-Control', 'max-age=86400');
 				} else {
