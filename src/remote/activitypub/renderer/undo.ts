@@ -7,6 +7,7 @@ export default (object: any, user: ILocalUser | User) => {
 	return {
 		type: 'Undo',
 		actor: `${config.url}/users/${user.id}`,
-		object
+		object,
+		published: new Date().toISOString(),
 	};
 };

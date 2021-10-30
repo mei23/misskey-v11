@@ -4,5 +4,6 @@ import { ILocalUser } from '../../../models/entities/user';
 export default (object: any, user: ILocalUser) => ({
 	type: 'Delete',
 	actor: `${config.url}/users/${user.id}`,
-	object
+	object,
+	published: new Date().toISOString(),
 });
