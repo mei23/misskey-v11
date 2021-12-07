@@ -1409,10 +1409,10 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apexcharts@3.28.1:
-  version "3.28.1"
-  resolved "https://registry.yarnpkg.com/apexcharts/-/apexcharts-3.28.1.tgz#35a17ea9ef9a1a93fb01ce79d245af8aedb59a7b"
-  integrity sha512-5M1KitI/XmY2Sx6ih9vQOXyQUTmotDG/cML2N6bkBlVseF10RPSzM7dkrf7Y68apSZF6e7J581gXXu1+qkLhCA==
+apexcharts@3.32.0:
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/apexcharts/-/apexcharts-3.32.0.tgz#97e3f916af1c3c0109bc8c88f95b68dfe99c294a"
+  integrity sha512-9VUyiTR2RgD4NIJOOdKxxi8tjzrKCBMr7HjWxsw+5lDPu/tZJLVudpgFhlNTIy3CbhxQ4edaiTttmbo6eDDgiA==
   dependencies:
     svg.draggable.js "^2.2.2"
     svg.easing.js "^2.0.0"
