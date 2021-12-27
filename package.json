@@ -250,6 +250,6 @@
 		"xev": "2.0.1"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.0.0-beta.65"
+		"@redocly/openapi-core": "1.0.0-beta.75"
 	}
 }
