@@ -59,12 +59,14 @@ export default async function(ctx: Koa.Context) {
 					if (isThumbnail) {
 						if (['image/jpeg', 'image/webp'].includes(mime)) {
 							return await convertToJpeg(path, 498, 280);
-						} else if (['image/png'].includes(mime)) {
+						} else if (['image/png', 'image/svg+xml'].includes(mime)) {
 							return await convertToPngOrJpeg(path, 498, 280);
 						} else if (mime.startsWith('video/')) {
 							return await GenerateVideoThumbnail(path);
 						}
 					}
+
+					// TODO: webpublic SVG => PNG
 
 					return {
 						data: fs.readFileSync(path),

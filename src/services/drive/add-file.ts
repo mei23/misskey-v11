@@ -149,7 +149,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 				webpublic = await convertToJpeg(path, 2048, 2048);
 			} else if (['image/webp'].includes(type)) {
 				webpublic = await convertToWebp(path, 2048, 2048);
-			} else if (['image/png'].includes(type)) {
+			} else if (['image/png', 'image/svg+xml'].includes(type)) {
 				webpublic = await convertToPng(path, 2048, 2048);
 			} else {
 				logger.debug(`web image not created (not an required image)`);
@@ -168,7 +168,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	try {
 		if (['image/jpeg', 'image/webp'].includes(type)) {
 			thumbnail = await convertToJpeg(path, 498, 280);
-		} else if (['image/png'].includes(type)) {
+		} else if (['image/png', 'image/svg+xml'].includes(type)) {
 			thumbnail = await convertToPngOrJpeg(path, 498, 280);
 		} else if (type.startsWith('video/')) {
 			try {
