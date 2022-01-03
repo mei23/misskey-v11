@@ -9,7 +9,7 @@ import { GenerateVideoThumbnail } from './generate-video-thumbnail';
 import { driveLogger } from './logger';
 import { IImage, convertToJpeg, convertToWebp, convertToPng, convertToPngOrJpeg } from './image-processor';
 import { contentDisposition } from '../../misc/content-disposition';
-import { getFileInfo } from '../../misc/get-file-info';
+import { FILE_TYPE_BROWSERSAFE, getFileInfo } from '../../misc/get-file-info';
 import { DriveFiles, DriveFolders, Users, Instances, UserProfiles } from '../../models';
 import { InternalStorage } from './internal-storage';
 import { DriveFile } from '../../models/entities/drive-file';
@@ -195,6 +195,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
  */
 async function upload(key: string, stream: fs.ReadStream | Buffer, type: string, filename?: string) {
 	if (type === 'image/apng') type = 'image/png';
+	if (!FILE_TYPE_BROWSERSAFE.includes(type)) type = 'application/octet-stream';
 
 	const meta = await fetchMeta();
 

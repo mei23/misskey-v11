@@ -4,7 +4,7 @@ import { serverLogger } from '..';
 import { IImage, convertToPng, convertToJpeg } from '../../services/drive/image-processor';
 import { createTemp } from '../../misc/create-temp';
 import { downloadUrl } from '../../misc/download-url';
-import { detectType } from '../../misc/get-file-info';
+import { detectType, FILE_TYPE_BROWSERSAFE } from '../../misc/get-file-info';
 import { StatusError } from '../../misc/fetch';
 
 export async function proxyMedia(ctx: Koa.Context) {
@@ -19,6 +19,7 @@ export async function proxyMedia(ctx: Koa.Context) {
 		const { mime, ext } = await detectType(path);
 
 		if (!mime.startsWith('image/')) throw 403;
+		if (!FILE_TYPE_BROWSERSAFE.includes(mime)) throw 403;
 
 		let image: IImage;
 
