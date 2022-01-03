@@ -258,6 +258,12 @@ function getExt(name?: string, type?: string) {
 		if (type === 'video/mp4') ext = '.mp4';
 	}
 
+	// 拡張子からContent-Typeを設定してそうな挙動を示すオブジェクトストレージ (upcloud?) も存在するので、
+	// 許可されてない拡張子は削除する
+	if (type && !FILE_TYPE_BROWSERSAFE.includes(type)) {
+		ext = '';
+	}
+
 	return ext;
 }
 
