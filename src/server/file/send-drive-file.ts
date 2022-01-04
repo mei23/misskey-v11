@@ -9,7 +9,7 @@ import { DriveFiles } from '../../models';
 import { InternalStorage } from '../../services/drive/internal-storage';
 import { downloadUrl } from '../../misc/download-url';
 import { detectType, FILE_TYPE_BROWSERSAFE } from '../../misc/get-file-info';
-import { convertToJpeg, convertToPngOrJpeg } from '../../services/drive/image-processor';
+import { convertToJpeg, convertToPng, convertToPngOrJpeg } from '../../services/drive/image-processor';
 import { GenerateVideoThumbnail } from '../../services/drive/generate-video-thumbnail';
 import { StatusError } from '../../misc/fetch';
 
@@ -66,7 +66,11 @@ export default async function(ctx: Koa.Context) {
 						}
 					}
 
-					// TODO: webpublic SVG => PNG
+					if (isWebpublic) {
+						if (['image/svg+xml'].includes(mime)) {
+							return await convertToPng(path, 2048, 2048);
+						}
+					}
 
 					return {
 						data: fs.readFileSync(path),
