@@ -55,6 +55,11 @@ if (config.url.startsWith('https') && !config.disableHsts) {
 	});
 }
 
+app.use(async (ctx, next) => {
+	ctx.set('X-Content-Type-Options', 'nosniff');
+	await next();
+});
+
 app.use(mount('/api', apiServer));
 app.use(mount('/files', require('./file')));
 app.use(mount('/proxy', require('./proxy')));
