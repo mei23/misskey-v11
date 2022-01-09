@@ -103,7 +103,7 @@
 		"bcryptjs": "2.4.3",
 		"blurhash": "1.1.4",
 		"bootstrap-vue": "2.21.2",
-		"bull": "3.29.3",
+		"bull": "4.2.0",
 		"cacheable-lookup": "6.0.4",
 		"cafy": "15.2.1",
 		"cbor": "8.0.0",
