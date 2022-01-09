@@ -8939,10 +8939,10 @@ syslog-pro@1.0.0:
   dependencies:
     moment "^2.22.2"
 
-systeminformation@5.9.17:
-  version "5.9.17"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.9.17.tgz#9b0c405346fcd9ad37a95df4990eefa3d164d7a3"
-  integrity sha512-hbJtPsG63PCst4PLXFq8hycbkeR5oGDquRowfLK0gNX7nJ1qx3tCbsWu83OL4GP1dkcLMKsVooLUn5x2K1Epgg==
+systeminformation@5.9.18:
+  version "5.9.18"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.9.18.tgz#8163b24fe557a347190eae8f7b60eb879e5d29af"
+  integrity sha512-htL3Vj9xTfJu/wVaeSRI1PRmMstmfQupwde6/rq+aNw4ZWZMpTIESbj+G1Q88+5hms3XFfaHZ3lH6DmrCgGS5g==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
