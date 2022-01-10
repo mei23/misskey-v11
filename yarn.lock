@@ -160,6 +160,31 @@
     path-to-regexp "1.x"
     urijs "^1.19.2"
 
+"@node-redis/client@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@node-redis/client/-/client-1.0.1.tgz#ddca6021097ce1026fedc193cac8c36b05c6cad8"
+  integrity sha512-o0I4LdzJXP6QYxRnBPrQ7cIG5tF3SNM/PBnjC3mV6QkzIiGRElzWqSr9a9JCJdcyB1SIA80bhgGhpdTpCQ1Sdw==
+  dependencies:
+    cluster-key-slot "1.1.0"
+    generic-pool "3.8.2"
+    redis-parser "3.0.0"
+    yallist "4.0.0"
+
+"@node-redis/json@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@node-redis/json/-/json-1.0.1.tgz#8cd987c1855392adf21bc4f06163a7eda97a40a3"
+  integrity sha512-2EB96ZN0yUr4mgA9Odme48jX8eF5Ji0jrsRn4rLfEhME7L3rHLdKeUfxJKxbPOxadP6k8+6ViElxPZrKuV2nvQ==
+
+"@node-redis/search@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@node-redis/search/-/search-1.0.1.tgz#8d0936049f4858b9aefab40524ce8e5a52e5d08e"
+  integrity sha512-iA2Gw6gr0X6IfNSjTyme9W1tDlLkwQ1bPApo4s8aVwZ2Ju8Z4COVik0vT6BJPRin79f5xPZgnaec3DIoC2UpHA==
+
+"@node-redis/time-series@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@node-redis/time-series/-/time-series-1.0.0.tgz#3db4caa63d7c158f0b73ab6cd46bd6c9c187dfaf"
+  integrity sha512-QcaCIL/DlYJXedSfmjF+IRxKJbBUXBrjA5Gv0IiPlXXFFOkRnbPGKq6hmwBAAWyk1U03wyBHDFKVS3/9GnZV8g==
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -619,10 +644,10 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
-"@types/koa__cors@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-3.0.3.tgz#49d75813b443ba3d4da28ea6cf6244b7e99a3b23"
-  integrity sha512-74Xb4hJOPGKlrQ4PRBk1A/p0gfLpgbnpT0o67OMVbwyeMXvlBN+ZCRztAAmkKZs+8hKbgMutUlZVbA52Hr/0IA==
+"@types/koa__cors@3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-3.1.1.tgz#198b5abbc425a672ae57c311b420bc270e65bdef"
+  integrity sha512-O7MBkCocnLrpEvkMrYAp17arUDS+KuS5bXMG/Z4aPSbrO7vrYB6YrqcsTD3Dp2OnAL3j4WME2k/x2kOcyzwNUw==
   dependencies:
     "@types/koa" "*"
 
@@ -727,10 +752,10 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
 
-"@types/qrcode@1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@types/qrcode/-/qrcode-1.4.1.tgz#0689f400c3a95d2db040c99c99834faa09ee9dc1"
-  integrity sha512-vxMyr7JM7tYPxu8vUE83NiosWX5DZieCyYeJRoOIg0pAkyofCBzknJ2ycUZkPGDFis2RS8GN/BeJLnRnAPxeCA==
+"@types/qrcode@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@types/qrcode/-/qrcode-1.4.2.tgz#7d7142d6fa9921f195db342ed08b539181546c74"
+  integrity sha512-7uNT9L4WQTNJejHTSTdaJhfBSCN73xtXaHFyBJ8TSwiLhe4PRuTue7Iph0s2nG9R/ifUaSnGhLUOZavlBEqDWQ==
   dependencies:
     "@types/node" "*"
 
@@ -764,7 +789,14 @@
     "@types/node" "*"
     safe-buffer "*"
 
-"@types/redis@2.8.32", "@types/redis@^2.8.0":
+"@types/redis@4.0.11":
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-4.0.11.tgz#0bb4c11ac9900a21ad40d2a6768ec6aaf651c0e1"
+  integrity sha512-bI+gth8La8Wg/QCR1+V1fhrL9+LZUSWfcqpOj2Kc80ZQ4ffbdL173vQd5wovmoV9i071FU9oP2g6etLuEwb6Rg==
+  dependencies:
+    redis "*"
+
+"@types/redis@^2.8.0":
   version "2.8.32"
   resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.32.tgz#1d3430219afbee10f8cfa389dad2571a05ecfb11"
   integrity sha512-7jkMKxcGq9p242exlbsVzuJb57KqHRhNl4dHoQu2Y5v9bCAbtIXXH0R3HleSQW4CTOqpHIYUW3t6tpUj4BVQ+w==
@@ -811,10 +843,10 @@
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
 
-"@types/sharp@0.28.5":
-  version "0.28.5"
-  resolved "https://registry.yarnpkg.com/@types/sharp/-/sharp-0.28.5.tgz#2095c304e24c310945d6ece7a9fd44b34272c93f"
-  integrity sha512-+RYU1NdKeDtTMau6HBbcVUCWjMiDydW4nRIGnOviwRxZxjJy0LqRdx0+YdxBKHcSlUWIYhD1XtiGQsUtInsjBQ==
+"@types/sharp@0.29.5":
+  version "0.29.5"
+  resolved "https://registry.yarnpkg.com/@types/sharp/-/sharp-0.29.5.tgz#9c7032d30d138ad16dde6326beaff2af757b91b3"
+  integrity sha512-3TC+S3H5RwnJmLYMHrcdfNjz/CaApKmujjY9b6PU/pE6n0qfooi99YqXGWoW8frU9EWYj/XTI35Pzxa+ThAZ5Q==
   dependencies:
     "@types/node" "*"
 
@@ -2319,7 +2351,7 @@ cloneable-readable@^1.0.0:
     process-nextick-args "^2.0.0"
     readable-stream "^2.3.5"
 
-cluster-key-slot@^1.1.0:
+cluster-key-slot@1.1.0, cluster-key-slot@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/cluster-key-slot/-/cluster-key-slot-1.1.0.tgz#30474b2a981fb12172695833052bc0d01336d10d"
   integrity sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==
@@ -2665,10 +2697,10 @@ css-declaration-sorter@^6.0.3:
   dependencies:
     timsort "^0.3.0"
 
-css-loader@6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-6.5.0.tgz#9d1cf7766a9a8f0b3c6e1638309b964dbdab46d3"
-  integrity sha512-VmuSdQa3K+wJsl39i7X3qGBM5+ZHmtTnv65fqMGI+fzmHoYmszTVvTqC1XN8JwWDViCB1a8wgNim5SV4fb37xg==
+css-loader@6.5.1:
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-6.5.1.tgz#0c43d4fbe0d97f699c91e9818cb585759091d1b1"
+  integrity sha512-gEy2w9AnJNnD9Kuo4XAP9VflW/ujKoS9c/syO+uWMlm5igc7LysKzPXaDoR2vroROkSwsTS2tGr1yGGEbZOYZQ==
   dependencies:
     icss-utils "^5.1.0"
     postcss "^8.2.15"
@@ -3948,6 +3980,11 @@ gauge@~2.7.3:
     string-width "^1.0.1"
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
+
+generic-pool@3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/generic-pool/-/generic-pool-3.8.2.tgz#aab4f280adb522fdfbdc5e5b64d718d3683f04e9"
+  integrity sha512-nGToKy6p3PAbYQ7p1UlWl6vSPwfwU6TMSWK7TTu+WUY4ZjyZQGniGGt2oNVvyNSpyZYSB43zMXVLcBm08MTMkg==
 
 get-caller-file@^1.0.1:
   version "1.0.3"
@@ -7326,12 +7363,7 @@ postcss-unique-selectors@^5.0.2:
     alphanum-sort "^1.0.2"
     postcss-selector-parser "^6.0.5"
 
-postcss-value-parser@^4.0.2, postcss-value-parser@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.1.0.tgz#443f6a20ced6481a2bda4fa8532a6e55d789a2cb"
-  integrity sha512-97DXOFbQJhk71ne5/Mt6cOu6yxsSfM0QGQyl0L25Gca4yGWEGJaig7l7gbCX623VqTBNGLRLaVUCnNkcedlRSQ==
-
-postcss-value-parser@^4.2.0:
+postcss-value-parser@^4.0.2, postcss-value-parser@^4.1.0, postcss-value-parser@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
@@ -7444,10 +7476,10 @@ private-ip@2.3.3:
     is-ip "^3.1.0"
     netmask "^2.0.2"
 
-probe-image-size@7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-7.2.1.tgz#df0c924e67e247bc94f8fcb0fad7f0081061fc44"
-  integrity sha512-d+6L3NvQBCNt4peRDoEfA7r9bPm6/qy18FnLKwg4NWBC5JrJm0pMLRg1kF4XNsPe1bUdt3WIMonPJzQWN2HXjQ==
+probe-image-size@7.2.2:
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-7.2.2.tgz#e5851b9be7864f21e3bac5e6e4fac9da9055b412"
+  integrity sha512-QUm+w1S9WTsT5GZB830u0BHExrUmF0J4fyRm5kbLUMEP3fl9UVYXc3xOBVqZNnH9tnvVEJO8vDk3PMtsLqjxug==
   dependencies:
     lodash.merge "^4.6.2"
     needle "^2.5.2"
@@ -7860,12 +7892,22 @@ redis-lock@0.1.4:
   resolved "https://registry.yarnpkg.com/redis-lock/-/redis-lock-0.1.4.tgz#e83590bee22b5f01cdb65bfbd88d988045356272"
   integrity sha512-7/+zu86XVQfJVx1nHTzux5reglDiyUCDwmW7TSlvVezfhH2YLc/Rc8NE0ejQG+8/0lwKzm29/u/4+ogKeLosiA==
 
-redis-parser@^3.0.0:
+redis-parser@3.0.0, redis-parser@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/redis-parser/-/redis-parser-3.0.0.tgz#b66d828cdcafe6b4b8a428a7def4c6bcac31c8b4"
   integrity sha1-tm2CjNyv5rS4pCin3vTGvKwxyLQ=
   dependencies:
     redis-errors "^1.0.0"
+
+redis@*:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/redis/-/redis-4.0.1.tgz#c020e2ac7f83f0c1d42ced50b8a7af28164bd6ee"
+  integrity sha512-qfcq1oz2ci7pNdCfTLLEuKhS8jZ17dFiT1exogOr+jd3EVP/h9qpy7K+VajB4BXA0k8q68KFqR6HrliKV6jt1Q==
+  dependencies:
+    "@node-redis/client" "^1.0.1"
+    "@node-redis/json" "^1.0.1"
+    "@node-redis/search" "^1.0.1"
+    "@node-redis/time-series" "^1.0.0"
 
 redis@3.1.2:
   version "3.1.2"
@@ -9552,10 +9594,10 @@ uuid@8.3.2, uuid@^8.3.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
-v-animate-css@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/v-animate-css/-/v-animate-css-0.0.3.tgz#fa3f41e5995404f0e5a741cdb2c576ce01f9df16"
-  integrity sha512-5LUnwCBFcdZwI9iQ5SkZi65LAs3t3iIDdJJQfCc5eV+1PweciesRpaXVBJhmZATjivN/UrLlT+Wwl/Y7gVc2mA==
+v-animate-css@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/v-animate-css/-/v-animate-css-0.0.5.tgz#ff5895abd450c7710baa13bbb962b00920f87fef"
+  integrity sha512-FML26yVYX3hCTWTKioTNAIXjaWIFWa1mSczb92cLkMYI9QI6uRacKx7QnBNB17IOFLFEv8mc14aawe2In/ba1w==
   dependencies:
     scrollmonitor "^1.2.4"
 
@@ -10146,15 +10188,15 @@ yaeti@^0.0.6:
   resolved "https://registry.yarnpkg.com/yaeti/-/yaeti-0.0.6.tgz#f26f484d72684cf42bedfb76970aa1608fbf9577"
   integrity sha1-8m9ITXJoTPQr7ft2lwqhYI+/lXc=
 
+yallist@4.0.0, yallist@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
+  integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
+
 yallist@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
   integrity sha1-HBH5IY8HYImkfdUS+TxmmaaoHVI=
-
-yallist@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
-  integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
 yaml-ast-parser@0.0.43:
   version "0.0.43"
