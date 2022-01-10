@@ -92,7 +92,7 @@
 		"@types/webpack": "5.28.0",
 		"@types/webpack-stream": "3.2.12",
 		"@types/websocket": "1.0.4",
-		"@types/ws": "8.2.0",
+		"@types/ws": "8.2.2",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
 		"apexcharts": "3.28.1",
