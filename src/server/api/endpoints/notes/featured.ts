@@ -2,6 +2,7 @@ import $ from 'cafy';
 import define from '../../define';
 import { generateMuteQuery } from '../../common/generate-mute-query';
 import { Notes } from '../../../../models';
+import { generateBlockedUserQuery } from '../../common/generate-block-query';
 
 export const meta = {
 	desc: {
@@ -45,6 +46,7 @@ export default define(meta, async (ps, user) => {
 		.leftJoinAndSelect('note.user', 'user');
 
 	if (user) generateMuteQuery(query, user);
+	if (user) generateBlockedUserQuery(query, user);
 
 	const notes = await query.orderBy('note.score', 'DESC').take(ps.limit!).getMany();
 

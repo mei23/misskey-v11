@@ -23,6 +23,10 @@ export default abstract class Channel {
 		return this.connection.muting;
 	}
 
+	protected get blocking() {
+		return this.connection.blocking;
+	}
+
 	protected get subscriber() {
 		return this.connection.subscriber;
 	}

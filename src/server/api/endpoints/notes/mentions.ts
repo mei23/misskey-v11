@@ -7,6 +7,7 @@ import { generateVisibilityQuery } from '../../common/generate-visibility-query'
 import { generateMuteQuery } from '../../common/generate-mute-query';
 import { makePaginationQuery } from '../../common/make-pagination-query';
 import { Brackets } from 'typeorm';
+import { generateBlockedUserQuery } from '../../common/generate-block-query';
 
 export const meta = {
 	desc: {
@@ -67,6 +68,7 @@ export default define(meta, async (ps, user) => {
 
 	generateVisibilityQuery(query, user);
 	generateMuteQuery(query, user);
+	generateBlockedUserQuery(query, user);
 
 	if (ps.visibility) {
 		query.andWhere('note.visibility = :visibility', { visibility: ps.visibility });
