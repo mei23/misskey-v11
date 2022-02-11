@@ -18,6 +18,8 @@
 		:href="media.url"
 		:title="media.name"
 		:download="media.name"
+		target="_blank"
+		rel="noopener"
 	>
 		<span class="icon"><fa icon="download"/></span>
 		<b>{{ media.name }}</b>
