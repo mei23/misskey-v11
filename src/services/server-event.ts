@@ -20,4 +20,3 @@ export async function publishTerminate(userId: User['id']) {
 export async function publishInstanceModUpdated() {
 	await publishServerEvent(null, 'instanceModUpdated');
 }
-
