@@ -6,6 +6,7 @@ import { generateVisibilityQuery } from '../../common/generate-visibility-query'
 import { generateMuteQuery } from '../../common/generate-mute-query';
 import { Brackets } from 'typeorm';
 import { Notes } from '../../../../models';
+import { generateBlockedUserQuery } from '../../common/generate-block-query';
 
 export const meta = {
 	desc: {
@@ -68,6 +69,7 @@ export default define(meta, async (ps, user) => {
 
 	generateVisibilityQuery(query, user);
 	if (user) generateMuteQuery(query, user);
+	if (user) generateBlockedUserQuery(query, user);
 
 	const notes = await query.take(ps.limit!).getMany();
 

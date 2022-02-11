@@ -8,7 +8,7 @@ import channels from './channels';
 import { EventEmitter } from 'events';
 import { User } from '../../../models/entities/user';
 import { App } from '../../../models/entities/app';
-import { Users, Followings, Mutings } from '../../../models';
+import { Users, Followings, Mutings, Blockings } from '../../../models';
 
 /**
  * Main stream connection
@@ -17,6 +17,7 @@ export default class Connection {
 	public user?: User;
 	public following: User['id'][] = [];
 	public muting: User['id'][] = [];
+	public blocking: User['id'][] = [];
 	public app: App;
 	private wsConnection: websocket.connection;
 	public subscriber: EventEmitter;
@@ -39,6 +40,7 @@ export default class Connection {
 		if (this.user) {
 			this.updateFollowing();
 			this.updateMuting();
+			this.updateBlocking();
 			this.subscriber.on(`serverEvent:${this.user.id}`, this.onServerEvent);
 		}
 	}
@@ -225,6 +227,10 @@ export default class Connection {
 			this.updateMuting();
 		}
 
+		if (data.type === 'blockingChanged') {
+			this.updateBlocking();
+		}
+
 		if (data.type === 'terminate') {
 			this.wsConnection.close();
 			this.dispose();
@@ -253,6 +259,18 @@ export default class Connection {
 		});
 
 		this.muting = mutings.map(x => x.muteeId);
+	}
+
+	@autobind
+	private async updateBlocking() { // ここでいうBlockingは被Blockingの意
+		const blockings = await Blockings.find({
+			where: {
+				blockeeId: this.user!.id
+			},
+			select: ['blockerId']
+		});
+
+		this.blocking = blockings.map(x => x.blockerId);
 	}
 
 	/**

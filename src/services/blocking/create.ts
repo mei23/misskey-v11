@@ -9,7 +9,7 @@ import { User } from '../../models/entities/user';
 import { Blockings, Users, FollowRequests, Followings } from '../../models';
 import { perUserFollowingChart } from '../chart';
 import { genId } from '../../misc/gen-id';
-import { publishFollowingChanged } from '../server-event';
+import { publishBlockingChanged, publishFollowingChanged } from '../server-event';
 
 export default async function(blocker: User, blockee: User) {
 	await Promise.all([
@@ -30,6 +30,9 @@ export default async function(blocker: User, blockee: User) {
 		const content = renderActivity(renderBlock(blocker, blockee));
 		deliver(blocker, content, blockee.inbox);
 	}
+
+	publishBlockingChanged(blocker.id);
+	if (Users.isLocalUser(blockee)) publishBlockingChanged(blockee.id);
 }
 
 async function cancelRequest(follower: User, followee: User) {

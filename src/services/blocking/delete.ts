@@ -5,6 +5,7 @@ import { deliver } from '../../queue';
 import Logger from '../logger';
 import { User } from '../../models/entities/user';
 import { Blockings, Users } from '../../models';
+import { publishBlockingChanged } from '../server-event';
 
 const logger = new Logger('blocking/delete');
 
@@ -26,4 +27,7 @@ export default async function(blocker: User, blockee: User) {
 		const content = renderActivity(renderUndo(renderBlock(blocker, blockee), blocker));
 		deliver(blocker, content, blockee.inbox);
 	}
+
+	publishBlockingChanged(blocker.id);
+	if (Users.isLocalUser(blockee)) publishBlockingChanged(blockee.id);
 }
