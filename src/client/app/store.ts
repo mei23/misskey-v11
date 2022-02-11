@@ -401,7 +401,9 @@ export default (os: MiOS) => new Vuex.Store({
 
 		logout(ctx) {
 			ctx.commit('updateI', null);
-			document.cookie = `i=; max-age=0; domain=${document.location.hostname}`;
+			document.cookie = 'i=; path=/';
+			document.cookie = 'i=; path=/i/settings';
+			document.cookie = `i=; domain=${document.location.hostname}; path=/`;
 			localStorage.removeItem('i');
 		},
 
