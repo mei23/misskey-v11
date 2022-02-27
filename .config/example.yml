@@ -64,10 +64,18 @@ redis:
 # change it according to your preferences.
 
 # Available methods:
-# aid ... Short, Millisecond accuracy
-# meid ... Similar to ObjectID, Millisecond accuracy
-# ulid ... Millisecond accuracy
-# objectid ... This is left for backward compatibility
+# aid
+#   Short, Millisecond accuracy
+#   英数小文字10文字, 精度はミリ秒, 現実的な確率で衝突することがわかってるので非推奨
+# meid
+#   Similar to ObjectID, Millisecond accuracy
+#   HEX小文字24文字, 精度はミリ秒, 推奨
+# ulid
+#   Millisecond accuracy
+#   HEX大文字26文字, 精度はミリ秒, 推奨, ただ大文字なので見た目の主張が強い
+# objectid
+#   This is left for backward compatibility
+#   HEX小文字24文字, 精度は秒, 互換用なので非推奨
 
 # ONCE YOU HAVE STARTED THE INSTANCE, DO NOT CHANGE THE
 # ID SETTINGS AFTER THAT!
