@@ -18,7 +18,7 @@ setInterval(() => {
 	fetchMeta().then(m => {
 		maxNoteTextLength = m.maxNoteTextLength;
 	});
-}, 3000);
+}, 60 * 1000);
 
 export const meta = {
 	stability: 'stable',
