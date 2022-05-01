@@ -16,8 +16,8 @@ export async function renderPerson(user: ILocalUser) {
 	const isSystem = !!user.username.match(/\./);
 
 	const [avatar, banner, profile] = await Promise.all([
-		user.avatarId ? DriveFiles.findOne(user.avatarId) : Promise.resolve(undefined),
-		user.bannerId ? DriveFiles.findOne(user.bannerId) : Promise.resolve(undefined),
+		(user.avatar === undefined && user.avatarId) ? DriveFiles.findOne(user.avatarId) : user.avatar,
+		(user.banner === undefined && user.bannerId) ? DriveFiles.findOne(user.bannerId) : user.banner,
 		UserProfiles.findOne(user.id).then(ensure)
 	]);
 
