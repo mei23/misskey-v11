@@ -203,12 +203,6 @@ export default define(meta, async (ps, user, app) => {
 
 		if (avatar == null || avatar.userId !== user.id) throw new ApiError(meta.errors.noSuchAvatar);
 		if (!avatar.type.startsWith('image/')) throw new ApiError(meta.errors.avatarNotAnImage);
-
-		updates.avatarUrl = DriveFiles.getPublicUrl(avatar, true);
-
-		if (avatar.blurhash) {
-			updates.avatarBlurhash = avatar.blurhash;
-		}
 	}
 
 	if (ps.bannerId) {
@@ -216,12 +210,6 @@ export default define(meta, async (ps, user, app) => {
 
 		if (banner == null || banner.userId !== user.id) throw new ApiError(meta.errors.noSuchBanner);
 		if (!banner.type.startsWith('image/')) throw new ApiError(meta.errors.bannerNotAnImage);
-
-		updates.bannerUrl = DriveFiles.getPublicUrl(banner, false);
-
-		if (banner.blurhash) {
-			updates.bannerBlurhash = banner.blurhash;
-		}
 	}
 
 	if (ps.pinnedPageId) {
