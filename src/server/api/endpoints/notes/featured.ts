@@ -43,7 +43,7 @@ export default define(meta, async (ps, user) => {
 		.where('note.userHost IS NULL')
 		.andWhere(`note.createdAt > :date`, { date: new Date(Date.now() - day) })
 		.andWhere(`note.visibility = 'public'`)
-		.leftJoinAndSelect('note.user', 'user');
+		.innerJoinAndSelect('note.user', 'user');
 
 	if (user) generateMuteQuery(query, user);
 	if (user) generateBlockedUserQuery(query, user);

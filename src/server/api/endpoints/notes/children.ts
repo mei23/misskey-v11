@@ -65,7 +65,7 @@ export default define(meta, async (ps, user) => {
 				}));
 			}));
 		}))
-		.leftJoinAndSelect('note.user', 'user');
+		.innerJoinAndSelect('note.user', 'user');
 
 	generateVisibilityQuery(query, user);
 	if (user) generateMuteQuery(query, user);

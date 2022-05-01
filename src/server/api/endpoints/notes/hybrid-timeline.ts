@@ -125,7 +125,7 @@ export default define(meta, async (ps, user) => {
 			qb.where(`((note.userId IN (${ followingQuery.getQuery() })) OR (note.userId = :meId))`, { meId: user.id })
 				.orWhere('(note.visibility = \'public\') AND (note.userHost IS NULL)');
 		}))
-		.leftJoinAndSelect('note.user', 'user')
+		.innerJoinAndSelect('note.user', 'user')
 		.setParameters(followingQuery.getParameters());
 
 	generateVisibilityQuery(query, user);

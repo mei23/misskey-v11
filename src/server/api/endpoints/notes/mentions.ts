@@ -64,7 +64,7 @@ export default define(meta, async (ps, user) => {
 			.where(`'{"${user.id}"}' <@ note.mentions`)
 			.orWhere(`'{"${user.id}"}' <@ note.visibleUserIds`);
 		}))
-		.leftJoinAndSelect('note.user', 'user');
+		.innerJoinAndSelect('note.user', 'user');
 
 	generateVisibilityQuery(query, user);
 	generateMuteQuery(query, user);

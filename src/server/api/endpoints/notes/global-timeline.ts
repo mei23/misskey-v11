@@ -78,7 +78,7 @@ export default define(meta, async (ps, user) => {
 			ps.sinceId, ps.untilId, ps.sinceDate, ps.untilDate)
 		.andWhere('note.visibility = \'public\'')
 		.andWhere('note.replyId IS NULL')
-		.leftJoinAndSelect('note.user', 'user');
+		.innerJoinAndSelect('note.user', 'user');
 
 	if (user) generateMuteQuery(query, user);
 	if (user) generateBlockedUserQuery(query, user);

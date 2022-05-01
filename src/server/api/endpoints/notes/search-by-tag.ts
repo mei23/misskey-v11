@@ -96,7 +96,7 @@ export const meta = {
 
 export default define(meta, async (ps, me) => {
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId)
-		.leftJoinAndSelect('note.user', 'user');
+		.innerJoinAndSelect('note.user', 'user');
 
 	generateVisibilityQuery(query, me);
 	if (me) generateMuteQuery(query, me);

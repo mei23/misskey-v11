@@ -94,7 +94,7 @@ export default define(meta, async (ps, user) => {
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'),
 			ps.sinceId, ps.untilId, ps.sinceDate, ps.untilDate)
 		.andWhere('(note.visibility = \'public\') AND (note.userHost IS NULL)')
-		.leftJoinAndSelect('note.user', 'user');
+		.innerJoinAndSelect('note.user', 'user');
 
 	generateVisibilityQuery(query, user);
 	if (user) generateMuteQuery(query, user);
