@@ -1,17 +1,20 @@
 <template>
-<div class="qjewsnkgzzxlxtzncydssfbgjibiehcy" v-if="image.isSensitive && hide && !$store.state.device.alwaysShowNsfw" @click="hide = false">
-	<div>
-		<b><fa icon="exclamation-triangle"/> {{ $t('sensitive') }}</b>
-		<span>{{ $t('click-to-show') }}</span>
+<div class="qjewsnkg" v-if="image.isSensitive && hide" @click="hide = false">
+	<img-with-blurhash class="bg" :hash="image.blurhash" :title="image.name"/>
+	<div class="text">
+		<div>
+			<b><fa :icon="faExclamationTriangle"/> {{ $t('sensitive') }}</b>
+			<span>{{ $t('clickToShow') }}</span>
+		</div>
 	</div>
 </div>
-<a class="gqnyydlzavusgskkfvwvjiattxdzsqlf" v-else
+<a class="gqnyydlz" v-else
 	:href="image.url"
-	:style="style"
 	:title="image.name"
 	@click.prevent="onClick"
 >
-	<div v-if="image.type === 'image/gif'">GIF</div>
+	<img-with-blurhash :hash="image.blurhash" :src="url" :alt="image.name" :title="image.name"/>
+	<div class="gif" v-if="image.type === 'image/gif'">GIF</div>
 </a>
 </template>
 
@@ -20,9 +23,13 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import ImageViewer from './image-viewer.vue';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
+import ImgWithBlurhash from './img-with-blurhash.vue';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/media-image.vue'),
+	components: {
+		ImgWithBlurhash
+	},
 	props: {
 		image: {
 			type: Object,
@@ -38,23 +45,18 @@ export default Vue.extend({
 		};
 	},
 	computed: {
-		style(): any {
-			let url = `url(${
-				this.$store.state.device.disableShowingAnimatedImages
-					? getStaticImageUrl(this.image.thumbnailUrl)
-					: this.image.thumbnailUrl
-			})`;
+		url(): any {
+			let url = this.$store.state.device.disableShowingAnimatedImages
+				? getStaticImageUrl(this.image.thumbnailUrl)
+				: this.image.thumbnailUrl;
 
 			if (this.$store.state.device.loadRemoteMedia || this.$store.state.device.lightmode) {
 				url = null;
 			} else if (this.raw || this.$store.state.device.loadRawImages) {
-				url = `url(${this.image.url})`;
+				url = this.image.url;
 			}
 
-			return {
-				'background-color': this.image.properties.avgColor || 'transparent',
-				'background-image': url
-			};
+			return url;
 		}
 	},
 	methods: {
@@ -68,7 +70,33 @@ export default Vue.extend({
 </script>
 
 <style lang="stylus" scoped>
-.gqnyydlzavusgskkfvwvjiattxdzsqlf
+.qjewsnkg
+	position relative
+
+	> .bg
+		filter brightness(0.5)
+
+	> .text
+		position absolute
+		left: 0
+		top: 0
+		width 100%
+		height 100%
+		z-index 1
+		display flex
+		justify-content: center
+		align-items center
+
+		> div
+			display table-cell
+			text-align center
+			font-size 0.8em
+			color #fff
+
+			> *
+				display block
+
+.gqnyydlz
 	display block
 	cursor zoom-in
 	overflow hidden
@@ -78,7 +106,7 @@ export default Vue.extend({
 	background-size contain
 	background-repeat no-repeat
 
-	> div
+	> .gif
 		background-color var(--text)
 		border-radius 6px
 		color var(--secondary)
@@ -91,20 +119,5 @@ export default Vue.extend({
 		text-align center
 		top 12px
 		pointer-events none
-
-.qjewsnkgzzxlxtzncydssfbgjibiehcy
-	display flex
-	justify-content center
-	align-items center
-	background #111
-	color #fff
-
-	> div
-		display table-cell
-		text-align center
-		font-size 12px
-
-		> *
-			display block
 
 </style>

@@ -138,17 +138,6 @@ export default Vue.extend({
 			this.browser.isDragSource = false;
 		},
 
-		onThumbnailLoaded() {
-			if (this.file.properties.avgColor) {
-				anime({
-					targets: this.$refs.thumbnail,
-					backgroundColor: 'transparent', // TODO fade
-					duration: 100,
-					easing: 'linear'
-				});
-			}
-		},
-
 		rename() {
 			this.$root.dialog({
 				title: this.$t('contextmenu.rename-file'),

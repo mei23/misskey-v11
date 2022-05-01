@@ -26,7 +26,7 @@ describe('Get file info', () => {
 			},
 			width: undefined,
 			height: undefined,
-			avgColor: undefined
+			blurhash: undefined
 		});
 	}));
 
@@ -43,7 +43,7 @@ describe('Get file info', () => {
 			},
 			width: 512,
 			height: 512,
-			avgColor: [ 181, 99, 106 ]
+			blurhash: 'yFLxJjH[NE}@^PRiN_}Y=aVZNvFxxZ#SwIt7Eg%KIp-ospv~Nex[R6t3xZI:iwt6kWxDafoySgsAfR$*oyM|S2t7$iV[tQNbaKn%xt'
 		});
 	}));
 
@@ -60,7 +60,7 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: [ 249, 253, 250 ]
+			blurhash: 'y8S?Mr-;=~~Xs;%foL?bWVs;xbR%NFay^ms;I-InI-xbs;%gofj[I-s;-WxbI-WUayxb$,NFR*~Wa{R%xbayNFI.oMj[oMNFWB$,WU'
 		});
 	}));
 
@@ -77,7 +77,7 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: [ 249, 253, 250 ]
+			blurhash: 'y8S?Mr-;=~~Xs;%foL?bWVs;xbR%NFay^ms;I-InI-xbs;%gofj[I-s;-WxbI-WUayxb$,NFR*~Wa{R%xbayNFI.oMj[oMNFWB$,WU'
 		});
 	}));
 
@@ -94,7 +94,7 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: [ 255, 255, 255 ]
+			blurhash: 'y74r*daKpdp{kWZ#Z#k=fkf5f5f6fkfPHXa0krkrkCZ~aJf+aekCkDfRe.e.L#kWZ~Z#e.krkraJe.kCkDfke.f6UukrZ#VDadk?kr'
 		});
 	}));
 
@@ -111,7 +111,7 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: [ 255, 255, 255 ]
+			blurhash: 'yGCOe55x1Y]^Uw=UAmoMR+oHnif6baR:0J=m|}A3pwE.,wR*xGR;S~kCiy$d=}NgJPxAa0w@O9fQR%s*nOf6XRNg=zNgNsskaKoIa#'
 		});
 	}));
 
@@ -129,7 +129,7 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			avgColor: [ 255, 255, 255 ]
+			blurhash: 'yGCOe55x1Y]^Uw=UAmoMR+oHnif6baR:0J=m|}A3pwE.,wR*xGR;S~kCiy$d=}NgJPxAa0w@O9fQR%s*nOf6XRNg=zNgNsskaKoIa#'
 		});
 	}));
 
@@ -146,7 +146,7 @@ describe('Get file info', () => {
 			},
 			width: 25000,
 			height: 25000,
-			avgColor: undefined
+			blurhash: undefined
 		});
 	}));
 });
