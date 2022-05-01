@@ -29,7 +29,7 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 
 	if (note.replyId) {
 		const inReplyToNote = note.reply || await Notes.findOne(note.replyId);
-		inReplyTo = inReplyToNote ? `${config.url}/notes/${inReplyToNote.id}` : null;
+		inReplyTo = inReplyToNote ? (inReplyToNote.uri || `${config.url}/notes/${inReplyToNote.id}`) : null;
 	}
 
 	let quote;
