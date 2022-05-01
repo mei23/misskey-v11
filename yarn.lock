@@ -660,10 +660,10 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-9.1.0.tgz#baf17ab2cca3fcce2d322ebc30454bff487efad5"
   integrity sha512-QCWHkbMv4Y5U9oW10Uxbr45qMMSzl4OzijsozynUAgx3kEHUdXB00udx2dWDQ7f2TU2a2uuiFaRZjCe3unPpeg==
 
-"@types/node-fetch@2.5.12":
-  version "2.5.12"
-  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.5.12.tgz#8a6f779b1d4e60b7a57fb6fd48d84fb545b9cc66"
-  integrity sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==
+"@types/node-fetch@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.1.tgz#8f127c50481db65886800ef496f20bbf15518975"
+  integrity sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==
   dependencies:
     "@types/node" "*"
     form-data "^3.0.0"
@@ -8924,10 +8924,10 @@ syslog-pro@1.0.0:
   dependencies:
     moment "^2.22.2"
 
-systeminformation@5.11.2:
-  version "5.11.2"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.11.2.tgz#291280715c91f06d84f8748e78dab97df2f7ac1f"
-  integrity sha512-/6+p1ze2curwSMZQgQ9Gv4eLgtAaX9ROBEVELddkYy7llpP0SQjpSx4qDFEBscxqm/6yu+Khwi0Pneoy/wTwVg==
+systeminformation@5.11.14:
+  version "5.11.14"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.11.14.tgz#21fcb6f05d33e17d69c236b9c1b3d9c53d1d2b3a"
+  integrity sha512-m8CJx3fIhKohanB0ExTk5q53uI1J0g5B09p77kU+KxnxRVpADVqTAwCg1PFelqKsj4LHd+qmVnumb511Hg4xow==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
