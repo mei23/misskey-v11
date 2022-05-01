@@ -29,7 +29,7 @@ export default async (ctx: Router.RouterContext) => {
 	const pinnedNotes = await Promise.all(pinings.map(pining =>
 		Notes.findOne(pining.noteId).then(ensure)));
 
-	const renderedNotes = await Promise.all(pinnedNotes.map(note => renderNote(note)));
+	const renderedNotes = await Promise.all(pinnedNotes.map(note => renderNote(note, false)));
 
 	const rendered = renderOrderedCollection(
 		`${config.url}/users/${userId}/collections/featured`,

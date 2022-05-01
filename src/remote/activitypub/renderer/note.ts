@@ -12,6 +12,12 @@ import { Emoji } from '../../../models/entities/emoji';
 import { Poll } from '../../../models/entities/poll';
 import { ensure } from '../../../prelude/ensure';
 
+/**
+ * Render Note object
+ * @param note Note object from DB
+ * @param dive Deprecated, Always ignored
+ * @param isTalk isTalk
+ */
 export default async function renderNote(note: Note, dive = true, isTalk = false): Promise<any> {
 	const getPromisedFiles = async (ids: string[]) => {
 		if (!ids || ids.length === 0) return [];
@@ -19,29 +25,11 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 		return ids.map(id => items.find(item => item.id === id)).filter(item => item != null) as DriveFile[];
 	};
 
-	let inReplyTo;
-	let inReplyToNote: Note | undefined;
+	let inReplyTo: string | null;
 
 	if (note.replyId) {
-		inReplyToNote = await Notes.findOne(note.replyId);
-
-		if (inReplyToNote != null) {
-			const inReplyToUser = await Users.findOne(inReplyToNote.userId);
-
-			if (inReplyToUser != null) {
-				if (inReplyToNote.uri) {
-					inReplyTo = inReplyToNote.uri;
-				} else {
-					if (dive) {
-						inReplyTo = await renderNote(inReplyToNote, false);
-					} else {
-						inReplyTo = `${config.url}/notes/${inReplyToNote.id}`;
-					}
-				}
-			}
-		}
-	} else {
-		inReplyTo = null;
+		const inReplyToNote = note.reply || await Notes.findOne(note.replyId);
+		inReplyTo = inReplyToNote ? `${config.url}/notes/${inReplyToNote.id}` : null;
 	}
 
 	let quote;
