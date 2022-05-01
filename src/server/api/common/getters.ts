@@ -6,8 +6,22 @@ import { Notes, Users } from '../../../models';
 /**
  * Get note for API processing
  */
-export async function getNote(noteId: Note['id']) {
-	const note = await Notes.findOne(noteId);
+ export async function getNote(noteId: Note['id'], withRelations = false) {
+	const note = await Notes.findOne(noteId, {
+		relations: withRelations ? [
+			'user',
+			'user.avatar',
+			'user.banner',
+			'reply',
+			'renote',
+			'reply.user',
+			'reply.user.avatar',
+			'reply.user.banner',
+			'renote.user',
+			'renote.user.avatar',
+			'renote.user.banner',
+		] : undefined
+	});
 
 	if (note == null) {
 		throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
