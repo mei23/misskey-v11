@@ -131,6 +131,7 @@ export default define(meta, async (ps, me) => {
 	//#region Construct query
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId, ps.sinceDate, ps.untilDate)
 		.andWhere('note.userId = :userId', { userId: user.id })
+		.innerJoinAndSelect('note.user', 'user')
 		.leftJoinAndSelect('user.avatar', 'avatar')
 		.leftJoinAndSelect('user.banner', 'banner')
 		.leftJoinAndSelect('note.reply', 'reply')
@@ -140,8 +141,7 @@ export default define(meta, async (ps, me) => {
 		.leftJoinAndSelect('replyUser.banner', 'replyUserBanner')
 		.leftJoinAndSelect('renote.user', 'renoteUser')
 		.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
-		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner')
-		.innerJoinAndSelect('note.user', 'user');
+		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner');
 
 	generateVisibilityQuery(query, me);
 	if (me) generateMuteQuery(query, me, user);
