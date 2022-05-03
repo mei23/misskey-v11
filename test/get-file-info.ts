@@ -111,7 +111,7 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			blurhash: 'yGCOe55x1Y]^Uw=UAmoMR+oHnif6baR:0J=m|}A3pwE.,wR*xGR;S~kCiy$d=}NgJPxAa0w@O9fQR%s*nOf6XRNg=zNgNsskaKoIa#'
+			blurhash: 'ySFzz31U1?=nZO,+JOofR*oHnhjYX6S50J=n]DEol8JEw}R*xaNgXTW=ruxBxbWZS2obe.n~bFaxR%s*aKoIW.WY=}NgOAs*enoIWU'
 		});
 	}));
 
@@ -129,7 +129,7 @@ describe('Get file info', () => {
 			},
 			width: 256,
 			height: 256,
-			blurhash: 'yGCOe55x1Y]^Uw=UAmoMR+oHnif6baR:0J=m|}A3pwE.,wR*xGR;S~kCiy$d=}NgJPxAa0w@O9fQR%s*nOf6XRNg=zNgNsskaKoIa#'
+			blurhash: 'ySFzz31U1?=nZO,+JOofR*oHnhjYX6S50J=n]DEol8JEw}R*xaNgXTW=ruxBxbWZS2obe.n~bFaxR%s*aKoIW.WY=}NgOAs*enoIWU'
 		});
 	}));
 
