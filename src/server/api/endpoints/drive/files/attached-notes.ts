@@ -60,6 +60,7 @@ export default define(meta, async (ps, user) => {
 
 	const notes = await Notes.createQueryBuilder('note')
 		.where(':file = ANY(note.fileIds)', { file: file.id })
+		.andWhere('note.userId = :userId', { userId: user.id })
 		.getMany();
 
 	return await Notes.packMany(notes, user, {
