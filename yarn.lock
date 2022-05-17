@@ -136,11 +136,6 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@infrastatic.com/twemoji@14.0.2":
-  version "14.0.2"
-  resolved "https://registry.yarnpkg.com/@infrastatic.com/twemoji/-/twemoji-14.0.2.tgz#e4384e8a916e5dd1e453e57e5b904c177bd8ea90"
-  integrity sha512-bgrmglFd2Hins38ASpMAhIOG1Yp5A1Sfu9qGlp0Ai/mclqxgIRKwgUKV8WaRt9EF31g6y9Y04drOS0iLg4n0TA==
-
 "@koa/cors@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@koa/cors/-/cors-3.1.0.tgz#618bb073438cfdbd3ebd0e648a76e33b84f3a3b2"
@@ -823,10 +818,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/showdown@1.9.4":
-  version "1.9.4"
-  resolved "https://registry.yarnpkg.com/@types/showdown/-/showdown-1.9.4.tgz#5385adf34143abad9309561661fa6c781d2ab962"
-  integrity sha512-50ehC3IAijfkvoNqmQ+VL73S7orOxmAK8ljQAFBv8o7G66lAZyxQj1L3BAv2dD86myLXI+sgKP1kcxAaxW356w==
+"@types/showdown@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/showdown/-/showdown-2.0.0.tgz#3e800eca8573848cac4e5555f4377ba3a0e7b1f2"
+  integrity sha512-70xBJoLv+oXjB5PhtA8vo7erjLDp9/qqI63SRHm4REKrwuPOLs8HhXwlZJBJaB4kC18cCZ1UUZ6Fb/PLFW4TCA==
 
 "@types/source-list-map@*":
   version "0.1.2"
