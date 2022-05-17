@@ -136,11 +136,6 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@infrastatic.com/twemoji@14.0.2":
-  version "14.0.2"
-  resolved "https://registry.yarnpkg.com/@infrastatic.com/twemoji/-/twemoji-14.0.2.tgz#e4384e8a916e5dd1e453e57e5b904c177bd8ea90"
-  integrity sha512-bgrmglFd2Hins38ASpMAhIOG1Yp5A1Sfu9qGlp0Ai/mclqxgIRKwgUKV8WaRt9EF31g6y9Y04drOS0iLg4n0TA==
-
 "@koa/cors@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@koa/cors/-/cors-3.1.0.tgz#618bb073438cfdbd3ebd0e648a76e33b84f3a3b2"
@@ -1617,10 +1612,10 @@ autwh@0.1.0:
   dependencies:
     oauth "0.9.15"
 
-aws-sdk@2.1073.0:
-  version "2.1073.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1073.0.tgz#96c0c25c89f814c4aa4262e6eeef20eec9fda0da"
-  integrity sha512-TtyHDL4ZEs8Zh/DqWY/hv745DTWrIwOyBAvfjBJ45RE9h0TjpWqCIowEtb6gRPAKyPPyfGH4s+rEYu07vNK1Hg==
+aws-sdk@2.1137.0:
+  version "2.1137.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1137.0.tgz#505e51b3c9ed31d54bbd620cb70d005e6086f23b"
+  integrity sha512-iOm81glo7Y3bj6bO6pUEhFlclfANe0ExBJOZ8TxFx2mE8KsaPkofAy8dSzwbn357yOyVxur9tkZgXM2f05ynlA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
