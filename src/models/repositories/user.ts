@@ -1,7 +1,7 @@
 import $ from 'cafy';
 import { EntityRepository, Repository, In, Not } from 'typeorm';
 import { User, ILocalUser, IRemoteUser } from '../entities/user';
-import { Notes, NoteUnreads, FollowRequests, Notifications, MessagingMessages, UserNotePinings, Followings, Blockings, Mutings, UserProfiles, UserSecurityKeys, UserGroupJoinings, Pages, DriveFiles } from '..';
+import { Notes, NoteUnreads, FollowRequests, Notifications, MessagingMessages, UserNotePinings, Followings, Blockings, Mutings, UserProfiles, UserSecurityKeys, UserGroupJoinings, Pages, DriveFiles, Users } from '..';
 import { ensure } from '../../prelude/ensure';
 import config from '../../config';
 import { SchemaType } from '../../misc/schema';
@@ -192,6 +192,8 @@ export class UserRepository extends Repository<User> {
 					username: profile!.discordUsername,
 					discriminator: profile!.discordDiscriminator
 				} : null,
+				movedToId: user.movedToId,
+				movedTo: user.movedToId ? Users.pack(user.movedToId) : null,
 			} : {}),
 
 			...(opts.detail && meId === user.id ? {

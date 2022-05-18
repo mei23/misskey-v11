@@ -164,6 +164,7 @@ export interface IActor extends IObject {
 	endpoints?: {
 		sharedInbox?: string;
 	};
+	movedTo?: string | IObject;
 }
 
 export const isCollection = (object: IObject): object is ICollection =>

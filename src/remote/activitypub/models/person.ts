@@ -137,6 +137,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 
 	const isBot = getApType(object) === 'Service';
 
+	const movedTo = person.movedTo ? await resolvePerson(getApId(person.movedTo), resolver) : null;
+
 	// Create user
 	let user: IRemoteUser;
 	try {
@@ -159,7 +161,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 				uri: person.id,
 				tags,
 				isBot,
-				isCat: (person as any).isCat === true
+				isCat: (person as any).isCat === true,
+				movedToId: movedTo?.id || null,
 			}).then(x => transactionalEntityManager.findOneOrFail(User, x.identifiers[0])) as IRemoteUser;
 
 			await transactionalEntityManager.insert(UserProfile, {
@@ -308,6 +311,8 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 
 	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 32);
 
+	const movedTo = person.movedTo ? await resolvePerson(getApId(person.movedTo), resolver) : null;
+
 	const updates = {
 		lastFetchedAt: new Date(),
 		inbox: person.inbox,
@@ -319,6 +324,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 		isBot: getApType(object) === 'Service',
 		isCat: (person as any).isCat === true,
 		isLocked: !!person.manuallyApprovesFollowers,
+		movedToId: movedTo?.id || null,
 	} as Partial<User>;
 
 	if (avatar) {
