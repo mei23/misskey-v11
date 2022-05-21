@@ -1612,10 +1612,10 @@ autwh@0.1.0:
   dependencies:
     oauth "0.9.15"
 
-aws-sdk@2.1073.0:
-  version "2.1073.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1073.0.tgz#96c0c25c89f814c4aa4262e6eeef20eec9fda0da"
-  integrity sha512-TtyHDL4ZEs8Zh/DqWY/hv745DTWrIwOyBAvfjBJ45RE9h0TjpWqCIowEtb6gRPAKyPPyfGH4s+rEYu07vNK1Hg==
+aws-sdk@2.1139.0:
+  version "2.1139.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1139.0.tgz#8800d6cff33663f5d226f1cc51cdd83bd46d7ffe"
+  integrity sha512-aLmdIhIQuOdbf6F/QJCHm3xfr+9Esh9vWxZmOi54iEOcfHuO48VEEfa2A6NXb2JmUtWGB5AX80ssp6F90bhA6g==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -6329,10 +6329,10 @@ node-releases@^1.1.71:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.71.tgz#cb1334b179896b1c89ecfdd4b725fb7bbdfc7dbb"
   integrity sha512-zR6HoT6LrLCRBwukmrVbHv0EpEQjksO6GmFcZQQuCAy139BEsoVKPYnf3jongYW83fAa1torLGYwxxky/p28sg==
 
-nodemailer@6.7.4:
-  version "6.7.4"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.4.tgz#28771bda3dda8f2dad1912aca0f8727ce7f09d89"
-  integrity sha512-TBSS3qS8WG45ycUwEvEA/3UM1o3sLz9jUl4TPUKPz4ImWWM6UgRCb5pLO+HOouDKEj57yNLOrzQlO8+9IjWZoA==
+nodemailer@6.7.5:
+  version "6.7.5"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.5.tgz#b30b1566f5fa2249f7bd49ced4c58bec6b25915e"
+  integrity sha512-6VtMpwhsrixq1HDYSBBHvW0GwiWawE75dS3oal48VqRhUvKJNnKnJo2RI/bCVQubj1vgrgscMNW4DHaD6xtMCg==
 
 nofilter@^3.1.0:
   version "3.1.0"
