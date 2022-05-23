@@ -101,7 +101,7 @@
 		"autwh": "0.1.0",
 		"aws-sdk": "2.1139.0",
 		"bcryptjs": "2.4.3",
-		"blurhash": "1.1.4",
+		"blurhash": "1.1.5",
 		"bootstrap-vue": "2.22.0",
 		"bull": "4.8.2",
 		"cacheable-lookup": "6.0.4",
