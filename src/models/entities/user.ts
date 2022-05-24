@@ -188,6 +188,19 @@ export class User {
 	})
 	public token: string | null;
 
+	@Column({
+		...id(),
+		nullable: true,
+		comment: 'Moved to user ID',
+	})
+	public movedToUserId: User['id'] | null;
+
+	@OneToOne(type => User, {
+		onDelete: 'SET NULL',
+	})
+	@JoinColumn()
+	public movedToUser: User | null;
+
 	constructor(data: Partial<User>) {
 		if (data == null) return;
 
