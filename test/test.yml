@@ -10,3 +10,4 @@ redis:
   host: localhost
   port: 56311
 id: aid
+autoAdmin: true

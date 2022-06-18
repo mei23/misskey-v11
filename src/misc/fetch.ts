@@ -23,6 +23,20 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 	return await res.json();
 }
 
+export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: Record<string, string>): Promise<string> {
+	const res = await getResponse({
+		url,
+		method: 'GET',
+		headers: objectAssignWithLcKey({
+			'User-Agent': config.userAgent,
+			Accept: accept
+		}, headers || {}),
+		timeout
+	});
+
+	return await res.text();
+}
+
 export async function getResponse(args: { url: string, method: string, body?: string, headers: Record<string, string>, timeout?: number, size?: number }) {
 	logger.debug(`${args.method.toUpperCase()} ${args.url}\nHeaders: ${JSON.stringify(args.headers, null, 2)}${args.body ? `\n${args.body}` : ''}`);
 
