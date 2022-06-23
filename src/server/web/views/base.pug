@@ -16,6 +16,8 @@ html
 		link(rel='icon' href= icon || '/favicon.ico')
 		link(rel='apple-touch-icon' href= icon || '/apple-touch-icon.png')
 		link(rel='manifest' href='/manifest.json')
+		meta(name='twitter:card' content= player ? 'player' : 'summary')
+		meta(property='og:site_name' content= instanceName || 'Misskey')
 
 		title
 			block title
@@ -27,7 +29,9 @@ html
 		block meta
 
 		block og
-			meta(property='og:image' content=img)
+			meta(property='og:title' content= instanceName || 'Misskey')
+			meta(property='og:description' content= desc || '✨🌎✨ A federated blogging platform ✨🚀✨')
+			meta(property='og:image'       content= img)
 
 		style
 			include ./../../../../built/client/assets/init.css

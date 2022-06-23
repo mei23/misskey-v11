@@ -148,11 +148,13 @@ router.get('/@:user.json', async ctx => {
 // User
 router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 	const { username, host } = parseAcct(ctx.params.user);
-	const user = await Users.findOne({
+	const _user = await Users.findOne({
 		usernameLower: username.toLowerCase(),
 		host,
 		isSuspended: false
 	});
+
+	const user = await Users.pack(_user!);
 
 	if (user != null) {
 		const profile = await UserProfiles.findOne(user.id).then(ensure);

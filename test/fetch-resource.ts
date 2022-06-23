@@ -30,6 +30,7 @@ describe('Fetch resource', () => {
 	let p: childProcess.ChildProcess;
 
 	let admin: any;
+	let instanceBanner: any;
 	let instance: any;
 
 	let alice: any;
@@ -46,10 +47,15 @@ describe('Fetch resource', () => {
 		// admin
 		admin = await signup({ username: 'admin' });
 
+		// upload instance banner
+		instanceBanner = await uploadFile(admin);
+		//console.log('instanceBanner', instanceBanner);
+
 		// update instance
 		await api('admin/update-meta', {
 			name: 'Instance Name',
 			description: 'Instance Desc',
+			bannerUrl: instanceBanner.url,
 		}, admin);
 
 		instance = (await api('meta', {})).body;
@@ -272,7 +278,7 @@ describe('Fetch resource', () => {
 				// Title
 				'title': doc.querySelector('title')?.textContent,
 				'og:title': doc.querySelector('meta[property="og:title"]')?.getAttribute('content'),
-				//'og:site_name': doc.querySelector('meta[property="og:site_name"]')?.getAttribute('content'),
+				'og:site_name': doc.querySelector('meta[property="og:site_name"]')?.getAttribute('content'),
 
 				// Description
 				'description': doc.querySelector('meta[name=description]')?.getAttribute('content'),
@@ -288,7 +294,7 @@ describe('Fetch resource', () => {
 				// Generic - og
 				'og:url': doc.querySelector('meta[property="og:url"]')?.getAttribute('content'),
 				'og:image': doc.querySelector('meta[property="og:image"]')?.getAttribute('content'),
-				//og:published_time': doc.querySelector('meta[property="og:published_time"]')?.getAttribute('content'),
+				'og:published_time': doc.querySelector('meta[property="og:published_time"]')?.getAttribute('content'),
 
 				// Player - Twitter
 				'twitter:player': doc.querySelector('meta[name="twitter:player"]')?.getAttribute('content'),
@@ -296,6 +302,13 @@ describe('Fetch resource', () => {
 				'twitter:player:height': doc.querySelector('meta[name="twitter:player:height"]')?.getAttribute('content'),
 				'twitter:player:stream': doc.querySelector('meta[name="twitter:player:stream"]')?.getAttribute('content'),
 				'twitter:player:stream:content_type': doc.querySelector('meta[name="twitter:player:stream:content_type"]')?.getAttribute('content'),
+
+				// Player - og
+				'og:video:url': doc.querySelector('meta[property="og:video:url"]')?.getAttribute('content'),
+				'og:video:secure_url': doc.querySelector('meta[property="og:video:secure_url"]')?.getAttribute('content'),
+				'og:video:type': doc.querySelector('meta[property="og:video:type"]')?.getAttribute('content'),
+				'og:video:width': doc.querySelector('meta[property="og:video:width"]')?.getAttribute('content'),
+				'og:video:height': doc.querySelector('meta[property="og:video:height"]')?.getAttribute('content'),
 			};
 		}
 
@@ -304,21 +317,26 @@ describe('Fetch resource', () => {
 
 			assert.deepStrictEqual(parsed, {
 				'title': instance.name,
-				'og:title': undefined,
-				//'og:site_name': instance.name,
+				'og:title': instance.name,
+				'og:site_name': instance.name,
 				'description': instance.description,
-				'og:description': undefined,
-				'twitter:card': undefined,
+				'og:description': instance.description,
+				'twitter:card': 'summary',
 				'misskey:user-username': undefined,
 				'misskey:user-id': undefined,
 				'og:url': undefined,
-				'og:image': null,
-				//'og:published_time': undefined,
+				'og:image': instanceBanner.url,
+				'og:published_time': undefined,
 				'twitter:player': undefined,
 				'twitter:player:width': undefined,
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 
@@ -328,20 +346,25 @@ describe('Fetch resource', () => {
 			assert.deepStrictEqual(parsed, {
 				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
 				'og:title': `${alice.name} (@${alice.username})`,
-				//'og:site_name': undefined,
+				'og:site_name': instance.name,
 				'description': alice.description,
 				'og:description': alice.description,
 				'twitter:card': 'summary',
 				'misskey:user-username': alice.username,
 				'misskey:user-id': alice.id,
 				'og:url': `http://misskey.local/@${alice.username}`,
-				'og:image': null,
-				//'og:published_time': undefined,
+				'og:image': alice.avatarUrl,
+				'og:published_time': undefined,
 				'twitter:player': undefined,
 				'twitter:player:width': undefined,
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 
@@ -351,7 +374,7 @@ describe('Fetch resource', () => {
 			assert.deepStrictEqual(parsed, {
 				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
 				'og:title': `${alice.name} (@${alice.username})`,
-				//'og:site_name': undefined,
+				'og:site_name': instance.name,
 				'description': alicesPost.text,
 				'og:description': alicesPost.text,
 				'twitter:card': 'summary',
@@ -359,12 +382,17 @@ describe('Fetch resource', () => {
 				'misskey:user-id': alice.id,
 				'og:url': `http://misskey.local/notes/${alicesPost.id}`,
 				'og:image': alice.avatarUrl,
-				//'og:published_time': alicesPost.createtAt,
+				'og:published_time': alicesPost.createdAt,
 				'twitter:player': undefined,
 				'twitter:player:width': undefined,
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 
@@ -374,20 +402,25 @@ describe('Fetch resource', () => {
 			assert.deepStrictEqual(parsed, {
 				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
 				'og:title': `${alice.name} (@${alice.username})`,
-				//'og:site_name': undefined,
-				'description': `${alicesPostImage.text} (1つのファイル)`,
-				'og:description': `${alicesPostImage.text} (1つのファイル)`,
+				'og:site_name': instance.name,
+				'description': `${alicesPostImage.text} (📎1)`,
+				'og:description': `${alicesPostImage.text} (📎1)`,
 				'twitter:card': 'summary',
 				'misskey:user-username': alice.username,
 				'misskey:user-id': alice.id,
 				'og:url': `http://misskey.local/notes/${alicesPostImage.id}`,
 				'og:image': alicesPostImage.files[0].thumbnailUrl,
-				//'og:published_time': alicesPostImage.createtAt,
+				'og:published_time': alicesPostImage.createdAt,
 				'twitter:player': undefined,
 				'twitter:player:width': undefined,
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 
@@ -397,20 +430,25 @@ describe('Fetch resource', () => {
 			assert.deepStrictEqual(parsed, {
 				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
 				'og:title': `${alice.name} (@${alice.username})`,
-				//'og:site_name': undefined,
-				'description': `${alicesPostVideo.text} (1つのファイル)`,
-				'og:description': `${alicesPostVideo.text} (1つのファイル)`,
-				'twitter:card': 'summary',
+				'og:site_name': instance.name,
+				'description': `${alicesPostVideo.text} (📎1)`,
+				'og:description': `${alicesPostVideo.text} (📎1)`,
+				'twitter:card': 'player',
 				'misskey:user-username': alice.username,
 				'misskey:user-id': alice.id,
 				'og:url': `http://misskey.local/notes/${alicesPostVideo.id}`,
 				'og:image': alicesPostVideo.files[0].thumbnailUrl,
-				//'og:published_time': alicesPostVideo.createtAt,
-				'twitter:player':  undefined,
-				'twitter:player:width': undefined,
-				'twitter:player:height': undefined,
-				'twitter:player:stream': undefined,
-				'twitter:player:stream:content_type': undefined,
+				'og:published_time': alicesPostVideo.createdAt,
+				'twitter:player':  `http://misskey.local/notes/${alicesPostVideo.id}/embed`,
+				'twitter:player:width': '530',
+				'twitter:player:height': '255',
+				'twitter:player:stream': alicesPostVideo.files[0].url,
+				'twitter:player:stream:content_type': alicesPostVideo.files[0].type,
+				'og:video:url': `http://misskey.local/notes/${alicesPostVideo.id}/embed`,
+				'og:video:secure_url': `http://misskey.local/notes/${alicesPostVideo.id}/embed`,
+				'og:video:type': 'text/html',
+				'og:video:width': '530',
+				'og:video:height': '255',
 			});
 		}));
 	});
