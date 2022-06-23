@@ -53,7 +53,7 @@ describe('Fetch resource', () => {
 		}, admin);
 
 		instance = (await api('meta', {})).body;
-		console.log('instance', instance);
+		//console.log('instance', instance);
 
 		// signup
 		alice = await signup({ username: 'alice' });
