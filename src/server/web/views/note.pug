@@ -24,6 +24,18 @@ block meta
 	meta(name='misskey:user-id' content=user.id)
 	meta(name='misskey:note-id' content=note.id)
 
+	if player
+		meta(name='twitter:player' content=player)
+		meta(name='twitter:player:width' content=width)
+		meta(name='twitter:player:height' content=height)
+		meta(name='twitter:player:stream' content=stream)
+		meta(name='twitter:player:stream:content_type' content=type)
+		meta(property='og:video:url' content=player)
+		meta(property='og:video:secure_url' content=player)
+		meta(property='og:video:type' content='text/html')
+		meta(property='og:video:width' content=width)
+		meta(property='og:video:height' content=height)
+
 	// todo
 	if user.host
 		meta(name='robots' content='noindex')
