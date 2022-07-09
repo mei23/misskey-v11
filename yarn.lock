@@ -223,11 +223,6 @@
     pluralize "^8.0.0"
     yaml-ast-parser "0.0.43"
 
-"@sindresorhus/is@^3.0.0":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-3.1.2.tgz#548650de521b344e3781fbdb0ece4aa6f729afb8"
-  integrity sha512-JiX9vxoKMmu8Y3Zr2RVathBL1Cdu4Nt4MuNWemt1Nc06A0RAin9c5FArkhGsyMBWfCu4zj+9b+GxtjAnE4qqLQ==
-
 "@sindresorhus/is@^4.0.0":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.0.1.tgz#d26729db850fa327b7cacc5522252194404226f5"
@@ -1958,7 +1953,7 @@ cacheable-lookup@^5.0.3:
   resolved "https://registry.yarnpkg.com/cacheable-lookup/-/cacheable-lookup-5.0.4.tgz#5a6b865b2c44357be3d5ebc2a467b032719a7005"
   integrity sha512-2/kNscPhpcxrOigMZzbiWF7dz8ilhb/nIHU3EyZiXWXpeq/au8qJ8VhdftMkty3n7Gj6HIGalQG8oiBNB3AJgA==
 
-cacheable-request@^7.0.1, cacheable-request@^7.0.2:
+cacheable-request@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/cacheable-request/-/cacheable-request-7.0.2.tgz#ea0d0b889364a25854757301ca12b2da77f91d27"
   integrity sha512-pouW8/FmiPQbuGpkXQ9BAPv/Mo5xDGANgSNXzTzJ8DrKGuXOssM4wIQRjfanNRh3Yu5cfYPvcorqbhg2KIJtew==
@@ -4055,23 +4050,6 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-got@11.5.1:
-  version "11.5.1"
-  resolved "https://registry.yarnpkg.com/got/-/got-11.5.1.tgz#bf098a270fe80b3fb88ffd5a043a59ebb0a391db"
-  integrity sha512-reQEZcEBMTGnujmQ+Wm97mJs/OK6INtO6HmLI+xt3+9CvnRwWjXutUvb2mqr+Ao4Lu05Rx6+udx9sOQAmExMxA==
-  dependencies:
-    "@sindresorhus/is" "^3.0.0"
-    "@szmarczak/http-timer" "^4.0.5"
-    "@types/cacheable-request" "^6.0.1"
-    "@types/responselike" "^1.0.0"
-    cacheable-lookup "^5.0.3"
-    cacheable-request "^7.0.1"
-    decompress-response "^6.0.0"
-    http2-wrapper "^1.0.0-beta.5.0"
-    lowercase-keys "^2.0.0"
-    p-cancelable "^2.0.0"
-    responselike "^2.0.0"
-
 got@11.8.5:
   version "11.8.5"
   resolved "https://registry.yarnpkg.com/got/-/got-11.8.5.tgz#ce77d045136de56e8f024bebb82ea349bc730046"
@@ -4469,7 +4447,7 @@ http-signature@1.3.6:
     jsprim "^2.0.2"
     sshpk "^1.14.1"
 
-http2-wrapper@^1.0.0-beta.5.0, http2-wrapper@^1.0.0-beta.5.2:
+http2-wrapper@^1.0.0-beta.5.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/http2-wrapper/-/http2-wrapper-1.0.3.tgz#b8f55e0c1f25d4ebd08b3b0c2c079f9590800b3d"
   integrity sha512-V+23sDMr12Wnz7iTcDeJr3O6AIxlnvT/bmaAAAP/Xda35C90p9599p0F1eHR/N1KILWSoWVAiOMFjBBXaXSMxg==
@@ -8712,15 +8690,15 @@ stylus@^0.54.8:
     semver "^6.3.0"
     source-map "^0.7.3"
 
-summaly@2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/summaly/-/summaly-2.6.0.tgz#aaac80eb8ae88b130318f44d9b98da9c2ccb328c"
-  integrity sha512-wIv6fL3aeFfXcQoZISzeUfNUgD3u8Hwx8Rg0awZliQhans62w23K3nDezwfvmYAQCgXs6e0EF7jtGmJv/qeVTA==
+summaly@2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/summaly/-/summaly-2.7.0.tgz#ccccec0477938edea13cb34412a33e705398c0c4"
+  integrity sha512-pEz9LL8Gp0oPIQfn6TrnBCcv/HkFE14hxhH3W6LPGdopXlPXjRcMlDMJaO+VupUNMOGaMjCsjq7+0rWnu8sp7w==
   dependencies:
     cheerio "0.22.0"
     debug "4.3.3"
     escape-regexp "0.0.1"
-    got "11.5.1"
+    got "11.8.5"
     html-entities "2.3.2"
     iconv-lite "0.6.3"
     jschardet "3.0.0"
