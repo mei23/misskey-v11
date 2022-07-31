@@ -11,18 +11,20 @@ export async function readNotification(
 	userId: User['id'],
 	notificationIds: Notification['id'][]
 ) {
-	const mute = await Mutings.find({
-		muterId: userId
-	});
-	const mutedUserIds = mute.map(m => m.muteeId);
-
 	// Update documents
-	await Notifications.update({
+	const readResult = await Notifications.update({
 		id: In(notificationIds),
 		isRead: false
 	}, {
 		isRead: true
 	});
+
+	if (typeof readResult.affected === 'number' && readResult.affected === 0) return;	// ※ PG driver なら必ず値が取得できる
+
+	const mute = await Mutings.find({
+		muterId: userId
+	});
+	const mutedUserIds = mute.map(m => m.muteeId);
 
 	// Calc count of my unread notifications
 	const count = await Notifications.count({
