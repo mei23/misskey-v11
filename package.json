@@ -93,7 +93,6 @@
 		"@types/webpack": "5.28.0",
 		"@types/webpack-stream": "3.2.12",
 		"@types/websocket": "1.0.5",
-		"@types/ws": "8.5.3",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
 		"apexcharts": "3.28.1",
@@ -246,7 +245,6 @@
 		"webpack": "5.74.0",
 		"webpack-cli": "4.10.0",
 		"websocket": "1.0.34",
-		"ws": "8.5.0",
 		"xev": "2.0.1"
 	},
 	"devDependencies": {
