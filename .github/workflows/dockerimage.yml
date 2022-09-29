@@ -1,17 +1,14 @@
 name: Docker Image CI
 
-on:
-  push:
-    branches:
-      - mei-v11
+on: [push]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile --tag my-image-name
+    - run: docker image ls my-image-name
+    - run: docker history my-image-name
