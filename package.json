@@ -75,7 +75,7 @@
 		"@types/parsimmon": "1.10.6",
 		"@types/portscanner": "2.1.1",
 		"@types/pug": "2.0.6",
-		"@types/qrcode": "1.4.2",
+		"@types/qrcode": "1.5.0",
 		"@types/random-seed": "0.3.3",
 		"@types/ratelimiter": "3.4.3",
 		"@types/redis": "2.8.32",
@@ -93,7 +93,6 @@
 		"@types/webpack": "5.28.0",
 		"@types/webpack-stream": "3.2.12",
 		"@types/websocket": "1.0.5",
-		"@types/ws": "8.5.3",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
 		"apexcharts": "3.28.1",
@@ -183,7 +182,7 @@
 		"pug": "3.0.2",
 		"punycode": "2.1.1",
 		"pureimage": "0.3.2",
-		"qrcode": "1.5.0",
+		"qrcode": "1.5.1",
 		"random-seed": "0.3.0",
 		"randomcolor": "0.6.2",
 		"ratelimiter": "3.4.1",
@@ -246,10 +245,9 @@
 		"webpack": "5.74.0",
 		"webpack-cli": "4.10.0",
 		"websocket": "1.0.34",
-		"ws": "8.5.0",
 		"xev": "2.0.1"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.0.0-beta.94"
+		"@redocly/openapi-core": "1.0.0-beta.110"
 	}
 }
