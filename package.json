@@ -222,7 +222,7 @@
 		"typeorm": "0.2.38",
 		"typescript": "3.9.10",
 		"ulid": "2.3.0",
-		"uuid": "8.3.2",
+		"uuid": "9.0.0",
 		"v-animate-css": "0.0.5",
 		"v-debounce": "0.1.2",
 		"vue": "2.6.14",
