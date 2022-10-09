@@ -2,7 +2,8 @@ import * as http from 'http';
 import * as https from 'https';
 import { lookup } from './dns';
 import fetch from 'node-fetch';
-import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent';
+import { HttpProxyAgent } from 'http-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 import config from '../config';
 import { AbortController } from 'abort-controller';
 import Logger from '../services/logger';
@@ -94,34 +95,18 @@ const _https = new https.Agent({
 	lookup: lookup,
 } as https.AgentOptions);
 
-const maxSockets = Math.max(256, config.deliverJobConcurrency || 128);
-
 /**
  * Get http proxy or non-proxy agent
  */
 export const httpAgent = config.proxy
-	? new HttpProxyAgent({
-		keepAlive: true,
-		keepAliveMsecs: 30 * 1000,
-		maxSockets,
-		maxFreeSockets: 256,
-		scheduling: 'lifo',
-		proxy: config.proxy
-	})
+	? new HttpProxyAgent(config.proxy)
 	: _http;
 
 /**
  * Get https proxy or non-proxy agent
  */
 export const httpsAgent = config.proxy
-	? new HttpsProxyAgent({
-		keepAlive: true,
-		keepAliveMsecs: 30 * 1000,
-		maxSockets,
-		maxFreeSockets: 256,
-		scheduling: 'lifo',
-		proxy: config.proxy
-	})
+	? new HttpsProxyAgent(config.proxy)
 	: _https;
 
 /**
