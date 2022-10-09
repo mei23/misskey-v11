@@ -67,7 +67,7 @@ export default async function(ctx: Koa.Context) {
 					}
 
 					return {
-						data: fs.readFileSync(path),
+						data: await fs.promises.readFile(path),
 						ext,
 						type: mime,
 					};

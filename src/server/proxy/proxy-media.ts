@@ -28,7 +28,7 @@ export async function proxyMedia(ctx: Koa.Context) {
 			image = await convertToJpeg(path, 200, 200);
 		} else {
 			image = {
-				data: fs.readFileSync(path),
+				data: await fs.promises.readFile(path),
 				ext,
 				type: mime,
 			};
