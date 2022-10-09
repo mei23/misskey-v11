@@ -41,7 +41,7 @@ async function genVars(lang: string): Promise<{ [key: string]: any }> {
 				title: {}
 			};
 		}
-		vars['docs'][name]['title'][lang] = fs.readFileSync(cwd + x, 'utf-8').match(/^# (.+?)\r?\n/)![1];
+		vars['docs'][name]['title'][lang] = (await fs.promises.readFile(cwd + x, 'utf-8')).match(/^# (.+?)\r?\n/)![1];
 	}
 
 	vars['kebab'] = (string: string) => string.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\s+/g, '-').toLowerCase();
@@ -92,7 +92,7 @@ router.get('/*/*', async ctx => {
 		tables: true,
 		extensions: ['urlExtension', 'apiUrlExtension', 'highlightjs']
 	});
-	const md = fs.readFileSync(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
+	const md = await fs.promises.readFile(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
 
 	await ctx.render('docs-article', Object.assign({
 		id: doc,

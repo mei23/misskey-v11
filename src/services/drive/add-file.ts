@@ -97,20 +97,20 @@ async function save(file: DriveFile, path: string, name: string, type: string, h
 		const thumbnailAccessKey = 'thumbnail-' + uuid();
 		const webpublicAccessKey = 'webpublic-' + uuid();
 
-		let url = InternalStorage.saveFromPath(accessKey, path);
+		let url = await InternalStorage.saveFromPathAsync(accessKey, path);
 		url += `/${accessKey}${getExt(name, type)}`;
 
 		let thumbnailUrl: string | null = null;
 		let webpublicUrl: string | null = null;
 
 		if (alts.thumbnail) {
-			thumbnailUrl = InternalStorage.saveFromBuffer(thumbnailAccessKey, alts.thumbnail.data);
+			thumbnailUrl = await InternalStorage.saveFromBufferAsync(thumbnailAccessKey, alts.thumbnail.data);
 			thumbnailUrl += `/${thumbnailAccessKey}.jpg`;
 			logger.info(`thumbnail stored: ${thumbnailAccessKey}`);
 		}
 
 		if (alts.webpublic) {
-			webpublicUrl = InternalStorage.saveFromBuffer(webpublicAccessKey, alts.webpublic.data);
+			webpublicUrl = await InternalStorage.saveFromBufferAsync(webpublicAccessKey, alts.webpublic.data);
 			webpublicUrl += `/${webpublicAccessKey}${getExt(name, type)}`;
 			logger.info(`web stored: ${webpublicAccessKey}`);
 		}
