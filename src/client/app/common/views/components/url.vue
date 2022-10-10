@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { toUnicode as decodePunycode } from 'punycode';
+import { toUnicode as decodePunycode } from 'punycode/';
 import { url as local } from '../../../config';
 
 export default Vue.extend({

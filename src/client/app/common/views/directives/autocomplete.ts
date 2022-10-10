@@ -1,5 +1,5 @@
 import * as getCaretCoordinates from 'textarea-caret';
-import { toASCII } from 'punycode';
+import { toASCII } from 'punycode/';
 
 export default {
 	bind(el, binding, vn) {

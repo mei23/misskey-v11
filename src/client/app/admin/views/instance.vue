@@ -250,7 +250,7 @@
 import Vue from 'vue';
 import i18n from '../../i18n';
 import { url, host } from '../../config';
-import { toUnicode } from 'punycode';
+import { toUnicode } from 'punycode/';
 import { faHeadset, faShieldAlt, faGhost, faUserPlus, faBolt, faThumbtack, faPencilAlt, faHashtag } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope as farEnvelope, faSave } from '@fortawesome/free-regular-svg-icons';
 

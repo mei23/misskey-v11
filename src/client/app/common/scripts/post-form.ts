@@ -1,6 +1,6 @@
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { length } from 'stringz';
-import { toASCII } from 'punycode';
+import { toASCII } from 'punycode/';
 import MkVisibilityChooser from '../views/components/visibility-chooser.vue';
 import getFace from './get-face';
 import { parse } from '../../../../mfm/parse';

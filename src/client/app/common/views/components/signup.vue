@@ -53,7 +53,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 const getPasswordStrength = require('syuilo-password-strength');
 import { host, url } from '../../../config';
-import { toUnicode } from 'punycode';
+import { toUnicode } from 'punycode/';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/signup.vue'),
