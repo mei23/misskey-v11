@@ -123,7 +123,6 @@ export default define(meta, async (ps, me) => {
 		repositoryUrl: instance.repositoryUrl,
 		feedbackUrl: instance.feedbackUrl,
 
-		secure: config.https != null,
 		machine: os.hostname(),
 		os: os.platform(),
 		node: process.version,
