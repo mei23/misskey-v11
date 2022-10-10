@@ -38,7 +38,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 				text += '\n';
 				break;
 
-			case 'a':
+			case 'a': {
 				const txt = getText(node);
 				const rel = node.attrs.find(x => x.name === 'rel');
 				const href = node.attrs.find(x => x.name === 'href');
@@ -102,6 +102,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 					text += generateLink();
 				}
 				break;
+			}
 
 			case 'p':
 				text += '\n\n';
