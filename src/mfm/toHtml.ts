@@ -133,11 +133,12 @@ export function toHtml(tokens: MfmForest | null, mentionedRemoteUsers: IMentione
 				case 'twitter.com':
 					a.href = `https://twitter.com/${username}`;
 					break;
-				default:
+				default: {
 					const remoteUserInfo = mentionedRemoteUsers.find(remoteUser => remoteUser.username === username && remoteUser.host === host);
 					a.href = remoteUserInfo ? (remoteUserInfo.url ? remoteUserInfo.url : remoteUserInfo.uri) : `${config.url}/${acct}`;
 					a.className = 'u-url mention';
 					break;
+				}
 			}
 			a.textContent = acct;
 			return a;
