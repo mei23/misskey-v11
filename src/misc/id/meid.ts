@@ -2,9 +2,6 @@ const CHARS = '0123456789abcdef';
 
 function getTime(time: number) {
 	if (time < 0) time = 0;
-	if (time === 0) {
-		return CHARS[0];
-	}
 
 	time += 0x800000000000;
 

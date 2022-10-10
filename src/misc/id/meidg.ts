@@ -6,9 +6,6 @@ const CHARS = '0123456789abcdef';
 
 function getTime(time: number) {
 	if (time < 0) time = 0;
-	if (time === 0) {
-		return CHARS[0];
-	}
 
 	return time.toString(16).padStart(11, CHARS[0]);
 }
