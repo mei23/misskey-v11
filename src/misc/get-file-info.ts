@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as util from 'util';
 import * as crypto from 'crypto';
 import * as fileType from 'file-type';
 import isSvg from 'is-svg';
@@ -138,12 +139,8 @@ export async function checkSvg(path: string) {
  * Get file size
  */
 export async function getFileSize(path: string): Promise<number> {
-	return new Promise<number>((res, rej) => {
-		fs.stat(path, (err, stats) => {
-			if (err) return rej(err);
-			res(stats.size);
-		});
-	});
+	const getStat = util.promisify(fs.stat);
+	return (await getStat(path)).size;
 }
 
 /**

@@ -34,4 +34,4 @@ export type DeleteObjectStorageFileJobData = {
 	key: string;
 };
 
-export type CleanRemoteFilesJobData = {};
+export type CleanRemoteFilesJobData = Record<string, unknown>;

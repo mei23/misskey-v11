@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
+/* eslint-disable @typescript-eslint/ban-types */
 // Attention: Partial Type Definition
 
 declare module 'jsrsasign' {
