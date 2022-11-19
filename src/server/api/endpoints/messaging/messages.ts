@@ -113,11 +113,11 @@ export default define(meta, async (ps, user) => {
 
 		// Mark all as read
 		if (ps.markAsRead) {
-			readUserMessagingMessage(user.id, recipient.id, messages.filter(m => m.recipientId === user.id).map(x => x.id));
+			const readMessages = await readUserMessagingMessage(user.id, recipient.id, messages.filter(m => m.recipientId === user.id).map(x => x.id));
 
 			// リモートユーザーとのメッセージだったら既読配信
-			if (Users.isLocalUser(user) && Users.isRemoteUser(recipient)) {
-				deliverReadActivity(user, recipient, messages);
+			if (Users.isLocalUser(user) && Users.isRemoteUser(recipient)) { 
+				deliverReadActivity(user, recipient, readMessages);
 			}
 		}
 

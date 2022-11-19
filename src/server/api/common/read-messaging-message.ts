@@ -21,11 +21,14 @@ export async function readUserMessagingMessage(
 	otherpartyId: User['id'],
 	messageIds: MessagingMessage['id'][]
 ) {
-	if (messageIds.length === 0) return;
+	if (messageIds.length === 0) return [];
 
 	const messages = await MessagingMessages.find({
-		id: In(messageIds)
+		id: In(messageIds),
+		isRead: false,
 	});
+
+	if (messages.length === 0) return [];
 
 	for (const message of messages) {
 		if (message.recipientId !== userId) {
@@ -35,7 +38,7 @@ export async function readUserMessagingMessage(
 
 	// Update documents
 	await MessagingMessages.update({
-		id: In(messageIds),
+		id: In(messages.map(x => x.id)),
 		userId: otherpartyId,
 		recipientId: userId,
 		isRead: false
@@ -44,13 +47,15 @@ export async function readUserMessagingMessage(
 	});
 
 	// Publish event
-	publishMessagingStream(otherpartyId, userId, 'read', messageIds);
-	publishMessagingIndexStream(userId, 'read', messageIds);
+	publishMessagingStream(otherpartyId, userId, 'read', messages.map(x => x.id));
+	publishMessagingIndexStream(userId, 'read', messages.map(x => x.id));
 
 	if (!await Users.getHasUnreadMessagingMessage(userId)) {
 		// 全ての(いままで未読だった)自分宛てのメッセージを(これで)読みましたよというイベントを発行
 		publishMainStream(userId, 'readAllMessagingMessages');
 	}
+
+	return messages;
 }
 
 /**
@@ -93,6 +98,8 @@ export async function readGroupMessagingMessage(
 
 		reads.push(message.id);
 	}
+
+	if (reads.length === 0) return;
 
 	// Publish event
 	publishGroupMessagingStream(groupId, 'read', {
