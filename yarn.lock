@@ -836,12 +836,10 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
-"@types/ratelimiter@3.4.3":
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/@types/ratelimiter/-/ratelimiter-3.4.3.tgz#2159c234b9d75bcc2be39379f05c6af0a5e4a3b7"
-  integrity sha512-B/IRdHGcttRsDeDJ4+VFjzRA1mzqTxsYlg2X8GLQtTgRUMhQQc+bL8zFmuHhZkK4oA+Ldb4K1NogspNDxevWBA==
-  dependencies:
-    "@types/redis" "^2.8.0"
+"@types/ratelimiter@3.4.4":
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/@types/ratelimiter/-/ratelimiter-3.4.4.tgz#46447daafa3837d10e6fad195535c7bd4b415117"
+  integrity sha512-GSMb93iSA8KKFDgVL2Wzs/kqrHMJcU8xhLdwI5omoACcj7K18SacklLtY1C4G02HC5drd6GygtsIaGbfxJSe0g==
 
 "@types/readable-stream@^2.3.9":
   version "2.3.9"
