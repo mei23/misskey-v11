@@ -13,7 +13,8 @@ export async function GenerateVideoThumbnail(path: string): Promise<IImage> {
 
 	await new Promise((res, rej) => {
 		FFmpeg({
-			source: path
+			source: path,
+			timeout: 30,
 		})
 		.on('end', res)
 		.on('error', rej)
