@@ -623,10 +623,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/koa-bodyparser@4.3.8":
-  version "4.3.8"
-  resolved "https://registry.yarnpkg.com/@types/koa-bodyparser/-/koa-bodyparser-4.3.8.tgz#a1beb14f898daf7900c213cc2dedc5d76b35fe58"
-  integrity sha512-/Tk3xdaj/3y9VZ6K8z9fQ8myZOR2EEfwrlkbO4SjzLizRZaDFARSA8OGAC3B9lhC1R4wG0nCrTdd6o0NL2jrEQ==
+"@types/koa-bodyparser@4.3.10":
+  version "4.3.10"
+  resolved "https://registry.yarnpkg.com/@types/koa-bodyparser/-/koa-bodyparser-4.3.10.tgz#02b8d3d57579aa7d491d553f1f4058088bfe127f"
+  integrity sha512-6ae05pjhmrmGhUR8GYD5qr5p9LTEMEGfGXCsK8VaSL+totwigm8+H/7MHW7K4854CMeuwRAubT8qcc/EagaeIA==
   dependencies:
     "@types/koa" "*"
 
