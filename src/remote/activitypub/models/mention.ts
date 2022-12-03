@@ -5,10 +5,8 @@ import * as promiseLimit from 'promise-limit';
 import Resolver from '../resolver';
 import { User } from '../../../models/entities/user';
 
-export async function extractApMentions(tags: IObject | IObject[] | null | undefined) {
+export async function extractApMentions(tags: IObject | IObject[] | null | undefined, resolver: Resolver) {
 	const hrefs = unique(extractApMentionObjects(tags).map(x => x.href as string));
-
-	const resolver = new Resolver();
 
 	const limit = promiseLimit<User | null>(2);
 	const mentionedUsers = (await Promise.all(
