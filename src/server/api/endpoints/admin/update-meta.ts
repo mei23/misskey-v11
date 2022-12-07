@@ -450,15 +450,15 @@ export default define(meta, async (ps, me) => {
 	}
 
 	if (Array.isArray(ps.pinnedUsers)) {
-		set.pinnedUsers = ps.pinnedUsers.filter(Boolean);
+		set.pinnedUsers = ps.pinnedUsers.map(x => x.trim()).filter(x => x !== '');
 	}
 
 	if (Array.isArray(ps.hiddenTags)) {
-		set.hiddenTags = ps.hiddenTags.filter(Boolean);
+		set.hiddenTags = ps.hiddenTags.map(x => x.trim()).filter(x => x !== '');
 	}
 
 	if (Array.isArray(ps.blockedHosts)) {
-		set.blockedHosts = ps.blockedHosts.filter(Boolean);
+		set.blockedHosts = ps.blockedHosts.map(x => x.trim()).filter(x => x !== '');
 	}
 
 	if (ps.mascotImageUrl !== undefined) {
@@ -526,7 +526,7 @@ export default define(meta, async (ps, me) => {
 	}
 
 	if (Array.isArray(ps.langs)) {
-		set.langs = ps.langs.filter(Boolean);
+		set.langs = ps.langs.map(x => x.trim()).filter(x => x !== '');
 	}
 
 	if (ps.summalyProxy !== undefined) {
