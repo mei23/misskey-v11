@@ -386,7 +386,7 @@ router.get('*', async ctx => {
 		desc: meta.description,
 		icon: meta.iconUrl
 	});
-	ctx.set('Cache-Control', 'public, max-age=60');
+	ctx.set('Cache-Control', 'public, max-age=300');
 });
 
 // Register router
