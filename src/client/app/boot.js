@@ -120,7 +120,7 @@
 		const script = document.createElement('script');
 		script.src = `/assets/${app}.${ver}.js`;
 		script.async = true;
-		script.defer = true;
+		script.defer = true;	// this should work...
 		head.appendChild(script);
 	}
 
