@@ -112,14 +112,27 @@
 		app = isMobile ? 'mobile' : 'desktop';
 	}
 
+	//#region Script
 	// Load an app script
 	// Note: 'async' make it possible to load the script asyncly.
 	//       'defer' make it possible to run the script when the dom loaded.
-	const script = document.createElement('script');
-	script.src = `/assets/${app}.${ver}.js`;
-	script.async = true;
-	script.defer = true;
-	head.appendChild(script);
+	function loadScript() {
+		const script = document.createElement('script');
+		script.src = `/assets/${app}.${ver}.js`;
+		script.async = true;
+		script.defer = true;
+		head.appendChild(script);
+	}
+
+	// タイミングによっては、この時点でDOMの構築が済んでいる場合とそうでない場合とがある
+	if (document.readyState !== 'loading') {
+		loadScript();
+	} else {
+		window.addEventListener('DOMContentLoaded', () => {
+			loadScript();
+		});
+	}
+	//#endregion
 
 	// 3秒経ってもスクリプトがロードされない場合はバージョンが古くて
 	// 404になっているせいかもしれないので、バージョンを確認して古ければ更新する
