@@ -112,27 +112,14 @@
 		app = isMobile ? 'mobile' : 'desktop';
 	}
 
-	//#region Script
 	// Load an app script
 	// Note: 'async' make it possible to load the script asyncly.
 	//       'defer' make it possible to run the script when the dom loaded.
-	function loadScript() {
-		const script = document.createElement('script');
-		script.src = `/assets/${app}.${ver}.js`;
-		script.async = true;
-		script.defer = true;	// this should work...
-		head.appendChild(script);
-	}
-
-	// However, defer sometimes does not work in Firefox
-	if (document.readyState !== 'loading') {
-		loadScript();
-	} else {
-		window.addEventListener('DOMContentLoaded', () => {
-			loadScript();
-		});
-	}
-	//#endregion
+	const script = document.createElement('script');
+	script.src = `/assets/${app}.${ver}.js`;
+	script.async = true;
+	script.defer = true;
+	head.appendChild(script);
 
 	// 3秒経ってもスクリプトがロードされない場合はバージョンが古くて
 	// 404になっているせいかもしれないので、バージョンを確認して古ければ更新する
