@@ -117,7 +117,6 @@
 	//       'defer' make it possible to run the script when the dom loaded.
 	const script = document.createElement('script');
 	script.src = `/assets/${app}.${ver}.js`;
-	script.async = true;
 	script.defer = true;
 	head.appendChild(script);
 
