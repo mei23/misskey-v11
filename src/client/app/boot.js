@@ -124,7 +124,7 @@
 		head.appendChild(script);
 	}
 
-	// タイミングによっては、この時点でDOMの構築が済んでいる場合とそうでない場合とがある
+	// However, defer sometimes does not work in Firefox
 	if (document.readyState !== 'loading') {
 		loadScript();
 	} else {
