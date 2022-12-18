@@ -115,7 +115,7 @@
 		"content-disposition": "0.5.4",
 		"crc-32": "1.2.2",
 		"cross-env": "7.0.3",
-		"css-loader": "6.7.2",
+		"css-loader": "6.7.3",
 		"cssnano": "5.1.14",
 		"dateformat": "4.5.1",
 		"diskusage": "1.1.3",
