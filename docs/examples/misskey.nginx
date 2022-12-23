@@ -31,16 +31,16 @@ server {
     ssl_session_cache shared:ssl_session_cache:10m;
 
     # To use Let's Encrypt certificate
-    ssl_certificate     /etc/letsencrypt/live/example.tld/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/example.tld/privkey.pem;
+    #ssl_certificate     /etc/letsencrypt/live/example.tld/fullchain.pem;
+    #ssl_certificate_key /etc/letsencrypt/live/example.tld/privkey.pem;
 
     # To use Debian/Ubuntu's self-signed certificate (For testing or before issuing a certificate)
-    #ssl_certificate     /etc/ssl/certs/ssl-cert-snakeoil.pem;
-    #ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+    ssl_certificate     /etc/ssl/certs/ssl-cert-snakeoil.pem;
+    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
 
     # SSL protocol settings
-    ssl_protocols TLSv1 TLSv1.2;
-    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:AES128-SHA;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:AES128-SHA;
     ssl_prefer_server_ciphers on;
 
     # Change to your upload limit
@@ -50,11 +50,13 @@ server {
     location / {
         proxy_pass http://127.0.0.1:3000;
         proxy_set_header Host $host;
+        proxy_http_version 1.1;
+        proxy_redirect off;
+
+        # If it's behind another reverse proxy or CDN, remove the following.
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto https;
-        proxy_http_version 1.1;
-        proxy_redirect off;
 
         # For WebSocket
         proxy_set_header Upgrade $http_upgrade;
