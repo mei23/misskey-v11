@@ -5,9 +5,10 @@ import { v4 as uuid } from 'uuid';
 import { publishMainStream, publishDriveStream } from '../stream';
 import { deleteFile } from './delete-file';
 import { fetchMeta } from '../../misc/fetch-meta';
-import { GenerateVideoThumbnail } from './generate-video-thumbnail';
+import { generateVideoThumbnail } from './generate-video-thumbnail';
 import { driveLogger } from './logger';
-import { IImage, convertToJpeg, convertToWebp, convertToPng, convertToPngOrJpeg } from './image-processor';
+import * as sharp from 'sharp';
+import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng, convertSharpToPngOrJpeg } from './image-processor';
 import { contentDisposition } from '../../misc/content-disposition';
 import { getFileInfo } from '../../misc/get-file-info';
 import { DriveFiles, DriveFolders, Users, Instances, UserProfiles } from '../../models';
@@ -32,7 +33,18 @@ const logger = driveLogger.createSubLogger('register', 'yellow');
  */
 async function save(file: DriveFile, path: string, name: string, type: string, hash: string, size: number): Promise<DriveFile> {
 	// thunbnail, webpublic を必要なら生成
-	const alts = await generateAlts(path, type, !file.uri);
+	const alts = await generateAlts(path, type, !file.uri).catch(err => {
+		if (err === 'ANIMATED') {
+			//
+		} else {
+			logger.error(err);
+		}
+
+		return {
+			webpublic: null,
+			thumbnail: null
+		};
+	});
 
 	const meta = await fetchMeta();
 
@@ -137,50 +149,67 @@ async function save(file: DriveFile, path: string, name: string, type: string, h
  * @param type Content-Type for original
  * @param generateWeb Generate webpublic or not
  */
-export async function generateAlts(path: string, type: string, generateWeb: boolean) {
+ export async function generateAlts(path: string, type: string, generateWeb: boolean) {
+	// video
+	if (type.startsWith('video/')) {
+		const thumbnail = await generateVideoThumbnail(path);
+		return {
+			webpublic: null,
+			thumbnail,
+		};
+	}
+
+	// unsupported image
+	if (!['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'].includes(type)) {
+		return {
+			webpublic: null,
+			thumbnail: null
+		};
+	}
+
+	const img = sharp(path);
+	const metadata = await img.metadata();
+	const isAnimated = metadata.pages && metadata.pages > 1;
+
+	// skip animated
+	if (isAnimated) {
+		throw 'ANIMATED';
+	}
+
 	// #region webpublic
 	let webpublic: IImage | null = null;
 
-	if (generateWeb) {
-		logger.info(`creating web image`);
+	const webpulicSafe = !metadata.exif && !metadata.iptc && !metadata.xmp && !metadata.tifftagPhotoshop	// has meta
+		&& metadata.width && metadata.width <= 2048 && metadata.height && metadata.height <= 2048;	// or over 2048
 
-		try {
-			if (['image/jpeg'].includes(type)) {
-				webpublic = await convertToJpeg(path, 2048, 2048);
-			} else if (['image/webp'].includes(type)) {
-				webpublic = await convertToWebp(path, 2048, 2048);
-			} else if (['image/png'].includes(type)) {
-				webpublic = await convertToPng(path, 2048, 2048);
-			} else {
-				logger.debug(`web image not created (not an required image)`);
-			}
-		} catch (e) {
-			logger.warn(`web image not created (an error occured)`, e);
+	if (generateWeb) {
+		logger.debug(`creating web image`);
+
+		if (['image/jpeg'].includes(type) && !webpulicSafe) { 
+			// MozJPEGルーチンを使用する (このあたりのサイズだとWebPより強い)
+			webpublic = await convertSharpToJpeg(img, 2048, 2048, { useMozjpeg: true });
+		} else if (['image/webp'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToWebp(img, 2048, 2048);
+		} else if (['image/png'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToPng(img, 2048, 2048);
+		} else {
+			logger.debug(`web image not created (not an image)`);
 		}
 	} else {
-		logger.info(`web image not created (from remote)`);
+		logger.debug(`web image not created (from remote or resized)`);
 	}
 	// #endregion webpublic
 
 	// #region thumbnail
 	let thumbnail: IImage | null = null;
 
-	try {
-		if (['image/jpeg', 'image/webp'].includes(type)) {
-			thumbnail = await convertToJpeg(path, 498, 280);
-		} else if (['image/png'].includes(type)) {
-			thumbnail = await convertToPngOrJpeg(path, 498, 280);
-		} else if (type.startsWith('video/')) {
-			try {
-				thumbnail = await GenerateVideoThumbnail(path);
-			} catch (e) {
-				logger.warn(`GenerateVideoThumbnail failed: ${e}`);
-			}
-		} else {
-			logger.debug(`thumbnail not created (not an required file)`);
-		}
-	} catch (e) {
-		logger.warn(`thumbnail not created (an error occured)`, e);
+	if (['image/jpeg', 'image/webp', 'image/avif'].includes(type)) {
+		// このあたりのサイズだとWebPの方が強いが互換性のためにとりあえず保留
+		thumbnail = await convertSharpToJpeg(img, 498, 280);
+	} else if (['image/png', 'image/svg+xml'].includes(type)) {
+		// このあたりのサイズだとWebPの方が強いが互換性のためにとりあえず保留
+		// こっちの方は smartSubsample 使うといいかも
+		thumbnail = await convertSharpToPngOrJpeg(img, 498, 280);
 	}
 	// #endregion thumbnail
 
