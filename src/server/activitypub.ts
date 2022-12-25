@@ -59,8 +59,8 @@ export function setResponseType(ctx: Router.RouterContext) {
 }
 
 // inbox
-router.post('/inbox', json(), inbox);
-router.post('/users/:user/inbox', json(), inbox);
+router.post('/inbox', json({ limit: '64kb' }), inbox);
+router.post('/users/:user/inbox', json({ limit: '64kb' }), inbox);
 
 // note
 router.get('/notes/:note', async (ctx, next) => {
