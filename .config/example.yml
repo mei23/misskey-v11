@@ -126,8 +126,8 @@ autoAdmin: true
 # Media Proxy
 #mediaProxy: https://example.com/proxy
 
-# Sign to ActivityPub GET request (default: false)
-#signToActivityPubGet: true
+# Sign to ActivityPub GET request (default: true)
+#signToActivityPubGet: flase
 
 #allowedPrivateNetworks: [
 #  '127.0.0.1/32'
