@@ -249,7 +249,7 @@
 	"devDependencies": {
 		"@redocly/openapi-core": "1.0.0-beta.114",
 		"@typescript-eslint/eslint-plugin": "5.47.0",
-		"@typescript-eslint/parser": "5.47.0",
+		"@typescript-eslint/parser": "5.47.1",
 		"eslint": "8.30.0",
 		"eslint-plugin-node": "11.1.0",
 		"mocha": "10.2.0"
