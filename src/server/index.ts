@@ -28,7 +28,10 @@ export const serverLogger = new Logger('server', 'gray', false);
 
 // Init app
 const app = new Koa();
+
 app.proxy = true;
+(app as any).maxIpsCount = 1;
+(app as any).proxyIpHeader = config.proxyIpHeader ?? 'X-Forwarded-For';
 
 if (!['production', 'test'].includes(process.env.NODE_ENV || '')) {
 	// Logger
