@@ -135,3 +135,7 @@ autoAdmin: true
 
 # Upload or download file size limits (bytes)
 #maxFileSize: 262144000
+
+# リバースプロキシからのreal IP addressを取得するためのヘッダー
+# X-Forwarded-For, CF-Connecting-IP など
+proxyIpHeader: 'X-Forwarded-For'
