@@ -152,7 +152,7 @@
 			<ui-textarea v-model="blockedHosts">
 				<template #desc>{{ $t('blocked-hosts-info') }}</template>
 			</ui-textarea>
-			<ui-button @click="saveBlockedHosts">{{ $t('save') }}</ui-button>
+			<ui-button @click="saveBlockedHosts" :disabled="!$store.getters.isAdmin">{{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 </div>

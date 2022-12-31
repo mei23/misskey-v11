@@ -7,8 +7,8 @@
 				<template #prefix>@</template>
 			</ui-input>
 			<ui-horizon-group>
-				<ui-button @click="add" :disabled="changing">{{ $t('add-moderator.add') }}</ui-button>
-				<ui-button @click="remove" :disabled="changing">{{ $t('add-moderator.remove') }}</ui-button>
+				<ui-button @click="add" :disabled="changing || !$store.getters.isAdmin">{{ $t('add-moderator.add') }}</ui-button>
+				<ui-button @click="remove" :disabled="changing || !$store.getters.isAdmin">{{ $t('add-moderator.remove') }}</ui-button>
 			</ui-horizon-group>
 		</section>
 	</ui-card>
