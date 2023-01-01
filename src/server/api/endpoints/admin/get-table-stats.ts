@@ -2,13 +2,14 @@ import define from '../../define';
 import { getConnection } from 'typeorm';
 
 export const meta = {
-	requireCredential: false,
+	tags: ['admin'],
+
+	requireCredential: true,
+	requireAdmin: true,
 
 	desc: {
 		'en-US': 'Get table stats'
 	},
-
-	tags: ['meta'],
 
 	params: {
 	},

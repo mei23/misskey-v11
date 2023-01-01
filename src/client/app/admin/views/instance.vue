@@ -24,11 +24,11 @@
 			<ui-input v-model="maintainerEmail" type="email"><template #icon><fa :icon="farEnvelope"/></template>{{ $t('maintainer-email') }}</ui-input>
 		</section>
 		<section>
-			<ui-switch v-model="disableRegistration">{{ $t('disable-registration') }}</ui-switch>
-			<ui-button v-if="disableRegistration" @click="invite">{{ $t('invite') }}</ui-button>
+			<ui-switch v-model="disableRegistration" :disabled="!$store.getters.isAdmin">{{ $t('disable-registration') }}</ui-switch>
+			<ui-button v-if="disableRegistration" @click="invite" :disabled="!$store.getters.isAdmin">{{ $t('invite') }}</ui-button>
 		</section>
 		<section>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
@@ -38,23 +38,23 @@
 			<ui-input v-model="maxNoteTextLength">{{ $t('max-note-text-length') }}</ui-input>
 		</section>
 		<section>
-			<ui-switch v-model="disableLocalTimeline">{{ $t('disable-local-timeline') }}</ui-switch>
-			<ui-switch v-model="disableGlobalTimeline">{{ $t('disable-global-timeline') }}</ui-switch>
+			<ui-switch v-model="disableLocalTimeline" :disabled="!$store.getters.isAdmin">{{ $t('disable-local-timeline') }}</ui-switch>
+			<ui-switch v-model="disableGlobalTimeline" :disabled="!$store.getters.isAdmin">{{ $t('disable-global-timeline') }}</ui-switch>
 			<ui-info>{{ $t('disabling-timelines-info') }}</ui-info>
 		</section>
 		<section>
-			<ui-switch v-model="enableEmojiReaction">{{ $t('enable-emoji-reaction') }}</ui-switch>
-			<ui-switch v-model="useStarForReactionFallback">{{ $t('use-star-for-reaction-fallback') }}</ui-switch>
+			<ui-switch v-model="enableEmojiReaction" :disabled="!$store.getters.isAdmin">{{ $t('enable-emoji-reaction') }}</ui-switch>
+			<ui-switch v-model="useStarForReactionFallback" :disabled="!$store.getters.isAdmin">{{ $t('use-star-for-reaction-fallback') }}</ui-switch>
 		</section>
 		<section>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
 	<ui-card>
 		<template #title><fa icon="cloud"/> {{ $t('drive-config') }}</template>
 		<section>
-			<ui-switch v-model="useObjectStorage">{{ $t('use-object-storage') }}</ui-switch>
+			<ui-switch v-model="useObjectStorage" :disabled="!$store.getters.isAdmin">{{ $t('use-object-storage') }}</ui-switch>
 			<template v-if="useObjectStorage">
 				<ui-info>
 					<i18n path="object-storage-s3-info">
@@ -76,22 +76,22 @@
 					<ui-input v-model="objectStorageAccessKey" :disabled="!useObjectStorage"><template #icon><fa icon="key"/></template>{{ $t('object-storage-access-key') }}</ui-input>
 					<ui-input v-model="objectStorageSecretKey" :disabled="!useObjectStorage"><template #icon><fa icon="key"/></template>{{ $t('object-storage-secret-key') }}</ui-input>
 				</ui-horizon-group>
-				<ui-switch v-model="objectStorageUseSSL" :disabled="!useObjectStorage">{{ $t('object-storage-use-ssl') }}</ui-switch>
-				<ui-switch v-model="objectStorageUseProxy" :disabled="!useObjectStorage">{{ $t('objectStorageUseProxy') }}</ui-switch>
-				<ui-switch v-model="objectStorageSetPublicRead" :disabled="!useObjectStorage">{{ $t('objectStorageSetPublicRead') }}</ui-switch>
-				<ui-switch v-model="objectStorageS3ForcePathStyle" :disabled="!useObjectStorage">{{ $t('objectStorageS3ForcePathStyle') }}</ui-switch>
+				<ui-switch v-model="objectStorageUseSSL" :disabled="!useObjectStorage || !$store.getters.isAdmin">{{ $t('object-storage-use-ssl') }}</ui-switch>
+				<ui-switch v-model="objectStorageUseProxy" :disabled="!useObjectStorage || !$store.getters.isAdmin">{{ $t('objectStorageUseProxy') }}</ui-switch>
+				<ui-switch v-model="objectStorageSetPublicRead" :disabled="!useObjectStorage || !$store.getters.isAdmin">{{ $t('objectStorageSetPublicRead') }}</ui-switch>
+				<ui-switch v-model="objectStorageS3ForcePathStyle" :disabled="!useObjectStorage || !$store.getters.isAdmin">{{ $t('objectStorageS3ForcePathStyle') }}</ui-switch>
 			</template>
 		</section>
 		<section>
-			<ui-switch v-model="cacheRemoteFiles">{{ $t('cache-remote-files') }}<template #desc>{{ $t('cache-remote-files-desc') }}</template></ui-switch>
-			<ui-switch v-model="proxyRemoteFiles">{{ $t('proxy-remote-files') }}<template #desc>{{ $t('proxy-remote-files-desc') }}</template></ui-switch>
+			<ui-switch v-model="cacheRemoteFiles" :disabled="!$store.getters.isAdmin">{{ $t('cache-remote-files') }}<template #desc>{{ $t('cache-remote-files-desc') }}</template></ui-switch>
+			<ui-switch v-model="proxyRemoteFiles" :disabled="!$store.getters.isAdmin">{{ $t('proxy-remote-files') }}<template #desc>{{ $t('proxy-remote-files-desc') }}</template></ui-switch>
 		</section>
 		<section class="fit-top fit-bottom">
 			<ui-input v-model="localDriveCapacityMb" type="number">{{ $t('local-drive-capacity-mb') }}<template #suffix>MB</template><template #desc>{{ $t('mb') }}</template></ui-input>
 			<ui-input v-model="remoteDriveCapacityMb" type="number" :disabled="!cacheRemoteFiles">{{ $t('remote-drive-capacity-mb') }}<template #suffix>MB</template><template #desc>{{ $t('mb') }}</template></ui-input>
 		</section>
 		<section>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
@@ -101,7 +101,7 @@
 			<ui-textarea v-model="pinnedUsers">
 				<template #desc>{{ $t('pinned-users-info') }}</template>
 			</ui-textarea>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
@@ -113,38 +113,38 @@
 			<ui-info warn>{{ $t('proxy-account-warn') }}</ui-info>
 		</section>
 		<section>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
 	<ui-card>
 		<template #title><fa :icon="farEnvelope"/> {{ $t('email-config') }}</template>
 		<section>
-			<ui-switch v-model="enableEmail">{{ $t('enable-email') }}<template #desc>{{ $t('email-config-info') }}</template></ui-switch>
+			<ui-switch v-model="enableEmail" :disabled="!$store.getters.isAdmin">{{ $t('enable-email') }}<template #desc>{{ $t('email-config-info') }}</template></ui-switch>
 			<template v-if="enableEmail">
 				<ui-input v-model="email" type="email" :disabled="!enableEmail">{{ $t('email') }}</ui-input>
 				<ui-horizon-group inputs>
 					<ui-input v-model="smtpHost" :disabled="!enableEmail">{{ $t('smtp-host') }}</ui-input>
 					<ui-input v-model="smtpPort" type="number" :disabled="!enableEmail">{{ $t('smtp-port') }}</ui-input>
 				</ui-horizon-group>
-				<ui-switch v-model="smtpAuth">{{ $t('smtp-auth') }}</ui-switch>
+				<ui-switch v-model="smtpAuth" :disabled="!$store.getters.isAdmin">{{ $t('smtp-auth') }}</ui-switch>
 				<ui-horizon-group inputs>
 					<ui-input v-model="smtpUser" :disabled="!enableEmail || !smtpAuth">{{ $t('smtp-user') }}</ui-input>
 					<ui-input v-model="smtpPass" type="password" :with-password-toggle="true" :disabled="!enableEmail || !smtpAuth">{{ $t('smtp-pass') }}</ui-input>
 				</ui-horizon-group>
-				<ui-switch v-model="smtpSecure" :disabled="!enableEmail">{{ $t('smtp-secure') }}<template #desc>{{ $t('smtp-secure-info') }}</template></ui-switch>
-				<ui-button @click="testEmail()">{{ $t('test-email') }}</ui-button>
+				<ui-switch v-model="smtpSecure" :disabled="!enableEmail || !$store.getters.isAdmin">{{ $t('smtp-secure') }}<template #desc>{{ $t('smtp-secure-info') }}</template></ui-switch>
+				<ui-button @click="testEmail()" :disabled="!$store.getters.isAdmin">{{ $t('test-email') }}</ui-button>
 			</template>
 		</section>
 		<section>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
 	<ui-card>
 		<template #title><fa :icon="faBolt"/> {{ $t('serviceworker-config') }}</template>
 		<section>
-			<ui-switch v-model="enableServiceWorker">{{ $t('enable-serviceworker') }}<template #desc>{{ $t('serviceworker-info') }}</template></ui-switch>
+			<ui-switch v-model="enableServiceWorker" :disabled="!$store.getters.isAdmin">{{ $t('enable-serviceworker') }}<template #desc>{{ $t('serviceworker-info') }}</template></ui-switch>
 			<template v-if="enableServiceWorker">
 				<ui-info>{{ $t('vapid-info') }}<br><code>npm i web-push -g<br>web-push generate-vapid-keys</code></ui-info>
 				<ui-horizon-group inputs class="fit-bottom">
@@ -154,14 +154,14 @@
 			</template>
 		</section>
 		<section>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
 	<ui-card>
 		<template #title><fa :icon="faShieldAlt"/> {{ $t('recaptcha-config') }}</template>
 		<section :class="enableRecaptcha ? 'fit-bottom' : ''">
-			<ui-switch v-model="enableRecaptcha">{{ $t('enable-recaptcha') }}</ui-switch>
+			<ui-switch v-model="enableRecaptcha" :disabled="!$store.getters.isAdmin">{{ $t('enable-recaptcha') }}</ui-switch>
 			<template v-if="enableRecaptcha">
 				<ui-info>{{ $t('recaptcha-info') }}</ui-info>
 				<ui-info warn>{{ $t('recaptcha-info2') }}</ui-info>
@@ -176,7 +176,7 @@
 			<div ref="recaptcha" style="margin: 16px 0 0 0;" :key="recaptchaSiteKey"></div>
 		</section>
 		<section>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
@@ -184,7 +184,7 @@
 		<template #title><fa :icon="faShieldAlt"/> {{ $t('external-service-integration-config') }}</template>
 		<section>
 			<header><fa :icon="['fab', 'twitter']"/> {{ $t('twitter-integration-config') }}</header>
-			<ui-switch v-model="enableTwitterIntegration">{{ $t('enable-twitter-integration') }}</ui-switch>
+			<ui-switch v-model="enableTwitterIntegration" :disabled="!$store.getters.isAdmin">{{ $t('enable-twitter-integration') }}</ui-switch>
 			<template v-if="enableTwitterIntegration">
 				<ui-horizon-group>
 					<ui-input v-model="twitterConsumerKey" :disabled="!enableTwitterIntegration"><template #icon><fa icon="key"/></template>{{ $t('twitter-integration-consumer-key') }}</ui-input>
@@ -195,7 +195,7 @@
 		</section>
 		<section>
 			<header><fa :icon="['fab', 'github']"/> {{ $t('github-integration-config') }}</header>
-			<ui-switch v-model="enableGithubIntegration">{{ $t('enable-github-integration') }}</ui-switch>
+			<ui-switch v-model="enableGithubIntegration" :disabled="!$store.getters.isAdmin">{{ $t('enable-github-integration') }}</ui-switch>
 			<template v-if="enableGithubIntegration">
 				<ui-horizon-group>
 					<ui-input v-model="githubClientId" :disabled="!enableGithubIntegration"><template #icon><fa icon="key"/></template>{{ $t('github-integration-client-id') }}</ui-input>
@@ -206,7 +206,7 @@
 		</section>
 		<section>
 			<header><fa :icon="['fab', 'discord']"/> {{ $t('discord-integration-config') }}</header>
-			<ui-switch v-model="enableDiscordIntegration">{{ $t('enable-discord-integration') }}</ui-switch>
+			<ui-switch v-model="enableDiscordIntegration" :disabled="!$store.getters.isAdmin">{{ $t('enable-discord-integration') }}</ui-switch>
 			<template v-if="enableDiscordIntegration">
 				<ui-horizon-group>
 					<ui-input v-model="discordClientId" :disabled="!enableDiscordIntegration"><template #icon><fa icon="key"/></template>{{ $t('discord-integration-client-id') }}</ui-input>
@@ -216,7 +216,7 @@
 			</template>
 		</section>
 		<section>
-			<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 		</section>
 	</ui-card>
 
@@ -229,7 +229,7 @@
 				<ui-textarea v-model="hiddenTags">
 					<template #desc>{{ $t('hidden-tags-info') }}</template>
 				</ui-textarea>
-				<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+				<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 			</section>
 		</ui-card>
 
@@ -239,7 +239,7 @@
 				<ui-input v-model="summalyProxy">URL</ui-input>
 			</section>
 			<section>
-				<ui-button @click="updateMeta"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
+				<ui-button @click="updateMeta" :disabled="!$store.getters.isAdmin"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 			</section>
 		</ui-card>
 	</details>
@@ -259,6 +259,7 @@ export default Vue.extend({
 
 	data() {
 		return {
+			fetched: false,
 			url,
 			host: toUnicode(host),
 			maintainerName: null,
@@ -391,6 +392,13 @@ export default Vue.extend({
 			this.objectStorageUseProxy = meta.objectStorageUseProxy;
 			this.objectStorageSetPublicRead = meta.objectStorageSetPublicRead;
 			this.objectStorageS3ForcePathStyle = meta.objectStorageS3ForcePathStyle;
+
+			this.fetched = true;
+		}).catch(e => {
+			this.$root.dialog({
+				type: 'error',
+				text: 'meta fetch failed'
+			});
 		});
 	},
 
@@ -456,6 +464,14 @@ export default Vue.extend({
 		},
 
 		updateMeta() {
+			if (!this.fetched) {
+				this.$root.dialog({
+					type: 'error',
+					text: 'Cannot continue because meta fetch has failed'
+				});
+				return;
+			}
+
 			this.$root.api('admin/update-meta', {
 				maintainerName: this.maintainerName,
 				maintainerEmail: this.maintainerEmail,

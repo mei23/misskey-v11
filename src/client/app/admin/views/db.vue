@@ -8,9 +8,9 @@
 		<section>
 			<header><fa :icon="faBroom"/> {{ $t('vacuum') }}</header>
 			<ui-info>{{ $t('vacuum-info') }}</ui-info>
-			<ui-switch v-model="fullVacuum">FULL</ui-switch>
-			<ui-switch v-model="analyzeVacuum">ANALYZE</ui-switch>
-			<ui-button @click="vacuum()"><fa :icon="faBroom"/> {{ $t('vacuum') }}</ui-button>
+			<ui-switch v-model="fullVacuum" :disabled="!$store.getters.isAdmin">FULL</ui-switch>
+			<ui-switch v-model="analyzeVacuum" :disabled="!$store.getters.isAdmin">ANALYZE</ui-switch>
+			<ui-button @click="vacuum()" :disabled="!$store.getters.isAdmin"><fa :icon="faBroom"/> {{ $t('vacuum') }}</ui-button>
 			<ui-info warn>{{ $t('vacuum-exclamation') }}</ui-info>
 		</section>
 	</ui-card>

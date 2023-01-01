@@ -13,12 +13,12 @@
 				<span>{{ $t('image-url') }}</span>
 			</ui-input>
 			<ui-horizon-group class="fit-bottom">
-				<ui-button @click="save()"><fa :icon="['far', 'save']"/> {{ $t('save') }}</ui-button>
-				<ui-button @click="remove(i)"><fa :icon="['far', 'trash-alt']"/> {{ $t('remove') }}</ui-button>
+				<ui-button @click="save()" :disabled="!$store.getters.isAdmin"><fa :icon="['far', 'save']"/> {{ $t('save') }}</ui-button>
+				<ui-button @click="remove(i)" :disabled="!$store.getters.isAdmin"><fa :icon="['far', 'trash-alt']"/> {{ $t('remove') }}</ui-button>
 			</ui-horizon-group>
 		</section>
 		<section>
-			<ui-button @click="add"><fa :icon="faPlus"/> {{ $t('add') }}</ui-button>
+			<ui-button @click="add" :disabled="!$store.getters.isAdmin"><fa :icon="faPlus"/> {{ $t('add') }}</ui-button>
 		</section>
 	</ui-card>
 </div>
