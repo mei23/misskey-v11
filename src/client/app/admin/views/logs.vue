@@ -27,7 +27,7 @@
 				</code>
 			</div>
 
-			<ui-button @click="deleteAll()">{{ $t('delete-all') }}</ui-button>
+			<ui-button @click="deleteAll()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('delete-all') }}</ui-button>
 		</section>
 	</ui-card>
 </div>

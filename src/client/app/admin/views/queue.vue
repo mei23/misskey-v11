@@ -25,7 +25,7 @@
 			</details>
 		</section>
 		<section>
-			<ui-button @click="removeAllJobs">{{ $t('remove-all-jobs') }}</ui-button>
+			<ui-button @click="removeAllJobs" :disabled="!$store.getters.isAdminOrModerator">{{ $t('remove-all-jobs') }}</ui-button>
 		</section>
 	</ui-card>
 

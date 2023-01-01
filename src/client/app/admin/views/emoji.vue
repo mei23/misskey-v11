@@ -21,7 +21,7 @@
 				<span>{{ $t('add-emoji.url') }}</span>
 			</ui-input>
 			<ui-info>{{ $t('add-emoji.info') }}</ui-info>
-			<ui-button @click="add">{{ $t('add-emoji.add') }}</ui-button>
+			<ui-button @click="add" :disabled="!$store.getters.isAdminOrModerator">{{ $t('add-emoji.add') }}</ui-button>
 		</section>
 	</ui-card>
 
@@ -48,8 +48,8 @@
 					<span>{{ $t('add-emoji.url') }}</span>
 				</ui-input>
 				<ui-horizon-group class="fit-bottom">
-					<ui-button @click="updateEmoji(emoji)"><fa :icon="['far', 'save']"/> {{ $t('emojis.update') }}</ui-button>
-					<ui-button @click="removeEmoji(emoji)"><fa :icon="['far', 'trash-alt']"/> {{ $t('emojis.remove') }}</ui-button>
+					<ui-button @click="updateEmoji(emoji)" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="['far', 'save']"/> {{ $t('emojis.update') }}</ui-button>
+					<ui-button @click="removeEmoji(emoji)" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="['far', 'trash-alt']"/> {{ $t('emojis.remove') }}</ui-button>
 				</ui-horizon-group>
 			</div>
 		</section>

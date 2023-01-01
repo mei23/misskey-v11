@@ -6,7 +6,7 @@
 			<ui-input class="target" v-model="target" type="text" @enter="showUser">
 				<span>{{ $t('username-or-userid') }}</span>
 			</ui-input>
-			<ui-button @click="showUser"><fa :icon="faSearch"/> {{ $t('lookup') }}</ui-button>
+			<ui-button @click="showUser" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="faSearch"/> {{ $t('lookup') }}</ui-button>
 
 			<div ref="user" class="user" v-if="user" :key="user.id">
 				<x-user :user="user"/>

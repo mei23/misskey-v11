@@ -7,16 +7,16 @@
 				<span>{{ $t('fileid-or-url') }}</span>
 			</ui-input>
 			<ui-horizon-group>
-				<ui-button @click="findAndToggleSensitive(true)"><fa :icon="faEyeSlash"/> {{ $t('mark-as-sensitive') }}</ui-button>
-				<ui-button @click="findAndToggleSensitive(false)"><fa :icon="faEye"/> {{ $t('unmark-as-sensitive') }}</ui-button>
+				<ui-button @click="findAndToggleSensitive(true)" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="faEyeSlash"/> {{ $t('mark-as-sensitive') }}</ui-button>
+				<ui-button @click="findAndToggleSensitive(false)" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="faEye"/> {{ $t('unmark-as-sensitive') }}</ui-button>
 			</ui-horizon-group>
-			<ui-button @click="findAndDel()"><fa :icon="faTrashAlt"/> {{ $t('delete') }}</ui-button>
-			<ui-button @click="show()"><fa :icon="faSearch"/> {{ $t('lookup') }}</ui-button>
+			<ui-button @click="findAndDel()" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="faTrashAlt"/> {{ $t('delete') }}</ui-button>
+			<ui-button @click="show()" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="faSearch"/> {{ $t('lookup') }}</ui-button>
 			<ui-textarea v-if="file" :value="file | json5" readonly tall style="margin-top:16px;"></ui-textarea>
 		</section>
 		<section>
-			<ui-button @click="cleanUp()"><fa :icon="faTrashAlt"/> {{ $t('clean-up') }}</ui-button>
-			<ui-button @click="cleanRemoteFiles()"><fa :icon="faTrashAlt"/> {{ $t('clean-remote-files') }}</ui-button>
+			<ui-button @click="cleanUp()" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="faTrashAlt"/> {{ $t('clean-up') }}</ui-button>
+			<ui-button @click="cleanRemoteFiles()" :disabled="!$store.getters.isAdminOrModerator"><fa :icon="faTrashAlt"/> {{ $t('clean-remote-files') }}</ui-button>
 		</section>
 	</ui-card>
 

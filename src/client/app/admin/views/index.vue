@@ -1,62 +1,62 @@
 <template>
-	<div class="mk-admin" :class="{ isMobile }">
-		<header v-show="isMobile">
-			<button class="nav" @click="navOpend = true"><fa icon="bars"/></button>
-			<span>MisskeyMyAdmin</span>
-		</header>
-		<div class="nav-backdrop"
-			v-if="navOpend && isMobile"
-			@click="navOpend = false"
-			@touchstart="navOpend = false"
-		></div>
-		<nav v-show="navOpend">
-			<div class="mi">
-				<img svg-inline src="../assets/header-icon.svg"/>
-			</div>
-			<div class="me">
-				<img class="avatar" :src="$store.state.i.avatarUrl" alt="avatar"/>
-				<p class="name"><mk-user-name :user="$store.state.i"/></p>
-			</div>
-			<ul>
-				<li><router-link to="/dashboard" active-class="active"><fa icon="home" fixed-width/>{{ $t('dashboard') }}</router-link></li>
-				<li><router-link to="/instance" active-class="active" v-if="$store.getters.isAdmin"><fa icon="cog" fixed-width/>{{ $t('instance') }}</router-link></li>
-				<li><router-link to="/queue" active-class="active"><fa :icon="faTasks" fixed-width/>{{ $t('queue') }}</router-link></li>
-				<li><router-link to="/logs" active-class="active"><fa :icon="faStream" fixed-width/>{{ $t('logs') }}</router-link></li>
-				<li><router-link to="/db" active-class="active" v-if="$store.getters.isAdmin"><fa :icon="faDatabase" fixed-width/>{{ $t('db') }}</router-link></li>
-				<li><router-link to="/moderators" active-class="active" v-if="$store.getters.isAdmin"><fa :icon="faHeadset" fixed-width/>{{ $t('moderators') }}</router-link></li>
-				<li><router-link to="/users" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="users" fixed-width/>{{ $t('users') }}</router-link></li>
-				<li><router-link to="/drive" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="cloud" fixed-width/>{{ $t('@.drive') }}</router-link></li>
-				<li><router-link to="/federation" active-class="active"><fa :icon="faGlobe" fixed-width/>{{ $t('federation') }}</router-link></li>
-				<li><router-link to="/relays" active-class="active"><fa :icon="faProjectDiagram" fixed-width/>{{ $t('relays') }}</router-link></li>
-				<li><router-link to="/emoji" active-class="active"><fa :icon="faGrin" fixed-width/>{{ $t('emoji') }}</router-link></li>
-				<li><router-link to="/announcements" active-class="active" v-if="$store.getters.isAdmin"><fa icon="broadcast-tower" fixed-width/>{{ $t('announcements') }}</router-link></li>
-				<li><router-link to="/abuse" active-class="active"><fa :icon="faExclamationCircle" fixed-width/>{{ $t('abuse') }}</router-link></li>
-			</ul>
-			<div class="back-to-misskey">
-				<a href="/"><fa :icon="faArrowLeft"/> {{ $t('back-to-misskey') }}</a>
-			</div>
-			<div class="version">
-				<small>Misskey {{ version }}</small>
-			</div>
-		</nav>
-		<main>
-			<div class="page">
-				<div v-if="page == 'dashboard'"><x-dashboard/></div>
-				<div v-if="page == 'instance'"><x-instance/></div>
-				<div v-if="page == 'queue'"><x-queue/></div>
-				<div v-if="page == 'logs'"><x-logs/></div>
-				<div v-if="page == 'db'"><x-db/></div>
-				<div v-if="page == 'moderators'"><x-moderators/></div>
-				<div v-if="page == 'users'"><x-users/></div>
-				<div v-if="page == 'emoji'"><x-emoji/></div>
-				<div v-if="page == 'announcements'"><x-announcements/></div>
-				<div v-if="page == 'drive'"><x-drive/></div>
-				<div v-if="page == 'federation'"><x-federation/></div>
-				<div v-if="page == 'relays'"><x-relays/></div>
-				<div v-if="page == 'abuse'"><x-abuse/></div>
-			</div>
-		</main>
-	</div>
+<div class="mk-admin" :class="{ isMobile }">
+	<header v-show="isMobile">
+		<button class="nav" @click="navOpend = true"><fa icon="bars"/></button>
+		<span>Areionskey Admin</span>
+	</header>
+	<div class="nav-backdrop"
+		v-if="navOpend && isMobile"
+		@click="navOpend = false"
+		@touchstart="navOpend = false"
+	></div>
+	<nav v-show="navOpend">
+		<div class="mi">
+			<img svg-inline src="../assets/header-icon.svg"/>
+		</div>
+		<div class="me" v-if="$store.state.i != null">
+			<img class="avatar" :src="$store.state.i.avatarUrl" alt="avatar"/>
+			<p class="name"><mk-user-name :user="$store.state.i"/></p>
+		</div>
+		<ul>
+			<li><router-link to="/dashboard" active-class="active"><fa icon="home" fixed-width/>{{ $t('dashboard') }}</router-link></li>
+			<li><router-link to="/instance" active-class="active" v-if="$store.getters.isAdmin"><fa icon="cog" fixed-width/>{{ $t('instance') }}</router-link></li>
+			<li><router-link to="/queue" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faTasks" fixed-width/>{{ $t('queue') }}</router-link></li>
+			<li><router-link to="/logs" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faStream" fixed-width/>{{ $t('logs') }}</router-link></li>
+			<li><router-link to="/db" active-class="active" v-if="$store.getters.isAdmin"><fa :icon="faDatabase" fixed-width/>{{ $t('db') }}</router-link></li>
+			<li><router-link to="/moderators" active-class="active" v-if="$store.getters.isAdmin"><fa :icon="faHeadset" fixed-width/>{{ $t('moderators') }}</router-link></li>
+			<li><router-link to="/users" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="users" fixed-width/>{{ $t('users') }}</router-link></li>
+			<li><router-link to="/drive" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="cloud" fixed-width/>{{ $t('@.drive') }}</router-link></li>
+			<li><router-link to="/federation" active-class="active"><fa :icon="faGlobe" fixed-width/>{{ $t('federation') }}</router-link></li>
+			<li><router-link to="/relays" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faProjectDiagram" fixed-width/>{{ $t('relays') }}</router-link></li>
+			<li><router-link to="/emoji" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faGrin" fixed-width/>{{ $t('emoji') }}</router-link></li>
+			<li><router-link to="/announcements" active-class="active" v-if="$store.getters.isAdmin"><fa icon="broadcast-tower" fixed-width/>{{ $t('announcements') }}</router-link></li>
+			<li><router-link to="/abuse" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faExclamationCircle" fixed-width/>{{ $t('abuse') }}</router-link></li>
+		</ul>
+		<div class="back-to-misskey">
+			<a href="/"><fa :icon="faArrowLeft"/> {{ $t('back-to-misskey') }}</a>
+		</div>
+		<div class="version">
+			<small>Areionskey {{ version }}</small>
+		</div>
+	</nav>
+	<main>
+		<div class="page">
+			<div v-if="page == 'dashboard'"><x-dashboard/></div>
+			<div v-if="page == 'instance'"><x-instance/></div>
+			<div v-if="page == 'queue'"><x-queue/></div>
+			<div v-if="page == 'logs'"><x-logs/></div>
+			<div v-if="page == 'db'"><x-db/></div>
+			<div v-if="page == 'moderators'"><x-moderators/></div>
+			<div v-if="page == 'users'"><x-users/></div>
+			<div v-if="page == 'emoji'"><x-emoji/></div>
+			<div v-if="page == 'announcements'"><x-announcements/></div>
+			<div v-if="page == 'drive'"><x-drive/></div>
+			<div v-if="page == 'federation'"><x-federation/></div>
+			<div v-if="page == 'relays'"><x-relays/></div>
+			<div v-if="page == 'abuse'"><x-abuse/></div>
+		</div>
+	</main>
+</div>
 </template>
 
 <script lang="ts">

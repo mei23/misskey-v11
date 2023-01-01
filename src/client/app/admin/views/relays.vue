@@ -8,7 +8,7 @@
 					<span>{{ $t('inbox') }}</span>
 				</ui-input>
 			</ui-horizon-group>
-			<ui-button @click="add(inbox)">{{ $t('add') }}</ui-button>
+			<ui-button @click="add(inbox)" :disabled="!$store.getters.isAdminOrModerator">{{ $t('add') }}</ui-button>
 		</section>
 	</ui-card>
 
@@ -17,7 +17,7 @@
 		<section v-for="relay in relays" :key="relay.inbox" class="relayath">
 			<div>{{ relay.inbox }}</div>
 			<div>{{ $t(`status.${relay.status}`) }}</div>
-			<ui-button @click="remove(relay.inbox)">{{ $t('remove') }}</ui-button>
+			<ui-button @click="remove(relay.inbox)" :disabled="!$store.getters.isAdminOrModerator">{{ $t('remove') }}</ui-button>
 		</section>
 	</ui-card>
 </div>
