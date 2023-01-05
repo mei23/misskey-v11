@@ -197,7 +197,7 @@
 		"@types/bull": "4.10.0",
 		"@types/cbor": "6.0.0",
 		"@types/dateformat": "3.0.1",
-		"@types/double-ended-queue": "2.1.1",
+		"@types/double-ended-queue": "2.1.2",
 		"@types/escape-regexp": "0.0.1",
 		"@types/fluent-ffmpeg": "2.1.20",
 		"@types/is-url": "1.2.30",
