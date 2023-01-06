@@ -19,7 +19,10 @@ const swcOptions = JSON.parse(fs.readFileSync('.swcrc', 'utf-8'));
 const env = process.env.NODE_ENV || 'development';
 
 gulp.task('build:ts', () =>
-	gulp.src('src/**/*.ts')
+	gulp.src([
+			'src/**/*.ts',
+			'!./src/client/app/**/*.ts'
+	])
 		.pipe(sourcemaps.init())
 		.pipe(swc(swcOptions))
 		.pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../built' }))
