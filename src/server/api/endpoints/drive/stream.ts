@@ -3,6 +3,7 @@ import { ID } from '../../../../misc/cafy-id';
 import define from '../../define';
 import { DriveFiles } from '../../../../models';
 import { makePaginationQuery } from '../../common/make-pagination-query';
+import { typeFilterValidater } from '../../../../misc/mime-type-filter';
 
 export const meta = {
 	tags: ['drive'],
@@ -26,7 +27,7 @@ export const meta = {
 		},
 
 		type: {
-			validator: $.optional.str.match(/^[a-zA-Z\/\-*]+$/)
+			validator: $.optional.str.match(typeFilterValidater)
 		}
 	},
 
