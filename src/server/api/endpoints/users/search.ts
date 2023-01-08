@@ -2,6 +2,7 @@ import $ from 'cafy';
 import define from '../../define';
 import { UserProfiles, Users } from '../../../../models';
 import { User } from '../../../../models/entities/user';
+import { sqlLikeEscape } from '../../../../misc/sql-like-escape';
 
 export const meta = {
 	desc: {
@@ -73,7 +74,7 @@ export default define(meta, async (ps, me) => {
 		users = await Users.createQueryBuilder('user')
 			.where('user.host IS NULL')
 			.andWhere('user.isSuspended = FALSE')
-			.andWhere('user.usernameLower like :username', { username: ps.query.replace('@', '').toLowerCase() + '%' })
+			.andWhere('user.usernameLower like :username', { username: sqlLikeEscape(ps.query.replace('@', '').toLowerCase()) + '%' })
 			.andWhere('user.updatedAt IS NOT NULL')
 			.orderBy('user.updatedAt', 'DESC')
 			.take(ps.limit!)
@@ -84,7 +85,7 @@ export default define(meta, async (ps, me) => {
 			const otherUsers = await Users.createQueryBuilder('user')
 				.where('user.host IS NOT NULL')
 				.andWhere('user.isSuspended = FALSE')
-				.andWhere('user.usernameLower like :username', { username: ps.query.replace('@', '').toLowerCase() + '%' })
+				.andWhere('user.usernameLower like :username', { username: sqlLikeEscape(ps.query.replace('@', '').toLowerCase()) + '%' })
 				.andWhere('user.updatedAt IS NOT NULL')
 				.orderBy('user.updatedAt', 'DESC')
 				.take(ps.limit! - users.length)
@@ -96,7 +97,7 @@ export default define(meta, async (ps, me) => {
 		const profQuery = UserProfiles.createQueryBuilder('prof')
 			.select('prof.userId')
 			.where('prof.userHost IS NULL')
-			.andWhere('prof.description ilike :query', { query: '%' + ps.query + '%' });
+			.andWhere('prof.description ilike :query', { query: '%' + sqlLikeEscape(ps.query) + '%' });
 
 		users = await Users.createQueryBuilder('user')
 			.where(`user.id IN (${ profQuery.getQuery() })`)
@@ -111,7 +112,7 @@ export default define(meta, async (ps, me) => {
 			const profQuery2 = UserProfiles.createQueryBuilder('prof')
 				.select('prof.userId')
 				.where('prof.userHost IS NOT NULL')
-				.andWhere('prof.description ilike :query', { query: '%' + ps.query + '%' });
+				.andWhere('prof.description ilike :query', { query: '%' + sqlLikeEscape(ps.query) + '%' });
 
 			const otherUsers = await Users.createQueryBuilder('user')
 				.where(`user.id IN (${ profQuery2.getQuery() })`)

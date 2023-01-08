@@ -1,6 +1,7 @@
 import $ from 'cafy';
 import define from '../../define';
 import { Users } from '../../../../models';
+import { sqlLikeEscape } from '../../../../misc/sql-like-escape';
 
 export const meta = {
 	tags: ['admin'],
@@ -83,11 +84,11 @@ export default define(meta, async (ps, me) => {
 	}
 
 	if (ps.username) {
-		query.andWhere('user.usernameLower like :username', { username: ps.username.toLowerCase() + '%' });
+		query.andWhere('user.usernameLower like :username', { username: sqlLikeEscape(ps.username.toLowerCase()) + '%' });
 	}
 
 	if (ps.hostname) {
-		query.andWhere('user.host like :hostname', { hostname: '%' + ps.hostname.toLowerCase() + '%' });
+		query.andWhere('user.host like :hostname', { hostname: '%' + sqlLikeEscape(ps.hostname.toLowerCase()) + '%' });
 	}
 
 	switch (ps.sort) {

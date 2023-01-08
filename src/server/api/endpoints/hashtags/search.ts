@@ -1,6 +1,7 @@
 import $ from 'cafy';
 import define from '../../define';
 import { Hashtags } from '../../../../models';
+import { sqlLikeEscape } from '../../../../misc/sql-like-escape';
 
 export const meta = {
 	desc: {
@@ -48,7 +49,7 @@ export const meta = {
 
 export default define(meta, async (ps) => {
 	const hashtags = await Hashtags.createQueryBuilder('tag')
-		.where('tag.name like :q', { q: ps.query.toLowerCase() + '%' })
+		.where('tag.name like :q', { q: sqlLikeEscape(ps.query.toLowerCase()) + '%' })
 		.orderBy('tag.count', 'DESC')
 		.groupBy('tag.id')
 		.take(ps.limit!)
