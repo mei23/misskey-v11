@@ -13,24 +13,24 @@
 		<div class="mi">
 			<img svg-inline src="../assets/header-icon.svg"/>
 		</div>
-		<div class="me">
+		<div class="me" v-if="$store.state.i != null">
 			<img class="avatar" :src="$store.state.i.avatarUrl" alt="avatar"/>
 			<p class="name"><mk-user-name :user="$store.state.i"/></p>
 		</div>
 		<ul>
 			<li><router-link to="/dashboard" active-class="active"><fa icon="home" fixed-width/>{{ $t('dashboard') }}</router-link></li>
-			<li><router-link to="/instance" active-class="active"><fa icon="cog" fixed-width/>{{ $t('instance') }}</router-link></li>
-			<li><router-link to="/queue" active-class="active"><fa :icon="faTasks" fixed-width/>{{ $t('queue') }}</router-link></li>
-			<li><router-link to="/logs" active-class="active"><fa :icon="faStream" fixed-width/>{{ $t('logs') }}</router-link></li>
-			<li><router-link to="/db" active-class="active"><fa :icon="faDatabase" fixed-width/>{{ $t('db') }}</router-link></li>
-			<li><router-link to="/moderators" active-class="active"><fa :icon="faHeadset" fixed-width/>{{ $t('moderators') }}</router-link></li>
-			<li><router-link to="/users" active-class="active"><fa icon="users" fixed-width/>{{ $t('users') }}</router-link></li>
-			<li><router-link to="/drive" active-class="active"><fa icon="cloud" fixed-width/>{{ $t('@.drive') }}</router-link></li>
+			<li><router-link to="/instance" active-class="active" v-if="$store.getters.isAdmin"><fa icon="cog" fixed-width/>{{ $t('instance') }}</router-link></li>
+			<li><router-link to="/queue" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faTasks" fixed-width/>{{ $t('queue') }}</router-link></li>
+			<li><router-link to="/logs" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faStream" fixed-width/>{{ $t('logs') }}</router-link></li>
+			<li><router-link to="/db" active-class="active" v-if="$store.getters.isAdmin"><fa :icon="faDatabase" fixed-width/>{{ $t('db') }}</router-link></li>
+			<li><router-link to="/moderators" active-class="active" v-if="$store.getters.isAdmin"><fa :icon="faHeadset" fixed-width/>{{ $t('moderators') }}</router-link></li>
+			<li><router-link to="/users" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="users" fixed-width/>{{ $t('users') }}</router-link></li>
+			<li><router-link to="/drive" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="cloud" fixed-width/>{{ $t('@.drive') }}</router-link></li>
 			<li><router-link to="/federation" active-class="active"><fa :icon="faGlobe" fixed-width/>{{ $t('federation') }}</router-link></li>
-			<li><router-link to="/relays" active-class="active"><fa :icon="faProjectDiagram" fixed-width/>{{ $t('relays') }}</router-link></li>
-			<li><router-link to="/emoji" active-class="active"><fa :icon="faGrin" fixed-width/>{{ $t('emoji') }}</router-link></li>
-			<li><router-link to="/announcements" active-class="active"><fa icon="broadcast-tower" fixed-width/>{{ $t('announcements') }}</router-link></li>
-			<li><router-link to="/abuse" active-class="active"><fa :icon="faExclamationCircle" fixed-width/>{{ $t('abuse') }}</router-link></li>
+			<li><router-link to="/relays" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faProjectDiagram" fixed-width/>{{ $t('relays') }}</router-link></li>
+			<li><router-link to="/emoji" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faGrin" fixed-width/>{{ $t('emoji') }}</router-link></li>
+			<li><router-link to="/announcements" active-class="active" v-if="$store.getters.isAdmin"><fa icon="broadcast-tower" fixed-width/>{{ $t('announcements') }}</router-link></li>
+			<li><router-link to="/abuse" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faExclamationCircle" fixed-width/>{{ $t('abuse') }}</router-link></li>
 		</ul>
 		<div class="back-to-misskey">
 			<a href="/"><fa :icon="faArrowLeft"/> {{ $t('back-to-misskey') }}</a>
