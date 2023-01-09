@@ -2,7 +2,7 @@
 <div class="mk-admin" :class="{ isMobile }">
 	<header v-show="isMobile">
 		<button class="nav" @click="navOpend = true"><fa icon="bars"/></button>
-		<span>Misskey Admin</span>
+		<span>MisskeyMyAdmin</span>
 	</header>
 	<div class="nav-backdrop"
 		v-if="navOpend && isMobile"
