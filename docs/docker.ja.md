@@ -65,7 +65,7 @@ cp .config/docker_example.env .config/docker.env
 *5.* データベースを初期化
 ----------------------------------------------------------------
 ``` shell
-docker-compose run --rm web yarn run init
+docker-compose run --rm web pnpm migrate
 ```
 
 *6.* 以上です！

@@ -26,15 +26,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2.2.4
+      with:
+        version: 7
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
+        cache: 'pnpm'
     - run: sudo apt-get update -y
     - run: sudo apt-get install -y --no-install-recommends ffmpeg
-    - run: yarn install
-    - run: git diff --exit-code yarn.lock
-    - run: yarn build
+    - run: pnpm i --frozen-lockfile
+    - run: pnpm build
     - run: ls built/meta.json
     - run: cp test/test.yml .config
-    - run: yarn test
+    - run: pnpm test

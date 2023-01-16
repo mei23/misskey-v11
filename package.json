@@ -59,11 +59,13 @@
 		"cli-highlight": "2.1.11",
 		"content-disposition": "0.5.4",
 		"crc-32": "1.2.2",
+		"cropperjs": "1.5.13",
 		"cross-env": "7.0.3",
 		"css-loader": "6.7.3",
 		"cssnano": "5.1.14",
 		"dateformat": "4.5.1",
 		"double-ended-queue": "2.1.0-0",
+		"escape-regexp": "0.0.1",
 		"eventemitter3": "4.0.7",
 		"feed": "4.2.2",
 		"file-type": "16.5.4",
@@ -251,5 +253,6 @@
 		"eslint": "8.31.0",
 		"eslint-plugin-node": "11.1.0",
 		"mocha": "10.2.0"
-	}
+	},
+	"packageManager": "pnpm@7.25.0"
 }

@@ -25,9 +25,9 @@ If you have no experience on 3D modeling, we suggest to use the free 3DCG softwa
 You can find information on glTF 2.0 at [glTF 2.0 — Blender Manual]( https://docs.blender.org/manual/en/dev/addons/io_scene_gltf2.html).
 
 ## FAQ
-### How to resolve conflictions occurred at yarn.lock?
+### How to resolve conflictions occurred at pnpm-lock.yaml?
 
-Just execute `yarn` to fix it.
+Just execute `pnpm i` to fix it.
 
 ## Glossary
 ### AP
@@ -258,7 +258,7 @@ docker-compose -f test/docker-compose.yml up
 または、空の (データが消去されてもいい) DBを準備して`.config/test.yml`を調整する。
 
 ```
-yarn test
+pnpm test
 ```
 
 ## その他

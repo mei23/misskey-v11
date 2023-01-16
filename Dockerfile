@@ -6,10 +6,14 @@ WORKDIR /misskey
 RUN apt-get update \
  && apt-get install -y --no-install-recommends build-essential
 
-COPY package.json yarn.lock ./
-RUN yarn install
+COPY package.json pnpm-lock.yaml ./
+
+RUN corepack enable pnpm
+
+RUN pnpm i --frozen-lockfile
+
 COPY . ./
-RUN yarn build
+RUN pnpm build
 
 
 FROM node:16.19.0-bullseye-slim AS runner
@@ -19,7 +23,8 @@ WORKDIR /misskey
 RUN apt-get update \
  && apt-get install -y --no-install-recommends ffmpeg tini \
  && apt-get -y clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && corepack enable pnpm
 
 COPY --from=builder /misskey/node_modules ./node_modules
 COPY --from=builder /misskey/built ./built
@@ -27,4 +32,4 @@ COPY . ./
 
 ENV NODE_ENV=production
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["npm", "run", "migrateandstart"]
+CMD ["pnpm", "migrateandstart"]
