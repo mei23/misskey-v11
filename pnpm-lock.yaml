@@ -87,6 +87,7 @@ specifiers:
   cli-highlight: 2.1.11
   content-disposition: 0.5.4
   crc-32: 1.2.2
+  cropperjs: 1.5.13
   cross-env: 7.0.3
   css-loader: 6.7.3
   cssnano: 5.1.14
@@ -252,6 +253,7 @@ dependencies:
   cli-highlight: 2.1.11
   content-disposition: 0.5.4
   crc-32: 1.2.2
+  cropperjs: 1.5.13
   cross-env: 7.0.3
   css-loader: 6.7.3_webpack@5.75.0
   cssnano: 5.1.14_postcss@8.4.21
