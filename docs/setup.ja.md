@@ -56,14 +56,14 @@ apt -y install redis git build-essential ffmpeg postgresql
 
 4. Misskeyの依存パッケージをインストール
 
-	`yarn install`
+	`NODE_ENV=production pnpm i`
 
 *4.* Misskeyのビルド
 ----------------------------------------------------------------
 
 次のコマンドでMisskeyをビルドしてください:
 
-`NODE_ENV=production yarn build`
+`NODE_ENV=production pnpm build`
 
 *5.* 設定ファイルを作成する
 ----------------------------------------------------------------
@@ -76,7 +76,7 @@ apt -y install redis git build-essential ffmpeg postgresql
 *6.* データベースを初期化
 ----------------------------------------------------------------
 ``` shell
-yarn run init
+pnpm migrate
 ```
 
 *7.* 以上です！
@@ -84,7 +84,7 @@ yarn run init
 お疲れ様でした。これでMisskeyを動かす準備は整いました。
 
 ### 通常起動
-`NODE_ENV=production yarn start`するだけです。GLHF!
+`NODE_ENV=production pnpm start`するだけです。GLHF!
 
 ### systemdを用いた起動
 1. systemdサービスのファイルを作成
@@ -126,11 +126,11 @@ yarn run init
 ### Misskeyを最新バージョンにアップデートする方法:
 1. `git checkout master`
 2. `git pull`
-3. `yarn install`
-4. `NODE_ENV=production yarn build`
-5. `yarn migrate`
+3. `NODE_ENV=production pnpm i`
+4. `NODE_ENV=production pnpm build`
+5. `pnpm migrate`
 
-なにか問題が発生した場合は、`yarn clean`または`yarn cleanall`すると直る場合があります。
+なにか問題が発生した場合は、`pnpm clean`または`pnpm cleanall`すると直る場合があります。
 
 ----------------------------------------------------------------
 
