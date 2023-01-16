@@ -57,7 +57,7 @@ specifiers:
   '@types/rename': 1.0.4
   '@types/request-stats': 3.0.0
   '@types/seedrandom': 3.0.4
-  '@types/sharp': 0.29.5
+  '@types/sharp': 0.31.1
   '@types/showdown': 2.0.0
   '@types/speakeasy': 2.0.7
   '@types/tinycolor2': 1.4.3
@@ -433,7 +433,7 @@ devDependencies:
   '@types/rename': 1.0.4
   '@types/request-stats': 3.0.0
   '@types/seedrandom': 3.0.4
-  '@types/sharp': 0.29.5
+  '@types/sharp': 0.31.1
   '@types/showdown': 2.0.0
   '@types/speakeasy': 2.0.7
   '@types/tinycolor2': 1.4.3
@@ -1326,8 +1326,8 @@ packages:
       '@types/mime': 3.0.1
       '@types/node': 18.11.18
 
-  /@types/sharp/0.29.5:
-    resolution: {integrity: sha512-3TC+S3H5RwnJmLYMHrcdfNjz/CaApKmujjY9b6PU/pE6n0qfooi99YqXGWoW8frU9EWYj/XTI35Pzxa+ThAZ5Q==}
+  /@types/sharp/0.31.1:
+    resolution: {integrity: sha512-5nWwamN9ZFHXaYEincMSuza8nNfOof8nmO+mcI+Agx1uMUk4/pQnNIcix+9rLPXzKrm1pS34+6WRDbDV0Jn7ag==}
     dependencies:
       '@types/node': 18.11.18
     dev: true
