@@ -93,6 +93,7 @@ specifiers:
   cssnano: 5.1.14
   dateformat: 4.5.1
   double-ended-queue: 2.1.0-0
+  escape-regexp: 0.0.1
   eslint: 8.31.0
   eslint-plugin-node: 11.1.0
   eventemitter3: 4.0.7
@@ -259,6 +260,7 @@ dependencies:
   cssnano: 5.1.14_postcss@8.4.21
   dateformat: 4.5.1
   double-ended-queue: 2.1.0-0
+  escape-regexp: 0.0.1
   eventemitter3: 4.0.7
   feed: 4.2.2
   file-type: 16.5.4
