@@ -195,7 +195,7 @@
 		"xev": "2.0.1"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.0.0-beta.119",
+		"@redocly/openapi-core": "1.0.0-beta.123",
 		"@types/bcryptjs": "2.4.2",
 		"@types/bull": "4.10.0",
 		"@types/cbor": "6.0.0",

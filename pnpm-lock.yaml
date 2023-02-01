@@ -13,7 +13,7 @@ specifiers:
   '@koa/cors': 4.0.0
   '@koa/multer': 3.0.0
   '@koa/router': 8.0.8
-  '@redocly/openapi-core': 1.0.0-beta.119
+  '@redocly/openapi-core': 1.0.0-beta.123
   '@swc/core': 1.3.26
   '@types/bcryptjs': 2.4.2
   '@types/bull': 4.10.0
@@ -390,7 +390,7 @@ dependencies:
   xev: 2.0.1
 
 devDependencies:
-  '@redocly/openapi-core': 1.0.0-beta.119
+  '@redocly/openapi-core': 1.0.0-beta.123
   '@types/bcryptjs': 2.4.2
   '@types/bull': 4.10.0
   '@types/cbor': 6.0.0
@@ -810,8 +810,8 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /@redocly/openapi-core/1.0.0-beta.119:
-    resolution: {integrity: sha512-T807ojFjQ059yTPdbZQ4p0HryaYF2sU1cz/OQBdtJ26AT7vapzHFXPhL5y6M73hgZhtg5LyFEQJSndIx9Biw/A==}
+  /@redocly/openapi-core/1.0.0-beta.123:
+    resolution: {integrity: sha512-W6MbUWpb/VaV+Kf0c3jmMIJw3WwwF7iK5nAfcOS+ZwrlbxtIl37+1hEydFlJ209vCR9HL12PaMwdh2Vpihj6Jw==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@redocly/ajv': 8.11.0
