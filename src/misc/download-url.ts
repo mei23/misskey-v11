@@ -12,6 +12,11 @@ const PrivateIp = require('private-ip');
 const pipeline = util.promisify(stream.pipeline);
 
 export async function downloadUrl(url: string, path: string) {
+	const u = new URL(url);
+	if (!u.protocol.match(/^https?:$/) || u.hostname === 'unix') {
+		throw new StatusError('Invalid protocol', 400);
+	}
+
 	const logger = new Logger('download');
 
 	logger.info(`Downloading ${chalk.cyan(url)} ...`);
