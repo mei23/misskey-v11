@@ -34,7 +34,7 @@ const csp
 	+ `font-src 'self'; `
 	+ `frame-src 'self' https:; `
 	+ `manifest-src 'self'; `
-	+ `connect-src 'self' data: blob: ${config.wsUrl}; `	// wssを指定しないとSafariで動かない https://github.com/w3c/webappsec-csp/issues/7#issuecomment-1086257826
+	+ `connect-src 'self' data: blob: ${config.wsUrl} https://api.rss2json.com; `	// wssを指定しないとSafariで動かない https://github.com/w3c/webappsec-csp/issues/7#issuecomment-1086257826
 	+ `frame-ancestors 'none'`;
 
 // Init app
