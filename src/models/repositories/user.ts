@@ -7,6 +7,7 @@ import config from '../../config';
 import { SchemaType } from '../../misc/schema';
 import { awaitAll } from '../../prelude/await-all';
 import { populateEmojis } from '../../misc/populate-emojis';
+import { sanitizeUrl } from '../../misc/sanitize-url';
 
 export type PackedUser = SchemaType<typeof packedUserSchema>;
 
@@ -145,7 +146,7 @@ export class UserRepository extends Repository<User> {
 			name: user.name,
 			username: user.username,
 			host: user.host,
-			avatarUrl: user.avatar ? DriveFiles.getPublicUrl(user.avatar, true) : config.url + '/avatar/' + user.id,
+			avatarUrl: user.avatar ? sanitizeUrl(DriveFiles.getPublicUrl(user.avatar, true)) : config.url + '/avatar/' + user.id,
 			avatarBlurhash: user.avatar?.blurhash || null,
 			avatarColor: null,
 			isAdmin: user.isAdmin || falsy,
@@ -167,10 +168,10 @@ export class UserRepository extends Repository<User> {
 			} : {}),
 
 			...(opts.detail ? {
-				url: profile!.url,
+				url: sanitizeUrl(profile!.url),
 				createdAt: user.createdAt.toISOString(),
 				updatedAt: user.updatedAt ? user.updatedAt.toISOString() : null,
-				bannerUrl: user.banner ? DriveFiles.getPublicUrl(user.banner, false) : null,
+				bannerUrl: user.banner ? sanitizeUrl(DriveFiles.getPublicUrl(user.banner, false)) : null,
 				bannerBlurhash: user.bannerBlurhash,
 				bannerColor: user.banner?.properties?.avgColor || null,
 				isLocked: user.isLocked,

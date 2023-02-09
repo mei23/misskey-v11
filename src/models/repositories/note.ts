@@ -10,6 +10,7 @@ import { decodeReaction, convertLegacyReactions, convertLegacyReaction } from '.
 import { populateEmojis } from '../../misc/populate-emojis';
 import { parse } from '../../mfm/parse';
 import { toString } from '../../mfm/to-string';
+import { sanitizeUrl } from '../../misc/sanitize-url';
 
 export type PackedNote = SchemaType<typeof packedNoteSchema>;
 
@@ -173,7 +174,7 @@ export class NoteRepository extends Repository<Note> {
 			replyId: note.replyId,
 			renoteId: note.renoteId,
 			mentions: note.mentions.length > 0 ? note.mentions : undefined,
-			uri: note.uri || undefined,
+			uri: sanitizeUrl(note.uri) || undefined,
 			geo: note.geo || undefined,
 
 			...(opts.detail ? {

@@ -9,6 +9,7 @@ import config from '../../config';
 import { query, appendQuery } from '../../prelude/url';
 import { Meta } from '../entities/meta';
 import { fetchMeta } from '../../misc/fetch-meta';
+import { sanitizeUrl } from '../../misc/sanitize-url';
 
 export type PackedDriveFile = SchemaType<typeof packedDriveFileSchema>;
 
@@ -125,8 +126,8 @@ export class DriveFileRepository extends Repository<DriveFile> {
 			isSensitive: file.isSensitive,
 			blurhash: file.blurhash,
 			properties: file.properties,
-			url: opts.self ? file.url : this.getPublicUrl(file, false, meta),
-			thumbnailUrl: this.getPublicUrl(file, true, meta),
+			url: opts.self ? file.url : (sanitizeUrl(this.getPublicUrl(file, false, meta)) ?? null),
+			thumbnailUrl: sanitizeUrl(this.getPublicUrl(file, true, meta)) ?? null,
 			folderId: file.folderId,
 			folder: opts.detail && file.folderId ? DriveFolders.pack(file.folderId, {
 				detail: true

@@ -2,6 +2,7 @@ import { Emojis } from '../models';
 import { Emoji } from '../models/entities/emoji';
 import { Cache } from './cache';
 import { isSelfHost, toPunyNullable } from './convert-host';
+import { sanitizeUrl } from './sanitize-url';
 
 const cache = new Cache<Emoji | null>(1000 * 60 * 60);
 
@@ -44,7 +45,7 @@ export async function populateEmoji(emojiName: string, noteUserHost: string | nu
 
 	return {
 		name: emojiName,
-		url: emoji.url,
+		url: sanitizeUrl(emoji.url)!,
 	};
 }
 
