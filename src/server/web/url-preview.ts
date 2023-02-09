@@ -5,6 +5,7 @@ import Logger from '../../services/logger';
 import config from '../../config';
 import { query } from '../../prelude/url';
 import { getJson } from '../../misc/fetch';
+import { sanitizeUrl } from '../../misc/sanitize-url';
 
 const logger = new Logger('url-preview');
 
@@ -29,6 +30,9 @@ module.exports = async (ctx: Koa.Context) => {
 		summary.icon = wrap(summary.icon);
 		summary.thumbnail = wrap(summary.thumbnail);
 
+		if (summary.player) summary.player.url = sanitizeUrl(summary.player.url);
+		summary.url = sanitizeUrl(summary.url);
+
 		// Cache 7days
 		ctx.set('Cache-Control', 'max-age=604800, immutable');
 
@@ -41,13 +45,19 @@ module.exports = async (ctx: Koa.Context) => {
 	}
 };
 
-function wrap(url?: string): string | null {
-	return url != null
-		? url.match(/^https?:\/\//)
-			? `${config.url}/proxy/preview.jpg?${query({
-				url,
-				preview: '1'
-			})}`
-			: url
-		: null;
+function wrap(url: string | null) {
+	if (url == null) return null;
+
+	if (url.match(/^https?:/)) {
+		return `${config.url}/proxy/preview.jpg?${query({
+			url,
+			preview: '1'
+		})}`
+	}
+
+	if (url.match(/^data:/)) {
+		return url;
+	}
+
+	return null;
 }
