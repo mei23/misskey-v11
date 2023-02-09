@@ -499,26 +499,6 @@ common/views/components/connect-failed.vue:
   thanks: "いつもMisskeyをご利用いただきありがとうございます。"
   troubleshoot: "トラブルシュート"
 
-common/views/components/connect-failed.troubleshooter.vue:
-  title: "トラブルシューティング"
-  network: "ネットワーク接続"
-  checking-network: "ネットワーク接続を確認中"
-  internet: "インターネット接続"
-  checking-internet: "インターネット接続を確認中"
-  server: "サーバー接続"
-  checking-server: "サーバー接続を確認中"
-  finding: "問題を調べています"
-  no-network: "ネットワークに接続されていません"
-  no-network-desc: "お使いのPCのネットワーク接続が正常か確認してください。"
-  no-internet: "インターネットに接続されていません"
-  no-internet-desc: "ネットワークには接続されていますが、インターネットには接続されていないようです。お使いのPCのインターネット接続が正常か確認してください。"
-  no-server: "Misskeyのサーバーに接続できません"
-  no-server-desc: "お使いのPCのインターネット接続は正常ですが、Misskeyのサーバーには接続できませんでした。サーバーがダウンまたはメンテナンスしている可能性があるので、しばらくしてから再度御アクセスください。"
-  success: "Misskeyのサーバーに接続できました"
-  success-desc: "正常に接続できるようです。ページを再度読み込みしてください。"
-  flush: "キャッシュの削除"
-  set-version: "バージョン指定"
-
 common/views/components/media-banner.vue:
   sensitive: "閲覧注意"
   click-to-show: "クリックして表示"

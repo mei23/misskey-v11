@@ -146,8 +146,6 @@ common/views/components/games/reversi/reversi.index.vue:
 common/views/components/games/reversi/reversi.room.vue:
   rules: "Regras"
   cancel: "Cancelar"
-common/views/components/connect-failed.troubleshooter.vue:
-  flush: "Limpar o cache"
 common/views/components/theme.vue:
   desc: "Descrição"
 common/views/components/cw-button.vue:
