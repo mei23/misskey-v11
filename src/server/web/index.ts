@@ -27,7 +27,7 @@ const client = `${__dirname}/../../client/`;
 const csp
 	= `base-uri 'none'; `
 	+ `default-src 'none'; `
-	+ `script-src 'self'; `
+	+ `script-src 'self' https://www.recaptcha.net https://www.gstatic.com; `
 	+ `img-src 'self' https: data: blob:; `
 	+ `media-src 'self' https:; `
 	+ `style-src 'self' 'unsafe-inline'; `
