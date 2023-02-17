@@ -93,7 +93,6 @@ export default Vue.extend({
 	created() {
 		this.column.$on('top', this.onTop);
 		this.column.$on('bottom', this.onBottom);
-		this.init();
 	},
 
 	beforeDestroy() {
