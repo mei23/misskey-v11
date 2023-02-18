@@ -28,6 +28,7 @@
 		"format": "gulp format"
 	},
 	"resolutions": {
+		"cheerio": "^1.0.0-rc.12",
 		"source-map": "^0.7.4"
 	},
 	"dependencies": {
