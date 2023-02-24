@@ -1,6 +1,6 @@
 <template>
 <div class="header" :style="style">
-	<p class="warn" v-if="env != 'production'">{{ $t('@.do-not-use-in-production') }} <a href="/assets/flush.html?force">Flush</a></p>
+	<p class="warn" v-if="env != 'production'">{{ $t('@.do-not-use-in-production') }}</p>
 	<div class="main" ref="main">
 		<div class="backdrop"></div>
 		<div class="main">
