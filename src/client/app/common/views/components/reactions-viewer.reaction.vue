@@ -67,7 +67,6 @@ export default Vue.extend({
 	},
 	methods: {
 		toggleReaction() {
-			if (this.isMe) return;
 			if (!this.canToggle) return;
 
 			const oldReaction = this.note.myReaction;
