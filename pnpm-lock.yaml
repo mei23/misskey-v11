@@ -25,7 +25,7 @@ specifiers:
   '@types/fluent-ffmpeg': 2.1.20
   '@types/is-url': 1.2.30
   '@types/js-yaml': 4.0.5
-  '@types/jsdom': 16.2.14
+  '@types/jsdom': 16.2.15
   '@types/jsonld': 1.5.8
   '@types/katex': 0.16.0
   '@types/koa': 2.13.4
@@ -401,7 +401,7 @@ devDependencies:
   '@types/fluent-ffmpeg': 2.1.20
   '@types/is-url': 1.2.30
   '@types/js-yaml': 4.0.5
-  '@types/jsdom': 16.2.14
+  '@types/jsdom': 16.2.15
   '@types/jsonld': 1.5.8
   '@types/katex': 0.16.0
   '@types/koa': 2.13.4
@@ -1102,8 +1102,8 @@ packages:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
     dev: true
 
-  /@types/jsdom/16.2.14:
-    resolution: {integrity: sha512-6BAy1xXEmMuHeAJ4Fv4yXKwBDTGTOseExKE3OaHiNycdHdZw59KfYzrt0DkDluvwmik1HRt6QS7bImxUmpSy+w==}
+  /@types/jsdom/16.2.15:
+    resolution: {integrity: sha512-nwF87yjBKuX/roqGYerZZM0Nv1pZDMAT5YhOHYeM/72Fic+VEqJh4nyoqoapzJnW3pUlfxPY5FhgsJtM+dRnQQ==}
     dependencies:
       '@types/node': 18.11.18
       '@types/parse5': 6.0.3
