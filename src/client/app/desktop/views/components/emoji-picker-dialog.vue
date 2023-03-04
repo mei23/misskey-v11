@@ -1,6 +1,6 @@
 <template>
 <div class="gcafiosrssbtbnbzqupfmglvzgiaipyv">
-	<x-picker @chosen="chosen"/>
+	<x-picker :reaction="reaction" @chosen="chosen"/>
 </div>
 </template>
 
@@ -14,6 +14,11 @@ export default Vue.extend({
 	},
 
 	props: {
+		reaction: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 		x: {
 			type: Number,
 			required: true
@@ -26,22 +31,24 @@ export default Vue.extend({
 
 	mounted() {
 		this.$nextTick(() => {
-			const width = this.$el.offsetWidth;
-			const height = this.$el.offsetHeight;
+			// nextTickだと間に合わない？ので最小サイズを指定
+			const width = Math.max(this.$el.offsetWidth, 350);
+			const height = Math.max(this.$el.offsetHeight, 390);
 
-			let x = this.x;
-			let y = this.y;
+			let x = this.x - window.pageXOffset;
+			let y = this.y - window.pageYOffset;
 
-			if (x + width - window.pageXOffset > window.innerWidth) {
-				x = window.innerWidth - width + window.pageXOffset;
-			}
+			// 右はみ出し判定
+			if (x + width > window.innerWidth) x = window.innerWidth - width;
+			// 下はみ出し判定
+			if (y + height > window.innerHeight) y = window.innerHeight - height;
+			// 左はみ出し判定
+			if (x < 0) x = 0;
+			// 上はみ出し判定
+			if (y < 0) y = 0;
 
-			if (y + height - window.pageYOffset > window.innerHeight) {
-				y = window.innerHeight - height + window.pageYOffset;
-			}
-
-			this.$el.style.left = x + 'px';
-			this.$el.style.top = y + 'px';
+			this.$el.style.left = `${x + window.pageXOffset}px`;
+			this.$el.style.top = `${y + window.pageYOffset}px`;
 
 			for (const el of Array.from(document.querySelectorAll('body *'))) {
 				el.addEventListener('mousedown', this.onMousedown);
@@ -51,14 +58,18 @@ export default Vue.extend({
 
 	methods: {
 		onMousedown(e) {
-			e.preventDefault();
-			if (!contains(this.$el, e.target) && (this.$el != e.target)) this.close();
-			return false;
+			if (!contains(this.$el, e.target) && (this.$el != e.target)) {
+				e.preventDefault();
+				this.close();
+				return false;
+			} else {
+				return true;
+			}
 		},
 
-		chosen(emoji) {
-			this.$emit('chosen', emoji);
-			this.close();
+		chosen(args: { emoji: string, close: boolean }) {
+			this.$emit('chosen', args.emoji);
+			if (args.close) this.close();
 		},
 
 		close() {
@@ -78,7 +89,7 @@ export default Vue.extend({
 	position absolute
 	top 0
 	left 0
-	z-index 3000
+	z-index 13000
 	box-shadow 0 2px 12px 0 rgba(0, 0, 0, 0.3)
 
 </style>
