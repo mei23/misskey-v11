@@ -700,6 +700,7 @@ common/views/components/emoji-picker.vue:
   objects: "物"
   symbols: "記号"
   flags: "旗"
+  search: 検索
 
 common/views/components/settings/app-type.vue:
   title: "モード"
