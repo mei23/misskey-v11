@@ -8,9 +8,9 @@
 					<router-link :key="req.id" :to="req.follower | userPage">
 						<mk-user-name :user="req.follower"/>
 					</router-link>
-					<span>
+					<div>
 						<a @click="accept(req.follower)">{{ $t('accept') }}</a> | <a @click="reject(req.follower)">{{ $t('reject') }}</a>
-					</span>
+					</div>
 				</div>
 			</sequential-entrance>
 		</div>
@@ -63,7 +63,6 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 .mcbzkkaw
-	display flex
 	padding 16px
 	border solid 1px var(--faceDivider)
 	border-radius 4px
