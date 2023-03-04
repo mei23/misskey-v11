@@ -201,7 +201,7 @@ specifiers:
   typescript: 4.9.5
   ulid: 2.3.0
   uuid: 9.0.0
-  v-animate-css: 0.0.5
+  v-animate-css: 0.0.6
   v-debounce: 0.1.2
   vue: 2.7.14
   vue-color: 2.8.1
@@ -365,7 +365,7 @@ dependencies:
   typescript: 4.9.5
   ulid: 2.3.0
   uuid: 9.0.0
-  v-animate-css: 0.0.5
+  v-animate-css: 0.0.6
   v-debounce: 0.1.2
   vue: 2.7.14
   vue-color: 2.8.1
@@ -10210,8 +10210,8 @@ packages:
     hasBin: true
     dev: false
 
-  /v-animate-css/0.0.5:
-    resolution: {integrity: sha512-FML26yVYX3hCTWTKioTNAIXjaWIFWa1mSczb92cLkMYI9QI6uRacKx7QnBNB17IOFLFEv8mc14aawe2In/ba1w==}
+  /v-animate-css/0.0.6:
+    resolution: {integrity: sha512-xzuWuavsB1LcaUy418QjuwoJBNKqe8Pp8Z/WdDjsVyy393DV+xL9liquCOwOh6qe9duHJrdiQFXsJFKnpKBjVA==}
     dependencies:
       scrollmonitor: 1.2.11
     dev: false
