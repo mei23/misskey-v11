@@ -113,6 +113,13 @@ export const meta = {
 			}
 		},
 
+		isExplorable: {
+			validator: $.optional.bool,
+			desc: {
+				'ja-JP': 'アカウントを見つけやすくするか'
+			}
+		},
+
 		isBot: {
 			validator: $.optional.bool,
 			desc: {
@@ -202,6 +209,7 @@ export default define(meta, async (ps, user, app) => {
 	if (typeof ps.carefulBot == 'boolean') profileUpdates.carefulBot = ps.carefulBot;
 	if (typeof ps.autoAcceptFollowed == 'boolean') profileUpdates.autoAcceptFollowed = ps.autoAcceptFollowed;
 	if (typeof ps.isIndexable == 'boolean') updates.isIndexable = ps.isIndexable;
+	if (typeof ps.isExplorable == 'boolean') updates.isExplorable = ps.isExplorable;
 	if (typeof ps.isCat == 'boolean') updates.isCat = ps.isCat;
 	if (typeof ps.autoWatch == 'boolean') profileUpdates.autoWatch = ps.autoWatch;
 	if (typeof ps.alwaysMarkNsfw == 'boolean') profileUpdates.alwaysMarkNsfw = ps.alwaysMarkNsfw;

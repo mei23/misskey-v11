@@ -758,6 +758,7 @@ common/views/components/profile-editor.vue:
   careful-bot: "Follower requests from bots require approval"
   auto-accept-followed: "Automatically approve follows from the people you follow"
   isIndexable: "Allow post search"
+  is-explorable: "Make account visible in \"Explore\""
   advanced: "Other"
   privacy: "Privacy"
   save: "Save"
