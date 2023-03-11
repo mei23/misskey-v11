@@ -63,7 +63,7 @@
 		"cropperjs": "1.5.13",
 		"cross-env": "7.0.3",
 		"css-loader": "6.7.3",
-		"cssnano": "5.1.14",
+		"cssnano": "5.1.15",
 		"dateformat": "4.5.1",
 		"double-ended-queue": "2.1.0-0",
 		"escape-regexp": "0.0.1",
