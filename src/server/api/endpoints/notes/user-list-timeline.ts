@@ -7,6 +7,7 @@ import { makePaginationQuery } from '../../common/make-pagination-query';
 import { generateVisibilityQuery } from '../../common/generate-visibility-query';
 import { activeUsersChart } from '../../../../services/chart';
 import { Brackets } from 'typeorm';
+import { generateMuteQuery } from '../../common/generate-mute-query';
 
 export const meta = {
 	desc: {
@@ -140,6 +141,7 @@ export default define(meta, async (ps, user) => {
 		.andWhere('userListJoining.userListId = :userListId', { userListId: list.id });
 
 	generateVisibilityQuery(query, user);
+	generateMuteQuery(query, user);
 
 	if (ps.includeMyRenotes === false) {
 		query.andWhere(new Brackets(qb => {

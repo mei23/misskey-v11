@@ -3,7 +3,6 @@ import watch from '../watch';
 import { renderLike } from '../../../remote/activitypub/renderer/like';
 import DeliverManager from '../../../remote/activitypub/deliver-manager';
 import { renderActivity } from '../../../remote/activitypub/renderer';
-import { IdentifiableError } from '../../../misc/identifiable-error';
 import { toDbReaction, decodeReaction } from '../../../misc/reaction-lib';
 import { User, IRemoteUser } from '../../../models/entities/user';
 import { Note } from '../../../models/entities/note';
@@ -15,11 +14,6 @@ import { createNotification } from '../../create-notification';
 import deleteReaction from './delete';
 
 export default async (user: User, note: Note, reaction?: string) => {
-	// Myself
-	if (note.userId === user.id) {
-		throw new IdentifiableError('2d8e7297-1873-4c00-8404-792c68d7bef0', 'cannot react to my note');
-	}
-
 	reaction = await toDbReaction(reaction, user.host);
 
 	const exist = await NoteReactions.findOne({

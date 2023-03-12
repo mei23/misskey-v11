@@ -637,6 +637,8 @@ common/views/components/emoji-picker.vue:
   objects: "Objects"
   symbols: "Symbols"
   flags: "Flags"
+  search: Search
+
 common/views/components/settings/app-type.vue:
   title: "Mode"
   intro: "You can specify whether you want to use the desktop, or the mobile layout."

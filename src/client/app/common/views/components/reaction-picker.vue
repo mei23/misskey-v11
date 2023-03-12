@@ -2,12 +2,13 @@
 <div class="rdfaahpb" v-hotkey.global="keymap">
 	<div class="backdrop" ref="backdrop" @click="close"></div>
 	<div class="popover" :class="{ isMobile: $root.isMobile }" ref="popover">
-		<p v-if="!$root.isMobile">{{ title }}</p>
-		<div class="buttons" ref="buttons" :class="{ showFocus }">
-			<button v-for="(reaction, i) in rs" :key="reaction" @click="react(reaction)" @mouseover="onMouseover" @mouseout="onMouseout" :tabindex="i + 1" :title="/^[a-z]+$/.test(reaction) ? $t('@.reactions.' + reaction) : reaction" v-particle><mk-reaction-icon :reaction="reaction"/></button>
+		<div class="buttons" ref="buttons">
+			<button v-for="(reaction, i) in rs" :key="i" @click="react(reaction)" :tabindex="i + 1" :title="/^[a-z]+$/.test(reaction) ? $t('@.reactions.' + reaction) : reaction"><mk-reaction-icon :reaction="reaction"/></button>
 		</div>
-		<div v-if="enableEmojiReaction" class="text">
-			<input v-model="text" :placeholder="$t('input-reaction-placeholder')" @keyup.enter="reactText" @input="tryReactText" v-autocomplete="{ model: 'text' }">
+		<div class="text">
+			<input v-model="text" :placeholder="$t('input-reaction-placeholder')" @keyup.enter="reactText" @keydown.esc="close" @input="tryReactText" v-autocomplete="{ model: 'text', noZwsp: true }" ref="text">
+			<!--<button :title="$t('react')" @click="reactText"><fa icon="check"/></button>-->
+			<button :title="$t('pick')" class="emoji" @click="emoji" ref="emoji"><fa :icon="['far', 'laugh']"/></button>
 		</div>
 	</div>
 </div>
@@ -30,12 +31,6 @@ export default Vue.extend({
 			required: false
 		},
 
-		showFocus: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-
 		animation: {
 			type: Boolean,
 			required: false,
@@ -45,72 +40,62 @@ export default Vue.extend({
 
 	data() {
 		return {
-			rs: this.reactions || this.$store.state.settings.reactions,
-			title: this.$t('choose-reaction'),
+			bases: this.reactions || this.$store.state.settings.reactions,
+			mosts: [],
 			text: null,
-			enableEmojiReaction: false,
-			focus: null
 		};
 	},
 
 	computed: {
+		rs(): any {
+			return this.bases.concat(this.mosts);
+		},
 		keymap(): any {
 			return {
 				'esc': this.close,
-				'enter|space|plus': this.choose,
-				'up|k': this.focusUp,
-				'left|h|shift+tab': this.focusLeft,
-				'right|l|tab': this.focusRight,
-				'down|j': this.focusDown,
-				'1': () => this.react('like'),
-				'2': () => this.react('love'),
-				'3': () => this.react('laugh'),
-				'4': () => this.react('hmm'),
-				'5': () => this.react('surprise'),
-				'6': () => this.react('congrats'),
-				'7': () => this.react('angry'),
-				'8': () => this.react('confused'),
-				'9': () => this.react('rip'),
-				'0': () => this.react('pudding'),
 			};
 		}
 	},
 
-	watch: {
-		focus(i) {
-			this.$refs.buttons.children[i].focus();
+	created() {
 
-			if (this.showFocus) {
-				this.title = this.$refs.buttons.children[i].title;
-			}
-		}
+		this.bases = this.bases.concat(this.$store.state.device.recentReactions || []);
 	},
 
 	mounted() {
-		this.$root.getMeta().then(meta => {
-			this.enableEmojiReaction = meta.enableEmojiReaction;
-		});
+		const fixPos = () => {
+			const popover = this.$refs.popover as HTMLElement;
+			const sourceRect = (this.source as HTMLElement).getBoundingClientRect();
+
+			// このポップアップのサイズ
+			const popW = popover.offsetWidth;
+			const popH = popover.offsetHeight;
+
+			// 呼び出し元 (たいていボタン) の中心地点
+			const sourceX = sourceRect.left + (this.source.offsetWidth / 2);
+			const sourceY = sourceRect.top + (this.source.offsetHeight / 2);
+
+			// このポップアップは呼び出し元の中心に配置
+			let popX = sourceX - (popover.offsetWidth / 2);
+			let popY = sourceY - (popover.offsetHeight / 2);
+
+			// 右はみ出し判定
+			if (popX + popW > window.innerWidth) popX = window.innerWidth - popW;
+			// 下はみ出し判定
+			if (popY + popH > window.innerHeight) popY = window.innerHeight - popH;
+			// 左はみ出し判定
+			if (popX < 0) popX = 0;
+			// 上はみ出し判定
+			if (popY < 0) popY = 0;
+
+			popover.style.left = `${popX + window.pageXOffset}px`;
+			popover.style.top = `${popY + window.pageYOffset}px`;
+		};
 
 		this.$nextTick(() => {
-			this.focus = 0;
+			fixPos();
 
-			const popover = this.$refs.popover as any;
-
-			const rect = this.source.getBoundingClientRect();
-			const width = popover.offsetWidth;
-			const height = popover.offsetHeight;
-
-			if (this.$root.isMobile) {
-				const x = rect.left + window.pageXOffset + (this.source.offsetWidth / 2);
-				const y = rect.top + window.pageYOffset + (this.source.offsetHeight / 2);
-				popover.style.left = (x - (width / 2)) + 'px';
-				popover.style.top = (y - (height / 2)) + 'px';
-			} else {
-				const x = rect.left + window.pageXOffset + (this.source.offsetWidth / 2);
-				const y = rect.top + window.pageYOffset + this.source.offsetHeight;
-				popover.style.left = (x - (width / 2)) + 'px';
-				popover.style.top = y + 'px';
-			}
+			if (!this.$root.isMobile && this.$refs.text) this.$refs.text.focus();
 
 			anime({
 				targets: this.$refs.backdrop,
@@ -129,8 +114,18 @@ export default Vue.extend({
 	},
 
 	methods: {
-		react(reaction) {
+		react(reaction: string) {
 			this.$emit('chosen', reaction);
+
+			// recent
+			/*
+			if (this.rs.includes(reaction)) return;
+
+			let recents = this.$store.state.device.recentReactions || [];
+			recents = recents.filter((x: string) => x !== reaction);
+			recents.unshift(reaction);
+			this.$store.commit('device/set', { key: 'recentReactions', value: recents.splice(0, this.$store.state.device.recentReactionsCount) });
+			*/
 		},
 
 		reactText() {
@@ -140,16 +135,28 @@ export default Vue.extend({
 
 		tryReactText() {
 			if (!this.text) return;
-			if (!this.text.match(emojiRegex)) return;
-			this.reactText();
+
+			const m = this.text.match(emojiRegex);
+			if (!m) return;
+			this.react(m[1]);
 		},
 
-		onMouseover(e) {
-			this.title = e.target.title;
-		},
-
-		onMouseout(e) {
-			this.title = this.$t('choose-reaction');
+		async emoji() {
+			const Picker = await import('../../../desktop/views/components/emoji-picker-dialog.vue').then(m => m.default);
+			const button = this.$refs.emoji;
+			const rect = button.getBoundingClientRect();
+			const vm = this.$root.new(Picker, {
+				reaction: true,
+				x: button.offsetWidth + rect.left + window.pageXOffset,
+				y: rect.top + window.pageYOffset
+			});
+			vm.$once('chosen', emoji => {
+				const m = emoji.match(emojiRegex);
+				this.react(m ? m[1] : emoji);
+			});
+			this.$once('hook:beforeDestroy', () => {
+				vm.close();
+			});
 		},
 
 		close() {
@@ -175,25 +182,6 @@ export default Vue.extend({
 			});
 		},
 
-		focusUp() {
-			this.focus = this.focus == 0 ? 9 : this.focus < 5 ? (this.focus + 4) : (this.focus - 5);
-		},
-
-		focusDown() {
-			this.focus = this.focus == 9 ? 0 : this.focus >= 5 ? (this.focus - 4) : (this.focus + 5);
-		},
-
-		focusRight() {
-			this.focus = this.focus == 9 ? 0 : (this.focus + 1);
-		},
-
-		focusLeft() {
-			this.focus = this.focus == 0 ? 9 : (this.focus - 1);
-		},
-
-		choose() {
-			this.$refs.buttons.childNodes[this.focus].click();
-		}
 	}
 });
 </script>
@@ -232,23 +220,6 @@ export default Vue.extend({
 					font-size 28px
 					border-radius 4px
 
-		&:not(.isMobile)
-			$arrow-size = 16px
-
-			margin-top $arrow-size
-			transform-origin center -($arrow-size)
-
-			&:before
-				content ""
-				display block
-				position absolute
-				top -($arrow-size * 2)
-				left s('calc(50% - %s)', $arrow-size)
-				border-top solid $arrow-size transparent
-				border-left solid $arrow-size transparent
-				border-right solid $arrow-size transparent
-				border-bottom solid $arrow-size $bgcolor
-
 		> p
 			display block
 			margin 0
@@ -256,27 +227,11 @@ export default Vue.extend({
 			font-size 14px
 			color var(--popupFg)
 			border-bottom solid var(--lineWidth) var(--faceDivider)
-			line-height 20px
 
 		> .buttons
-			padding 4px 4px 8px 4px
+			padding 4px 0px 8px 8px
 			width 216px
-			text-align center
-
-			&.showFocus
-				> button:focus
-					z-index 1
-
-					&:after
-						content ""
-						pointer-events none
-						position absolute
-						top 0
-						right 0
-						bottom 0
-						left 0
-						border 2px solid var(--primaryAlpha03)
-						border-radius 4px
+			text-align left
 
 			> button
 				padding 0
@@ -296,14 +251,15 @@ export default Vue.extend({
 					box-shadow inset 0 0.15em 0.3em rgba(27, 31, 35, 0.15)
 
 		> .text
+			display flex
+			justify-content center
+			align-items center
 			width 216px
-			padding 0 8px 8px 8px
 
 			> input
 				width 100%
 				padding 10px
 				margin 0
-				text-align center
 				font-size 16px
 				color var(--desktopPostFormTextareaFg)
 				background var(--desktopPostFormTextareaBg)
@@ -316,8 +272,19 @@ export default Vue.extend({
 					border-color var(--primaryAlpha02)
 					transition border-color .1s ease
 
-				&:focus
-					border-color var(--primaryAlpha05)
-					transition border-color 0s ease
+			> button
+				cursor pointer
+				padding 0 8px
+				margin 0
+				font-size 1em
+				color var(--desktopPostFormTransparentButtonFg)
+				background transparent
+				outline none
+				border solid 1px transparent
+				border-radius 4px
+
+				&.emoji
+					color var(--text)
+					opacity 0.7
 
 </style>
