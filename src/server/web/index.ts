@@ -21,13 +21,17 @@ import getNoteSummary from '../../misc/get-note-summary';
 import { ensure } from '../../prelude/ensure';
 import { getConnection } from 'typeorm';
 import redis from '../../db/redis';
+import * as crypto from 'crypto';
 
 const client = `${__dirname}/../../client/`;
 
-const csp
+export function genCsp() {
+	const nonce = crypto.randomBytes(16).toString('base64');
+
+	const csp
 	= `base-uri 'none'; `
 	+ `default-src 'none'; `
-	+ `script-src 'self' https://www.recaptcha.net/recaptcha/ https://www.gstatic.com/recaptcha/; `
+	+ `script-src 'nonce-${nonce}' 'strict-dynamic' https:; `	// CSP3対応ブラウザはhttps:を無視する
 	+ `img-src 'self' https: data: blob:; `
 	+ `media-src 'self' https:; `
 	+ `style-src 'self' 'unsafe-inline'; `
@@ -36,6 +40,9 @@ const csp
 	+ `manifest-src 'self'; `
 	+ `connect-src 'self' data: blob: ${config.wsUrl} https://api.rss2json.com; `	// wssを指定しないとSafariで動かない https://github.com/w3c/webappsec-csp/issues/7#issuecomment-1086257826
 	+ `frame-ancestors 'none'`;
+
+	return { csp, nonce };
+}
 
 // Init app
 const app = new Koa();
@@ -55,7 +62,6 @@ app.use(favicon(`${client}/assets/favicon.ico`));
 app.use(async (ctx, next) => {
 	// IFrameの中に入れられないようにする
 	ctx.set('X-Frame-Options', 'DENY');
-	ctx.set('Content-Security-Policy', csp);
 	await next();
 });
 
@@ -99,9 +105,15 @@ router.get('/robots.txt', async ctx => {
 // Docs
 router.use('/docs', docs.routes());
 router.get('/api-doc', async ctx => {
-	await send(ctx as any, '/assets/redoc.html', {
-		root: client
+	const { csp, nonce } = genCsp();
+
+	await ctx.render('redoc', {
+		version: config.version,
+		nonce,
 	});
+
+	ctx.set('Content-Security-Policy', csp);
+	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 });
 
 // URL preview endpoint
@@ -179,14 +191,19 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 				.map(field => field.value)
 			: [];
 
+		const { csp, nonce } = genCsp();
+
 		await ctx.render('user', {
+			nonce,
 			user, profile, me,
 			version: config.version,
 			sub: ctx.params.sub,
 			instanceName: meta.name || 'Misskey',
 			icon: meta.iconUrl
 		});
-		ctx.set('Cache-Control', 'public, max-age=30');
+
+		ctx.set('Content-Security-Policy', csp);
+		ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 	} else {
 		// リモートユーザーなので
 		// モデレータがAPI経由で参照可能にするために404にはしない
@@ -243,8 +260,11 @@ router.get('/notes/:note', async ctx => {
 		const width = 530;	// TODO: thumbnail width
 		const height = 255;
 
+		const { csp, nonce } = genCsp();
+
 		await ctx.render('note', {
 			version: config.version,
+			nonce,
 			note: _note,
 			summary: getNoteSummary(_note),
 			imageUrl,
@@ -253,11 +273,8 @@ router.get('/notes/:note', async ctx => {
 			player, width, height, stream, type,
 		});
 
-		if (['public', 'home'].includes(note.visibility)) {
-			ctx.set('Cache-Control', 'public, max-age=180');
-		} else {
-			ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
-		}
+		ctx.set('Content-Security-Policy', csp);
+		ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 
 		return;
 	}
@@ -286,22 +303,14 @@ router.get('/notes/:note/embed', async ctx => {
 			imageUrl = (_note.user as any).avatarUrl;
 		}
 
-		const meta = await fetchMeta();
-		await ctx.render('note', {
-			version: config.version,
-			note: _note,
-			summary: getNoteSummary(_note),
-			imageUrl,
-			instanceName: meta.name || 'Misskey',
-			icon: meta.iconUrl
-		});
-
 		const video = (_note.files || [])
 			.filter((file: any) => file.type.match(/^video/) && !file.isSensitive)
 			.shift() as any;
 		const audio = video ? undefined : (_note.files || [])
 			.filter((file: any) => file.type.match(/^audio/) && !file.isSensitive)
 			.shift() as any;
+
+		const { csp, nonce } = genCsp();
 
 		await ctx.render('note-embed', {
 			video: video?.url,
@@ -310,6 +319,9 @@ router.get('/notes/:note/embed', async ctx => {
 			autoplay: ctx.query.autoplay != null,
 		});
 
+		ctx.set('Content-Security-Policy', csp);
+
+		// nounceは使わないのでキャッシュは許容
 		if (['public', 'home'].includes(note.visibility)) {
 			ctx.set('Cache-Control', 'public, max-age=180');
 		} else {
@@ -340,17 +352,15 @@ router.get('/@:user/pages/:page', async ctx => {
 	if (page) {
 		const _page = await Pages.pack(page);
 		const meta = await fetchMeta();
+		const { csp, nonce } = genCsp();
 		await ctx.render('page', {
-			version: config.version,
+			nonce,
 			page: _page,
 			instanceName: meta.name || 'Misskey'
 		});
 
-		if (['public'].includes(page.visibility)) {
-			ctx.set('Cache-Control', 'public, max-age=180');
-		} else {
-			ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
-		}
+		ctx.set('Content-Security-Policy', csp);
+		ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 
 		return;
 	}
@@ -364,8 +374,10 @@ router.get('/info', async ctx => {
 	const emojis = await Emojis.find({
 		where: { host: null }
 	});
+	const { csp, nonce } = genCsp();
 	await ctx.render('info', {
 		version: config.version,
+		nonce,
 		machine: os.hostname(),
 		os: os.platform(),
 		node: process.version,
@@ -380,6 +392,8 @@ router.get('/info', async ctx => {
 		originalUsersCount: await Users.count({ host: null }),
 		originalNotesCount: await Notes.count({ userHost: null })
 	});
+	ctx.set('Content-Security-Policy', csp);
+	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 });
 
 const override = (source: string, target: string, depth: number = 0) =>
@@ -397,15 +411,18 @@ router.get('/streaming', async ctx => {
 // Render base html for all requests
 router.get('*', async ctx => {
 	const meta = await fetchMeta();
+	const { csp, nonce } = genCsp();
 	await ctx.render('base', {
 		version: config.version,
+		nonce,
 		img: meta.bannerUrl,
 		title: meta.name || 'Misskey',
 		instanceName: meta.name || 'Misskey',
 		desc: meta.description,
 		icon: meta.iconUrl
 	});
-	ctx.set('Cache-Control', 'public, max-age=300');
+	ctx.set('Content-Security-Policy', csp);
+	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 });
 
 // Register router
