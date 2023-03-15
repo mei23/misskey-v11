@@ -21,17 +21,14 @@ import getNoteSummary from '../../misc/get-note-summary';
 import { ensure } from '../../prelude/ensure';
 import { getConnection } from 'typeorm';
 import redis from '../../db/redis';
-import * as crypto from 'crypto';
 
 const client = `${__dirname}/../../client/`;
 
 export function genCsp() {
-	const nonce = crypto.randomBytes(16).toString('base64');
-
 	const csp
 	= `base-uri 'none'; `
 	+ `default-src 'none'; `
-	+ `script-src 'nonce-${nonce}' 'strict-dynamic' https:; `	// CSP3対応ブラウザはhttps:を無視する
+	+ `script-src 'self' https://www.recaptcha.net/recaptcha/ https://www.gstatic.com/recaptcha/; `
 	+ `img-src 'self' https: data: blob:; `
 	+ `media-src 'self' https:; `
 	+ `style-src 'self' 'unsafe-inline'; `
@@ -41,7 +38,7 @@ export function genCsp() {
 	+ `connect-src 'self' data: blob: ${config.wsUrl} https://api.rss2json.com; `	// wssを指定しないとSafariで動かない https://github.com/w3c/webappsec-csp/issues/7#issuecomment-1086257826
 	+ `frame-ancestors 'none'`;
 
-	return { csp, nonce };
+	return { csp };
 }
 
 // Init app
@@ -105,15 +102,14 @@ router.get('/robots.txt', async ctx => {
 // Docs
 router.use('/docs', docs.routes());
 router.get('/api-doc', async ctx => {
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 
 	await ctx.render('redoc', {
 		version: config.version,
-		nonce,
 	});
 
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 // URL preview endpoint
@@ -191,10 +187,9 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 				.map(field => field.value)
 			: [];
 
-		const { csp, nonce } = genCsp();
+		const { csp } = genCsp();
 
 		await ctx.render('user', {
-			nonce,
 			user, profile, me,
 			version: config.version,
 			sub: ctx.params.sub,
@@ -203,7 +198,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 		});
 
 		ctx.set('Content-Security-Policy', csp);
-		ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+		ctx.set('Cache-Control', 'public, max-age=60');
 	} else {
 		// リモートユーザーなので
 		// モデレータがAPI経由で参照可能にするために404にはしない
@@ -260,11 +255,10 @@ router.get('/notes/:note', async ctx => {
 		const width = 530;	// TODO: thumbnail width
 		const height = 255;
 
-		const { csp, nonce } = genCsp();
+		const { csp } = genCsp();
 
 		await ctx.render('note', {
 			version: config.version,
-			nonce,
 			note: _note,
 			summary: getNoteSummary(_note),
 			imageUrl,
@@ -274,7 +268,7 @@ router.get('/notes/:note', async ctx => {
 		});
 
 		ctx.set('Content-Security-Policy', csp);
-		ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+		ctx.set('Cache-Control', 'public, max-age=60');
 
 		return;
 	}
@@ -310,7 +304,7 @@ router.get('/notes/:note/embed', async ctx => {
 			.filter((file: any) => file.type.match(/^audio/) && !file.isSensitive)
 			.shift() as any;
 
-		const { csp, nonce } = genCsp();
+		const { csp } = genCsp();
 
 		await ctx.render('note-embed', {
 			video: video?.url,
@@ -352,15 +346,14 @@ router.get('/@:user/pages/:page', async ctx => {
 	if (page) {
 		const _page = await Pages.pack(page);
 		const meta = await fetchMeta();
-		const { csp, nonce } = genCsp();
+		const { csp } = genCsp();
 		await ctx.render('page', {
-			nonce,
 			page: _page,
 			instanceName: meta.name || 'Misskey'
 		});
 
 		ctx.set('Content-Security-Policy', csp);
-		ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+		ctx.set('Cache-Control', 'public, max-age=60');
 
 		return;
 	}
@@ -374,10 +367,9 @@ router.get('/info', async ctx => {
 	const emojis = await Emojis.find({
 		where: { host: null }
 	});
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 	await ctx.render('info', {
 		version: config.version,
-		nonce,
 		machine: os.hostname(),
 		os: os.platform(),
 		node: process.version,
@@ -393,7 +385,7 @@ router.get('/info', async ctx => {
 		originalNotesCount: await Notes.count({ userHost: null })
 	});
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 const override = (source: string, target: string, depth: number = 0) =>
@@ -411,10 +403,9 @@ router.get('/streaming', async ctx => {
 // Render base html for all requests
 router.get('*', async ctx => {
 	const meta = await fetchMeta();
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 	await ctx.render('base', {
 		version: config.version,
-		nonce,
 		img: meta.bannerUrl,
 		title: meta.name || 'Misskey',
 		instanceName: meta.name || 'Misskey',
@@ -422,7 +413,7 @@ router.get('*', async ctx => {
 		icon: meta.iconUrl
 	});
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 // Register router
