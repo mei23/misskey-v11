@@ -11,7 +11,7 @@
 
 	<section v-if="enableDiscordIntegration">
 		<header><fa :icon="['fab', 'discord']"/> Discord</header>
-		<p v-if="$store.state.i.discord">{{ $t('connected-to') }}: <a :href="`https://discord.com/users/${$store.state.i.discord.id}`" rel="nofollow noopener" target="_blank">@{{ $store.state.i.discord.username }}#{{ $store.state.i.discord.discriminator }}</a></p>
+		<p v-if="$store.state.i.discord">{{ $t('connected-to') }}: <a :href="`https://discord.com/users/${$store.state.i.discord.id}`" rel="nofollow noopener" target="_blank">@{{ discordName }}</a></p>
 		<ui-button v-if="$store.state.i.discord" @click="disconnectDiscord">{{ $t('disconnect') }}</ui-button>
 		<ui-button v-else @click="connectDiscord">{{ $t('connect') }}</ui-button>
 	</section>
@@ -51,6 +51,14 @@ export default Vue.extend({
 			this.enableDiscordIntegration = meta.enableDiscordIntegration;
 			this.enableGithubIntegration = meta.enableGithubIntegration;
 		});
+	},
+
+	computed: {
+		discordName(): string {
+			return this.$store.state.i.discord.discriminator === '0'
+				? `${this.$store.state.i.discord.username}`
+				: `${this.$store.state.i.discord.username}#${this.$store.state.i.discord.discriminator}`;
+		},
 	},
 
 	mounted() {
