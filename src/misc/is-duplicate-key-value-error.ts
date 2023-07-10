@@ -1,3 +1,5 @@
-export function isDuplicateKeyValueError(e: Error): boolean {
-	return e.message.startsWith('duplicate key value');
+import { QueryFailedError } from 'typeorm';
+
+export function isDuplicateKeyValueError(e: unknown | Error): boolean {
+	return e instanceof QueryFailedError && e.driverError.code === '23505';
 }
