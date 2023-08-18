@@ -376,8 +376,8 @@ dependencies:
     specifier: 7.1.0
     version: 7.1.0(stylus@0.59.0)(webpack@5.76.0)
   summaly:
-    specifier: mei23/summaly#3.6.0
-    version: github.com/mei23/summaly/206c16cec38f9553990bf09cbbb0c89244ae76a3
+    specifier: mei23/summaly#3.8.3
+    version: github.com/mei23/summaly/40c5faae6b4e2f2660f6acc28ab97beaeb580433
   syslog-pro:
     specifier: 1.0.0
     version: 1.0.0
@@ -11302,10 +11302,10 @@ packages:
     version: 15.0.1
     dev: false
 
-  github.com/mei23/summaly/206c16cec38f9553990bf09cbbb0c89244ae76a3:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/206c16cec38f9553990bf09cbbb0c89244ae76a3}
+  github.com/mei23/summaly/40c5faae6b4e2f2660f6acc28ab97beaeb580433:
+    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/40c5faae6b4e2f2660f6acc28ab97beaeb580433}
     name: summaly
-    version: 3.6.0
+    version: 3.8.3
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1

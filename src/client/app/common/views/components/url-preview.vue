@@ -95,7 +95,7 @@ export default Vue.extend({
 			return;
 		}
 
-		if (requestUrl.hostname == 'twitter.com') {
+		if (requestUrl.hostname === 'twitter.com' || requestUrl.hostname === 'mobile.twitter.com' || requestUrl.hostname === 'x.com') {
 			const m = requestUrl.pathname.match(/^\/.+\/status(?:es)?\/(\d+)/);
 			if (m) this.tweetId = m[1];
 		}
