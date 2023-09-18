@@ -1,7 +1,7 @@
 import * as http from 'http';
 import * as https from 'https';
-import { lookup } from './dns';
 import fetch from 'node-fetch';
+import CacheableLookup from 'cacheable-lookup';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import config from '../config';
@@ -75,7 +75,11 @@ function objectAssignWithLcKey(a: Record<string, string>, b: Record<string, stri
 	return Object.assign(lcObjectKey(a), lcObjectKey(b));
 }
 
-//#region Agent
+const cache = new CacheableLookup({
+	maxTtl: 3600,	// 1hours
+	errorTtl: 30,	// 30secs
+	lookup: false,	// nativeのdns.lookupにfallbackしない
+});
 
 /**
  * Get http non-proxy agent
@@ -83,7 +87,7 @@ function objectAssignWithLcKey(a: Record<string, string>, b: Record<string, stri
 const _http = new http.Agent({
 	keepAlive: true,
 	keepAliveMsecs: 30 * 1000,
-	lookup: lookup,
+	lookup: cache.lookup,
 } as http.AgentOptions);
 
 /**
@@ -92,7 +96,7 @@ const _http = new http.Agent({
 const _https = new https.Agent({
 	keepAlive: true,
 	keepAliveMsecs: 30 * 1000,
-	lookup: lookup,
+	lookup: cache.lookup,
 } as https.AgentOptions);
 
 /**

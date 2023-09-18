@@ -75,6 +75,9 @@ dependencies:
   bull:
     specifier: 4.10.4
     version: 4.10.4
+  cacheable-lookup:
+    specifier: 6.1.0
+    version: 6.1.0
   cafy:
     specifier: 15.2.1
     version: 15.2.1
@@ -2790,6 +2793,11 @@ packages:
 
   /cacheable-lookup@5.0.4:
     resolution: {integrity: sha512-2/kNscPhpcxrOigMZzbiWF7dz8ilhb/nIHU3EyZiXWXpeq/au8qJ8VhdftMkty3n7Gj6HIGalQG8oiBNB3AJgA==}
+    engines: {node: '>=10.6.0'}
+    dev: false
+
+  /cacheable-lookup@6.1.0:
+    resolution: {integrity: sha512-KJ/Dmo1lDDhmW2XDPMo+9oiy/CeqosPguPCrgcVzKyZrL6pM1gU2GmPY/xo6OQPTUaA/c0kwHuywB4E6nmT9ww==}
     engines: {node: '>=10.6.0'}
     dev: false
 
