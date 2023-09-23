@@ -308,7 +308,6 @@ router.get('/notes/:note/embed', async ctx => {
 
 		ctx.set('Content-Security-Policy', csp);
 
-		// nounceは使わないのでキャッシュは許容
 		if (['public', 'home'].includes(note.visibility)) {
 			ctx.set('Cache-Control', 'public, max-age=180');
 		} else {
