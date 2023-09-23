@@ -23,7 +23,7 @@ export class NoteReaction {
 		onDelete: 'CASCADE'
 	})
 	@JoinColumn()
-	public user: User | null;
+	public user?: User | null;
 
 	@Index()
 	@Column(id())
@@ -33,7 +33,7 @@ export class NoteReaction {
 		onDelete: 'CASCADE'
 	})
 	@JoinColumn()
-	public note: Note | null;
+	public note?: Note | null;
 
 	@Column('varchar', {
 		length: 260

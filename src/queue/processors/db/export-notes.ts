@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import { queueLogger } from '../../logger';
 import addFile from '../../../services/drive/add-file';
 import dateFormat = require('dateformat');
-import { Users, Notes, Polls } from '../../../models';
+import { DriveFiles, Users, Notes, Polls } from '../../../models';
 import { MoreThan } from 'typeorm';
 import { Note } from '../../../models/entities/note';
 import { Poll } from '../../../models/entities/poll';
@@ -73,7 +73,8 @@ export async function exportNotes(job: Bull.Job<DbUserJobData>, done: any): Prom
 			if (note.hasPoll) {
 				poll = await Polls.findOne({ noteId: note.id }).then(ensure);
 			}
-			const content = JSON.stringify(serialize(note, poll));
+			const files = await DriveFiles.packMany(note.fileIds);
+			const content = JSON.stringify(serialize(note, poll, files));
 			await new Promise((res, rej) => {
 				stream.write(exportedNotesCount === 0 ? content : ',\n' + content, err => {
 					if (err) {
@@ -116,12 +117,13 @@ export async function exportNotes(job: Bull.Job<DbUserJobData>, done: any): Prom
 	done();
 }
 
-function serialize(note: Note, poll: Poll | null = null): any {
+function serialize(note: Note, poll: Poll | null = null, files: any[]): any {
 	return {
 		id: note.id,
 		text: note.text,
 		createdAt: note.createdAt,
 		fileIds: note.fileIds,
+		files: files,
 		replyId: note.replyId,
 		renoteId: note.renoteId,
 		poll: poll,

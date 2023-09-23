@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
 	"author": "mei23 <m@m544.net>",
-	"version": "11.37.1-20230209223723",
+	"version": "11.37.1-20230617014515",
 	"codename": "daybreak",
 	"repository": {
 		"type": "git",
@@ -154,7 +154,7 @@
 		"stringz": "2.1.0",
 		"stylus": "0.59.0",
 		"stylus-loader": "7.1.0",
-		"summaly": "2.7.0",
+		"summaly": "mei23/summaly#3.8.3",
 		"syslog-pro": "1.0.0",
 		"systeminformation": "5.17.12",
 		"syuilo-password-strength": "0.0.1",
@@ -190,7 +190,7 @@
 		"vuex": "3.6.2",
 		"vuex-persistedstate": "3.2.0",
 		"web-push": "3.5.0",
-		"webpack": "5.75.0",
+		"webpack": "5.76.0",
 		"webpack-cli": "4.10.0",
 		"websocket": "1.0.34",
 		"xev": "2.0.1"
@@ -255,5 +255,5 @@
 		"eslint-plugin-node": "11.1.0",
 		"mocha": "10.2.0"
 	},
-	"packageManager": "pnpm@7.25.0"
+	"packageManager": "pnpm@8.6.7"
 }
