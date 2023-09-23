@@ -80,7 +80,7 @@ function groupingAudience(ids: string[], actor: IRemoteUser) {
 function isPublic(id: string) {
 	return [
 		'https://www.w3.org/ns/activitystreams#Public',
-		'as#Public',
+		'as:Public',
 		'Public',
 	].includes(id);
 }
