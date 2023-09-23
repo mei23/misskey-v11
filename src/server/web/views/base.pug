@@ -35,11 +35,8 @@ html
 
 		style
 			include ./../../../../built/client/assets/init.css
-		script
-			include ./../../../../built/client/assets/boot.js
 
-		script
-			include ./../../../../built/client/assets/safe.js
+		script(src=`/assets/boot.js?${version}`)
 
 	body
 		noscript: p

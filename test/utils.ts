@@ -164,7 +164,7 @@ export const uploadFile = async (user: any, _path?: string): Promise<any> => {
 	return body;
 };
 
-export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?: number, type?: string, location?: string }> => {
+export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?: number, type?: string, location?: string, cspx?: unknown }> => {
 	// node-fetchだと3xxを取れない
 	return await new Promise((resolve, reject) => {
 		const req = http.request(`http://localhost:${port}${path}`, {
@@ -175,10 +175,14 @@ export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?
 			if (res.statusCode! >= 400) {
 				reject(res);
 			} else {
+				let cspx = res.headers['content-security-policy'];
+				if (typeof cspx === 'string') cspx = cspx.replace(/nonce-(\S+)/, 'nonce-X');
+
 				resolve({
 					status: res.statusCode,
 					type: res.headers['content-type'],
 					location: res.headers.location,
+					cspx,
 				});
 			}
 		});

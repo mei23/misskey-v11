@@ -15,6 +15,7 @@ import { licenseHtml } from '../../misc/license';
 import { copyright } from '../../const.json';
 import * as locales from '../../../locales';
 import * as nestedProperty from 'nested-property';
+import { genCsp } from '.';
 
 function getLang(lang: string): string {
 	if (['en-US', 'ja-JP'].includes(lang)) {
@@ -94,6 +95,8 @@ router.get('/*/*', async ctx => {
 	});
 	const md = await fs.promises.readFile(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
 
+	const { csp } = genCsp();
+
 	await ctx.render('docs-article', Object.assign({
 		id: doc,
 		html: conv.makeHtml(md),
@@ -101,7 +104,8 @@ router.get('/*/*', async ctx => {
 		src: `https://github.com/syuilo/misskey/tree/master/src/docs/${doc}.${lang}.md`
 	}, await genVars(lang)));
 
-	ctx.set('Cache-Control', 'public, max-age=300');
+	ctx.set('Content-Security-Policy', csp);
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 export default router;

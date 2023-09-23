@@ -24,6 +24,23 @@ import redis from '../../db/redis';
 
 const client = `${__dirname}/../../client/`;
 
+export function genCsp() {
+	const csp
+	= `base-uri 'none'; `
+	+ `default-src 'none'; `
+	+ `script-src 'self' https://www.recaptcha.net/recaptcha/ https://www.gstatic.com/recaptcha/; `
+	+ `img-src 'self' https: data: blob:; `
+	+ `media-src 'self' https:; `
+	+ `style-src 'self' 'unsafe-inline'; `
+	+ `font-src 'self'; `
+	+ `frame-src 'self' https:; `
+	+ `manifest-src 'self'; `
+	+ `connect-src 'self' data: blob: ${config.wsUrl} https://api.rss2json.com; `	// wssを指定しないとSafariで動かない https://github.com/w3c/webappsec-csp/issues/7#issuecomment-1086257826
+	+ `frame-ancestors 'none'`;
+
+	return { csp };
+}
+
 // Init app
 const app = new Koa();
 
@@ -38,13 +55,6 @@ app.use(views(__dirname + '/views', {
 // Serve favicon
 app.use(favicon(`${client}/assets/favicon.ico`));
 
-// Common request handler
-app.use(async (ctx, next) => {
-	// IFrameの中に入れられないようにする
-	ctx.set('X-Frame-Options', 'DENY');
-	await next();
-});
-
 // Init router
 const router = new Router();
 
@@ -53,7 +63,7 @@ const router = new Router();
 router.get('/assets/*', async ctx => {
 	await send(ctx as any, ctx.path, {
 		root: client,
-		maxage: ms('7 days'),
+		maxage: ctx.path === 'boot.js' ? ms('5m') : ms('7 days'),
 	});
 });
 
@@ -85,9 +95,14 @@ router.get('/robots.txt', async ctx => {
 // Docs
 router.use('/docs', docs.routes());
 router.get('/api-doc', async ctx => {
-	await send(ctx as any, '/assets/redoc.html', {
-		root: client
+	const { csp } = genCsp();
+
+	await ctx.render('redoc', {
+		version: config.version,
 	});
+
+	ctx.set('Content-Security-Policy', csp);
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 // URL preview endpoint
@@ -165,13 +180,18 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 				.map(field => field.value)
 			: [];
 
+		const { csp } = genCsp();
+
 		await ctx.render('user', {
 			user, profile, me,
+			version: config.version,
 			sub: ctx.params.sub,
 			instanceName: meta.name || 'Misskey',
 			icon: meta.iconUrl
 		});
-		ctx.set('Cache-Control', 'public, max-age=30');
+
+		ctx.set('Content-Security-Policy', csp);
+		ctx.set('Cache-Control', 'public, max-age=60');
 	} else {
 		// リモートユーザーなので
 		// モデレータがAPI経由で参照可能にするために404にはしない
@@ -228,7 +248,10 @@ router.get('/notes/:note', async ctx => {
 		const width = 530;	// TODO: thumbnail width
 		const height = 255;
 
+		const { csp } = genCsp();
+
 		await ctx.render('note', {
+			version: config.version,
 			note: _note,
 			summary: getNoteSummary(_note),
 			imageUrl,
@@ -237,11 +260,8 @@ router.get('/notes/:note', async ctx => {
 			player, width, height, stream, type,
 		});
 
-		if (['public', 'home'].includes(note.visibility)) {
-			ctx.set('Cache-Control', 'public, max-age=180');
-		} else {
-			ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
-		}
+		ctx.set('Content-Security-Policy', csp);
+		ctx.set('Cache-Control', 'public, max-age=60');
 
 		return;
 	}
@@ -270,15 +290,6 @@ router.get('/notes/:note/embed', async ctx => {
 			imageUrl = (_note.user as any).avatarUrl;
 		}
 
-		const meta = await fetchMeta();
-		await ctx.render('note', {
-			note: _note,
-			summary: getNoteSummary(_note),
-			imageUrl,
-			instanceName: meta.name || 'Misskey',
-			icon: meta.iconUrl
-		});
-
 		const video = (_note.files || [])
 			.filter((file: any) => file.type.match(/^video/) && !file.isSensitive)
 			.shift() as any;
@@ -286,12 +297,16 @@ router.get('/notes/:note/embed', async ctx => {
 			.filter((file: any) => file.type.match(/^audio/) && !file.isSensitive)
 			.shift() as any;
 
+		const { csp } = genCsp();
+
 		await ctx.render('note-embed', {
 			video: video?.url,
 			audio: audio?.url,
 			type: (video || audio)?.type,
 			autoplay: ctx.query.autoplay != null,
 		});
+
+		ctx.set('Content-Security-Policy', csp);
 
 		if (['public', 'home'].includes(note.visibility)) {
 			ctx.set('Cache-Control', 'public, max-age=180');
@@ -323,16 +338,14 @@ router.get('/@:user/pages/:page', async ctx => {
 	if (page) {
 		const _page = await Pages.pack(page);
 		const meta = await fetchMeta();
+		const { csp } = genCsp();
 		await ctx.render('page', {
 			page: _page,
 			instanceName: meta.name || 'Misskey'
 		});
 
-		if (['public'].includes(page.visibility)) {
-			ctx.set('Cache-Control', 'public, max-age=180');
-		} else {
-			ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
-		}
+		ctx.set('Content-Security-Policy', csp);
+		ctx.set('Cache-Control', 'public, max-age=60');
 
 		return;
 	}
@@ -346,6 +359,7 @@ router.get('/info', async ctx => {
 	const emojis = await Emojis.find({
 		where: { host: null }
 	});
+	const { csp } = genCsp();
 	await ctx.render('info', {
 		version: config.version,
 		machine: os.hostname(),
@@ -362,6 +376,8 @@ router.get('/info', async ctx => {
 		originalUsersCount: await Users.count({ host: null }),
 		originalNotesCount: await Notes.count({ userHost: null })
 	});
+	ctx.set('Content-Security-Policy', csp);
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 const override = (source: string, target: string, depth: number = 0) =>
@@ -369,6 +385,16 @@ const override = (source: string, target: string, depth: number = 0) =>
 
 router.get('/othello', async ctx => ctx.redirect(override(ctx.URL.pathname, 'games/reversi', 1)));
 router.get('/reversi', async ctx => ctx.redirect(override(ctx.URL.pathname, 'games')));
+
+router.get('/flush', async ctx => {
+	const { csp } = genCsp();
+
+	await ctx.render('flush', {
+		version: config.version,
+	});
+
+	ctx.set('Content-Security-Policy', csp);
+});
 
 // streamingに非WebSocketリクエストが来た場合にbase htmlをキャシュ付きで返すと、Proxy等でそのパスがキャッシュされておかしくなる
 router.get('/streaming', async ctx => {
@@ -379,14 +405,17 @@ router.get('/streaming', async ctx => {
 // Render base html for all requests
 router.get('*', async ctx => {
 	const meta = await fetchMeta();
+	const { csp } = genCsp();
 	await ctx.render('base', {
+		version: config.version,
 		img: meta.bannerUrl,
 		title: meta.name || 'Misskey',
 		instanceName: meta.name || 'Misskey',
 		desc: meta.description,
 		icon: meta.iconUrl
 	});
-	ctx.set('Cache-Control', 'public, max-age=300');
+	ctx.set('Content-Security-Policy', csp);
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 // Register router
