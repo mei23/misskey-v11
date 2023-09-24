@@ -816,6 +816,7 @@ common/views/components/profile-editor.vue:
   is-locked: "フォローを承認制にする"
   careful-bot: "Botからのフォローだけ承認制にする"
   auto-accept-followed: "フォローしているユーザーからのフォローを自動承認する"
+  isIndexable: "投稿検索を許可する"
   advanced: "その他"
   privacy: "プライバシー"
   save: "保存"

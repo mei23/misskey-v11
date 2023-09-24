@@ -159,6 +159,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 				lastFetchedAt: new Date(),
 				name: person.name ? truncate(person.name, MAX_NAME_LENGTH) : person.name,
 				isLocked: !!person.manuallyApprovesFollowers,
+				isIndexable: !(person.indexable === false),
 				username: person.preferredUsername,
 				usernameLower: person.preferredUsername!.toLowerCase(),
 				host,
@@ -337,6 +338,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 		isBot: getApType(object) === 'Service',
 		isCat: (person as any).isCat === true,
 		isLocked: !!person.manuallyApprovesFollowers,
+		isIndexable: !(person.indexable === false),
 		movedToUserId: movedTo?.id || null,
 	} as Partial<User>;
 

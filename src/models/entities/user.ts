@@ -201,6 +201,12 @@ export class User {
 	@JoinColumn()
 	public movedToUser: User | null;
 
+	@Column('boolean', {
+		default: true,
+		comment: 'Search indexable.'
+	})
+	public isIndexable: boolean;
+
 	constructor(data: Partial<User>) {
 		if (data == null) return;
 
