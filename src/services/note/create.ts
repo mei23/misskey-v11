@@ -333,7 +333,7 @@ export default async (user: User, data: Option, silent = false) => new Promise<N
 	}
 
 	// Register to search database
-	index(note);
+	if (user.isIndexable) index(note);
 });
 
 async function renderNoteOrRenoteActivity(data: Option, note: Note) {
