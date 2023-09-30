@@ -223,9 +223,11 @@ export function destroy() {
 		deliverLogger.succ(`Cleaned ${jobs.length} ${status} jobs`);
 	});
 	deliverQueue.clean(0, 'delayed');
+	deliverQueue.clean(0, 'wait');
 
 	inboxQueue.once('cleaned', (jobs, status) => {
 		inboxLogger.succ(`Cleaned ${jobs.length} ${status} jobs`);
 	});
 	inboxQueue.clean(0, 'delayed');
+	inboxQueue.clean(0, 'wait');
 }
