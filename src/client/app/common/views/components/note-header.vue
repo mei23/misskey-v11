@@ -13,6 +13,8 @@
 		<span class="mobile" v-if="note.viaMobile"><fa icon="mobile-alt"/></span>
 		<router-link class="created-at" :to="note | notePage">
 			<mk-time :time="note.createdAt"/>
+			{{ }}
+			<span :title="$t('@.edited')" v-if="note.updatedAt != null"><fa :icon="faEdit"/></span>
 		</router-link>
 		<span class="visibility" v-if="note.visibility != 'public'">
 			<fa v-if="note.visibility == 'home'" icon="home"/>
@@ -27,6 +29,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n(),
@@ -40,7 +43,13 @@ export default Vue.extend({
 			required: false,
 			default: false
 		}
-	}
+	},
+
+	data() {
+		return {
+			faEdit,
+		}
+	},
 });
 </script>
 

@@ -50,6 +50,11 @@
 		<router-link class="time" :to="appearNote | notePage">
 			<mk-time :time="appearNote.createdAt" mode="detail"/>
 		</router-link>
+		<div  class="time" v-if="appearNote.updatedAt != null">
+			<fa :icon="faEdit"/>
+			{{ }}
+			<mk-time :time="appearNote.updatedAt" mode="detail"/>
+		</div>
 		<div class="visibility-info">
 			<span class="visibility" v-if="appearNote.visibility != 'public'">
 				<fa v-if="appearNote.visibility == 'home'" icon="home"/>
@@ -94,6 +99,7 @@ import i18n from '../../../i18n';
 import XSub from './note.sub.vue';
 import noteSubscriber from '../../../common/scripts/note-subscriber';
 import noteMixin from '../../../common/scripts/note-mixin';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/components/note-detail.vue'),
@@ -116,6 +122,7 @@ export default Vue.extend({
 
 	data() {
 		return {
+			faEdit,
 			conversation: [],
 			conversationFetching: false,
 			replies: []
