@@ -207,6 +207,7 @@ export class User {
 	})
 	public isIndexable: boolean;
 
+	@Index()
 	@Column('boolean', {
 		default: true,
 	})
