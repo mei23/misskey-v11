@@ -93,6 +93,7 @@
 			<ui-switch v-model="carefulBot" :disabled="isLocked" @change="save(false)">{{ $t('careful-bot') }}</ui-switch>
 			<ui-switch v-model="autoAcceptFollowed" :disabled="!isLocked && !carefulBot" @change="save(false)">{{ $t('auto-accept-followed') }}</ui-switch>
 			<ui-switch v-model="isIndexable" @change="save(false)">{{ $t('isIndexable') }}</ui-switch>
+			<ui-switch v-model="isExplorable" @change="save(false)">{{ $t('is-explorable') }}</ui-switch>
 		</div>
 	</section>
 
@@ -178,6 +179,7 @@ export default Vue.extend({
 			carefulBot: false,
 			autoAcceptFollowed: false,
 			isIndexable: true,
+			isExplorable: false,
 			saving: false,
 			avatarUploading: false,
 			bannerUploading: false,
@@ -220,6 +222,7 @@ export default Vue.extend({
 		this.carefulBot = this.$store.state.i.carefulBot;
 		this.autoAcceptFollowed = this.$store.state.i.autoAcceptFollowed;
 		this.isIndexable = this.$store.state.i.isIndexable;
+		this.isExplorable = this.$store.state.i.isExplorable;
 
 		this.fieldName0 = this.$store.state.i.fields[0] ? this.$store.state.i.fields[0].name : null;
 		this.fieldValue0 = this.$store.state.i.fields[0] ? this.$store.state.i.fields[0].value : null;
@@ -301,6 +304,7 @@ export default Vue.extend({
 				carefulBot: !!this.carefulBot,
 				autoAcceptFollowed: !!this.autoAcceptFollowed,
 				isIndexable: !!this.isIndexable,
+				isExplorable: !!this.isExplorable,
 			}).then(i => {
 				this.saving = false;
 				this.$store.state.i.avatarId = i.avatarId;

@@ -41,6 +41,7 @@ export async function createSystemUser(username: string) {
 			token: secret,
 			isAdmin: false,
 			isLocked: true,
+			isExplorable: false,
 			isBot: true,
 		}).then(x => transactionalEntityManager.findOneOrFail(User, x.identifiers[0]));
 

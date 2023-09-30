@@ -207,6 +207,12 @@ export class User {
 	})
 	public isIndexable: boolean;
 
+	@Index()
+	@Column('boolean', {
+		default: true,
+	})
+	public isExplorable: boolean;
+
 	constructor(data: Partial<User>) {
 		if (data == null) return;
 

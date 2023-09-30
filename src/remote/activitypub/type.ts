@@ -152,6 +152,7 @@ export interface IActor extends IObject {
 	preferredUsername?: string;
 	manuallyApprovesFollowers?: boolean;
 	indexable?: boolean;
+	discoverable?: boolean;
 	inbox: string;
 	sharedInbox?: string;	// 後方互換性のため
 	publicKey?: {
