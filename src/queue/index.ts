@@ -13,6 +13,7 @@ import { DriveFile } from '../models/entities/drive-file';
 import { getJobInfo } from './get-job-info';
 import { IActivity } from '../remote/activitypub/type';
 import { dbQueue, deliverQueue, inboxQueue, objectStorageQueue } from './queues';
+import { cpus } from 'os';
 
 function renderError(e: Error): any {
 	return {
@@ -26,6 +27,9 @@ const deliverLogger = queueLogger.createSubLogger('deliver');
 const inboxLogger = queueLogger.createSubLogger('inbox');
 const dbLogger = queueLogger.createSubLogger('db');
 const objectStorageLogger = queueLogger.createSubLogger('objectStorage');
+
+export const deliverJobConcurrency = config.deliverJobConcurrency || ((cpus().length || 4) * 8);
+export const inboxJobConcurrency = config.inboxJobConcurrency || ((cpus().length || 4) * 1);
 
 deliverQueue
 	.on('waiting', (jobId) => deliverLogger.debug(`waiting id=${jobId}`))
@@ -207,8 +211,8 @@ export function createCleanRemoteFilesJob() {
 
 export default function() {
 	if (!envOption.onlyServer) {
-		deliverQueue.process(config.deliverJobConcurrency || 128, processDeliver);
-		inboxQueue.process(config.inboxJobConcurrency || 16, processInbox);
+		deliverQueue.process(deliverJobConcurrency, processDeliver);
+		inboxQueue.process(inboxJobConcurrency, processInbox);
 		processDb(dbQueue);
 		procesObjectStorage(objectStorageQueue);
 	}
@@ -219,9 +223,11 @@ export function destroy() {
 		deliverLogger.succ(`Cleaned ${jobs.length} ${status} jobs`);
 	});
 	deliverQueue.clean(0, 'delayed');
+	deliverQueue.clean(0, 'wait');
 
 	inboxQueue.once('cleaned', (jobs, status) => {
 		inboxLogger.succ(`Cleaned ${jobs.length} ${status} jobs`);
 	});
 	inboxQueue.clean(0, 'delayed');
+	inboxQueue.clean(0, 'wait');
 }
