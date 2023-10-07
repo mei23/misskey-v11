@@ -10,6 +10,8 @@ export async function deliverQuestionUpdate(noteId: Note['id']) {
 	const note = await Notes.findOne(noteId);
 	if (note == null) throw new Error('note not found');
 
+	if (note.localOnly) return;
+
 	const user = await Users.findOne(note.userId);
 	if (user == null) throw new Error('note not found');
 
