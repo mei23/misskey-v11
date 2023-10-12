@@ -1,16 +1,14 @@
 import * as http from 'http';
 import * as https from 'https';
-import fetch from 'node-fetch';
 import CacheableLookup from 'cacheable-lookup';
+import got, * as Got from 'got';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import config from '../config';
-import { AbortController } from 'abort-controller';
-import Logger from '../services/logger';
+import { checkPrivateIp } from './check-private-ip';
+import { checkAllowedUrl } from './check-allowed-url';
 
-const logger = new Logger('fetch');
-
-export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>) {
+export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>): Promise<any> {
 	const res = await getResponse({
 		url,
 		method: 'GET',
@@ -21,7 +19,9 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 		timeout
 	});
 
-	return await res.json();
+	if (res.body.length > 65536) throw new Error('too large JSON');
+
+	return await JSON.parse(res.body); 
 }
 
 export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: Record<string, string>): Promise<string> {
@@ -35,32 +35,89 @@ export async function getHtml(url: string, accept = 'text/html, */*', timeout = 
 		timeout
 	});
 
-	return await res.text();
+	return await res.body;
 }
 
-export async function getResponse(args: { url: string, method: string, body?: string, headers: Record<string, string>, timeout?: number, size?: number }) {
-	logger.debug(`${args.method.toUpperCase()} ${args.url}\nHeaders: ${JSON.stringify(args.headers, null, 2)}${args.body ? `\n${args.body}` : ''}`);
+const RESPONSE_TIMEOUT = 30 * 1000;
+const OPERATION_TIMEOUT = 60 * 1000;
+const MAX_RESPONSE_SIZE = 10 * 1024 * 1024;
 
-	const timeout = args?.timeout || 10 * 1000;
+export async function getResponse(args: { url: string, method: 'GET' | 'POST', body?: string, headers: Record<string, string>, timeout?: number, size?: number }) {
+	if (!checkAllowedUrl(args.url)) {
+		throw new StatusError('Invalid URL', 400);
+	}
 
-	const controller = new AbortController();
-	setTimeout(() => {
-		controller.abort();
-	}, timeout * 6);
+	const timeout = args.timeout || RESPONSE_TIMEOUT;
+	const operationTimeout = args.timeout ? args.timeout * 6 : OPERATION_TIMEOUT;
 
-	const res = await fetch(args.url, {
+	const req = got<string>(args.url, {
 		method: args.method,
 		headers: args.headers,
 		body: args.body,
-		timeout,
-		size: args?.size || 10 * 1024 * 1024,
-		agent: getAgentByUrl,
-		signal: controller.signal,
+		timeout: {
+			lookup: timeout,
+			connect: timeout,
+			secureConnect: timeout,
+			socket: timeout,	// read timeout
+			response: timeout,
+			send: timeout,
+			request: operationTimeout,	// whole operation timeout
+		},
+		agent: {
+			http: httpAgent,
+			https: httpsAgent,
+		},
+		http2: false,
+		retry: 0,
 	});
 
-	if (!res.ok) {
-		throw new StatusError(`${res.status} ${res.statusText}`, res.status, res.statusText);
-	}
+	req.on('redirect', (res, opts) => {
+		if (!checkAllowedUrl(opts.url)) {
+			req.cancel(`Invalid url: ${opts.url}`);
+		}
+	});
+
+	return await receiveResponce(req, args.size || MAX_RESPONSE_SIZE);
+}
+
+/**
+ * Receive response (with size limit)
+ * @param req Request
+ * @param maxSize size limit
+ */
+async function receiveResponce<T>(req: Got.CancelableRequest<Got.Response<T>>, maxSize: number) {
+	req.on('response', (res: Got.Response) => {
+		if (checkPrivateIp(res.ip)) {
+			req.cancel(`Blocked address: ${res.ip}`);
+		}
+	});
+
+	// 応答ヘッダでサイズチェック
+	req.on('response', (res: Got.Response) => {
+		const contentLength = res.headers['content-length'];
+		if (contentLength != null) {
+			const size = Number(contentLength);
+			if (size > maxSize) {
+				req.cancel(`maxSize exceeded (${size} > ${maxSize}) on response`);
+			}
+		}
+	});
+
+	// 受信中のデータでサイズチェック
+	req.on('downloadProgress', (progress: Got.Progress) => {
+		if (progress.transferred > maxSize && progress.percent !== 1) {
+			req.cancel(`maxSize exceeded (${progress.transferred} > ${maxSize}) on response`);
+		}
+	});
+
+	// 応答取得 with ステータスコードエラーの整形
+	const res = await req.catch(e => {
+		if (e instanceof Got.HTTPError) {
+			throw new StatusError(`${e.response.statusCode} ${e.response.statusMessage}`, e.response.statusCode, e.response.statusMessage);
+		} else {
+			throw e;
+		}
+	});
 
 	return res;
 }
@@ -125,6 +182,7 @@ export function getAgentByUrl(url: URL, bypassProxy = false): http.Agent | https
 		return url.protocol == 'http:' ? httpAgent : httpsAgent;
 	}
 }
+//#endregion Agent
 
 export class StatusError extends Error {
 	public statusCode: number;
