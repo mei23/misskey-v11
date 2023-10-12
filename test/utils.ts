@@ -1,5 +1,4 @@
 import * as childProcess from 'child_process';
-import fetch from 'node-fetch';
 import * as http from 'http';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -101,16 +100,27 @@ export const api = async (endpoint: string, params: any, me?: any): Promise<{ bo
 		i: me.token
 	} : {};
 
-	const res = await fetch(`http://localhost:${port}/api/${endpoint}`, {
+	const res = await got<string>(`http://localhost:${port}/api/${endpoint}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify(Object.assign(auth, params))
+		body: JSON.stringify(Object.assign(auth, params)),
+		timeout: 30 * 1000,
+		retry: 0,
+		hooks: {
+			beforeError: [
+				error => {
+					const { response } = error;
+					if (response && response.body) console.warn(response.body);
+					return error;
+				}
+			]
+		},
 	});
 
-	const status = res.status;
-	const body = res.status !== 204 ? await res.json().catch() : null;
+	const status = res.statusCode;
+	const body = res.statusCode !== 204 ? await JSON.parse(res.body) : null;
 
 	return {
 		status,
