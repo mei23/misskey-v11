@@ -8,6 +8,7 @@ import { id } from '../id';
 @Index('IDX_NOTE_TAGS', { synchronize: false })
 @Index('IDX_NOTE_MENTIONS', { synchronize: false })
 @Index('IDX_NOTE_VISIBLE_USER_IDS', { synchronize: false })
+@Index('IDX_note_on_userId_and_id_desc', { synchronize: false })
 export class Note {
 	@PrimaryColumn(id())
 	public id: string;

@@ -8,6 +8,8 @@ import { generateVisibilityQuery } from '../../common/generate-visibility-query'
 import { Notes } from '../../../../models';
 import { generateMuteQuery } from '../../common/generate-mute-query';
 import { Brackets } from 'typeorm';
+import { writeFileSync } from 'fs';
+import { explain2 } from '../../../../misc/explain';
 
 export const meta = {
 	desc: {
@@ -181,6 +183,11 @@ export default define(meta, async (ps, me) => {
 	}
 
 	//#endregion
+
+	writeFileSync('/home/a31/develop/misskey-v11/_q.json', query.getQuery());
+	writeFileSync('/home/a31/develop/misskey-v11/_a.json', await explain2(query))
+	//const r = await explain2(query);
+	//console.log(r);
 
 	const timeline = await query.take(ps.limit!).getMany();
 
