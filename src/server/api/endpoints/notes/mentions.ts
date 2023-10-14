@@ -8,6 +8,7 @@ import { generateMuteQuery } from '../../common/generate-mute-query';
 import { makePaginationQuery } from '../../common/make-pagination-query';
 import { Brackets } from 'typeorm';
 import { generateBlockedUserQuery } from '../../common/generate-block-query';
+import { explain2 } from '../../../../misc/explain';
 
 export const meta = {
 	desc: {
@@ -61,8 +62,8 @@ export default define(meta, async (ps, user) => {
 
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId)
 		.andWhere(new Brackets(qb => { qb
-			.where(`'{"${user.id}"}' <@ note.mentions`)
-			.orWhere(`'{"${user.id}"}' <@ note.visibleUserIds`);
+			.where(`'{}' <> note.mentions`)
+			.andWhere(`'{"${user.id}"}' <@ note.mentions`)
 		}))
 		.innerJoinAndSelect('note.user', 'user')
 		.leftJoinAndSelect('user.avatar', 'avatar')
@@ -88,6 +89,8 @@ export default define(meta, async (ps, user) => {
 		query.andWhere(`((note.userId IN (${ followingQuery.getQuery() })) OR (note.userId = :meId))`, { meId: user.id });
 		query.setParameters(followingQuery.getParameters());
 	}
+
+	explain2(query, 'mentions');
 
 	const mentions = await query.take(ps.limit!).getMany();
 
