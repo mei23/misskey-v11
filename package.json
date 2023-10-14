@@ -17,6 +17,7 @@
 		"init": "npm run migrate",
 		"ormconfig": "node ./built/ormconfig.js",
 		"migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
+		"revertmigrate": "ts-node ./node_modules/typeorm/cli.js migration:revert",
 		"migrateandstart": "npm run migrate && npm run start",
 		"build": "webpack && gulp build",
 		"webpack": "webpack",
