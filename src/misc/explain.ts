@@ -72,9 +72,10 @@ export async function explain2<T extends ObjectLiteral>(qb: QueryBuilder<T>, nam
 	const queryFile = resolve(dir, `_query_${name}.txt`);
 	const explainFile = resolve(dir, `_explain_${name}.txt`);
 
+	const [q, p] = qb.getQueryAndParameters();
+	await writeFile(queryFile, `${q}\n\n${JSON.stringify(p, null, 2)}`);
+
 	const r = await explain(qb) as { 'QUERY PLAN': string }[];
 	const t = r.map(x => x['QUERY PLAN']).join('\n');
-
-	writeFile(queryFile, qb.getQuery());
-	writeFile(explainFile, t);
+	await writeFile(explainFile, t);
 }
