@@ -2,7 +2,7 @@ import $ from 'cafy';
 import { ID } from '../../../../misc/cafy-id';
 import define from '../../define';
 import read from '../../../../services/note/read';
-import { Notes, Followings } from '../../../../models';
+import { Notes, Followings, Notifications } from '../../../../models';
 import { generateVisibilityQuery } from '../../common/generate-visibility-query';
 import { generateMuteQuery } from '../../common/generate-mute-query';
 import { makePaginationQuery } from '../../common/make-pagination-query';
@@ -61,10 +61,7 @@ export default define(meta, async (ps, user) => {
 		.where('following.followerId = :followerId', { followerId: user.id });
 
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId)
-		.andWhere(new Brackets(qb => { qb
-			.where(`'{}' <> note.mentions`)
-			.andWhere(`'{"${user.id}"}' <@ note.mentions`)
-		}))
+		.innerJoin(Notifications.metadata.targetName, 'notification', 'notification.noteId = note.id')
 		.innerJoinAndSelect('note.user', 'user')
 		.leftJoinAndSelect('user.avatar', 'avatar')
 		.leftJoinAndSelect('user.banner', 'banner')
@@ -75,7 +72,9 @@ export default define(meta, async (ps, user) => {
 		.leftJoinAndSelect('replyUser.banner', 'replyUserBanner')
 		.leftJoinAndSelect('renote.user', 'renoteUser')
 		.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
-		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner');
+		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner')
+		.andWhere('notification.notifieeId = :notificatin_notifieeId', { notificatin_notifieeId: user.id })
+		.andWhere('notification.type IN (:...notificatin_type)', { notificatin_type: ['reply', 'mention'] });
 
 	generateVisibilityQuery(query, user);
 	generateMuteQuery(query, user);
