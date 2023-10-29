@@ -192,7 +192,7 @@ export default (os: MiOS) => new Vuex.Store({
 		},
 
 		removeMobileHomeWidget(state, widget) {
-			Vue.set('state.settings.mobileHomeProfiles', state.device.mobileHomeProfile, state.settings.mobileHomeProfiles[state.device.mobileHomeProfile].filter(w => w.id != widget.id));
+			Vue.set(state.settings.mobileHomeProfiles, state.device.mobileHomeProfile, state.settings.mobileHomeProfiles[state.device.mobileHomeProfile].filter(w => w.id != widget.id));
 			os.store.dispatch('settings/updateMobileHomeProfile');
 		},
 
