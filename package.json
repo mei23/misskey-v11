@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
 	"author": "mei23 <m@m544.net>",
-	"version": "11.37.1-20230930181843",
+	"version": "11.37.1-20231128072711",
 	"codename": "daybreak",
 	"repository": {
 		"type": "git",
