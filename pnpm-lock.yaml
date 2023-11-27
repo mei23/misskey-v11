@@ -90,6 +90,9 @@ dependencies:
   cli-highlight:
     specifier: 2.1.11
     version: 2.1.11
+  co-body:
+    specifier: 6.1.0
+    version: 6.1.0
   content-disposition:
     specifier: 0.5.4
     version: 0.5.4
@@ -213,9 +216,6 @@ dependencies:
   koa-favicon:
     specifier: 2.1.0
     version: 2.1.0
-  koa-json-body:
-    specifier: 5.3.0
-    version: 5.3.0
   koa-logger:
     specifier: 3.2.1
     version: 3.2.1
@@ -509,6 +509,9 @@ devDependencies:
   '@types/cbor':
     specifier: 6.0.0
     version: 6.0.0
+  '@types/co-body':
+    specifier: 6.1.3
+    version: 6.1.3
   '@types/dateformat':
     specifier: 3.0.1
     version: 3.0.1
@@ -1264,6 +1267,13 @@ packages:
     deprecated: This is a stub types definition. cbor provides its own type definitions, so you do not need this installed.
     dependencies:
       cbor: 8.1.0
+    dev: true
+
+  /@types/co-body@6.1.3:
+    resolution: {integrity: sha512-UhuhrQ5hclX6UJctv5m4Rfp52AfG9o9+d9/HwjxhVB5NjXxr5t9oKgJxN8xRHgr35oo8meUEHUPFWiKg6y71aA==}
+    dependencies:
+      '@types/node': 18.11.18
+      '@types/qs': 6.9.7
     dev: true
 
   /@types/connect@3.4.35:
@@ -3101,15 +3111,6 @@ packages:
   /cluster-key-slot@1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
     engines: {node: '>=0.10.0'}
-
-  /co-body@5.2.0:
-    resolution: {integrity: sha512-sX/LQ7LqUhgyaxzbe7IqwPeTr2yfpfUIQ/dgpKo6ZI4y4lpQA0YxAomWIY+7I7rHWcG02PG+OuPREzMW/5tszQ==}
-    dependencies:
-      inflation: 2.0.0
-      qs: 6.11.0
-      raw-body: 2.5.1
-      type-is: 1.6.18
-    dev: false
 
   /co-body@6.1.0:
     resolution: {integrity: sha512-m7pOT6CdLN7FuXUcpuz/8lfQ/L77x8SchHCF4G0RBTJO20Wzmhn5Sp4/5WsKy8OSpifBSUrmg83qEqaDHdyFuQ==}
@@ -6527,13 +6528,6 @@ packages:
     resolution: {integrity: sha512-LvukcooYjxKtnZq0RXdBup+JDhaHwLgnLlDHB/xvjwQEjbc4rbp/0WkmOzpOvaHujc+fIwPear0dpKX1V+dHVg==}
     dependencies:
       mz: 2.7.0
-    dev: false
-
-  /koa-json-body@5.3.0:
-    resolution: {integrity: sha512-M2P3zLOs2XiYCpJLGSTXOKij4u5vJ8pbAMXXarXQnwsx4DwDav9qn081tYI2RdZ79B159Pdk4bRfvwl/sazL8A==}
-    engines: {node: '>= 4.0.0'}
-    dependencies:
-      co-body: 5.2.0
     dev: false
 
   /koa-logger@3.2.1:
