@@ -1,4 +1,5 @@
 import * as Router from '@koa/router';
+import config from '../config';
 import * as coBody from 'co-body';
 import * as crypto from 'crypto';
 import { IActivity } from '../remote/activitypub/type';
@@ -30,6 +31,11 @@ const router = new Router();
 //#region Routing
 
 async function inbox(ctx: Router.RouterContext) {
+	if (ctx.req.headers.host !== config.host) {
+		ctx.status = 400;
+		return;
+	}
+
 	// parse body
 	const { parsed, raw } = await coBody.json(ctx, {
 		limit: '64kb',
