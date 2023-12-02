@@ -1,5 +1,4 @@
-//import { ObjectID } from 'mongodb';
-import * as httpSignature from 'http-signature';
+import * as httpSignature from '@peertube/http-signature';
 import { ILocalUser, User } from '../models/entities/user';
 import { IActivity } from '../remote/activitypub/type';
 

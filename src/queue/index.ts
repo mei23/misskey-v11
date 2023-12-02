@@ -1,4 +1,4 @@
-import * as httpSignature from 'http-signature';
+import * as httpSignature from '@peertube/http-signature';
 
 import config from '../config';
 import { ILocalUser, User } from '../models/entities/user';
