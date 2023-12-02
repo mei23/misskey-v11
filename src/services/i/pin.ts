@@ -45,7 +45,7 @@ export async function addPinned(user: User, noteId: Note['id']) {
 	} as UserNotePining);
 
 	// Deliver to remote followers
-	if (Users.isLocalUser(user)) {
+	if (Users.isLocalUser(user) && !note.localOnly && ['public', 'home'].includes(note.visibility)) {
 		deliverPinnedChange(user.id, note.id, true);
 	}
 }
@@ -72,7 +72,7 @@ export async function removePinned(user: User, noteId: Note['id']) {
 	});
 
 	// Deliver to remote followers
-	if (Users.isLocalUser(user)) {
+	if (Users.isLocalUser(user) && !note.localOnly && ['public', 'home'].includes(note.visibility)) {
 		deliverPinnedChange(user.id, noteId, false);
 	}
 }

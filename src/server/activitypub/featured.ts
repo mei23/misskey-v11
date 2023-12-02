@@ -5,7 +5,6 @@ import renderOrderedCollection from '../../remote/activitypub/renderer/ordered-c
 import { setResponseType } from '../activitypub';
 import renderNote from '../../remote/activitypub/renderer/note';
 import { Users, Notes, UserNotePinings } from '../../models';
-import { ensure } from '../../prelude/ensure';
 
 export default async (ctx: Router.RouterContext) => {
 	const userId = ctx.params.user;
@@ -26,8 +25,9 @@ export default async (ctx: Router.RouterContext) => {
 		order: { id: 'DESC' }
 	});
 
-	const pinnedNotes = await Promise.all(pinings.map(pining =>
-		Notes.findOne(pining.noteId).then(ensure)));
+	const pinnedNotes = (await Promise.all(pinings.map(pining =>
+		Notes.findOneOrFail(pining.noteId))))
+		.filter(note => !note.localOnly && ['public', 'home'].includes(note.visibility));
 
 	const renderedNotes = await Promise.all(pinnedNotes.map(note => renderNote(note, false)));
 
