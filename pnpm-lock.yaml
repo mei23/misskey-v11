@@ -501,8 +501,8 @@ devDependencies:
     specifier: 1.0.0-beta.123
     version: 1.0.0-beta.123
   '@types/bcryptjs':
-    specifier: 2.4.2
-    version: 2.4.2
+    specifier: 2.4.6
+    version: 2.4.6
   '@types/bull':
     specifier: 4.10.0
     version: 4.10.0
@@ -1243,8 +1243,8 @@ packages:
     dependencies:
       '@types/node': 18.11.18
 
-  /@types/bcryptjs@2.4.2:
-    resolution: {integrity: sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==}
+  /@types/bcryptjs@2.4.6:
+    resolution: {integrity: sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==}
     dev: true
 
   /@types/body-parser@1.19.2:
