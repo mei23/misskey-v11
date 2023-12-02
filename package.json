@@ -87,7 +87,7 @@
 		"highlight.js": "10.6.0",
 		"html-minifier": "4.0.0",
 		"http-proxy-agent": "5.0.0",
-		"http-signature": "1.3.6",
+		"@peertube/http-signature": "1.7.0",
 		"https-proxy-agent": "5.0.1",
 		"insert-text-at-cursor": "0.3.0",
 		"ip-cidr": "3.0.11",
