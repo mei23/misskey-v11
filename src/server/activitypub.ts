@@ -45,6 +45,11 @@ async function inbox(ctx: Router.RouterContext) {
 	});
 	ctx.request.body = parsed;
 
+	if (raw == null) {
+		ctx.status = 400;
+		return;
+	}
+
 	let signature: httpSignature.IParsedSignature;
 
 	try {
