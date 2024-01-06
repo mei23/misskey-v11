@@ -29,23 +29,8 @@ export default Vue.extend({
 	data() {
 		return {
 			logs: [],
-			connection: null,
 			faBolt, faExchangeAlt
 		};
-	},
-
-	mounted() {
-		this.connection = this.$root.stream.useSharedConnection('apLog');
-		this.connection.on('log', this.onLog);
-		this.connection.on('logs', this.onLogs);
-		this.connection.send('requestLog', {
-			id: Math.random().toString().substr(2, 8),
-			length: 50
-		});
-	},
-
-	beforeDestroy() {
-		this.connection.dispose();
 	},
 
 	methods: {
