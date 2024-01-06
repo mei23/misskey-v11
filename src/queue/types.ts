@@ -6,7 +6,9 @@ export type DeliverJobData = {
 	/** Actor */
 	user: ILocalUser;
 	/** Activity */
-	content: any;
+	content: string;
+	/** Digest header */
+	digest: string;
 	/** inbox URL to deliver */
 	to: string;
 };

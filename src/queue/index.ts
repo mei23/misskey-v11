@@ -14,6 +14,7 @@ import { getJobInfo } from './get-job-info';
 import { IActivity } from '../remote/activitypub/type';
 import { dbQueue, deliverQueue, inboxQueue, objectStorageQueue } from './queues';
 import { cpus } from 'os';
+import { createDigest } from '../remote/activitypub/ap-request';
 
 function renderError(e: Error): any {
 	return {
@@ -66,9 +67,12 @@ objectStorageQueue
 export function deliver(user: ILocalUser, content: any, to: string) {
 	if (content == null) return null;
 
+	const contentBody = JSON.stringify(content);
+
 	const data = {
 		user,
-		content,
+		content: contentBody,
+		digest: createDigest(contentBody),
 		to
 	};
 

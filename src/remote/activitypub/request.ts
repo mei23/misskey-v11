@@ -5,8 +5,8 @@ import { ILocalUser } from '../../models/entities/user';
 import { UserKeypairs } from '../../models';
 import { ensure } from '../../prelude/ensure';
 
-export default async (user: ILocalUser, url: string, object: any) => {
-	const body = JSON.stringify(object);
+export default async (user: ILocalUser, url: string, object: any, digest?: string) => {
+	const body = typeof object === 'string' ? object : JSON.stringify(object);
 
 	const keypair = await UserKeypairs.findOne({
 		userId: user.id
@@ -19,6 +19,7 @@ export default async (user: ILocalUser, url: string, object: any) => {
 		},
 		url,
 		body,
+		digest,
 		additionalHeaders: {
 			'User-Agent': config.userAgent,
 		}
