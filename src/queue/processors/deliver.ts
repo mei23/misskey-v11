@@ -31,7 +31,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 			logger.debug(`delivering ${latest}`);
 		}
 
-		await request(job.data.user, job.data.to, job.data.content);
+		await request(job.data.user, job.data.to, job.data.content, job.data.digest);
 
 		// Update stats
 		registerOrFetchInstanceDoc(host).then(i => {
