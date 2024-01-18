@@ -157,6 +157,10 @@ export function toHtml(tokens: MfmForest | null, mentionedRemoteUsers: IMentione
 		},
 
 		text(token) {
+			if (!token.node.props.text.match(/[\r\n]/)) {
+				return doc.createTextNode(token.node.props.text);
+			}
+
 			const el = doc.createElement('span');
 			const nodes = (token.node.props.text as string).split(/\r\n|\r|\n/).map(x => doc.createTextNode(x) as Node);
 

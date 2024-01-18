@@ -3,7 +3,7 @@ import renderHashtag from './hashtag';
 import renderMention from './mention';
 import renderEmoji from './emoji';
 import config from '../../../config';
-import toHtml from '../misc/get-note-html';
+import { getNoteHtml } from '../misc/get-note-html';
 import { Note, IMentionedRemoteUsers } from '../../../models/entities/note';
 import { DriveFile } from '../../../models/entities/drive-file';
 import { DriveFiles, Notes, Users, Emojis, Polls } from '../../../models';
@@ -80,34 +80,15 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 		poll = await Polls.findOne({ noteId: note.id });
 	}
 
-	if (poll) {
-		if (text == null) text = '';
-		const url = `${config.url}/notes/${note.id}`;
-		// TODO: i18n
-		text += `\n[リモートで結果を表示](${url})`;
-	}
-
-	let apText = text;
-	if (apText == null) apText = '';
-
-	// Provides choices as text for AP
-	if (poll) {
-		const cs = poll.choices.map((c, i) => `${i}: ${c}`);
-		apText += '\n----------------------------------------\n';
-		apText += cs.join('\n');
-		apText += '\n----------------------------------------\n';
-		apText += '番号を返信して投票';
-	}
+	let apAppend = '';
 
 	if (quote) {
-		apText += `\n\nRE: ${quote}`;
+		apAppend += `\n\nRE: ${quote}`;
 	}
 
 	const summary = note.cw === '' ? String.fromCharCode(0x200B) : note.cw;
 
-	const content = toHtml(Object.assign({}, note, {
-		text: apText
-	}));
+	const { content, noMisskeyContent } = getNoteHtml(note, apAppend);
 
 	const emojis = await getEmojis(note.emojis);
 	const apemojis = emojis.map(emoji => renderEmoji(emoji));
@@ -120,9 +101,6 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 
 	const asPoll = poll ? {
 		type: 'Question',
-		content: toHtml(Object.assign({}, note, {
-			text: text
-		})),
 		_misskey_fallback_content: content,
 		[poll.expiresAt && poll.expiresAt < new Date() ? 'closed' : 'endTime']: poll.expiresAt,
 		[poll.multiple ? 'anyOf' : 'oneOf']: poll.choices.map((text, i) => ({
@@ -145,7 +123,7 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 		attributedTo,
 		summary,
 		content,
-		_misskey_content: text,
+		...(noMisskeyContent ? {} : { _misskey_content: text }),
 		_misskey_quote: quote,
 		quoteUrl: quote,
 		published: note.createdAt.toISOString(),
