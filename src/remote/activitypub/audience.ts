@@ -40,7 +40,7 @@ export async function parseAudience(actor: IRemoteUser, to?: ApObject, cc?: ApOb
 		};
 	}
 
-	if (toGroups.followers.length > 0) {
+	if (toGroups.followers.length > 0 || ccGroups.followers.length > 0) {
 		return {
 			visibility: 'followers',
 			mentionedUsers,
