@@ -202,8 +202,8 @@ dependencies:
     specifier: 5.2.0
     version: 5.2.0
   jsrsasign:
-    specifier: 10.5.27
-    version: 10.5.27
+    specifier: 11.0.0
+    version: 11.0.0
   katex:
     specifier: 0.16.4
     version: 0.16.4
@@ -6432,8 +6432,8 @@ packages:
       verror: 1.10.0
     dev: false
 
-  /jsrsasign@10.5.27:
-    resolution: {integrity: sha512-1F4LmDeJZHYwoVvB44jEo2uZL3XuwYNzXCDOu53Ui6vqofGQ/gCYDmaxfVZtN0TGd92UKXr/BONcfrPonUIcQQ==}
+  /jsrsasign@11.0.0:
+    resolution: {integrity: sha512-BtRwVKS+5dsgPpAtzJcpo5OoWjSs1/zllSBG0+8o8/aV0Ki76m6iZwHnwnsqoTdhfFZDN1XIdcaZr5ZkP+H2gg==}
     dev: false
 
   /jstransformer@1.0.0:
