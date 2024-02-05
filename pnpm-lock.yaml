@@ -519,8 +519,8 @@ devDependencies:
     specifier: 2.1.2
     version: 2.1.2
   '@types/escape-regexp':
-    specifier: 0.0.1
-    version: 0.0.1
+    specifier: 0.0.3
+    version: 0.0.3
   '@types/fluent-ffmpeg':
     specifier: 2.1.21
     version: 2.1.21
@@ -1323,8 +1323,8 @@ packages:
     resolution: {integrity: sha512-iAjbBa3X4UQtYxcCsAr0YaZMRwyC79q4KHui0XtEN7GGLJA4fzD116KUYXXZKskaOYSchnaOFT/a8zSlEx3P9Q==}
     dev: true
 
-  /@types/escape-regexp@0.0.1:
-    resolution: {integrity: sha512-ogj/ZTIdeFkiuxDwawYuZSIgC6suFGgBeZPr6Xs5lHEcvIXTjXGtH+/n8f1XhZhespaUwJ5LIGRICPji972FLw==}
+  /@types/escape-regexp@0.0.3:
+    resolution: {integrity: sha512-FQMYUxaf1dVeWLUzJFSvfdDugfOpDyM13p67QfyMdagxSkBa689opkr/q9uR/VWyrWrl0jAyQaSPKxX9MpAXFw==}
     dev: true
 
   /@types/eslint-scope@3.7.4:
