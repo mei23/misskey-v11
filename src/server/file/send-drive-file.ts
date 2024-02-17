@@ -3,6 +3,7 @@ import * as send from 'koa-send';
 import * as rename from 'rename';
 import * as tmp from 'tmp';
 import * as fs from 'fs';
+import * as stream from 'stream';
 import { serverLogger } from '..';
 import { contentDisposition } from '../../misc/content-disposition';
 import { DriveFiles } from '../../models';
@@ -10,7 +11,7 @@ import { InternalStorage } from '../../services/drive/internal-storage';
 import { downloadUrl } from '../../misc/download-url';
 import { detectType } from '../../misc/get-file-info';
 import { convertToJpeg, convertToPngOrJpeg } from '../../services/drive/image-processor';
-import { GenerateVideoThumbnail } from '../../services/drive/generate-video-thumbnail';
+import { generateVideoThumbnail } from '../../services/drive/generate-video-thumbnail';
 import { StatusError } from '../../misc/fetch';
 
 const assets = `${__dirname}/../../server/file/assets/`;
@@ -62,7 +63,7 @@ export default async function(ctx: Koa.Context) {
 						} else if (['image/png'].includes(mime)) {
 							return await convertToPngOrJpeg(path, 498, 280);
 						} else if (mime.startsWith('video/')) {
-							return await GenerateVideoThumbnail(path);
+							return await generateVideoThumbnail(path);
 						}
 					}
 
@@ -74,9 +75,7 @@ export default async function(ctx: Koa.Context) {
 				};
 
 				const image = await convertFile();
-				ctx.body = image.data;
-				ctx.set('Content-Type', image.type);
-				ctx.set('Cache-Control', 'max-age=31536000, immutable');
+				sendNormal(ctx, image.data, image.type);
 			} catch (e) {
 				serverLogger.error(`${e}`);
 
@@ -105,16 +104,28 @@ export default async function(ctx: Koa.Context) {
 			extname: ext ? `.${ext}` : undefined
 		}).toString();
 
-		ctx.body = InternalStorage.read(key);
-		ctx.set('Content-Type', mime);
-		ctx.set('Cache-Control', 'max-age=31536000, immutable');
-		ctx.set('Content-Disposition', contentDisposition('inline', filename));
+		sendNormal(ctx, InternalStorage.read(key), mime, filename);
 	} else {
 		const readable = InternalStorage.read(file.accessKey!);
 		readable.on('error', commonReadableHandlerGenerator(ctx));
-		ctx.body = readable;
-		ctx.set('Content-Type', file.type);
-		ctx.set('Cache-Control', 'max-age=31536000, immutable');
-		ctx.set('Content-Disposition', contentDisposition('inline', file.name));
+		sendNormal(ctx, readable, file.type, file.name);
 	}
+}
+
+async function sendNormal(ctx: Koa.Context, body: Buffer | stream.Stream, contentType: string, filename?: string): Promise<void> {
+	if (contentType === 'application/octet-stream') {
+		ctx.vary('Accept');
+		ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
+
+		if (ctx.header['accept']?.match(/activity\+json|ld\+json/)) {
+			ctx.status = 400;	// 微妙に406ではない
+			return;
+		}
+	} else {
+		ctx.set('Cache-Control', 'max-age=2592000, s-maxage=172800, immutable');
+	}
+
+	ctx.body = body;
+	ctx.set('Content-Type', contentType);
+	if (filename) ctx.set('Content-Disposition', contentDisposition('inline', filename));
 }
