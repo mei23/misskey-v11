@@ -136,6 +136,10 @@ export default Vue.extend({
 
 				Progress.done();
 				document.title = `${Vue.filter('userName')(this.user)} | ${this.$root.instanceName}`;
+			}).catch((e: any) => {
+				this.$root.dialog({ type: 'error', text: e.message || 'Error' });
+				this.fetching = false;
+				Progress.done();
 			});
 		},
 

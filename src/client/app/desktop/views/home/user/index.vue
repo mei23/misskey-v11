@@ -45,6 +45,10 @@ export default Vue.extend({
 				this.user = user;
 				this.fetching = false;
 				Progress.done();
+			}).catch((e: any) => {
+				this.$root.dialog({ type: 'error', text: e.message || 'Error' });
+				this.fetching = false;
+				Progress.done();
 			});
 		},
 

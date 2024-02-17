@@ -109,6 +109,9 @@ export default Vue.extend({
 			this.$root.api('users/show', parseAcct(this.$route.params.user)).then(user => {
 				this.user = user;
 				this.fetching = false;
+			}).catch((e: any) => {
+				this.$root.dialog({ type: 'error', text: e.message || 'Error' });
+				this.fetching = false;
 			});
 		},
 
