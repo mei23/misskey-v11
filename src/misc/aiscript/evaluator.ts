@@ -29,7 +29,7 @@ export class ASEvaluator {
 		this.envVars = {
 			AI: 'kawaii',
 			VERSION: opts.version,
-			URL: opts.page ? `${opts.url}/@${opts.page.user.username}/pages/${opts.page.name}` : '',
+			URL: opts.page ? `${opts.url}/@${opts.page.user.username}/pages/${encodeURIComponent(opts.page.name)}` : '',
 			LOGIN: opts.visitor != null,
 			NAME: opts.visitor ? opts.visitor.name || opts.visitor.username : '',
 			USERNAME: opts.visitor ? opts.visitor.username : '',
