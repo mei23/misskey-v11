@@ -1,10 +1,11 @@
 import config from '../../config';
-import { getResponse } from '../../misc/fetch';
+import { StatusError, getResponse } from '../../misc/fetch';
 import { createSignedPost, createSignedGet } from './ap-request';
 import { ILocalUser } from '../../models/entities/user';
 import { UserKeypairs } from '../../models';
 import { ensure } from '../../prelude/ensure';
 import type { Response } from 'got';
+import { checkAllowedUrl } from '../../misc/check-allowed-url';
 
 export default async (user: ILocalUser, url: string, object: any, digest?: string) => {
 	const body = typeof object === 'string' ? object : JSON.stringify(object);
@@ -44,6 +45,10 @@ export default async (user: ILocalUser, url: string, object: any, digest?: strin
  */
 export async function apGet(url: string, user?: ILocalUser) {
 	let res: Response<string>;
+
+	if (!checkAllowedUrl(url)) {
+		throw new StatusError('Invalid URL', 400);
+	}
 
 	if (user) {
 		const keypair = await UserKeypairs.findOne({
