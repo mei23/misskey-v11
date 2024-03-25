@@ -205,8 +205,8 @@ dependencies:
     specifier: 11.0.0
     version: 11.0.0
   katex:
-    specifier: 0.16.4
-    version: 0.16.4
+    specifier: 0.16.10
+    version: 0.16.10
   koa:
     specifier: 2.13.4
     version: 2.13.4
@@ -6476,8 +6476,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /katex@0.16.4:
-    resolution: {integrity: sha512-WudRKUj8yyBeVDI4aYMNxhx5Vhh2PjpzQw1GRu/LVGqL4m1AxwD1GcUp0IMbdJaf5zsjtj8ghP0DOQRYhroNkw==}
+  /katex@0.16.10:
+    resolution: {integrity: sha512-ZiqaC04tp2O5utMsl2TEZTXxa6WSC4yo0fv5ML++D3QZv/vx2Mct0mTlRx3O+uUkjfuAgOkzsCmq5MiUEsDDdA==}
     hasBin: true
     dependencies:
       commander: 8.3.0
