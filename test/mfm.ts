@@ -418,7 +418,7 @@ describe('MFM', () => {
 			});
 
 			it('remote with dot', () => {
-				const tokens = parseFull('@hima.sub@namori.net foo');
+				const tokens = parse('@hima.sub@namori.net foo');
 				assert.deepStrictEqual(tokens, [
 					leaf('mention', {
 						acct: '@hima.sub@namori.net',
