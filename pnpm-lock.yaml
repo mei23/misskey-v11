@@ -42,6 +42,9 @@ dependencies:
   '@swc/core':
     specifier: 1.3.107
     version: 1.3.107
+  '@twemoji/parser':
+    specifier: 15.1.0
+    version: 15.1.0
   abort-controller:
     specifier: 3.0.0
     version: 3.0.0
@@ -237,9 +240,6 @@ dependencies:
   loader-utils:
     specifier: 2.0.4
     version: 2.0.4
-  memoji:
-    specifier: mei23/memoji#15.0.1
-    version: github.com/mei23/memoji/2ac2e9ba5b82b017373dda6ccf745dc315aa1592
   moji:
     specifier: 0.5.1
     version: 0.5.1
@@ -408,9 +408,6 @@ dependencies:
   ts-node:
     specifier: 10.9.1
     version: 10.9.1(@swc/core@1.3.107)(@types/node@18.11.18)(typescript@4.9.5)
-  twemoji-parser:
-    specifier: git+https://github.com/mei23/twemoji-parser.git#15.0.1
-    version: github.com/mei23/twemoji-parser/75831bfddb415cefc1e89ac5232e883daf91a624
   typeorm:
     specifier: 0.2.38
     version: 0.2.38(pg@8.8.0)(redis@3.1.2)
@@ -1250,6 +1247,10 @@ packages:
 
   /@tsconfig/node16@1.0.3:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
+    dev: false
+
+  /@twemoji/parser@15.1.0:
+    resolution: {integrity: sha512-3HTiSxPvkWUJ4kZeCvwyKlIwkpTUfBOk6igpBBRQni58ceQMv5YK4smkc8vX/eqOlMMNER/9qobv+Q6Q8LVrqA==}
     dev: false
 
   /@types/accepts@1.3.5:
@@ -11393,12 +11394,6 @@ packages:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
     dev: false
 
-  github.com/mei23/memoji/2ac2e9ba5b82b017373dda6ccf745dc315aa1592:
-    resolution: {tarball: https://codeload.github.com/mei23/memoji/tar.gz/2ac2e9ba5b82b017373dda6ccf745dc315aa1592}
-    name: memoji
-    version: 15.0.1
-    dev: false
-
   github.com/mei23/summaly/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
     resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
     name: summaly
@@ -11419,10 +11414,4 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - uWebSockets.js
-    dev: false
-
-  github.com/mei23/twemoji-parser/75831bfddb415cefc1e89ac5232e883daf91a624:
-    resolution: {tarball: https://codeload.github.com/mei23/twemoji-parser/tar.gz/75831bfddb415cefc1e89ac5232e883daf91a624}
-    name: twemoji-parser
-    version: 15.0.1
     dev: false
