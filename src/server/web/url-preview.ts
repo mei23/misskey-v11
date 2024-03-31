@@ -16,6 +16,7 @@ function getSummaryInstance(): Summary {
 	if (summaryInstance) return summaryInstance;
 	summaryInstance = new Summary({
 		allowedPlugins: [
+			'twitter',
 			'youtube',
 		],
 	});
@@ -45,7 +46,7 @@ module.exports = async (ctx: Koa.Context) => {
 			url: url,
 			lang: lang
 		})}`) : await getSummaryInstance().summary(url, {
-			lang: lang
+			lang: typeof lang === 'string' ? lang : null,
 		});
 
 		logger.succ(`Got preview of ${ctx.query.url}: ${summary.title}`);
@@ -61,13 +62,13 @@ module.exports = async (ctx: Koa.Context) => {
 		}
 
 		// Cache 7days
-		ctx.set('Cache-Control', 'max-age=604800, immutable');
+		ctx.set('Cache-Control', 'max-age=604800');
 
 		ctx.body = summary;
 	} catch (e) {
 		logger.warn(`Failed to get preview of ${ctx.query.url}: ${e}`);
 		ctx.status = 200;
-		ctx.set('Cache-Control', 'max-age=3600, immutable');
+		ctx.set('Cache-Control', 'max-age=3600');
 		ctx.body = '{}';
 	}
 };
