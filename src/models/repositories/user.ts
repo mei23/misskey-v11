@@ -137,7 +137,7 @@ export class UserRepository extends Repository<User> {
 			where: { userId: user.id },
 			order: { id: 'DESC' }
 		}) : [];
-		const profile = opts.detail ? await UserProfiles.findOne({ id: user.id }).then(ensure) : null;
+		const profile = opts.detail ? await UserProfiles.findOne({ userId: user.id }).then(ensure) : null;
 
 		const falsy = opts.detail ? false : undefined;
 
