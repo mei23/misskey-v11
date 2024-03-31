@@ -15,8 +15,8 @@ export async function deleteMessage(message: MessagingMessage) {
 
 async function postDeleteMessage(message: MessagingMessage) {
 	if (message.recipientId) {
-		const user = await Users.findOne(message.userId).then(ensure);
-		const recipient = await Users.findOne(message.recipientId).then(ensure);
+		const user = await Users.findOne({ id: message.userId }).then(ensure);
+		const recipient = await Users.findOne({ id: message.recipientId }).then(ensure);
 
 		if (Users.isLocalUser(user)) publishMessagingStream(message.userId, message.recipientId, 'deleted', message.id);
 		if (Users.isLocalUser(recipient)) publishMessagingStream(message.recipientId, message.userId, 'deleted', message.id);

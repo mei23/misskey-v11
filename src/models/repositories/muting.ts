@@ -13,7 +13,7 @@ export class MutingRepository extends Repository<Muting> {
 		src: Muting['id'] | Muting,
 		me?: any
 	): Promise<PackedMuting> {
-		const muting = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const muting = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return await awaitAll({
 			id: muting.id,

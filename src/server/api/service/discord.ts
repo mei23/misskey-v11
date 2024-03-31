@@ -206,7 +206,7 @@ router.get('/dc/cb', async ctx => {
 			discordDiscriminator: discriminator
 		});
 
-		signin(ctx, await Users.findOne(profile.userId) as ILocalUser, true);
+		signin(ctx, await Users.findOne({ id: profile.userId }) as ILocalUser, true);
 	} else {
 		const code = ctx.query.code;
 

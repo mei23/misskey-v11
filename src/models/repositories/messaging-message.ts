@@ -25,7 +25,7 @@ export class MessagingMessageRepository extends Repository<MessagingMessage> {
 			populateGroup: true,
 		};
 
-		const message = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const message = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return {
 			id: message.id,

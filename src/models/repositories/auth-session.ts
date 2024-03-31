@@ -10,7 +10,7 @@ export class AuthSessionRepository extends Repository<AuthSession> {
 		src: AuthSession['id'] | AuthSession,
 		me?: any
 	) {
-		const session = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const session = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return await awaitAll({
 			id: session.id,

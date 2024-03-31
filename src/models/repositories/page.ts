@@ -16,7 +16,7 @@ export class PageRepository extends Repository<Page> {
 		me?: User['id'] | User | null | undefined,
 	): Promise<PackedPage> {
 		const meId = me ? typeof me === 'string' ? me : me.id : null;
-		const page = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const page = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		const attachedFiles: Promise<DriveFile | undefined>[] = [];
 		const collectFile = (xs: any[]) => {

@@ -48,7 +48,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps) => {
-	const emoji = await Emojis.findOne(ps.id);
+	const emoji = await Emojis.findOne({ id: ps.id });
 
 	if (emoji == null) throw new ApiError(meta.errors.noSuchEmoji);
 

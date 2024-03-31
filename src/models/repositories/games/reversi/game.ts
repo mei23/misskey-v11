@@ -16,7 +16,7 @@ export class ReversiGameRepository extends Repository<ReversiGame> {
 			detail: true
 		}, options);
 
-		const game = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const game = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 		const meId = me ? typeof me === 'string' ? me : me.id : null;
 
 		return {

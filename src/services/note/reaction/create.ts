@@ -109,7 +109,7 @@ export default async (user: User, note: Note, reaction?: string) => {
 		}
 	});
 
-	const profile = await UserProfiles.findOne(user.id);
+	const profile = await UserProfiles.findOne({ userId: user.id });
 
 	// ユーザーがローカルユーザーかつ自動ウォッチ設定がオンならばこの投稿をWatchする
 	if (Users.isLocalUser(user) && profile!.autoWatch) {
@@ -121,7 +121,7 @@ export default async (user: User, note: Note, reaction?: string) => {
 		const content = renderActivity(await renderLike(inserted, note));
 		const dm = new DeliverManager(user, content);
 		if (note.userHost !== null) {
-			const reactee = await Users.findOne(note.userId);
+			const reactee = await Users.findOne({ id: note.userId });
 			dm.addDirectRecipe(reactee as IRemoteUser);
 		}
 		dm.addFollowersRecipe();

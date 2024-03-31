@@ -98,7 +98,7 @@ export async function fetchPerson(uri: string, resolver?: Resolver): Promise<Use
 	// URIがこのサーバーを指しているならデータベースからフェッチ
 	if (isSelfOrigin(uri)) {
 		const id = uri.split('/').pop();
-		return await Users.findOne(id).then(x => x || null);
+		return await Users.findOne({ id: id }).then(x => x || null);
 	}
 
 	//#region このサーバーに既に登録されていたらそれを返す
@@ -435,7 +435,7 @@ export function analyzeAttachments(attachments: IObject | IObject[] | undefined)
 }
 
 export async function updateFeatured(userId: User['id'], resolver?: Resolver) {
-	const user = await Users.findOne(userId).then(ensure);
+	const user = await Users.findOne({ id: userId }).then(ensure);
 	if (!Users.isRemoteUser(user)) return;
 	if (!user.featured) return;
 

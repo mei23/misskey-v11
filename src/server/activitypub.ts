@@ -225,7 +225,7 @@ router.get('/users/:user/publickey', async ctx => {
 		return;
 	}
 
-	const keypair = await UserKeypairs.findOne(user.id).then(ensure);
+	const keypair = await UserKeypairs.findOne({ userId: user.id }).then(ensure);
 
 	if (Users.isLocalUser(user)) {
 		ctx.body = renderActivity(renderKey(user, keypair));

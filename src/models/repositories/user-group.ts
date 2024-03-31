@@ -11,7 +11,7 @@ export class UserGroupRepository extends Repository<UserGroup> {
 	public async pack(
 		src: UserGroup['id'] | UserGroup,
 	): Promise<PackedUserGroup> {
-		const userGroup = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const userGroup = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		const users = await UserGroupJoinings.find({
 			userGroupId: userGroup.id

@@ -57,7 +57,7 @@ export async function createMessage(user: User, recipientUser: User | undefined,
 
 	// 2秒経っても(今回作成した)メッセージが既読にならなかったら「未読のメッセージがありますよ」イベントを発行する
 	setTimeout(async () => {
-		const freshMessage = await MessagingMessages.findOne(message.id);
+		const freshMessage = await MessagingMessages.findOne({ id: message.id });
 		if (freshMessage == null) return; // メッセージが削除されている場合もある
 
 		if (recipientUser && Users.isLocalUser(recipientUser)) {

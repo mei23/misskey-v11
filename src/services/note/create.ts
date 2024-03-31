@@ -170,7 +170,7 @@ export default async (user: User, data: Option, silent = false) => new Promise<N
 	tags = tags.filter(tag => Array.from(tag || '').length <= 128).splice(0, 32);
 
 	if (data.reply && (user.id !== data.reply.userId) && !mentionedUsers.some(u => u.id === data.reply!.userId)) {
-		mentionedUsers.push(await Users.findOne(data.reply.userId).then(ensure));
+		mentionedUsers.push(await Users.findOne({ id: data.reply.userId }).then(ensure));
 	}
 
 	if (data.visibility == 'specified') {
@@ -183,7 +183,7 @@ export default async (user: User, data: Option, silent = false) => new Promise<N
 		}
 
 		if (data.reply && !data.visibleUsers.some(x => x.id === data.reply!.userId)) {
-			data.visibleUsers.push(await Users.findOne(data.reply.userId).then(ensure));
+			data.visibleUsers.push(await Users.findOne({ id: data.reply.userId }).then(ensure));
 		}
 	}
 
@@ -248,7 +248,7 @@ export default async (user: User, data: Option, silent = false) => new Promise<N
 
 		await createMentionedEvents(mentionedUsers, note, nm);
 
-		const profile = await UserProfiles.findOne(user.id).then(ensure);
+		const profile = await UserProfiles.findOne({ userId: user.id }).then(ensure);
 
 		// If has in reply to note
 		if (data.reply) {
@@ -307,13 +307,13 @@ export default async (user: User, data: Option, silent = false) => new Promise<N
 
 				// 投稿がリプライかつ投稿者がローカルユーザーかつリプライ先の投稿の投稿者がリモートユーザーなら配送
 				if (data.reply && data.reply.userHost !== null) {
-					const u = await Users.findOne(data.reply.userId);
+					const u = await Users.findOne({ id: data.reply.userId });
 					if (u && Users.isRemoteUser(u)) dm.addDirectRecipe(u);
 				}
 
 				// 投稿がRenoteかつ投稿者がローカルユーザーかつRenote元の投稿の投稿者がリモートユーザーなら配送
 				if (data.renote && data.renote.userHost !== null) {
-					const u = await Users.findOne(data.renote.userId);
+					const u = await Users.findOne({ id: data.renote.userId });
 					if (u && Users.isRemoteUser(u)) dm.addDirectRecipe(u);
 				}
 

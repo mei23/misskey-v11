@@ -12,7 +12,7 @@ export class NoteReactionRepository extends Repository<NoteReaction> {
 		src: NoteReaction['id'] | NoteReaction,
 		me?: any
 	): Promise<PackedNoteReaction> {
-		const reaction = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const reaction = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return {
 			id: reaction.id,

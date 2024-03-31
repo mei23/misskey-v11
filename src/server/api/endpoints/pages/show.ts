@@ -51,7 +51,7 @@ export default define(meta, async (ps, user) => {
 	let page: Page | undefined;
 
 	if (ps.pageId) {
-		page = await Pages.findOne(ps.pageId);
+		page = await Pages.findOne({ id: ps.pageId });
 	} else if (ps.name && ps.username) {
 		const author = await Users.findOne({
 			host: null,

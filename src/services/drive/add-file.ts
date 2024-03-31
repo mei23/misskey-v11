@@ -393,7 +393,7 @@ export default async function(
 		properties['height'] = info.height;
 	}
 
-	const profile = await UserProfiles.findOne(user.id);
+	const profile = await UserProfiles.findOne({ userId: user.id });
 
 	const folder = await fetchFolder();
 

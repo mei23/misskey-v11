@@ -150,7 +150,7 @@ export default define(meta, async (ps, user) => {
 		}
 	});
 
-	const profile = await UserProfiles.findOne(user.id).then(ensure);
+	const profile = await UserProfiles.findOne({ userId: user.id }).then(ensure);
 
 	// この投稿をWatchする
 	if (profile.autoWatch !== false) {
@@ -159,7 +159,7 @@ export default define(meta, async (ps, user) => {
 
 	// リモート投票の場合リプライ送信
 	if (note.userHost != null) {
-		const pollOwner = await Users.findOne(note.userId).then(ensure) as IRemoteUser;
+		const pollOwner = await Users.findOne({ id: note.userId }).then(ensure) as IRemoteUser;
 
 		deliver(user, renderActivity(await renderVote(user, vote, note, poll, pollOwner)), pollOwner.inbox);
 	}

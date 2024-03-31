@@ -12,7 +12,7 @@ const logger = queueLogger.createSubLogger('delete-account');
 export async function deleteAccount(job: Bull.Job<DbUserJobData>): Promise<string | void> {
 	logger.info(`Deleting account of ${job.data.user.id} ...`);
 
-	const user = await Users.findOne(job.data.user.id);
+	const user = await Users.findOne({ id: job.data.user.id });
 	if (user == null) {
 		return;
 	}

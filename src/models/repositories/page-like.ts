@@ -9,7 +9,7 @@ export class PageLikeRepository extends Repository<PageLike> {
 		src: PageLike['id'] | PageLike,
 		me?: any
 	) {
-		const like = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const like = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return {
 			id: like.id,

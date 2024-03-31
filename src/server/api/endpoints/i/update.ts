@@ -195,7 +195,7 @@ export default define(meta, async (ps, user, app) => {
 	const updates = {} as Partial<User>;
 	const profileUpdates = {} as Partial<UserProfile>;
 
-	const profile = await UserProfiles.findOne(user.id).then(ensure);
+	const profile = await UserProfiles.findOne({ userId: user.id }).then(ensure);
 
 	if (ps.name !== undefined) updates.name = ps.name;
 	if (ps.description !== undefined) profileUpdates.description = ps.description;
@@ -215,21 +215,21 @@ export default define(meta, async (ps, user, app) => {
 	if (typeof ps.alwaysMarkNsfw == 'boolean') profileUpdates.alwaysMarkNsfw = ps.alwaysMarkNsfw;
 
 	if (ps.avatarId) {
-		const avatar = await DriveFiles.findOne(ps.avatarId);
+		const avatar = await DriveFiles.findOne({ id: ps.avatarId });
 
 		if (avatar == null || avatar.userId !== user.id) throw new ApiError(meta.errors.noSuchAvatar);
 		if (!avatar.type.startsWith('image/')) throw new ApiError(meta.errors.avatarNotAnImage);
 	}
 
 	if (ps.bannerId) {
-		const banner = await DriveFiles.findOne(ps.bannerId);
+		const banner = await DriveFiles.findOne({ id: ps.bannerId });
 
 		if (banner == null || banner.userId !== user.id) throw new ApiError(meta.errors.noSuchBanner);
 		if (!banner.type.startsWith('image/')) throw new ApiError(meta.errors.bannerNotAnImage);
 	}
 
 	if (ps.pinnedPageId) {
-		const page = await Pages.findOne(ps.pinnedPageId);
+		const page = await Pages.findOne({ id: ps.pinnedPageId });
 
 		if (page == null || page.userId !== user.id) throw new ApiError(meta.errors.noSuchPage);
 

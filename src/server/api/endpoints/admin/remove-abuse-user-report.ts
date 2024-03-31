@@ -17,7 +17,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps) => {
-	const report = await AbuseUserReports.findOne(ps.reportId);
+	const report = await AbuseUserReports.findOne({ id: ps.reportId });
 
 	if (report == null) {
 		throw new Error('report not found');

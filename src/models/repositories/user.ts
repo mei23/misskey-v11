@@ -122,8 +122,8 @@ export class UserRepository extends Repository<User> {
 
 		if (typeof src === 'object') {
 			user = src;
-			if (src.avatar === undefined && src.avatarId) src.avatar = await DriveFiles.findOne(src.avatarId) || null;
-			if (src.banner === undefined && src.bannerId) src.banner = await DriveFiles.findOne(src.bannerId) || null;
+			if (src.avatar === undefined && src.avatarId) src.avatar = await DriveFiles.findOne({ id: src.avatarId }) || null;
+			if (src.banner === undefined && src.bannerId) src.banner = await DriveFiles.findOne({ id: src.bannerId }) || null;
 		} else {
 			user = await this.findOneOrFail(src, {
 				relations: ['avatar', 'banner']
@@ -137,7 +137,7 @@ export class UserRepository extends Repository<User> {
 			where: { userId: user.id },
 			order: { id: 'DESC' }
 		}) : [];
-		const profile = opts.detail ? await UserProfiles.findOne(user.id).then(ensure) : null;
+		const profile = opts.detail ? await UserProfiles.findOne({ userId: user.id }).then(ensure) : null;
 
 		const falsy = opts.detail ? false : undefined;
 

@@ -23,8 +23,8 @@ export default define(meta, async (ps, me) => {
 	});
 
 	const pairs = await Promise.all(followings.map(f => Promise.all([
-		Users.findOne(f.followerId).then(ensure),
-		Users.findOne(f.followeeId).then(ensure)
+		Users.findOne({ id: f.followerId }).then(ensure),
+		Users.findOne({ id: f.followeeId }).then(ensure)
 	])));
 
 	for (const pair of pairs) {

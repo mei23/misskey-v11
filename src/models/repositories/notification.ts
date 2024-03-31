@@ -12,7 +12,7 @@ export class NotificationRepository extends Repository<Notification> {
 	public async pack(
 		src: Notification['id'] | Notification,
 	): Promise<PackedNotification> {
-		const notification = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const notification = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return await awaitAll({
 			id: notification.id,

@@ -48,7 +48,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user) => {
-	const file = await DriveFiles.findOne(ps.fileId);
+	const file = await DriveFiles.findOne({ id: ps.fileId });
 
 	if (file == null) throw new ApiError(meta.errors.noSuchFile);
 	//if (!file.type.endsWith('/csv')) throw new ApiError(meta.errors.unexpectedFileType);

@@ -74,7 +74,7 @@ export default class Connection {
 	@autobind
 	private async onApiRequest(payload: any) {
 		// 新鮮なデータを利用するためにユーザーをフェッチ
-		const user = this.user ? await Users.findOne(this.user.id) : null;
+		const user = this.user ? await Users.findOne({ id: this.user.id }) : null;
 
 		const endpoint = payload.endpoint || payload.ep; // alias
 

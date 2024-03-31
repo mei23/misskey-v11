@@ -45,7 +45,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user) => {
-	const game = await ReversiGames.findOne(ps.gameId);
+	const game = await ReversiGames.findOne({ id: ps.gameId });
 
 	if (game == null) {
 		throw new ApiError(meta.errors.noSuchGame);

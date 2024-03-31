@@ -50,7 +50,7 @@ export default class extends Channel {
 
 					// リモートユーザーからのメッセージだったら既読配信
 					if (Users.isLocalUser(this.user!) && Users.isRemoteUser(this.otherparty!)) {
-						MessagingMessages.findOne(body.id).then(message => {
+						MessagingMessages.findOne({ id: body.id }).then(message => {
 							if (message) deliverReadActivity(this.user as ILocalUser, this.otherparty as IRemoteUser, message);
 						});
 					}

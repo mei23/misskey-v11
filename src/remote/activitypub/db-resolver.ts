@@ -82,7 +82,7 @@ export default class DbResolver {
 
 		if (key == null) return null;
 
-		const user = await Users.findOne(key.userId) as IRemoteUser;
+		const user = await Users.findOne({ id: key.userId }) as IRemoteUser;
 
 		return {
 			user,
@@ -98,7 +98,7 @@ export default class DbResolver {
 
 		if (user == null) return null;
 
-		const key = await UserPublickeys.findOne(user.id);
+		const key = await UserPublickeys.findOne({ userId: user.id });
 
 		return {
 			user,

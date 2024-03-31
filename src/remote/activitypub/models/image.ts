@@ -40,7 +40,7 @@ export async function createImage(actor: IRemoteUser, value: any): Promise<Drive
 				uri: image.url
 			});
 
-			file = await DriveFiles.findOne(file.id).then(ensure);
+			file = await DriveFiles.findOne({ id: file.id }).then(ensure);
 		}
 	}
 

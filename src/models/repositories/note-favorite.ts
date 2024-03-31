@@ -9,7 +9,7 @@ export class NoteFavoriteRepository extends Repository<NoteFavorite> {
 		src: NoteFavorite['id'] | NoteFavorite,
 		me?: any
 	) {
-		const favorite = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const favorite = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return {
 			id: favorite.id,

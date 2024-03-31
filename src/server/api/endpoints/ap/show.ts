@@ -59,7 +59,7 @@ async function fetchAny(uri: string) {
 		const type = parts.pop();
 
 		if (type === 'notes') {
-			const note = await Notes.findOne(id);
+			const note = await Notes.findOne({ id: id });
 
 			if (note) {
 				return {
@@ -68,7 +68,7 @@ async function fetchAny(uri: string) {
 				};
 			}
 		} else if (type === 'users') {
-			const user = await Users.findOne(id);
+			const user = await Users.findOne({ id: id });
 
 			if (user) {
 				return {
@@ -107,7 +107,7 @@ async function fetchAny(uri: string) {
 			const type = parts.pop();
 
 			if (type === 'notes') {
-				const note = await Notes.findOne(id);
+				const note = await Notes.findOne({ id: id });
 
 				if (note) {
 					return {
@@ -116,7 +116,7 @@ async function fetchAny(uri: string) {
 					};
 				}
 			} else if (type === 'users') {
-				const user = await Users.findOne(id);
+				const user = await Users.findOne({ id: id });
 
 				if (user) {
 					return {

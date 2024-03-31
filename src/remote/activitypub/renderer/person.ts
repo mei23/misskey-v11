@@ -16,9 +16,9 @@ export async function renderPerson(user: ILocalUser) {
 	const isSystem = !!user.username.match(/\./);
 
 	const [avatar, banner, profile] = await Promise.all([
-		(user.avatar === undefined && user.avatarId) ? DriveFiles.findOne(user.avatarId) : user.avatar,
-		(user.banner === undefined && user.bannerId) ? DriveFiles.findOne(user.bannerId) : user.banner,
-		UserProfiles.findOne(user.id).then(ensure)
+		(user.avatar === undefined && user.avatarId) ? DriveFiles.findOne({ id: user.avatarId }) : user.avatar,
+		(user.banner === undefined && user.bannerId) ? DriveFiles.findOne({ id: user.bannerId }) : user.banner,
+		UserProfiles.findOne({ userId: user.id }).then(ensure)
 	]);
 
 	const attachment: {
@@ -50,7 +50,7 @@ export async function renderPerson(user: ILocalUser) {
 		...hashtagTags,
 	];
 
-	const keypair = await UserKeypairs.findOne(user.id).then(ensure);
+	const keypair = await UserKeypairs.findOne({ userId: user.id }).then(ensure);
 
 	return {
 		type: isSystem ? 'Application' : user.isBot ? 'Service' : 'Person',

@@ -95,7 +95,7 @@ export default define(meta, async (ps, me) => {
 				? { id: ps.userId }
 				: { usernameLower: ps.username!.toLowerCase(), host: null };
 
-			user = await Users.findOne(q);
+			user = await Users.findOne({ id: q });
 		}
 
 		if (user == null || (!isAdminOrModerator && user.isSuspended)) {

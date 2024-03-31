@@ -108,7 +108,7 @@ export default define(meta, async (ps, user) => {
 		});
 	} else if (ps.groupId != null) {
 		// Fetch recipient (group)
-		recipientGroup = await UserGroups.findOne(ps.groupId);
+		recipientGroup = await UserGroups.findOne({ id: ps.groupId });
 
 		if (recipientGroup == null) {
 			throw new ApiError(meta.errors.noSuchGroup);

@@ -13,7 +13,7 @@ export default async function(user: User) {
 	});
 
 	for (const request of requests) {
-		const follower = await Users.findOne(request.followerId).then(ensure);
+		const follower = await Users.findOne({ id: request.followerId }).then(ensure);
 		accept(user, follower);
 	}
 }
