@@ -14,7 +14,7 @@ import vote from '../../../services/note/polls/vote';
 import { apLogger } from '../logger';
 import { DriveFile } from '../../../models/entities/drive-file';
 import { deliverQuestionUpdate } from '../../../services/note/polls/update';
-import { extractDbHost, toPuny } from '../../../misc/convert-host';
+import { extractDbHost, isSelfOrigin, toPuny } from '../../../misc/convert-host';
 import { Emojis, Polls, MessagingMessages } from '../../../models';
 import { Note } from '../../../models/entities/note';
 import { IObject, getOneApId, getApId, validPost, IPost, isEmoji, getApType } from '../type';
@@ -140,7 +140,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 		}).catch(async e => {
 			// トークだったらinReplyToのエラーは無視
 			const uri = getApId(note.inReplyTo);
-			if (uri.startsWith(config.url + '/')) {
+			if (isSelfOrigin(uri)) {
 				const id = uri.split('/').pop();
 				const talk = await MessagingMessages.findOne(id);
 				if (talk) {
@@ -289,7 +289,7 @@ export async function resolveNote(value: string | IObject, resolver?: Resolver):
 		}
 		//#endregion
 
-		if (uri.startsWith(config.url)) {
+		if (isSelfOrigin(uri)) {
 			throw new StatusError('cannot resolve local note', 400, 'cannot resolve local note');
 		}
 
