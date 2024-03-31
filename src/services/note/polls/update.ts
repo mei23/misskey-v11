@@ -7,12 +7,12 @@ import { deliverToFollowers } from '../../../remote/activitypub/deliver-manager'
 import { deliverToRelays } from '../../relay';
 
 export async function deliverQuestionUpdate(noteId: Note['id']) {
-	const note = await Notes.findOne(noteId);
+	const note = await Notes.findOne({ id: noteId });
 	if (note == null) throw new Error('note not found');
 
 	if (note.localOnly) return;
 
-	const user = await Users.findOne(note.userId);
+	const user = await Users.findOne({ id: note.userId });
 	if (user == null) throw new Error('note not found');
 
 	if (Users.isLocalUser(user)) {

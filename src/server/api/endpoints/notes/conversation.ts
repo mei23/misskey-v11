@@ -66,7 +66,7 @@ export default define(meta, async (ps, user) => {
 
 	async function get(id: any) {
 		i++;
-		const p = await Notes.findOne(id);
+		const p = await Notes.findOne({ id: id });
 		if (p == null) return;
 
 		if (i > ps.offset!) {

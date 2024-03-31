@@ -142,7 +142,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 			const uri = getApId(note.inReplyTo);
 			if (isSelfOrigin(uri)) {
 				const id = uri.split('/').pop();
-				const talk = await MessagingMessages.findOne(id);
+				const talk = await MessagingMessages.findOne({ id: id });
 				if (talk) {
 					isTalk = true;
 					return null;
@@ -202,7 +202,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 
 	// vote
 	if (reply && reply.hasPoll) {
-		const poll = await Polls.findOne(reply.id).then(ensure);
+		const poll = await Polls.findOne({ noteId: reply.id }).then(ensure);
 
 		const tryCreateVote = async (name: string, index: number): Promise<null> => {
 			if (poll.expiresAt && Date.now() > new Date(poll.expiresAt).getTime()) {

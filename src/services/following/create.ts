@@ -117,7 +117,7 @@ export default async function(follower: User, followee: User, requestId?: string
 		if (blocked != null) throw new IdentifiableError('3338392a-f764-498d-8855-db939dcf8c48', 'blocked');
 	}
 
-	const followeeProfile = await UserProfiles.findOne(followee.id).then(ensure);
+	const followeeProfile = await UserProfiles.findOne({ userId: followee.id }).then(ensure);
 
 	// フォロー対象が鍵アカウントである or
 	// フォロワーがBotであり、フォロー対象がBotからのフォローに慎重である or

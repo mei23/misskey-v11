@@ -11,7 +11,7 @@ export class UserListRepository extends Repository<UserList> {
 	public async pack(
 		src: UserList['id'] | UserList,
 	): Promise<PackedUserList> {
-		const userList = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const userList = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		const users = await UserListJoinings.find({
 			userListId: userList.id

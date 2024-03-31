@@ -8,7 +8,7 @@ import { genId } from '../../../misc/gen-id';
 import { createNotification } from '../../create-notification';
 
 export default async function(user: User, note: Note, choice: number) {
-	const poll = await Polls.findOne(note.id);
+	const poll = await Polls.findOne({ noteId: note.id });
 
 	if (poll == null) throw new Error('poll not found');
 
@@ -67,7 +67,7 @@ export default async function(user: User, note: Note, choice: number) {
 		}
 	});
 
-	const profile = await UserProfiles.findOne(user.id);
+	const profile = await UserProfiles.findOne({ userId: user.id });
 
 	// ローカルユーザーが投票した場合この投稿をWatchする
 	if (Users.isLocalUser(user) && profile!.autoWatch) {

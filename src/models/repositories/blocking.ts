@@ -13,7 +13,7 @@ export class BlockingRepository extends Repository<Blocking> {
 		src: Blocking['id'] | Blocking,
 		me?: any
 	): Promise<PackedBlocking> {
-		const blocking = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const blocking = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return await awaitAll({
 			id: blocking.id,

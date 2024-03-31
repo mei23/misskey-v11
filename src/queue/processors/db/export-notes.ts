@@ -17,7 +17,7 @@ const logger = queueLogger.createSubLogger('export-notes');
 export async function exportNotes(job: Bull.Job<DbUserJobData>, done: any): Promise<void> {
 	logger.info(`Exporting notes of ${job.data.user.id} ...`);
 
-	const user = await Users.findOne(job.data.user.id);
+	const user = await Users.findOne({ id: job.data.user.id });
 	if (user == null) {
 		done();
 		return;

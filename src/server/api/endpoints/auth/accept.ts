@@ -49,7 +49,7 @@ export default define(meta, async (ps, user) => {
 
 	if (exist == null) {
 		// Lookup app
-		const app = await Apps.findOne(session.appId).then(ensure);
+		const app = await Apps.findOne({ id: session.appId }).then(ensure);
 
 		// Generate Hash
 		const sha256 = crypto.createHash('sha256');

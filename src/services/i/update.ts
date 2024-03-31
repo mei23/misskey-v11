@@ -7,7 +7,7 @@ import { deliverToFollowers } from '../../remote/activitypub/deliver-manager';
 import { deliverToRelays } from '../relay';
 
 export async function publishToFollowers(userId: User['id']) {
-	const user = await Users.findOne(userId);
+	const user = await Users.findOne({ id: userId });
 	if (user == null) throw new Error('user not found');
 
 	// フォロワーがリモートユーザーかつ投稿者がローカルユーザーならUpdateを配信

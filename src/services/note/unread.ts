@@ -25,7 +25,7 @@ export default async function(user: User, note: Note, isSpecified = false) {
 
 	// 2秒経っても既読にならなかったら「未読の投稿がありますよ」イベントを発行する
 	setTimeout(async () => {
-		const exist = await NoteUnreads.findOne(unread.id);
+		const exist = await NoteUnreads.findOne({ id: unread.id });
 		if (exist == null) return;
 
 		publishMainStream(user.id, 'unreadMention', note.id);

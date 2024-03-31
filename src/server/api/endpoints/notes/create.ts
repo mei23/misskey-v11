@@ -231,7 +231,7 @@ export const meta = {
 export default define(meta, async (ps, user, app) => {
 	let visibleUsers: User[] = [];
 	if (ps.visibleUserIds) {
-		visibleUsers = (await Promise.all(ps.visibleUserIds.map(id => Users.findOne(id))))
+		visibleUsers = (await Promise.all(ps.visibleUserIds.map(id => Users.findOne({ id: id }))))
 			.filter(x => x != null) as User[];
 	}
 
@@ -249,7 +249,7 @@ export default define(meta, async (ps, user, app) => {
 	let renote: Note | undefined;
 	if (ps.renoteId != null) {
 		// Fetch renote to note
-		renote = await Notes.findOne(ps.renoteId);
+		renote = await Notes.findOne({ id: ps.renoteId });
 
 		if (renote == null) {
 			throw new ApiError(meta.errors.noSuchRenoteTarget);
@@ -261,7 +261,7 @@ export default define(meta, async (ps, user, app) => {
 	let reply: Note | undefined;
 	if (ps.replyId != null) {
 		// Fetch reply
-		reply = await Notes.findOne(ps.replyId);
+		reply = await Notes.findOne({ id: ps.replyId });
 
 		if (reply == null) {
 			throw new ApiError(meta.errors.noSuchReplyTarget);

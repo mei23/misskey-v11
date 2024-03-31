@@ -64,5 +64,5 @@ export default define(meta, async (ps, user) => {
 	}
 
 	// この操作を行うのが投稿者とは限らない(例えばモデレーター)ため
-	await deleteNote(await Users.findOne(note.userId).then(ensure), note);
+	await deleteNote(await Users.findOne({ id: note.userId }).then(ensure), note);
 });

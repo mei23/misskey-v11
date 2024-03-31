@@ -10,7 +10,7 @@ export class ReversiMatchingRepository extends Repository<ReversiMatching> {
 		src: ReversiMatching['id'] | ReversiMatching,
 		me: any
 	) {
-		const matching = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const matching = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return await awaitAll({
 			id: matching.id,

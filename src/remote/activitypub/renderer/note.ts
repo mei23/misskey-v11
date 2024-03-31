@@ -28,21 +28,21 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 	let inReplyTo: string | null;
 
 	if (note.replyId) {
-		const inReplyToNote = note.reply || await Notes.findOne(note.replyId);
+		const inReplyToNote = note.reply || await Notes.findOne({ id: note.replyId });
 		inReplyTo = inReplyToNote ? (inReplyToNote.uri || `${config.url}/notes/${inReplyToNote.id}`) : null;
 	}
 
 	let quote;
 
 	if (note.renoteId) {
-		const renote = await Notes.findOne(note.renoteId);
+		const renote = await Notes.findOne({ id: note.renoteId });
 
 		if (renote) {
 			quote = renote.uri ? renote.uri : `${config.url}/notes/${renote.id}`;
 		}
 	}
 
-	const user = await Users.findOne(note.userId).then(ensure);
+	const user = await Users.findOne({ id: note.userId }).then(ensure);
 
 	const attributedTo = `${config.url}/users/${user.id}`;
 

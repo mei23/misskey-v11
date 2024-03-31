@@ -51,7 +51,7 @@ export default define(meta, async (ps, me) => {
 		throw new ApiError(meta.errors.noSuchUser);
 	}
 
-	const profile = await UserProfiles.findOne(user.id).then(ensure);
+	const profile = await UserProfiles.findOne({ userId: user.id }).then(ensure);
 
 	if (profile.room.furnitures == null) {
 		await UserProfiles.update({ userId: user.id }, {

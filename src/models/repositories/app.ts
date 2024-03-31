@@ -23,7 +23,7 @@ export class AppRepository extends Repository<App> {
 			includeProfileImageIds: false
 		}, options);
 
-		const app = typeof src === 'object' ? src : await this.findOne(src).then(ensure);
+		const app = typeof src === 'object' ? src : await this.findOne({ id: src }).then(ensure);
 
 		return {
 			id: app.id,

@@ -34,7 +34,7 @@ import { Notes, Users } from '../../../models';
  * Get user for API processing
  */
 export async function getUser(userId: User['id']) {
-	const user = await Users.findOne(userId);
+	const user = await Users.findOne({ id: userId });
 
 	if (user == null) {
 		throw new IdentifiableError('15348ddd-432d-49c2-8a5a-8069753becff', 'No such user.');

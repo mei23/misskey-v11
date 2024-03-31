@@ -172,7 +172,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 	const user = await Users.pack(_user!);
 
 	if (user != null) {
-		const profile = await UserProfiles.findOne(user.id).then(ensure);
+		const profile = await UserProfiles.findOne({ userId: user.id }).then(ensure);
 		const meta = await fetchMeta();
 		const me = profile.fields
 			? profile.fields
@@ -216,7 +216,7 @@ router.get('/users/:user', async ctx => {
 
 // Note
 router.get('/notes/:note', async ctx => {
-	const note = await Notes.findOne(ctx.params.note);
+	const note = await Notes.findOne({ id: ctx.params.note });
 
 	if (note) {
 		const _note = await Notes.pack(note);
@@ -272,7 +272,7 @@ router.get('/notes/:note', async ctx => {
 router.get('/notes/:note/embed', async ctx => {
 	ctx.remove('X-Frame-Options');
 
-	const note = await Notes.findOne(ctx.params.note);
+	const note = await Notes.findOne({ id: ctx.params.note });
 
 	if (note) {
 		const _note = await Notes.pack(note);

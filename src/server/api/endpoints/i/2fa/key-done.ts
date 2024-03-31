@@ -43,7 +43,7 @@ export const meta = {
 const rpIdHashReal = hash(Buffer.from(config.hostname, 'utf-8'));
 
 export default define(meta, async (ps, user) => {
-	const profile = await UserProfiles.findOne(user.id).then(ensure);
+	const profile = await UserProfiles.findOne({ userId: user.id }).then(ensure);
 
 	// Compare password
 	const same = await bcrypt.compare(ps.password, profile.password!);

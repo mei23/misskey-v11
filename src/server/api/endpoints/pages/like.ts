@@ -48,7 +48,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user) => {
-	const page = await Pages.findOne(ps.pageId);
+	const page = await Pages.findOne({ id: ps.pageId });
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);
 	}

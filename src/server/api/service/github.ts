@@ -186,7 +186,7 @@ router.get('/gh/cb', async ctx => {
 			return;
 		}
 
-		signin(ctx, await Users.findOne(link.userId) as ILocalUser, true);
+		signin(ctx, await Users.findOne({ id: link.userId }) as ILocalUser, true);
 	} else {
 		const code = ctx.query.code;
 

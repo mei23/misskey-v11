@@ -15,7 +15,7 @@ const logger = queueLogger.createSubLogger('export-blocking');
 export async function exportBlocking(job: Bull.Job<DbUserJobData>, done: any): Promise<void> {
 	logger.info(`Exporting blocking of ${job.data.user.id} ...`);
 
-	const user = await Users.findOne(job.data.user.id);
+	const user = await Users.findOne({ id: job.data.user.id });
 	if (user == null) {
 		done();
 		return;
