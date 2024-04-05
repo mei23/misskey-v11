@@ -4,8 +4,8 @@ import { deliver } from '../queue';
 import config from '../config';
 import { User } from '../models/entities/user';
 import { Users, Followings } from '../models';
-import { Not, IsNull, Brackets, SelectQueryBuilder } from 'typeorm';
-import { ReadStream } from 'typeorm/platform/PlatformTools';
+import { Not, IsNull, Brackets } from 'typeorm';
+import { processStreamingRows } from '../misc/process-streaming-rows';
 
 export async function doPostSuspend(user: User) {
 	if (Users.isLocalUser(user)) {
@@ -13,7 +13,7 @@ export async function doPostSuspend(user: User) {
 		const content = renderActivity(renderDelete(`${config.url}/users/${user.id}`, user));
 
 		const query = Followings.createQueryBuilder('following')
-			.select('distinct coalesce(following.followerSharedInbox, following.followeeSharedInbox) as inbox') 
+			.select('distinct coalesce(following.followerSharedInbox, following.followeeSharedInbox) as inbox')
 			.where(new Brackets((qb) =>
 				qb.where({ followerHost: Not(IsNull()) })
 				.orWhere({ followeeHost: Not(IsNull()) })
@@ -23,44 +23,21 @@ export async function doPostSuspend(user: User) {
 				.orWhere({ followeeSharedInbox: Not(IsNull()) })
 			));
 
-		/*
+		/* streamingしない版
 		for (const row of await query.getRawMany()) {
 			deliver(user as any, content, row.inbox);
 		}
 		*/
 
-		async function ProcessStreamingRows<T> (query: SelectQueryBuilder<T>, callback: (row: Record<string, unknown>) => Promise<void>) {
-			return new Promise(async (res, rej) => {
-				// query and get stream
-				let stream: ReadStream;
-				try {
-					stream = await query.stream();
-				} catch (e) {
-					return rej(e);
-				}
-
-				stream
-					.on('data', async (data: any) => {	// Buffer | string のはずだけどobjectが返ってくる
-						try {
-							await callback(data);
-						} catch (e) {
-							rej(e);
-						}
-					})
-					.on('end', () => res('end'))
-					.on('error', err => rej(err));
-			});
-		}
-
-		await ProcessStreamingRows(query, async (row: Record<string, unknown>) => {
+		await processStreamingRows(query, async (row: Record<string, unknown>) => {
 			if (typeof row.inbox === 'string') {
 				try {
 					await deliver(user as any, content, row.inbox);
 				} catch (e) {
-					console.warn('mmm');
+					console.warn(`deliver error ${e}`);
 				}
 			} else {
-				console.warn('nnn');
+				console.warn(`invalid row.inbox`);
 			}
 		});
 	}

@@ -6,6 +6,7 @@ import config from '../config';
 import { User } from '../models/entities/user';
 import { Users, Followings } from '../models';
 import { Not, IsNull, Brackets } from 'typeorm';
+import { processStreamingRows } from '../misc/process-streaming-rows';
 
 export async function doPostUnsuspend(user: User) {
 	if (Users.isLocalUser(user)) {
@@ -13,7 +14,7 @@ export async function doPostUnsuspend(user: User) {
 		const content = renderActivity(renderUndo(renderDelete(`${config.url}/users/${user.id}`, user), user));
 
 		const query = Followings.createQueryBuilder('following')
-			.select('distinct coalesce(following.followerSharedInbox, following.followeeSharedInbox) as inbox') 
+			.select('distinct coalesce(following.followerSharedInbox, following.followeeSharedInbox) as inbox')
 			.where(new Brackets((qb) =>
 				qb.where({ followerHost: Not(IsNull()) })
 				.orWhere({ followeeHost: Not(IsNull()) })
@@ -23,8 +24,16 @@ export async function doPostUnsuspend(user: User) {
 				.orWhere({ followeeSharedInbox: Not(IsNull()) })
 			));
 
-		for (const row of await query.getRawMany()) {
-			deliver(user as any, content, row.inbox);
-		}
+			await processStreamingRows(query, async (row: Record<string, unknown>) => {
+				if (typeof row.inbox === 'string') {
+					try {
+						await deliver(user as any, content, row.inbox);
+					} catch (e) {
+						console.warn(`deliver error ${e}`);
+					}
+				} else {
+					console.warn(`invalid row.inbox`);
+				}
+			});
 	}
 }
