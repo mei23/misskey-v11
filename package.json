@@ -122,6 +122,7 @@
 		"parse5": "6.0.1",
 		"parsimmon": "1.18.1",
 		"pg": "8.8.0",
+		"pg-query-stream": "4.5.5",
 		"portscanner": "2.2.0",
 		"postcss": "8.4.31",
 		"postcss-loader": "7.0.2",
