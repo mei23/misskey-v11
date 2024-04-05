@@ -23,12 +23,13 @@ export async function doPostSuspend(user: User) {
 				.orWhere({ followeeSharedInbox: Not(IsNull()) })
 			));
 
+		/*
 		for (const row of await query.getRawMany()) {
 			deliver(user as any, content, row.inbox);
 		}
+		*/
 
-		/* streaming ここまでいらないと思うが
-		async function ProcessStreamingRow<T> (query: SelectQueryBuilder<T>, callback: (row: Record<string, unknown>) => Promise<void>) {
+		async function ProcessStreamingRows<T> (query: SelectQueryBuilder<T>, callback: (row: Record<string, unknown>) => Promise<void>) {
 			return new Promise(async (res, rej) => {
 				// query and get stream
 				let stream: ReadStream;
@@ -51,13 +52,16 @@ export async function doPostSuspend(user: User) {
 			});
 		}
 
-		await ProcessStreamingRow(query, async row => {
+		await ProcessStreamingRows(query, async (row: Record<string, unknown>) => {
 			if (typeof row.inbox === 'string') {
-				deliver(user as any, content, row.inbox);
+				try {
+					await deliver(user as any, content, row.inbox);
+				} catch (e) {
+					console.warn('mmm');
+				}
 			} else {
 				console.warn('nnn');
 			}
 		});
-		*/
 	}
 }
