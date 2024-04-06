@@ -43,7 +43,7 @@
 		"@koa/multer": "3.0.2",
 		"@koa/router": "8.0.8",
 		"@swc/core": "1.4.12",
-		"@twemoji/parser": "15.1.0",
+		"@twemoji/parser": "15.1.1",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
 		"apexcharts": "3.28.1",
