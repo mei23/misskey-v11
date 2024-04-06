@@ -513,8 +513,8 @@ devDependencies:
     specifier: 3.0.1
     version: 3.0.1
   '@types/double-ended-queue':
-    specifier: 2.1.2
-    version: 2.1.2
+    specifier: 2.1.7
+    version: 2.1.7
   '@types/escape-regexp':
     specifier: 0.0.3
     version: 0.0.3
@@ -1560,8 +1560,8 @@ packages:
     resolution: {integrity: sha512-KlPPdikagvL6ELjWsljbyDIPzNCeliYkqRpI+zea99vBBbCIA5JNshZAwQKTON139c87y9qvTFVgkFd14rtS4g==}
     dev: true
 
-  /@types/double-ended-queue@2.1.2:
-    resolution: {integrity: sha512-iAjbBa3X4UQtYxcCsAr0YaZMRwyC79q4KHui0XtEN7GGLJA4fzD116KUYXXZKskaOYSchnaOFT/a8zSlEx3P9Q==}
+  /@types/double-ended-queue@2.1.7:
+    resolution: {integrity: sha512-OVbdb2iOJakEg/Ou6dVZsH0LLxlO+GFjc1FB2W8/jT7bnhoFVJwnZOqi/H26ospeMBaEbGiX3Qy2a7r6pfZKXQ==}
     dev: true
 
   /@types/escape-regexp@0.0.3:
