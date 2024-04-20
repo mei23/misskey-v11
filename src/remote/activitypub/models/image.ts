@@ -6,13 +6,14 @@ import { apLogger } from '../logger';
 import { DriveFile } from '../../../models/entities/drive-file';
 import { DriveFiles } from '../../../models';
 import { ensure } from '../../../prelude/ensure';
+import { isDocument } from '../type';
 
 const logger = apLogger;
 
 /**
  * Imageを作成します。
  */
-export async function createImage(actor: IRemoteUser, value: any): Promise<DriveFile> {
+export async function createImage(actor: IRemoteUser, value: any): Promise<DriveFile | null | undefined> {
 	// 投稿者が凍結されていたらスキップ
 	if (actor.isSuspended) {
 		throw new Error('actor has been suspended');
@@ -20,8 +21,10 @@ export async function createImage(actor: IRemoteUser, value: any): Promise<Drive
 
 	const image = await new Resolver().resolve(value) as any;
 
+	if (!isDocument(image)) return null;
+
 	if (image.url == null) {
-		throw new Error('invalid image: url not privided');
+		return null;
 	}
 
 	logger.info(`Creating the Image: ${image.url}`);
@@ -53,7 +56,7 @@ export async function createImage(actor: IRemoteUser, value: any): Promise<Drive
  * Misskeyに対象のImageが登録されていればそれを返し、そうでなければ
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
-export async function resolveImage(actor: IRemoteUser, value: any): Promise<DriveFile> {
+export async function resolveImage(actor: IRemoteUser, value: any): Promise<DriveFile | null | undefined> {
 	// TODO
 
 	// リモートサーバーからフェッチしてきて登録

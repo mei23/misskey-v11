@@ -178,6 +178,13 @@ export const isOrderedCollection = (object: IObject): object is IOrderedCollecti
 export const isCollectionOrOrderedCollection = (object: IObject): object is ICollection | IOrderedCollection =>
 	isCollection(object) || isOrderedCollection(object);
 
+export interface IApDocument extends IObject {
+	type: 'Audio' | 'Document' | 'Image' | 'Page' | 'Video';
+}
+
+export const isDocument = (object: IObject): object is IApDocument =>
+	['Audio', 'Document', 'Image', 'Page', 'Video'].includes(getApType(object));
+
 export interface IApPropertyValue extends IObject {
 	type: 'PropertyValue';
 	identifier: IApPropertyValue;
