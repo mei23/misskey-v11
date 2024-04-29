@@ -14,13 +14,14 @@ import DbResolver from '../../remote/activitypub/db-resolver';
 import { resolvePerson } from '../../remote/activitypub/models/person';
 import { LdSignature } from '../../remote/activitypub/misc/ld-signature';
 import { StatusError } from '../../misc/fetch';
+import { FIXED_CONTEXT } from '../../remote/activitypub/misc/contexts';
 
 const logger = new Logger('inbox');
 
 // ユーザーのinboxにアクティビティが届いた時の処理
 export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	const signature = job.data.signature;	// HTTP-signature
-	const activity = job.data.activity;
+	let activity = job.data.activity;
 
 	//#region Log
 	const info = Object.assign({}, activity) as any;
@@ -103,6 +104,11 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			if (!verified) {
 				return `skip: LD-Signatureの検証に失敗しました`;
 			}
+
+			const activity2 = JSON.parse(JSON.stringify(activity));
+			delete activity2.signature;
+			const compacted = await ldSignature.compact(activity2, FIXED_CONTEXT);
+			activity = compacted as any;
 
 			// もう一度actorチェック
 			if (authUser.user.uri !== activity.actor) {

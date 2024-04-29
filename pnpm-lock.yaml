@@ -202,8 +202,8 @@ dependencies:
     specifier: 4.0.1
     version: 4.0.1(webpack@5.76.0)
   jsonld:
-    specifier: 5.2.0
-    version: 5.2.0
+    specifier: 8.3.2
+    version: 8.3.2
   jsrsasign:
     specifier: 11.0.0
     version: 11.0.0
@@ -977,15 +977,14 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
-  /@digitalbazaar/http-client@1.2.0:
-    resolution: {integrity: sha512-W9KQQ5pUJcaR0I4c2HPJC0a7kRbZApIorZgPnEDwMBgj16iQzutGLrCXYaZOmxqVLVNqqlQ4aUJh+HBQZy4W6Q==}
-    engines: {node: '>=10.0.0'}
+  /@digitalbazaar/http-client@3.4.1:
+    resolution: {integrity: sha512-Ahk1N+s7urkgj7WvvUND5f8GiWEPfUw0D41hdElaqLgu8wZScI8gdI0q+qWw5N1d35x7GCRH2uk9mi+Uzo9M3g==}
+    engines: {node: '>=14.0'}
     dependencies:
-      esm: 3.2.25
-      ky: 0.25.1
-      ky-universal: 0.8.2(ky@0.25.1)
+      ky: 0.33.3
+      ky-universal: 0.11.0(ky@0.33.3)
+      undici: 5.28.4
     transitivePeerDependencies:
-      - domexception
       - web-streams-polyfill
     dev: false
 
@@ -1042,6 +1041,11 @@ packages:
     resolution: {integrity: sha512-lxJ9R5ygVm8ZWgYdUweoq5ownDlJ4upvoWmO4eLxBYHdMo+vZ/Rx0EN6MbKWDJOSUGrqJy2Gt+Dyv/VKml0fjg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fastify/busboy@2.1.1:
+    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
+    engines: {node: '>=14'}
+    dev: false
 
   /@fortawesome/fontawesome-common-types@0.2.36:
     resolution: {integrity: sha512-a/7BiSgobHAgBWeN7N0w+lAhInrGxksn13uK7231n2m8EDPE3BMCl9NZLTGrj9ZXfCmC6LM0QLqXidIizVQ6yg==}
@@ -4220,9 +4224,9 @@ packages:
       assert-plus: 1.0.0
     dev: false
 
-  /data-uri-to-buffer@3.0.1:
-    resolution: {integrity: sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==}
-    engines: {node: '>= 6'}
+  /data-uri-to-buffer@4.0.1:
+    resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
+    engines: {node: '>= 12'}
     dev: false
 
   /data-urls@3.0.2:
@@ -4910,11 +4914,6 @@ packages:
       - supports-color
     dev: true
 
-  /esm@3.2.25:
-    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
-    engines: {node: '>=6'}
-    dev: false
-
   /espree@9.5.0:
     resolution: {integrity: sha512-JPbJGhKc47++oo4JkEoTe2wjy4fmMwvFpgJT9cQzmfXKp22Dr6Hf1tdCteLz1h0P3t+mGvWZ+4Uankvh8+c6zw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -5113,14 +5112,12 @@ packages:
       xml-js: 1.6.11
     dev: false
 
-  /fetch-blob@2.1.2:
-    resolution: {integrity: sha512-YKqtUDwqLyfyMnmbw8XD6Q8j9i/HggKtPEI+pZ1+8bvheBu78biSmNaXWusx1TauGqtUUGx/cBb1mKdq2rLYow==}
-    engines: {node: ^10.17.0 || >=12.3.0}
-    peerDependencies:
-      domexception: '*'
-    peerDependenciesMeta:
-      domexception:
-        optional: true
+  /fetch-blob@3.2.0:
+    resolution: {integrity: sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==}
+    engines: {node: ^12.20 || >= 14.13}
+    dependencies:
+      node-domexception: 1.0.0
+      web-streams-polyfill: 3.3.3
     dev: false
 
   /figlet@1.5.2:
@@ -5305,6 +5302,13 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
+
+  /formdata-polyfill@4.0.10:
+    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
+    engines: {node: '>=12.20.0'}
+    dependencies:
+      fetch-blob: 3.2.0
     dev: false
 
   /fragment-cache@0.2.1:
@@ -6727,16 +6731,15 @@ packages:
     hasBin: true
     dev: false
 
-  /jsonld@5.2.0:
-    resolution: {integrity: sha512-JymgT6Xzk5CHEmHuEyvoTNviEPxv6ihLWSPu1gFdtjSAyM6cFqNrv02yS/SIur3BBIkCf0HjizRc24d8/FfQKw==}
-    engines: {node: '>=12'}
+  /jsonld@8.3.2:
+    resolution: {integrity: sha512-MwBbq95szLwt8eVQ1Bcfwmgju/Y5P2GdtlHE2ncyfuYjIdEhluUVyj1eudacf1mOkWIoS9GpDBTECqhmq7EOaA==}
+    engines: {node: '>=14'}
     dependencies:
-      '@digitalbazaar/http-client': 1.2.0
+      '@digitalbazaar/http-client': 3.4.1
       canonicalize: 1.0.8
       lru-cache: 6.0.0
-      rdf-canonize: 3.3.0
+      rdf-canonize: 3.4.0
     transitivePeerDependencies:
-      - domexception
       - web-streams-polyfill
     dev: false
 
@@ -7002,26 +7005,24 @@ packages:
       - supports-color
     dev: false
 
-  /ky-universal@0.8.2(ky@0.25.1):
-    resolution: {integrity: sha512-xe0JaOH9QeYxdyGLnzUOVGK4Z6FGvDVzcXFTdrYA1f33MZdEa45sUDaMBy98xQMcsd2XIBrTXRrRYnegcSdgVQ==}
-    engines: {node: '>=10.17'}
+  /ky-universal@0.11.0(ky@0.33.3):
+    resolution: {integrity: sha512-65KyweaWvk+uKKkCrfAf+xqN2/epw1IJDtlyCPxYffFCMR8u1sp2U65NtWpnozYfZxQ6IUzIlvUcw+hQ82U2Xw==}
+    engines: {node: '>=14.16'}
     peerDependencies:
-      ky: '>=0.17.0'
-      web-streams-polyfill: '>=2.0.0'
+      ky: '>=0.31.4'
+      web-streams-polyfill: '>=3.2.1'
     peerDependenciesMeta:
       web-streams-polyfill:
         optional: true
     dependencies:
       abort-controller: 3.0.0
-      ky: 0.25.1
-      node-fetch: 3.0.0-beta.9
-    transitivePeerDependencies:
-      - domexception
+      ky: 0.33.3
+      node-fetch: 3.3.2
     dev: false
 
-  /ky@0.25.1:
-    resolution: {integrity: sha512-PjpCEWlIU7VpiMVrTwssahkYXX1by6NCT0fhTUX34F3DTinARlgMpriuroolugFPcMgpPWrOW4mTb984Qm1RXA==}
-    engines: {node: '>=10'}
+  /ky@0.33.3:
+    resolution: {integrity: sha512-CasD9OCEQSFIam2U8efFK81Yeg8vNMTBUqtMOHlrcWQHqUX3HeCl9Dr31u4toV7emlH8Mymk5+9p0lL6mKb/Xw==}
+    engines: {node: '>=14.16'}
     dev: false
 
   /langmap@0.0.16:
@@ -7686,6 +7687,11 @@ packages:
     resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
     dev: false
 
+  /node-domexception@1.0.0:
+    resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
+    engines: {node: '>=10.5.0'}
+    dev: false
+
   /node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
     dev: false
@@ -7705,14 +7711,13 @@ packages:
     dependencies:
       whatwg-url: 5.0.0
 
-  /node-fetch@3.0.0-beta.9:
-    resolution: {integrity: sha512-RdbZCEynH2tH46+tj0ua9caUHVWrd/RHnRfvly2EVdqGmI3ndS1Vn/xjm5KuGejDt2RNDQsVRLPNd2QPwcewVg==}
-    engines: {node: ^10.17 || >=12.3}
+  /node-fetch@3.3.2:
+    resolution: {integrity: sha512-dRB78srN/l6gqWulah9SrxeYnxeddIG30+GOqK/9OlLVyLg3HPnr6SqOWTWOXKRwC2eGYCkZ59NNuSgvSrpgOA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
-      data-uri-to-buffer: 3.0.1
-      fetch-blob: 2.1.2
-    transitivePeerDependencies:
-      - domexception
+      data-uri-to-buffer: 4.0.1
+      fetch-blob: 3.2.0
+      formdata-polyfill: 4.0.10
     dev: false
 
   /node-gyp-build-optional-packages@5.0.3:
@@ -9112,8 +9117,8 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
-  /rdf-canonize@3.3.0:
-    resolution: {integrity: sha512-gfSNkMua/VWC1eYbSkVaL/9LQhFeOh0QULwv7Or0f+po8pMgQ1blYQFe1r9Mv2GJZXw88Cz/drnAnB9UlNnHfQ==}
+  /rdf-canonize@3.4.0:
+    resolution: {integrity: sha512-fUeWjrkOO0t1rg7B2fdyDTvngj+9RlUyL92vOdiB7c0FPguWVsniIMjEtHH+meLBO9rzkUlUzBVXgWrjI8P9LA==}
     engines: {node: '>=12'}
     dependencies:
       setimmediate: 1.0.5
@@ -10736,6 +10741,13 @@ packages:
       undertaker-registry: 1.0.1
     dev: false
 
+  /undici@5.28.4:
+    resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
+    engines: {node: '>=14.0'}
+    dependencies:
+      '@fastify/busboy': 2.1.1
+    dev: false
+
   /unenv@1.9.0:
     resolution: {integrity: sha512-QKnFNznRxmbOF1hDgzpqrlIf6NC5sbZ2OJ+5Wl3OX8uM+LUJXbj4TXvLJCtwbPTmbMHCLIz6JLKNinNsMShK9g==}
     dependencies:
@@ -11261,6 +11273,11 @@ packages:
       urlsafe-base64: 1.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /web-streams-polyfill@3.3.3:
+    resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
+    engines: {node: '>= 8'}
     dev: false
 
   /webidl-conversions@3.0.1:

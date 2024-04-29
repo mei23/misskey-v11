@@ -82,6 +82,13 @@ export class LdSignature {
 		});
 	}
 
+	public async compact(data: any, context: any) {
+		const customLoader = this.getLoader();
+		return await jsonld.compact(data, context, {
+			documentLoader: customLoader
+		});
+	}
+
 	private getLoader() {
 		return async (url: string): Promise<any> => {
 			if (!url.match('^https?\:\/\/')) throw `Invalid URL ${url}`;
