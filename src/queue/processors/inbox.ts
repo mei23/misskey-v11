@@ -20,7 +20,7 @@ const logger = new Logger('inbox');
 // ユーザーのinboxにアクティビティが届いた時の処理
 export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	const signature = job.data.signature;	// HTTP-signature
-	const activity = job.data.activity;
+	let activity = job.data.activity;
 
 	//#region Log
 	const info = Object.assign({}, activity) as any;
@@ -114,6 +114,11 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			if (meta.blockedHosts.includes(ldHost)) {
 				return `Blocked request: ${ldHost}`;
 			}
+
+			const activity2 = JSON.parse(JSON.stringify(activity));
+			delete activity2.signature;
+			const compacted = await ldSignature.compact(activity2);
+			activity = compacted as any;
 		} else {
 			return `skip: http-signature verification failed and no LD-Signature. keyId=${signature.keyId}`;
 		}
