@@ -14,6 +14,7 @@ import DbResolver from '../../remote/activitypub/db-resolver';
 import { resolvePerson } from '../../remote/activitypub/models/person';
 import { LdSignature } from '../../remote/activitypub/misc/ld-signature';
 import { StatusError } from '../../misc/fetch';
+import { FIXED_CONTEXT } from '../../remote/activitypub/misc/contexts';
 
 const logger = new Logger('inbox');
 
@@ -117,7 +118,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 			const activity2 = JSON.parse(JSON.stringify(activity));
 			delete activity2.signature;
-			const compacted = await ldSignature.compact(activity2);
+			const compacted = await ldSignature.compact(activity2, FIXED_CONTEXT);
 			activity = compacted as any;
 		} else {
 			return `skip: http-signature verification failed and no LD-Signature. keyId=${signature.keyId}`;

@@ -82,9 +82,9 @@ export class LdSignature {
 		});
 	}
 
-	public async compact(data: any) {
+	public async compact(data: any, context: any) {
 		const customLoader = this.getLoader();
-		return await jsonld.compact(data, data['@context'], {
+		return await jsonld.compact(data, context, {
 			documentLoader: customLoader
 		});
 	}
