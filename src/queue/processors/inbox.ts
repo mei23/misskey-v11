@@ -105,6 +105,11 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 				return `skip: LD-Signatureの検証に失敗しました`;
 			}
 
+			const activity2 = JSON.parse(JSON.stringify(activity));
+			delete activity2.signature;
+			const compacted = await ldSignature.compact(activity2, FIXED_CONTEXT);
+			activity = compacted as any;
+
 			// もう一度actorチェック
 			if (authUser.user.uri !== activity.actor) {
 				return `skip: LD-Signature user(${authUser.user.uri}) !== activity.actor(${activity.actor})`;
@@ -115,11 +120,6 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			if (meta.blockedHosts.includes(ldHost)) {
 				return `Blocked request: ${ldHost}`;
 			}
-
-			const activity2 = JSON.parse(JSON.stringify(activity));
-			delete activity2.signature;
-			const compacted = await ldSignature.compact(activity2, FIXED_CONTEXT);
-			activity = compacted as any;
 		} else {
 			return `skip: http-signature verification failed and no LD-Signature. keyId=${signature.keyId}`;
 		}
