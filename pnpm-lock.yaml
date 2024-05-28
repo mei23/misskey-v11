@@ -233,7 +233,7 @@ dependencies:
     version: 2.1.0
   koa-views:
     specifier: 8.0.0
-    version: 8.0.0(@types/koa@2.13.4)(pug@3.0.2)
+    version: 8.0.0(@types/koa@2.13.4)(pug@3.0.3)
   langmap:
     specifier: 0.0.16
     version: 0.0.16
@@ -304,8 +304,8 @@ dependencies:
     specifier: 1.1.1
     version: 1.1.1
   pug:
-    specifier: 3.0.2
-    version: 3.0.2
+    specifier: 3.0.3
+    version: 3.0.3
   punycode:
     specifier: 2.1.1
     version: 2.1.1
@@ -449,7 +449,7 @@ dependencies:
     version: 1.3.35(vue@2.7.14)
   vue-loader:
     specifier: 15.9.8
-    version: 15.9.8(css-loader@6.7.3)(pug@3.0.2)(vue-template-compiler@2.7.14)(webpack@5.76.0)
+    version: 15.9.8(css-loader@6.7.3)(pug@3.0.3)(vue-template-compiler@2.7.14)(webpack@5.76.0)
   vue-marquee-text-component:
     specifier: 1.2.0
     version: 1.2.0
@@ -2102,10 +2102,10 @@ packages:
       source-map: 0.7.4
     dev: false
 
-  /@vue/component-compiler-utils@3.3.0(pug@3.0.2):
+  /@vue/component-compiler-utils@3.3.0(pug@3.0.3):
     resolution: {integrity: sha512-97sfH2mYNU+2PzGrmK2haqffDpVASuib9/w2/noxiFi31Z54hW+q3izKQXXQZSNhtiUpAI36uSuYepeBe4wpHQ==}
     dependencies:
-      consolidate: 0.15.1(pug@3.0.2)
+      consolidate: 0.15.1(pug@3.0.3)
       hash-sum: 1.0.2
       lru-cache: 4.1.5
       merge-source-map: 1.1.0
@@ -2761,7 +2761,7 @@ packages:
     resolution: {integrity: sha512-GAwkz0AihzY5bkwIY5QDR+LvsRQgB/B+1foMPvi0FZPMl5fjD7ICiznUiBdLYMH1QYe6vqu4gWYytZOccLouFw==}
     engines: {node: '>= 10.0.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.23.6
     dev: false
 
   /bach@1.2.0:
@@ -3564,7 +3564,7 @@ packages:
     engines: {node: ^14.18.0 || >=16.10.0}
     dev: false
 
-  /consolidate@0.15.1(pug@3.0.2):
+  /consolidate@0.15.1(pug@3.0.3):
     resolution: {integrity: sha512-DW46nrsMJgy9kqAbPt5rKaCr7uFtpo4mSUvLHIUbJEjm0vo+aY5QLwBUq3FK4tRnJr/X0Psc0C4jf/h+HtXSMw==}
     engines: {node: '>= 0.10.0'}
     peerDependencies:
@@ -3730,10 +3730,10 @@ packages:
         optional: true
     dependencies:
       bluebird: 3.7.2
-      pug: 3.0.2
+      pug: 3.0.3
     dev: false
 
-  /consolidate@0.16.0(pug@3.0.2):
+  /consolidate@0.16.0(pug@3.0.3):
     resolution: {integrity: sha512-Nhl1wzCslqXYTJVDyJCu3ODohy9OfBMB5uD2BiBTzd7w+QY0lBzafkR8y8755yMYHAaMD4NuzbAw03/xzfw+eQ==}
     engines: {node: '>= 0.10.0'}
     peerDependencies:
@@ -3899,14 +3899,14 @@ packages:
         optional: true
     dependencies:
       bluebird: 3.7.2
-      pug: 3.0.2
+      pug: 3.0.3
     dev: false
 
   /constantinople@4.0.1:
     resolution: {integrity: sha512-vCrqcSIq4//Gx74TXXCGnHpulY1dskqLTFGDmhrGxzeXL8lF8kvXv6mpNWlJj1uD4DW23D4ljAqbY4RRaaUZIw==}
     dependencies:
-      '@babel/parser': 7.20.7
-      '@babel/types': 7.20.7
+      '@babel/parser': 7.23.6
+      '@babel/types': 7.23.6
     dev: false
 
   /content-disposition@0.5.4:
@@ -6901,7 +6901,7 @@ packages:
       q: 1.4.1
     dev: false
 
-  /koa-views@8.0.0(@types/koa@2.13.4)(pug@3.0.2):
+  /koa-views@8.0.0(@types/koa@2.13.4)(pug@3.0.3):
     resolution: {integrity: sha512-nvGKdG8yVyomhouwN060SWd7Q9kGYRr322dwN6jvI04hgiDEW9vsPXEje9OEtBgGXxHURe7xOzo3bxQ3DBc1Nw==}
     peerDependencies:
       '@types/koa': ^2.13.1
@@ -6910,7 +6910,7 @@ packages:
         optional: true
     dependencies:
       '@types/koa': 2.13.4
-      consolidate: 0.16.0(pug@3.0.2)
+      consolidate: 0.16.0(pug@3.0.3)
       debug: 4.3.4(supports-color@8.1.1)
       get-paths: 0.0.7
       koa-send: 5.0.1
@@ -8897,14 +8897,14 @@ packages:
       pug-runtime: 3.0.1
     dev: false
 
-  /pug-code-gen@3.0.2:
-    resolution: {integrity: sha512-nJMhW16MbiGRiyR4miDTQMRWDgKplnHyeLvioEJYbk1RsPI3FuA3saEP8uwnTb2nTJEKBU90NFVWJBk4OU5qyg==}
+  /pug-code-gen@3.0.3:
+    resolution: {integrity: sha512-cYQg0JW0w32Ux+XTeZnBEeuWrAY7/HNE6TWnhiHGnnRYlCgyAUPoyh9KzCMa9WhcJlJ1AtQqpEYHc+vbCzA+Aw==}
     dependencies:
       constantinople: 4.0.1
       doctypes: 1.1.0
       js-stringify: 1.0.2
       pug-attrs: 3.0.0
-      pug-error: 2.0.0
+      pug-error: 2.1.0
       pug-runtime: 3.0.1
       void-elements: 3.1.0
       with: 7.0.2
@@ -8912,6 +8912,10 @@ packages:
 
   /pug-error@2.0.0:
     resolution: {integrity: sha512-sjiUsi9M4RAGHktC1drQfCr5C5eriu24Lfbt4s+7SykztEOwVZtbFk1RRq0tzLxcMxMYTBR+zMQaG07J/btayQ==}
+    dev: false
+
+  /pug-error@2.1.0:
+    resolution: {integrity: sha512-lv7sU9e5Jk8IeUheHata6/UThZ7RK2jnaaNztxfPYUY+VxZyk/ePVaNZ/vwmH8WqGvDz3LrNYt/+gA55NDg6Pg==}
     dev: false
 
   /pug-filters@4.0.0:
@@ -8967,10 +8971,10 @@ packages:
     resolution: {integrity: sha512-yYELe9Q5q9IQhuvqsZNwA5hfPkMJ8u92bQLIMcsMxf/VADjNtEYptU+inlufAFYcWdHlwNfZOEnOOQrZrcyJCQ==}
     dev: false
 
-  /pug@3.0.2:
-    resolution: {integrity: sha512-bp0I/hiK1D1vChHh6EfDxtndHji55XP/ZJKwsRqrz6lRia6ZC2OZbdAymlxdVFwd1L70ebrVJw4/eZ79skrIaw==}
+  /pug@3.0.3:
+    resolution: {integrity: sha512-uBi6kmc9f3SZ3PXxqcHiUZLmIXgfgWooKWXcwSGwQd2Zi5Rb0bT14+8CJjJgI8AB+nndLaNgHGrcc6bPIB665g==}
     dependencies:
-      pug-code-gen: 3.0.2
+      pug-code-gen: 3.0.3
       pug-filters: 4.0.0
       pug-lexer: 5.0.1
       pug-linker: 4.0.0
@@ -11072,7 +11076,7 @@ packages:
       vue: 2.7.14
     dev: false
 
-  /vue-loader@15.9.8(css-loader@6.7.3)(pug@3.0.2)(vue-template-compiler@2.7.14)(webpack@5.76.0):
+  /vue-loader@15.9.8(css-loader@6.7.3)(pug@3.0.3)(vue-template-compiler@2.7.14)(webpack@5.76.0):
     resolution: {integrity: sha512-GwSkxPrihfLR69/dSV3+5CdMQ0D+jXg8Ma1S4nQXKJAznYFX14vHdc/NetQc34Dw+rBbIJyP7JOuVb9Fhprvog==}
     peerDependencies:
       '@vue/compiler-sfc': ^3.0.8
@@ -11088,7 +11092,7 @@ packages:
       vue-template-compiler:
         optional: true
     dependencies:
-      '@vue/component-compiler-utils': 3.3.0(pug@3.0.2)
+      '@vue/component-compiler-utils': 3.3.0(pug@3.0.3)
       css-loader: 6.7.3(webpack@5.76.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
@@ -11483,8 +11487,8 @@ packages:
     resolution: {integrity: sha512-RNGKj82nUPg3g5ygxkQl0R937xLyho1J24ItRCBTr/m1YnZkzJy1hUiHUJrc/VlsDQzsCnInEGSg3bci0Lmd4w==}
     engines: {node: '>= 10.0.0'}
     dependencies:
-      '@babel/parser': 7.20.7
-      '@babel/types': 7.20.7
+      '@babel/parser': 7.23.6
+      '@babel/types': 7.23.6
       assert-never: 1.2.1
       babel-walk: 3.0.0-canary-5
     dev: false
