@@ -8,7 +8,7 @@ import * as Koa from 'koa';
 import * as Router from '@koa/router';
 import * as send from 'koa-send';
 import * as favicon from 'koa-favicon';
-import * as views from 'koa-views';
+import * as views from '@ladjs/koa-views';
 
 import docs from './docs';
 import packFeed from './feed';
