@@ -530,8 +530,8 @@ importers:
         specifier: 1.2.30
         version: 1.2.30
       '@types/js-yaml':
-        specifier: 4.0.5
-        version: 4.0.5
+        specifier: 4.0.9
+        version: 4.0.9
       '@types/jsdom':
         specifier: 16.2.15
         version: 16.2.15
@@ -1367,8 +1367,8 @@ packages:
   '@types/is-url@1.2.30':
     resolution: {integrity: sha512-AnlNFwjzC8XLda5VjRl4ItSd8qp8pSNowvsut0WwQyBWHpOxjxRJm8iO6uETWqEyLdYdb9/1j+Qd9gQ4l5I4fw==}
 
-  '@types/js-yaml@4.0.5':
-    resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
+  '@types/js-yaml@4.0.9':
+    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
   '@types/jsdom@16.2.15':
     resolution: {integrity: sha512-nwF87yjBKuX/roqGYerZZM0Nv1pZDMAT5YhOHYeM/72Fic+VEqJh4nyoqoapzJnW3pUlfxPY5FhgsJtM+dRnQQ==}
@@ -7539,7 +7539,7 @@ snapshots:
 
   '@types/is-url@1.2.30': {}
 
-  '@types/js-yaml@4.0.5': {}
+  '@types/js-yaml@4.0.9': {}
 
   '@types/jsdom@16.2.15':
     dependencies:
