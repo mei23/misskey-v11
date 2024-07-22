@@ -527,8 +527,8 @@ importers:
         specifier: 2.1.21
         version: 2.1.21
       '@types/is-url':
-        specifier: 1.2.30
-        version: 1.2.30
+        specifier: 1.2.32
+        version: 1.2.32
       '@types/js-yaml':
         specifier: 4.0.5
         version: 4.0.5
@@ -1364,8 +1364,8 @@ packages:
   '@types/http-errors@2.0.1':
     resolution: {integrity: sha512-/K3ds8TRAfBvi5vfjuz8y6+GiAYBZ0x4tXv1Av6CWBWn0IlADc+ZX9pMq7oU0fNQPnBwIZl3rmeLp6SBApbxSQ==}
 
-  '@types/is-url@1.2.30':
-    resolution: {integrity: sha512-AnlNFwjzC8XLda5VjRl4ItSd8qp8pSNowvsut0WwQyBWHpOxjxRJm8iO6uETWqEyLdYdb9/1j+Qd9gQ4l5I4fw==}
+  '@types/is-url@1.2.32':
+    resolution: {integrity: sha512-46VLdbWI8Sc+hPexQ6NLNR2YpoDyDZIpASHkJQ2Yr+Kf9Giw6LdCTkwOdsnHKPQeh7xTjTmSnxbE8qpxYuCiHA==}
 
   '@types/js-yaml@4.0.5':
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
@@ -7537,7 +7537,7 @@ snapshots:
 
   '@types/http-errors@2.0.1': {}
 
-  '@types/is-url@1.2.30': {}
+  '@types/is-url@1.2.32': {}
 
   '@types/js-yaml@4.0.5': {}
 
