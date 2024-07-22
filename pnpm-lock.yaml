@@ -481,8 +481,8 @@ importers:
         specifier: 3.6.2
         version: 3.6.2(vue@2.7.14)
       vuex-persistedstate:
-        specifier: 3.2.0
-        version: 3.2.0(vue@2.7.14)(vuex@3.6.2(vue@2.7.14))
+        specifier: 3.2.1
+        version: 3.2.1(vue@2.7.14)(vuex@3.6.2(vue@2.7.14))
       web-push:
         specifier: 3.5.0
         version: 3.5.0
@@ -6608,8 +6608,8 @@ packages:
     peerDependencies:
       vue: ^2.6.11
 
-  vuex-persistedstate@3.2.0:
-    resolution: {integrity: sha512-1Q4zV9cNaJtl59jN6rXbndemEtXKywZr0OFZnqgpYdwvdyy+64KNsEltKldQW+i03st5LuDwHsdOEevXIZUgdg==}
+  vuex-persistedstate@3.2.1:
+    resolution: {integrity: sha512-0OnHKGsCHJcvbEraaGZvuvX4aybM2oQWYRuZmIQB7zUjVM6tP+Hg+oXLrq9r6elT4she9SGtEbGE1L2+XdFgUw==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
       vue: ^2.0.0
@@ -13214,7 +13214,7 @@ snapshots:
     dependencies:
       vue: 2.7.14
 
-  vuex-persistedstate@3.2.0(vue@2.7.14)(vuex@3.6.2(vue@2.7.14)):
+  vuex-persistedstate@3.2.1(vue@2.7.14)(vuex@3.6.2(vue@2.7.14)):
     dependencies:
       deepmerge: 4.2.2
       shvl: 2.0.3
