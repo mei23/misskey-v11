@@ -55,7 +55,7 @@
 		"aws-sdk": "2.1594.0",
 		"bcryptjs": "2.4.3",
 		"blurhash": "1.1.5",
-		"bootstrap": "4.6.2",
+		"bootstrap": "5.0.0",
 		"bootstrap-vue": "2.23.1",
 		"bull": "4.10.4",
 		"cacheable-lookup": "6.1.0",
