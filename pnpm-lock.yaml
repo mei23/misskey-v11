@@ -413,7 +413,7 @@ importers:
         version: 9.4.2(typescript@4.9.5)(webpack@5.76.0(@swc/core@1.4.12)(webpack-cli@4.10.0))
       ts-node:
         specifier: 10.9.1
-        version: 10.9.1(@swc/core@1.4.12)(@types/node@18.19.41)(typescript@4.9.5)
+        version: 10.9.1(@swc/core@1.4.12)(@types/node@22.10.2)(typescript@4.9.5)
       typeorm:
         specifier: 0.2.38
         version: 0.2.38(ioredis@5.2.5)(pg-query-stream@4.5.5(pg@8.8.0))(pg@8.8.0)(redis@3.1.2)
@@ -581,8 +581,8 @@ importers:
         specifier: 10.0.1
         version: 10.0.1
       '@types/node':
-        specifier: 18.19.41
-        version: 18.19.41
+        specifier: 22.10.2
+        version: 22.10.2
       '@types/nodemailer':
         specifier: 6.4.7
         version: 6.4.7
@@ -1436,8 +1436,8 @@ packages:
   '@types/node@14.18.36':
     resolution: {integrity: sha512-FXKWbsJ6a1hIrRxv+FoukuHnGTgEzKYGi7kilfMae96AL9UNkPFNWJEEYWzdRI9ooIkbr4AKldyuSTLql06vLQ==}
 
-  '@types/node@18.19.41':
-    resolution: {integrity: sha512-LX84pRJ+evD2e2nrgYCHObGWkiQJ1mL+meAgbvnwk/US6vmMY7S2ygBTGV2Jw91s9vUsLSXeDEkUHZIJGLrhsg==}
+  '@types/node@22.10.2':
+    resolution: {integrity: sha512-Xxr6BBRCAOQixvonOye19wnzyDiUtTeqldOOmj3CkeblonbccA12PFwlufvRdrpjXxqnmUaeiU5EOA+7s5diUQ==}
 
   '@types/nodemailer@6.4.7':
     resolution: {integrity: sha512-f5qCBGAn/f0qtRcd4SEn88c8Fp3Swct1731X4ryPKqS61/A3LmmzN8zaEz7hneJvpjFbUUgY7lru/B/7ODTazg==}
@@ -1717,6 +1717,7 @@ packages:
 
   acorn-import-assertions@1.8.0:
     resolution: {integrity: sha512-m7VZ3jwz4eK6A4Vtt8Ew1/mNbP24u0FhdyfA7fSvnJR6LMdfOYnmuIrrJAgrYfYJ10F/otaHTtrtrtmHdMNzEw==}
+    deprecated: package has been renamed to acorn-import-attributes
     peerDependencies:
       acorn: ^8
 
@@ -3100,6 +3101,7 @@ packages:
   eslint@8.36.0:
     resolution: {integrity: sha512-Y956lmS7vDqomxlaaQAHVmeb4tNMp2FWIvU/RnU5BD3IKMD/MJPr76xdyr68P8tV1iNMvN2mRK0yy3c+UjL+bw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.5.0:
@@ -3346,7 +3348,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
+    deprecated: Upgrade to fsevents v2 to mitigate potential security issues
 
   fsevents@2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
@@ -6380,8 +6382,8 @@ packages:
     resolution: {integrity: sha512-/RXwi5m/Mu3H6IHQGww3GNt1PNXlbeCuclF2QYR14L/2CHPz3DFZkvB5hZ0N/QUkiXWCACML2jXViIQEQc2MLg==}
     engines: {node: '>= 0.10'}
 
-  undici-types@5.26.5:
-    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+  undici-types@6.20.0:
+    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
   undici@5.28.4:
     resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
@@ -7450,14 +7452,14 @@ snapshots:
 
   '@types/accepts@1.3.5':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/bcryptjs@2.4.6': {}
 
   '@types/body-parser@1.19.2':
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/bull@4.10.0':
     dependencies:
@@ -7469,7 +7471,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       '@types/responselike': 1.0.0
 
   '@types/cbor@6.0.0':
@@ -7478,12 +7480,12 @@ snapshots:
 
   '@types/co-body@6.1.3':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       '@types/qs': 6.9.7
 
   '@types/connect@3.4.35':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/content-disposition@0.5.5': {}
 
@@ -7492,7 +7494,7 @@ snapshots:
       '@types/connect': 3.4.35
       '@types/express': 4.17.15
       '@types/keygrip': 1.0.2
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/dateformat@3.0.1': {}
 
@@ -7516,7 +7518,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.17.32':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
 
@@ -7529,7 +7531,7 @@ snapshots:
 
   '@types/fluent-ffmpeg@2.1.21':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/http-assert@1.5.3': {}
 
@@ -7543,7 +7545,7 @@ snapshots:
 
   '@types/jsdom@16.2.15':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       '@types/parse5': 6.0.3
       '@types/tough-cookie': 4.0.2
 
@@ -7557,7 +7559,7 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/koa-bodyparser@4.3.10':
     dependencies:
@@ -7600,7 +7602,7 @@ snapshots:
       '@types/http-errors': 2.0.1
       '@types/keygrip': 1.0.2
       '@types/koa-compose': 3.2.5
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/koa__cors@3.3.1':
     dependencies:
@@ -7622,19 +7624,19 @@ snapshots:
 
   '@types/node@14.18.36': {}
 
-  '@types/node@18.19.41':
+  '@types/node@22.10.2':
     dependencies:
-      undici-types: 5.26.5
+      undici-types: 6.20.0
 
   '@types/nodemailer@6.4.7':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/nprogress@0.2.0': {}
 
   '@types/oauth@0.9.1':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/parse-json@4.0.0': {}
 
@@ -7652,7 +7654,7 @@ snapshots:
 
   '@types/qrcode@1.5.0':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/qs@6.9.7': {}
 
@@ -7664,17 +7666,17 @@ snapshots:
 
   '@types/redis@2.8.32':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/rename@1.0.4': {}
 
   '@types/request-stats@3.0.0':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/responselike@1.0.0':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/seedrandom@3.0.5': {}
 
@@ -7683,11 +7685,11 @@ snapshots:
   '@types/serve-static@1.15.0':
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/sharp@0.31.1':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/showdown@2.0.0': {}
 
@@ -7695,7 +7697,7 @@ snapshots:
 
   '@types/speakeasy@2.0.7':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/tapable@1.0.8': {}
 
@@ -7714,26 +7716,26 @@ snapshots:
   '@types/vinyl@2.0.7':
     dependencies:
       '@types/expect': 1.20.4
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/web-push@3.3.2':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/webpack-sources@3.2.0':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       '@types/source-list-map': 0.1.2
       source-map: 0.7.4
 
   '@types/webpack-stream@3.2.12':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       '@types/webpack': 4.41.33
 
   '@types/webpack@4.41.33':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       '@types/tapable': 1.0.8
       '@types/uglify-js': 3.17.1
       '@types/webpack-sources': 3.2.0
@@ -7742,7 +7744,7 @@ snapshots:
 
   '@types/webpack@5.28.0(@swc/core@1.4.12)(webpack-cli@4.10.0(webpack@5.76.0))':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       tapable: 2.2.1
       webpack: 5.76.0(@swc/core@1.4.12)(webpack-cli@4.10.0)
     transitivePeerDependencies:
@@ -7753,7 +7755,7 @@ snapshots:
 
   '@types/websocket@1.0.5':
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
 
   '@types/zen-observable@0.8.3': {}
 
@@ -9896,7 +9898,7 @@ snapshots:
 
   gulp-replace@1.1.4:
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       '@types/vinyl': 2.0.7
       istextorbinary: 3.3.0
       replacestream: 4.0.3
@@ -10440,13 +10442,13 @@ snapshots:
 
   jest-worker@26.6.2:
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       merge-stream: 2.0.0
       supports-color: 7.2.0
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -12766,14 +12768,14 @@ snapshots:
       typescript: 4.9.5
       webpack: 5.76.0(@swc/core@1.4.12)(webpack-cli@4.10.0)
 
-  ts-node@10.9.1(@swc/core@1.4.12)(@types/node@18.19.41)(typescript@4.9.5):
+  ts-node@10.9.1(@swc/core@1.4.12)(@types/node@22.10.2)(typescript@4.9.5):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.9
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 18.19.41
+      '@types/node': 22.10.2
       acorn: 8.8.1
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -12897,7 +12899,7 @@ snapshots:
       object.reduce: 1.0.1
       undertaker-registry: 1.0.1
 
-  undici-types@5.26.5: {}
+  undici-types@6.20.0: {}
 
   undici@5.28.4:
     dependencies:

@@ -224,7 +224,7 @@
 		"@types/koa__router": "8.0.11",
 		"@types/lolex": "5.1.2",
 		"@types/mocha": "10.0.1",
-		"@types/node": "18.19.41",
+		"@types/node": "22.10.2",
 		"@types/nodemailer": "6.4.7",
 		"@types/nprogress": "0.2.0",
 		"@types/oauth": "0.9.1",
