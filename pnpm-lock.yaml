@@ -383,13 +383,13 @@ importers:
         version: 7.1.0(stylus@0.59.0)(webpack@5.94.0(@swc/core@1.4.12)(webpack-cli@4.10.0))
       summaly:
         specifier: mei23/summaly#3.13.0
-        version: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c
+        version: git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c
       syslog-pro:
         specifier: 1.0.0
         version: 1.0.0
       systeminformation:
-        specifier: 5.21.7
-        version: 5.21.7
+        specifier: 5.23.8
+        version: 5.23.8
       syuilo-password-strength:
         specifier: 0.0.1
         version: 0.0.1
@@ -6014,8 +6014,8 @@ packages:
     resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
     hasBin: true
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+    resolution: {commit: db9600aa73d8747c0fd83f7e3da298273ec1fd3c, repo: git@github.com:mei23/summaly.git, type: git}
     version: 3.13.0
 
   supports-color@2.0.0:
@@ -6090,8 +6090,8 @@ packages:
     resolution: {integrity: sha512-7SNMJKtQBJlwBUp1jxFT7bXya71cnINXPCYJ2AVhlQE4MKL7o2QiPdAXbMdWRiLeykQ2rx+7TNrnoGzvzhO+eA==}
     engines: {node: '>=10.0.0'}
 
-  systeminformation@5.21.7:
-    resolution: {integrity: sha512-K3LjnajrazTLTD61+87DFg8IXFk5ljx6nSBqB8pQLtC1UPivAjDtTYGPZ8jaBFxcesPaCOkvLRtBq+RFscrsLw==}
+  systeminformation@5.23.8:
+    resolution: {integrity: sha512-Osd24mNKe6jr/YoXLLK3k8TMdzaxDffhpCxgkfgBHcapykIkd50HXThM3TCEuHO2pPuCsSx2ms/SunqhU5MmsQ==}
     engines: {node: '>=8.0.0'}
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
@@ -12535,7 +12535,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1
@@ -12637,7 +12637,7 @@ snapshots:
     dependencies:
       moment: 2.29.4
 
-  systeminformation@5.21.7: {}
+  systeminformation@5.23.8: {}
 
   syuilo-password-strength@0.0.1: {}
 
