@@ -388,8 +388,8 @@ importers:
         specifier: 1.0.0
         version: 1.0.0
       systeminformation:
-        specifier: 5.21.7
-        version: 5.21.7
+        specifier: 5.23.8
+        version: 5.23.8
       syuilo-password-strength:
         specifier: 0.0.1
         version: 0.0.1
@@ -6090,8 +6090,8 @@ packages:
     resolution: {integrity: sha512-7SNMJKtQBJlwBUp1jxFT7bXya71cnINXPCYJ2AVhlQE4MKL7o2QiPdAXbMdWRiLeykQ2rx+7TNrnoGzvzhO+eA==}
     engines: {node: '>=10.0.0'}
 
-  systeminformation@5.21.7:
-    resolution: {integrity: sha512-K3LjnajrazTLTD61+87DFg8IXFk5ljx6nSBqB8pQLtC1UPivAjDtTYGPZ8jaBFxcesPaCOkvLRtBq+RFscrsLw==}
+  systeminformation@5.23.8:
+    resolution: {integrity: sha512-Osd24mNKe6jr/YoXLLK3k8TMdzaxDffhpCxgkfgBHcapykIkd50HXThM3TCEuHO2pPuCsSx2ms/SunqhU5MmsQ==}
     engines: {node: '>=8.0.0'}
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
@@ -12637,7 +12637,7 @@ snapshots:
     dependencies:
       moment: 2.29.4
 
-  systeminformation@5.21.7: {}
+  systeminformation@5.23.8: {}
 
   syuilo-password-strength@0.0.1: {}
 
