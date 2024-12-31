@@ -383,7 +383,7 @@ importers:
         version: 7.1.0(stylus@0.59.0)(webpack@5.94.0(@swc/core@1.4.12)(webpack-cli@4.10.0))
       summaly:
         specifier: mei23/summaly#3.13.0
-        version: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c
+        version: git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c
       syslog-pro:
         specifier: 1.0.0
         version: 1.0.0
@@ -2638,8 +2638,8 @@ packages:
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
     hasBin: true
 
-  cross-spawn@7.0.3:
-    resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
+  cross-spawn@7.0.6:
+    resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
   crossws@0.2.4:
@@ -6014,8 +6014,8 @@ packages:
     resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
     hasBin: true
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+    resolution: {commit: db9600aa73d8747c0fd83f7e3da298273ec1fd3c, repo: git@github.com:mei23/summaly.git, type: git}
     version: 3.13.0
 
   supports-color@2.0.0:
@@ -8907,9 +8907,9 @@ snapshots:
 
   cross-env@7.0.3:
     dependencies:
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
 
-  cross-spawn@7.0.3:
+  cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
       shebang-command: 2.0.0
@@ -9436,7 +9436,7 @@ snapshots:
       '@nodelib/fs.walk': 1.2.8
       ajv: 6.12.6
       chalk: 4.1.2
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       debug: 4.3.4(supports-color@8.1.1)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
@@ -12535,7 +12535,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1
@@ -13324,7 +13324,7 @@ snapshots:
       '@webpack-cli/serve': 1.7.0(webpack-cli@4.10.0(webpack@5.94.0))
       colorette: 2.0.19
       commander: 7.2.0
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       fastest-levenshtein: 1.0.16
       import-local: 3.1.0
       interpret: 2.2.0
