@@ -383,7 +383,7 @@ importers:
         version: 7.1.0(stylus@0.59.0)(webpack@5.94.0(@swc/core@1.4.12)(webpack-cli@4.10.0))
       summaly:
         specifier: mei23/summaly#3.13.0
-        version: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c
+        version: git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c
       syslog-pro:
         specifier: 1.0.0
         version: 1.0.0
@@ -4915,8 +4915,8 @@ packages:
     resolution: {integrity: sha512-QLcPegTHF11axjfojBIoDygmS2E3Lf+8+jI6wOVmNVenrKSo3mFdSGiIgdSHenczw3wPtlVMQaFVwGmM7BJdtg==}
     engines: {node: '>=0.10.0'}
 
-  path-to-regexp@1.8.0:
-    resolution: {integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==}
+  path-to-regexp@1.9.0:
+    resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==}
 
   path-type@1.1.0:
     resolution: {integrity: sha512-S4eENJz1pkiQn9Znv33Q+deTOKmbl+jj1Fl+qiP/vYezj+S8x+J3Uo0ISrx/QoEvIlOaDWJhPaRd1flJ9HXZqg==}
@@ -6014,8 +6014,8 @@ packages:
     resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
     hasBin: true
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+    resolution: {commit: db9600aa73d8747c0fd83f7e3da298273ec1fd3c, repo: git@github.com:mei23/summaly.git, type: git}
     version: 3.13.0
 
   supports-color@2.0.0:
@@ -7271,7 +7271,7 @@ snapshots:
       http-errors: 1.8.1
       koa-compose: 4.1.0
       methods: 1.1.2
-      path-to-regexp: 1.8.0
+      path-to-regexp: 1.9.0
       urijs: 1.19.11
     transitivePeerDependencies:
       - supports-color
@@ -11424,7 +11424,7 @@ snapshots:
     dependencies:
       path-root-regex: 0.1.2
 
-  path-to-regexp@1.8.0:
+  path-to-regexp@1.9.0:
     dependencies:
       isarray: 0.0.1
 
@@ -12535,7 +12535,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1
