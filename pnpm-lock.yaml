@@ -383,7 +383,7 @@ importers:
         version: 7.1.0(stylus@0.59.0)(webpack@5.94.0(@swc/core@1.4.12)(webpack-cli@4.10.0))
       summaly:
         specifier: mei23/summaly#3.13.0
-        version: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c
+        version: git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c
       syslog-pro:
         specifier: 1.0.0
         version: 1.0.0
@@ -6014,8 +6014,8 @@ packages:
     resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
     hasBin: true
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+    resolution: {commit: db9600aa73d8747c0fd83f7e3da298273ec1fd3c, repo: git@github.com:mei23/summaly.git, type: git}
     version: 3.13.0
 
   supports-color@2.0.0:
@@ -6796,8 +6796,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@8.12.0:
-    resolution: {integrity: sha512-kU62emKIdKVeEIOIKVegvqpXMSTAMLJozpHZaJNDYqBjzlSYXQGviYwN1osDLJ9av68qHd4a2oSjd7yD4pacig==}
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -10562,7 +10562,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 10.0.0
-      ws: 8.12.0(bufferutil@4.0.7)(utf-8-validate@5.0.10)
+      ws: 8.18.0(bufferutil@4.0.7)(utf-8-validate@5.0.10)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -12535,7 +12535,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1
@@ -13471,7 +13471,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@8.12.0(bufferutil@4.0.7)(utf-8-validate@5.0.10):
+  ws@8.18.0(bufferutil@4.0.7)(utf-8-validate@5.0.10):
     optionalDependencies:
       bufferutil: 4.0.7
       utf-8-validate: 5.0.10
