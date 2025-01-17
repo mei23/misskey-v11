@@ -214,8 +214,8 @@ importers:
         specifier: 11.0.0
         version: 11.0.0
       katex:
-        specifier: 0.16.10
-        version: 0.16.10
+        specifier: 0.16.21
+        version: 0.16.21
       koa:
         specifier: 2.13.4
         version: 2.13.4
@@ -383,7 +383,7 @@ importers:
         version: 7.1.0(stylus@0.59.0)(webpack@5.94.0(@swc/core@1.4.12)(webpack-cli@4.10.0))
       summaly:
         specifier: mei23/summaly#3.13.0
-        version: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c
+        version: git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c
       syslog-pro:
         specifier: 1.0.0
         version: 1.0.0
@@ -4160,8 +4160,8 @@ packages:
   jws@4.0.0:
     resolution: {integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==}
 
-  katex@0.16.10:
-    resolution: {integrity: sha512-ZiqaC04tp2O5utMsl2TEZTXxa6WSC4yo0fv5ML++D3QZv/vx2Mct0mTlRx3O+uUkjfuAgOkzsCmq5MiUEsDDdA==}
+  katex@0.16.21:
+    resolution: {integrity: sha512-XvqR7FgOHtWupfMiigNzmh+MgUVmDGU2kXZm899ZkPfcuoPuFxyHmXsgATDpFZDAXCI8tvinaVcDo8PIIJSo4A==}
     hasBin: true
 
   keygrip@1.1.0:
@@ -6014,8 +6014,8 @@ packages:
     resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
     hasBin: true
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+    resolution: {commit: db9600aa73d8747c0fd83f7e3da298273ec1fd3c, repo: git@github.com:mei23/summaly.git, type: git}
     version: 3.13.0
 
   supports-color@2.0.0:
@@ -10636,7 +10636,7 @@ snapshots:
       jwa: 2.0.0
       safe-buffer: 5.2.1
 
-  katex@0.16.10:
+  katex@0.16.21:
     dependencies:
       commander: 8.3.0
 
@@ -12535,7 +12535,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+  summaly@git+https://git@github.com:mei23/summaly.git#db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1
