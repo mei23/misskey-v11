@@ -149,7 +149,7 @@
 		"rndstr": "1.0.0",
 		"s-age": "1.1.2",
 		"seedrandom": "3.0.5",
-		"sharp": "0.32.6",
+		"sharp": "0.34.0",
 		"showdown": "2.1.0",
 		"showdown-highlightjs-extension": "0.1.2",
 		"speakeasy": "2.0.0",
@@ -240,7 +240,7 @@
 		"@types/rename": "1.0.4",
 		"@types/request-stats": "3.0.0",
 		"@types/seedrandom": "3.0.5",
-		"@types/sharp": "0.31.1",
+		"@types/sharp": "0.32.0",
 		"@types/showdown": "2.0.0",
 		"@types/speakeasy": "2.0.7",
 		"@types/tinycolor2": "1.4.3",
@@ -256,5 +256,5 @@
 		"eslint-plugin-node": "11.1.0",
 		"mocha": "10.2.0"
 	},
-	"packageManager": "pnpm@9.5.0"
+	"packageManager": "pnpm@10.7.1"
 }
