@@ -79,8 +79,8 @@ importers:
         specifier: 1.1.5
         version: 1.1.5
       bootstrap:
-        specifier: 5.0.0
-        version: 5.0.0(@popperjs/core@2.11.8)
+        specifier: 5.0.1
+        version: 5.0.1(@popperjs/core@2.11.8)
       bootstrap-vue:
         specifier: 2.23.1
         version: 2.23.1(jquery@3.7.0)(vue@2.7.14)
@@ -2166,8 +2166,8 @@ packages:
       jquery: 1.9.1 - 3
       popper.js: ^1.16.1
 
-  bootstrap@5.0.0:
-    resolution: {integrity: sha512-tmhPET9B9qCl8dCofvHeiIhi49iBt0EehmIsziZib65k1erBW1rHhj2s/2JsuQh5Pq+xz2E9bEbzp9B7xHG+VA==}
+  bootstrap@5.0.1:
+    resolution: {integrity: sha512-Fl79+wsLOZKoiU345KeEaWD0ik8WKRI5zm0YSPj2oF1Qr+BO7z0fco6GbUtqjoG1h4VI89PeKJnMsMMVQdKKTw==}
     peerDependencies:
       '@popperjs/core': ^2.9.2
 
@@ -8521,7 +8521,7 @@ snapshots:
       jquery: 3.7.0
       popper.js: 1.16.1
 
-  bootstrap@5.0.0(@popperjs/core@2.11.8):
+  bootstrap@5.0.1(@popperjs/core@2.11.8):
     dependencies:
       '@popperjs/core': 2.11.8
 
