@@ -164,7 +164,7 @@
 		"textarea-caret": "3.1.0",
 		"three": "0.131.3",
 		"tinycolor2": "1.4.2",
-		"tmp": "0.2.1",
+		"tmp": "0.2.4",
 		"ts-loader": "9.4.2",
 		"ts-node": "10.9.1",
 		"typeorm": "0.2.38",
