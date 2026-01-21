@@ -35,7 +35,7 @@ importers:
         version: 5.0.0
       '@koa/multer':
         specifier: 3.0.2
-        version: 3.0.2(multer@1.4.5-lts.1)
+        version: 3.0.2(multer@2.0.2)
       '@koa/router':
         specifier: 8.0.8
         version: 8.0.8
@@ -250,8 +250,8 @@ importers:
         specifier: 2.1.3
         version: 2.1.3
       multer:
-        specifier: 1.4.5-lts.1
-        version: 1.4.5-lts.1
+        specifier: 2.0.2
+        version: 2.0.2
       nested-property:
         specifier: 4.0.0
         version: 4.0.0
@@ -2497,6 +2497,10 @@ packages:
     resolution: {integrity: sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==}
     engines: {'0': node >= 0.8}
 
+  concat-stream@2.0.0:
+    resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
+    engines: {'0': node >= 6.0}
+
   condense-newlines@0.2.1:
     resolution: {integrity: sha512-P7X+QL9Hb9B/c8HI5BFFKmjgBu2XpQuF98WZ9XkO+dBGgk5XgwiQz7o1SmpglNWId3581UcS0SFAWfoIhMHPfg==}
     engines: {node: '>=0.10.0'}
@@ -4575,6 +4579,9 @@ packages:
   minimist@1.2.7:
     resolution: {integrity: sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==}
 
+  minimist@1.2.8:
+    resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+
   minipass-collect@1.0.2:
     resolution: {integrity: sha512-6T6lH0H8OG9kITm/Jm6tdooIbogG9e0tLgpY6mphXSm/A9u8Nq1ryBG+Qspiub9LjWlBPsPS3tWQ/Botq4FdxA==}
     engines: {node: '>= 8'}
@@ -4639,10 +4646,9 @@ packages:
   msgpackr@1.8.1:
     resolution: {integrity: sha512-05fT4J8ZqjYlR4QcRDIhLCYKUOHXk7C/xa62GzMKj74l3up9k2QZ3LgFc6qWdsPHl91QA2WLWqWc8b8t7GLNNw==}
 
-  multer@1.4.5-lts.1:
-    resolution: {integrity: sha512-ywPWvcDMeH+z9gQq5qYHCCy+ethsk4goepZ45GLD63fOu0YcNecQxi64nDs3qluZB+murG3/D4dJ7+dGctcCQQ==}
-    engines: {node: '>= 6.0.0'}
-    deprecated: Multer 1.x is impacted by a number of vulnerabilities, which have been patched in 2.x. You should upgrade to the latest 2.x version.
+  multer@2.0.2:
+    resolution: {integrity: sha512-u7f2xaZ/UG8oLXHvtF/oWTRvT44p9ecwBBqTwgJVq0+4BW1g8OW01TyMEGWBHbyMOYVHXslaut7qEQ1meATXgw==}
+    engines: {node: '>= 10.16.0'}
 
   mute-stdout@1.0.1:
     resolution: {integrity: sha512-kDcwXR4PS7caBpuRYYBUz9iVixUk3anO3f5OYFiIPwK/20vCzKCHyKoulbiDY1S53zD2bxUpxN/IJ+TnXjfvxg==}
@@ -5557,8 +5563,15 @@ packages:
   readable-stream@2.3.7:
     resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
 
+  readable-stream@2.3.8:
+    resolution: {integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==}
+
   readable-stream@3.6.0:
     resolution: {integrity: sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==}
+    engines: {node: '>= 6'}
+
+  readable-stream@3.6.2:
+    resolution: {integrity: sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==}
     engines: {node: '>= 6'}
 
   readable-web-to-node-stream@3.0.2:
@@ -7396,10 +7409,10 @@ snapshots:
     dependencies:
       vary: 1.1.2
 
-  '@koa/multer@3.0.2(multer@1.4.5-lts.1)':
+  '@koa/multer@3.0.2(multer@2.0.2)':
     dependencies:
       fix-esm: 1.0.1
-      multer: 1.4.5-lts.1
+      multer: 2.0.2
     transitivePeerDependencies:
       - supports-color
 
@@ -8869,7 +8882,7 @@ snapshots:
     dependencies:
       inherits: 2.0.4
       process-nextick-args: 2.0.1
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
 
   cluster-key-slot@1.1.2: {}
 
@@ -8953,7 +8966,14 @@ snapshots:
     dependencies:
       buffer-from: 1.1.2
       inherits: 2.0.4
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
+      typedarray: 0.0.6
+
+  concat-stream@2.0.0:
+    dependencies:
+      buffer-from: 1.1.2
+      inherits: 2.0.4
+      readable-stream: 3.6.2
       typedarray: 0.0.6
 
   condense-newlines@0.2.1:
@@ -9353,7 +9373,7 @@ snapshots:
     dependencies:
       end-of-stream: 1.4.4
       inherits: 2.0.4
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
       stream-shift: 1.0.1
 
   each-props@1.3.2:
@@ -9819,7 +9839,7 @@ snapshots:
   flush-write-stream@1.1.1:
     dependencies:
       inherits: 2.0.4
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
 
   for-each@0.3.3:
     dependencies:
@@ -10716,7 +10736,7 @@ snapshots:
 
   json5@1.0.2:
     dependencies:
-      minimist: 1.2.7
+      minimist: 1.2.8
 
   json5@2.2.3: {}
 
@@ -11106,6 +11126,8 @@ snapshots:
 
   minimist@1.2.7: {}
 
+  minimist@1.2.8: {}
+
   minipass-collect@1.0.2:
     dependencies:
       minipass: 3.3.6
@@ -11138,7 +11160,7 @@ snapshots:
 
   mkdirp@0.5.6:
     dependencies:
-      minimist: 1.2.7
+      minimist: 1.2.8
 
   mkdirp@1.0.4: {}
 
@@ -11194,11 +11216,11 @@ snapshots:
     optionalDependencies:
       msgpackr-extract: 2.2.0
 
-  multer@1.4.5-lts.1:
+  multer@2.0.2:
     dependencies:
       append-field: 1.0.0
       busboy: 1.6.0
-      concat-stream: 1.6.2
+      concat-stream: 2.0.0
       mkdirp: 0.5.6
       object-assign: 4.1.1
       type-is: 1.6.18
@@ -11426,7 +11448,7 @@ snapshots:
 
   ordered-read-streams@1.0.1:
     dependencies:
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
 
   os-locale@1.4.0:
     dependencies:
@@ -12077,7 +12099,23 @@ snapshots:
       string_decoder: 1.1.1
       util-deprecate: 1.0.2
 
+  readable-stream@2.3.8:
+    dependencies:
+      core-util-is: 1.0.3
+      inherits: 2.0.4
+      isarray: 1.0.0
+      process-nextick-args: 2.0.1
+      safe-buffer: 5.1.2
+      string_decoder: 1.1.1
+      util-deprecate: 1.0.2
+
   readable-stream@3.6.0:
+    dependencies:
+      inherits: 2.0.4
+      string_decoder: 1.3.0
+      util-deprecate: 1.0.2
+
+  readable-stream@3.6.2:
     dependencies:
       inherits: 2.0.4
       string_decoder: 1.3.0
@@ -12091,7 +12129,7 @@ snapshots:
     dependencies:
       graceful-fs: 4.2.10
       micromatch: 3.1.10
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
     transitivePeerDependencies:
       - supports-color
 
@@ -12816,7 +12854,7 @@ snapshots:
   through2@3.0.2:
     dependencies:
       inherits: 2.0.4
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
 
   through2@4.0.2:
     dependencies:
