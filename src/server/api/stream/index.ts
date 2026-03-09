@@ -8,7 +8,7 @@ import channels from './channels';
 import { EventEmitter } from 'events';
 import { User } from '../../../models/entities/user';
 import { App } from '../../../models/entities/app';
-import { Users, Followings, Mutings, Blockings } from '../../../models';
+import { Users, Followings, Mutings, Blockings, Notes } from '../../../models';
 
 /**
  * Main stream connection
@@ -96,8 +96,11 @@ export default class Connection {
 	 * 投稿購読要求時
 	 */
 	@autobind
-	private onSubscribeNote(payload: any) {
+	private async onSubscribeNote(payload: any) {
 		if (!payload.id) return;
+
+		const packed = await Notes.pack(payload.id, this.user);
+		if (packed?.isHidden) return;
 
 		if (this.subscribingNotes[payload.id] == null) {
 			this.subscribingNotes[payload.id] = 0;
