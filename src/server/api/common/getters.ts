@@ -1,5 +1,5 @@
 import { IdentifiableError } from '../../../misc/identifiable-error';
-import { User } from '../../../models/entities/user';
+import { ILocalUser, User } from '../../../models/entities/user';
 import { Note } from '../../../models/entities/note';
 import { Notes, Users } from '../../../models';
 
@@ -25,6 +25,18 @@ import { Notes, Users } from '../../../models';
 
 	if (note == null) {
 		throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
+	}
+
+	return note;
+}
+
+export async function getVisibleNote(noteId: Note['id'], user?: ILocalUser) {
+	const note = await getNote(noteId);
+
+	if (note.visibility !== 'public' && note.visibility !== 'home') {
+		if (!user) throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
+		const packed = await Notes.pack(note, user);
+		if (packed.isHidden) throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
 	}
 
 	return note;
