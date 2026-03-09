@@ -45,7 +45,7 @@
 		"@ladjs/koa-views": "9.0.0",
 		"@peertube/http-signature": "1.7.0",
 		"@swc/core": "1.11.16",
-		"@twemoji/parser": "15.1.1",
+		"@twemoji/parser": "16.0.0",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
 		"apexcharts": "3.54.1",

@@ -49,8 +49,8 @@ importers:
         specifier: 1.11.16
         version: 1.11.16
       '@twemoji/parser':
-        specifier: 15.1.1
-        version: 15.1.1
+        specifier: 16.0.0
+        version: 16.0.0
       abort-controller:
         specifier: 3.0.0
         version: 3.0.0
@@ -1420,8 +1420,8 @@ packages:
   '@tsconfig/node16@1.0.3':
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
 
-  '@twemoji/parser@15.1.1':
-    resolution: {integrity: sha512-CChRzIu6ngkCJOmURBlYEdX5DZSu+bBTtqR60XjBkFrmvplKW7OQsea+i8XwF4bLVlUXBO7ZmHhRPDzfQyLwwg==}
+  '@twemoji/parser@16.0.0':
+    resolution: {integrity: sha512-jmuIjkp3OIaEemwMy3sArBwZSuZkRqmueGwRe2Zk4cFzbUJISFBJSZLDUUBNIgq3c+nY49ideYN2OiII6JUqwA==}
 
   '@types/accepts@1.3.5':
     resolution: {integrity: sha512-jOdnI/3qTpHABjM5cx1Hc0sKsPoYCp+DP/GJRGtDlPd7fiV9oXGGIcjW/ZOxLIvjGz8MA+uMZI9metHlgqbgwQ==}
@@ -7690,7 +7690,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.3': {}
 
-  '@twemoji/parser@15.1.1': {}
+  '@twemoji/parser@16.0.0': {}
 
   '@types/accepts@1.3.5':
     dependencies:
