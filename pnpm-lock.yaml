@@ -256,8 +256,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0
       nodemailer:
-        specifier: 7.0.11
-        version: 7.0.11
+        specifier: 8.0.4
+        version: 8.0.4
       nprogress:
         specifier: 0.2.0
         version: 0.2.0
@@ -383,7 +383,7 @@ importers:
         version: 7.1.0(stylus@0.59.0)(webpack@5.104.1)
       summaly:
         specifier: mei23/summaly#3.13.0
-        version: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c
+        version: https://codeload.github.com/mei23/summaly/tar.gz/8a5b6c5d18f854eb73c2a6a406f0f6740d4bae28
       syslog-pro:
         specifier: 1.0.0
         version: 1.0.0
@@ -4775,8 +4775,8 @@ packages:
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
 
-  nodemailer@7.0.11:
-    resolution: {integrity: sha512-gnXhNRE0FNhD7wPSCGhdNh46Hs6nm+uTyg+Kq0cZukNQiYdnCsoQjodNP9BQVG9XrcK/v6/MgpAPBUFyzh9pvw==}
+  nodemailer@8.0.4:
+    resolution: {integrity: sha512-k+jf6N8PfQJ0Fe8ZhJlgqU5qJU44Lpvp2yvidH3vp1lPnVQMgi4yEEMPXg5eJS1gFIJTVq1NHBk7Ia9ARdSBdQ==}
     engines: {node: '>=6.0.0'}
 
   nofilter@3.1.0:
@@ -6125,8 +6125,8 @@ packages:
     resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
     hasBin: true
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
+  summaly@https://codeload.github.com/mei23/summaly/tar.gz/8a5b6c5d18f854eb73c2a6a406f0f6740d4bae28:
+    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/8a5b6c5d18f854eb73c2a6a406f0f6740d4bae28}
     version: 3.13.0
 
   supports-color@2.0.0:
@@ -11376,7 +11376,7 @@ snapshots:
 
   node-releases@2.0.27: {}
 
-  nodemailer@7.0.11: {}
+  nodemailer@8.0.4: {}
 
   nofilter@3.1.0: {}
 
@@ -12728,7 +12728,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+  summaly@https://codeload.github.com/mei23/summaly/tar.gz/8a5b6c5d18f854eb73c2a6a406f0f6740d4bae28:
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1
