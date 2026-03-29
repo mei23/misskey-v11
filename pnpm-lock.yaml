@@ -211,8 +211,8 @@ importers:
         specifier: 8.3.2
         version: 8.3.2(web-streams-polyfill@3.3.3)
       jsrsasign:
-        specifier: 11.0.0
-        version: 11.0.0
+        specifier: 11.1.1
+        version: 11.1.1
       katex:
         specifier: 0.16.21
         version: 0.16.21
@@ -383,7 +383,7 @@ importers:
         version: 7.1.0(stylus@0.59.0)(webpack@5.104.1)
       summaly:
         specifier: mei23/summaly#3.13.0
-        version: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c
+        version: https://codeload.github.com/mei23/summaly/tar.gz/8a5b6c5d18f854eb73c2a6a406f0f6740d4bae28
       syslog-pro:
         specifier: 1.0.0
         version: 1.0.0
@@ -4273,8 +4273,8 @@ packages:
     resolution: {integrity: sha512-P2bSOMAc/ciLz6DzgjVlGJP9+BrJWu5UDGK70C2iweC5QBIeFf0ZXRvGjEj2uYgrY2MkAAhsSWHDWlFtEroZWw==}
     engines: {node: '>=0.6.0'}
 
-  jsrsasign@11.0.0:
-    resolution: {integrity: sha512-BtRwVKS+5dsgPpAtzJcpo5OoWjSs1/zllSBG0+8o8/aV0Ki76m6iZwHnwnsqoTdhfFZDN1XIdcaZr5ZkP+H2gg==}
+  jsrsasign@11.1.1:
+    resolution: {integrity: sha512-6w95OOXH8DNeGxakqLndBEqqwQ6A70zGaky1oxfg8WVLWOnghTfJsc5Tknx+Z88MHSb1bGLcqQHImOF8Lk22XA==}
 
   jstransformer@1.0.0:
     resolution: {integrity: sha512-C9YK3Rf8q6VAPDCCU9fnqo3mAfOH6vUGnMcP4AQAYIEpWtfGLpwOTmZ+igtdK5y+VvI2n3CyYSzy4Qh34eq24A==}
@@ -6125,8 +6125,8 @@ packages:
     resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
     hasBin: true
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
+  summaly@https://codeload.github.com/mei23/summaly/tar.gz/8a5b6c5d18f854eb73c2a6a406f0f6740d4bae28:
+    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/8a5b6c5d18f854eb73c2a6a406f0f6740d4bae28}
     version: 3.13.0
 
   supports-color@2.0.0:
@@ -10827,7 +10827,7 @@ snapshots:
       json-schema: 0.4.0
       verror: 1.10.0
 
-  jsrsasign@11.0.0: {}
+  jsrsasign@11.1.1: {}
 
   jstransformer@1.0.0:
     dependencies:
@@ -12728,7 +12728,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
+  summaly@https://codeload.github.com/mei23/summaly/tar.gz/8a5b6c5d18f854eb73c2a6a406f0f6740d4bae28:
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1
