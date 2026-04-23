@@ -424,8 +424,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0
       uuid:
-        specifier: 9.0.0
-        version: 9.0.0
+        specifier: 14.0.0
+        version: 14.0.0
       v-animate-css:
         specifier: 0.0.6
         version: 0.0.6
@@ -6609,16 +6609,16 @@ packages:
   util@0.12.5:
     resolution: {integrity: sha512-kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA==}
 
+  uuid@14.0.0:
+    resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
+    hasBin: true
+
   uuid@8.0.0:
     resolution: {integrity: sha512-jOXGuXZAWdsTH7eZLtyXMqUb9EcWMGZNbL9YcGBJl4MH4nrxHmZJhEHvyLFrkxo+28uLb/NYRcStH48fnD0Vzw==}
     hasBin: true
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
-
-  uuid@9.0.0:
-    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
 
   v-animate-css@0.0.6:
@@ -13230,11 +13230,11 @@ snapshots:
       is-typed-array: 1.1.10
       which-typed-array: 1.1.9
 
+  uuid@14.0.0: {}
+
   uuid@8.0.0: {}
 
   uuid@8.3.2: {}
-
-  uuid@9.0.0: {}
 
   v-animate-css@0.0.6:
     dependencies:
