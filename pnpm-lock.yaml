@@ -256,8 +256,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0
       nodemailer:
-        specifier: 8.0.5
-        version: 8.0.5
+        specifier: 9.0.1
+        version: 9.0.1
       nprogress:
         specifier: 0.2.0
         version: 0.2.0
@@ -2762,6 +2762,7 @@ packages:
   cron-parser@4.7.1:
     resolution: {integrity: sha512-WguFaoQ0hQ61SgsCZLHUcNbAvlK0lypKXu62ARguefYmjzaOXIVRNrAmyXzabTwUn4sQvQLkk6bjH+ipGfw8bA==}
     engines: {node: '>=12.0.0'}
+    deprecated: v4 is no longer maintained, upgrade to v5
 
   cropperjs@1.5.13:
     resolution: {integrity: sha512-by7jKAo73y5/Do0K6sxdTKHgndY0NMjG2bEdgeJxycbcmHuCiMXqw8sxy5C5Y5WTOTcDGmbT7Sr5CgKOXR06OA==}
@@ -4275,6 +4276,7 @@ packages:
 
   jsrsasign@11.1.1:
     resolution: {integrity: sha512-6w95OOXH8DNeGxakqLndBEqqwQ6A70zGaky1oxfg8WVLWOnghTfJsc5Tknx+Z88MHSb1bGLcqQHImOF8Lk22XA==}
+    deprecated: This package is no longer maintained.
 
   jstransformer@1.0.0:
     resolution: {integrity: sha512-C9YK3Rf8q6VAPDCCU9fnqo3mAfOH6vUGnMcP4AQAYIEpWtfGLpwOTmZ+igtdK5y+VvI2n3CyYSzy4Qh34eq24A==}
@@ -4775,8 +4777,8 @@ packages:
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
 
-  nodemailer@8.0.5:
-    resolution: {integrity: sha512-0PF8Yb1yZuQfQbq+5/pZJrtF6WQcjTd5/S4JOHs9PGFxuTqoB/icwuB44pOdURHJbRKX1PPoJZtY7R4VUoCC8w==}
+  nodemailer@9.0.1:
+    resolution: {integrity: sha512-Gwv8SQewT616ZM/URn0H54b8PWo/Wum7md3EW2aWy1lO27+WZCX+Xyak3J+NlmHUjDh5ME+uesJUDRbR3Ye8Bw==}
     engines: {node: '>=6.0.0'}
 
   nofilter@3.1.0:
@@ -11378,7 +11380,7 @@ snapshots:
 
   node-releases@2.0.27: {}
 
-  nodemailer@8.0.5: {}
+  nodemailer@9.0.1: {}
 
   nofilter@3.1.0: {}
 
