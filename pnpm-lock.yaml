@@ -196,8 +196,8 @@ importers:
         specifier: 4.3.2
         version: 4.3.2
       js-yaml:
-        specifier: 4.1.1
-        version: 4.1.1
+        specifier: 4.3.1
+        version: 4.3.1
       jsdom:
         specifier: 19.0.0
         version: 19.0.0(bufferutil@4.0.7)(utf-8-validate@5.0.10)
@@ -2762,6 +2762,7 @@ packages:
   cron-parser@4.7.1:
     resolution: {integrity: sha512-WguFaoQ0hQ61SgsCZLHUcNbAvlK0lypKXu62ARguefYmjzaOXIVRNrAmyXzabTwUn4sQvQLkk6bjH+ipGfw8bA==}
     engines: {node: '>=12.0.0'}
+    deprecated: v4 is no longer maintained, upgrade to v5
 
   cropperjs@1.5.13:
     resolution: {integrity: sha512-by7jKAo73y5/Do0K6sxdTKHgndY0NMjG2bEdgeJxycbcmHuCiMXqw8sxy5C5Y5WTOTcDGmbT7Sr5CgKOXR06OA==}
@@ -4197,8 +4198,8 @@ packages:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
     hasBin: true
 
-  js-yaml@4.1.1:
-    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
+  js-yaml@4.3.1:
+    resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
     hasBin: true
 
   jsbn@0.1.1:
@@ -4275,6 +4276,7 @@ packages:
 
   jsrsasign@11.1.1:
     resolution: {integrity: sha512-6w95OOXH8DNeGxakqLndBEqqwQ6A70zGaky1oxfg8WVLWOnghTfJsc5Tknx+Z88MHSb1bGLcqQHImOF8Lk22XA==}
+    deprecated: This package is no longer maintained.
 
   jstransformer@1.0.0:
     resolution: {integrity: sha512-C9YK3Rf8q6VAPDCCU9fnqo3mAfOH6vUGnMcP4AQAYIEpWtfGLpwOTmZ+igtdK5y+VvI2n3CyYSzy4Qh34eq24A==}
@@ -7263,7 +7265,7 @@ snapshots:
       globals: 13.19.0
       ignore: 5.2.4
       import-fresh: 3.3.0
-      js-yaml: 4.1.1
+      js-yaml: 4.3.1
       minimatch: 3.1.2
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
@@ -7607,7 +7609,7 @@ snapshots:
       '@types/node': 14.18.36
       colorette: 1.4.0
       js-levenshtein: 1.1.6
-      js-yaml: 4.1.1
+      js-yaml: 4.3.1
       lodash.isequal: 4.5.0
       minimatch: 5.1.4
       node-fetch: 2.7.0
@@ -9674,7 +9676,7 @@ snapshots:
       is-glob: 4.0.3
       is-path-inside: 3.0.3
       js-sdsl: 4.2.0
-      js-yaml: 4.1.1
+      js-yaml: 4.3.1
       json-stable-stringify-without-jsonify: 1.0.1
       levn: 0.4.1
       lodash.merge: 4.6.2
@@ -10738,7 +10740,7 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  js-yaml@4.1.1:
+  js-yaml@4.3.1:
     dependencies:
       argparse: 2.0.1
 
@@ -13075,7 +13077,7 @@ snapshots:
       debug: 4.3.4(supports-color@8.1.1)
       dotenv: 8.6.0
       glob: 7.2.0
-      js-yaml: 4.1.1
+      js-yaml: 4.3.1
       mkdirp: 1.0.4
       reflect-metadata: 0.1.13
       sha.js: 2.4.11
