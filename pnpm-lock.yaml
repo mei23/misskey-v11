@@ -509,8 +509,8 @@ importers:
         specifier: 4.10.0
         version: 4.10.0
       '@types/cbor':
-        specifier: 6.0.0
-        version: 6.0.0
+        specifier: 6.0.4
+        version: 6.0.4
       '@types/co-body':
         specifier: 6.1.3
         version: 6.1.3
@@ -1475,8 +1475,8 @@ packages:
   '@types/cacheable-request@6.0.3':
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
 
-  '@types/cbor@6.0.0':
-    resolution: {integrity: sha512-mGQ1lbYOwVti5Xlarn1bTeBZqgY0kstsdjnkoEovgohYKdBjGejHyNGXHdMBeqyQazIv32Jjp33+5pBEaSRy2w==}
+  '@types/cbor@6.0.4':
+    resolution: {integrity: sha512-Mgo9dwJw9o4K3buIAVChFwud9WQTz4vLgWv7z8RVQnY6vIocZaDTr6Yxa8ldKCyQO5w1rBb5ovzBpfGMOgWZEQ==}
     deprecated: This is a stub types definition. cbor provides its own type definitions, so you do not need this installed.
 
   '@types/co-body@6.1.3':
@@ -7768,7 +7768,7 @@ snapshots:
       '@types/node': 22.19.7
       '@types/responselike': 1.0.0
 
-  '@types/cbor@6.0.0':
+  '@types/cbor@6.0.4':
     dependencies:
       cbor: 8.1.0
 
