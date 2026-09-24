@@ -52,12 +52,13 @@ export default async (user: User, note: Note, reaction?: string) => {
 
 
 	// Increment reactions count
-	const sql = `jsonb_set("reactions", '{${reaction}}', (COALESCE("reactions"->>'${reaction}', '0')::int + 1)::text::jsonb)`;
+	const sql = `jsonb_set("reactions", ARRAY[:reaction], (COALESCE("reactions"->>:reaction, '0')::int + 1)::text::jsonb)`;
 	await Notes.createQueryBuilder().update()
 		.set({
 			reactions: () => sql,
 		})
 		.where('id = :id', { id: note.id })
+		.setParameter('reaction', reaction)
 		.execute();
 
 	Notes.increment({ id: note.id }, 'score', 1);

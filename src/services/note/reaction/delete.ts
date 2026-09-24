@@ -24,12 +24,13 @@ export default async (user: User, note: Note) => {
 	await NoteReactions.delete(exist.id);
 
 	// Decrement reactions count
-	const sql = `jsonb_set("reactions", '{${exist.reaction}}', (COALESCE("reactions"->>'${exist.reaction}', '0')::int - 1)::text::jsonb)`;
+	const sql = `jsonb_set("reactions", ARRAY[:reaction], (COALESCE("reactions"->>:reaction, '0')::int - 1)::text::jsonb)`;
 	await Notes.createQueryBuilder().update()
 		.set({
 			reactions: () => sql,
 		})
 		.where('id = :id', { id: note.id })
+		.setParameter('reaction', exist.reaction)
 		.execute();
 
 	Notes.decrement({ id: note.id }, 'score', 1);
