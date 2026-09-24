@@ -318,15 +318,18 @@ export default abstract class Chart<T extends Record<string, any>> {
 				log.unique[uniqueKey] &&
 				log.unique[uniqueKey].includes(uniqueValue)
 			) return;
+			
+			const parameters: Record<string, any> = { id: log.id };
 
 			// ユニークインクリメントの指定のキーに値を追加
-			if (uniqueKey && log.unique) {
+			if (uniqueKey && log.unique && uniqueValue) {
+				parameters['uniqueKey'] = uniqueKey;
+				parameters['uniqueValueJson'] = JSON.stringify([uniqueValue]);
+
 				if (log.unique[uniqueKey]) {
-					const sql = `jsonb_set("unique", '{${uniqueKey}}', ("unique"->>'${uniqueKey}')::jsonb || '["${uniqueValue}"]'::jsonb)`;
-					query['unique'] = () => sql;
+					query['unique'] = () => `jsonb_set("unique", ARRAY[:uniqueKey], ("unique"->>:uniqueKey)::jsonb || :uniqueValueJson::jsonb)`;
 				} else {
-					const sql = `jsonb_set("unique", '{${uniqueKey}}', '["${uniqueValue}"]')`;
-					query['unique'] = () => sql;
+					query['unique'] = () => `jsonb_set("unique", ARRAY[:uniqueKey], :uniqueValueJson::jsonb)`;
 				}
 			}
 
@@ -334,9 +337,10 @@ export default abstract class Chart<T extends Record<string, any>> {
 			await this.repository.createQueryBuilder()
 				.update()
 				.set(query)
-				.where('id = :id', { id: log.id })
+				.where('id = :id')
+				.setParameters(parameters)
 				.execute();
-		};
+			};
 
 		return Promise.all([
 			this.getCurrentLog('day', group).then(log => update(log)),
