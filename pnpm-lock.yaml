@@ -214,8 +214,8 @@ importers:
         specifier: 11.1.1
         version: 11.1.1
       katex:
-        specifier: 0.16.21
-        version: 0.16.21
+        specifier: 0.18.2
+        version: 0.18.2
       koa:
         specifier: 2.16.4
         version: 2.16.4
@@ -4314,8 +4314,8 @@ packages:
   jws@4.0.0:
     resolution: {integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==}
 
-  katex@0.16.21:
-    resolution: {integrity: sha512-XvqR7FgOHtWupfMiigNzmh+MgUVmDGU2kXZm899ZkPfcuoPuFxyHmXsgATDpFZDAXCI8tvinaVcDo8PIIJSo4A==}
+  katex@0.18.2:
+    resolution: {integrity: sha512-3snve4y0SXTMequLim1FMiPvLGElySam0blN5xQZBqEY3lOJz1TnuaaiugnBZBqHzlSAGmFTYL7MCQkORuLKCA==}
     hasBin: true
 
   keygrip@1.1.0:
@@ -10881,7 +10881,7 @@ snapshots:
       jwa: 2.0.0
       safe-buffer: 5.2.1
 
-  katex@0.16.21:
+  katex@0.18.2:
     dependencies:
       commander: 8.3.0
 
