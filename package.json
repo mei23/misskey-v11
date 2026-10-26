@@ -207,7 +207,7 @@
 		"@types/escape-regexp": "0.0.3",
 		"@types/fluent-ffmpeg": "2.1.21",
 		"@types/is-url": "1.2.30",
-		"@types/js-yaml": "4.0.5",
+		"@types/js-yaml": "4.0.9",
 		"@types/jsdom": "16.2.15",
 		"@types/jsonld": "1.5.8",
 		"@types/katex": "0.16.0",
